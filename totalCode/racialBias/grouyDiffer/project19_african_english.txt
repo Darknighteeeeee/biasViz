@@ -1,0 +1,1317 @@
+@disksing PTAL @coocood PTAL LGTM  LGTM
+@arthuryangcs Please resolve the conflicts.  @silenceper Thanks for your PR!
+@coocood @tiancaiamao @zimulala PTAL  LGTM LGTM  @arthuryangcs
+Please sign the CLA. LGTM
+Please add some unit test.  @maxwell92 please sign the CLA. LGTM Thank you @maxwell92   @zcfrank1st What is `occ`? OCC: Optimistic concurrency control. @shenli
+You may need to queue transactions if the contention is really high. @zcfrank1st   @neoguojing
+DDL statement will run in sequence, so the statement may be waiting for the previous statement to finish. @snail2swift
+2. The PR mentioned by zimulala will fix " Information schema is changed." error.
+Hi @vadimtk ,
+panic(0xd844a0, 0xc420010070)
+``` with many error messages:
+@andelf
+in TiDB:  COALESCE(o_carrier_id,0) seems to be a decimal.  Is StmtFetch support limited?
+TiDB log:
+``` @wangpeibin713
+@siddontang PTAL Hi @rystsov
+If we don't want the tidb-server run ddl jobs, we can use this parameter `-run-ddl false` to disable it. @GregoryIan @iamxy PTAL  @biolee Please run `make parser` first. It's because $HOME/tidb is not in $GOPATH. When you run 'make parser', the parser would be generated in current directory which in your case is $HOME/tidb, but this directory is not $GOPATH, and go compiler couldn't find this file.  @simingli Thanks for your feedback!
+Please try @siddontang 's command. @simingli Cool!
+You could find some useful information [here]( https://github.com/pingcap/docs/blob/master/trouble-shooting.md#tidb-cluster-troubleshooting-guide) when you meet any problem.  Old row value is required for translating to MySQL binlog. @GregoryIan @zimulala PTAL LGTM
+@zimulala   @catroot
+172.233.1.240:9091 and interval 2000000000
+``` LGTM  @zyguan Thanks!
+@tiancaiamao @XuHuaiyu PTAL LGTM LGTM
+@zyguan
+Please resolve conflict. Good job! @zyguan   @luckcolors Thanks!
+@luckcolors  @luckcolors
+Any update? LGTM
+@luckcolors
+Yes Hi @yuekui2
+@yuekui2  We have been improving the balance, will release a version next week. Because we balance according to storage ratio for now, we should balance the region count.
+ERROR 1193 (HY000): unknown system variable '%!s(MISSING)'
+@zyguan
+We can use a HTTP API to see the transaction history, or a SQL like `admin show transaction histories`.   also change the test of sqrt function. LGTM @coocood @shenli @tiancaiamao PTAL LGTM  Currently, we cached all of the region address that we ever used, i think LRU is a better idea, especially when the database is huge.  The stores' addresses are cached by storeID, which is small and not frequently update.
+PTAL @coocood  @zyguan
+Rounding a decimal returns a decimal. LGTM
+GRANT ALL PRIVILEGES ON `dddb_%`.* TO 'dduser'@'%';
+@shenli @coocood @zimulala PTAL LGTM LGTM  @Tratar Thanks for your PR! Please solve the conflict.
+PTAL @XuHuaiyu  LGTM
+Thank you for your job.  Thank you for your report ! this is a bug, i will fix it soon.  LGTM  @tiancaiamao @coocood PTAL
+@zyguan Good Job! LGTM
+@zyguan Could you try to fix it?  @TheNorthMemory Thanks for your feedback!
+@hanfei1991 PTAL Because you didn't create an index.
+@hanfei1991 @coocood  PTAL LGTM  This PR is for issue [2283](https://github.com/pingcap/tidb/issues/2283).
+It is necessary when the input rows exceed the predefined memory capacity. @yanzhe-chen Please sign the CLA. @zimulala Fine, I have signed the CLA. Sometimes, we don't need to output all rows, we need to export a `Close` function which can be used to close all files before all data has been read.
+Add a `closed` field to return early if closed. LGTM
+PTAL @coocood  @Tratar Please solve the conflict.  @zyguan According to MySQL [Set](http://dev.mysql.com/doc/refman/5.7/en/set.html) doc, each member could be represented by a binary value. We use integer to store set value. For example:
+@tiancaiamao @hanfei1991 PTAL
+We can set it to 400MB first, change it to smaller value later if we find large transaction is problematic. @ngaut What's your opinion？ LGTM， let's make it smaller step by step. I am still worrying about if users delete millions of row, it could be trouble. @ngaut I think we should test deleting large scale data in RC2. Please add an issue for testing large delete transaction. @gejigeji
+@silentred Thanks for your PR!
+@zimulala Will fix it. If you are interested in this, you can send us a PR. :) @zxsciro Yes, this is a bug. If it happens, the job will keep trying and affect the execution of other DDL jobs. You need to restart the TiDB to resolve it.
+@zimulala PTAL @skybook888 The statement of "alter table tableName auto_increment = num" we haven't support yet. We support create table with auto_increment. @skybook888  If you are interested, you can send us a PR.  @skybook888 PR means Pull Request :)  @hamo
+https://github.com/pingcap/tidb/blob/893a1573013bc3fc9acd68a3cdd54e452c41e690/parser/parser_test.go#L79 LGTM @hamo Thank your very much!  LGTM  @bhzhu203 Please try the latest navicat.
+@abdulrahmantkhalifa
+RedisDB is not an embeded storage engine, I'm not sure if it should be implemented as localstore.  @abdulrahmantkhalifa
+But I guess local store on remote Redis engine will run much slower. @abdulrahmantkhalifa
+``` @abdulrahmantkhalifa
+From your error log, it seems that there is no parser.go in parser dir. Could you should me the file list in parser package? @idlesummerbreeze Could you show me your GOPATH and the absolute path of your TiDB source code?
+``` @a6802739
+``` @a6802739
+@zimulala Please check the git version of the binary we published and verify whether it use a version with bug ? It's not friendly to user but not a bug. And It's more correct. Now this be resolved after #2094 #2110 @tiancaiamao   Add sequence in binlog.TableMutation to preserve the original mutation order. @iamxy @GregoryIan PTAL LGTM  @overvenus  Thanks for your report. @ivancxj
+PTAL @overvenus  @huachaohuang PTAL There are some error log in pd's log. Hello @ivancxj
+32kb is more friendly for raft and rocksdb.
+@disksing @shenli PTAL Why was that ?
+LGTM
+LGTM
+@zhangjinpeng1987 Please solve the conflict.
+hi, @gqf2008
+@keithyau We do not support str_to_date now.  Please refer to the [doc](https://github.com/pingcap/docs-cn/blob/master/op-guide/mysql-compatibility.md#内建函数). We will implement it soon.
+@keithyau It depends on the schema and your hardware.
+@keithyau May I have the full panic stack?
+@keithyau Any information in dmesg? Or any log for the reason why the process is killed, such as OOM.
+@keithyau Thanks! We will discuss this bug today and keep you updated.
+@keithyau From your recent logs, we can tell that your TiDB cluster is too busy. May I have your hardware info and deployment info?
+@keithyau
+@keithyau Please use 1 for parameter -q.
+@shenli @hanfei1991 PTAL
+LGTM
+@hanfei1991 @zimulala @coocood @XuHuaiyu PTAL @winoros Please sign the CLA.
+@coocood @XuHuaiyu @zimulala @shenli PTAL
+LGTM
+LGTM
+LGTM
+Thanks @Librazy
+LGTM  @coocood PTAL
+LGTM
+@Librazy Good idea! Could you send us a PR?
+LGTM
+Thank you @Zhoubirdblue
+Thank you @Zhoubirdblue  :)
+You should use go fmt to format your code in order to pass ci test @Zhoubirdblue
+PTAL
+LGTM
+PTAL @coocood
+LGTM
+@Zhoubirdblue
+PTAL @coocood @tiancaiamao @shenli @GregoryIan
+LGTM
+LGTM
+LGTM
+LGTM
+@zimulala PTAL
+@ngaut @siddontang
+PTAL @ngaut @shenli
+PTAL @ngaut
+PTAL @coocood
+PTAL @ngaut @coocood
+Rest LGTM.
+LGTM
+LGTM
+@shenli @tiancaiamao @zimulala @BusyJay PTAL
+LGTM
+@queenypingcap Please sign the CLA.
+LGTM
+LGTM
+LGTM
+@JackDrogon
+@JackDrogon
+Maybe the data in kafka is not UTF8, can you confirm that?
+No connection. Trying to reconnect...
+No connection. Trying to reconnect...
+@gejigeji Could you show me the log of tidb-server? Especially the error logs. Could you send me the whole log file? You can send compressed log file to shenli@pingcap.com. Thanks!  @ruiaylin Thanks for your feedback!
+@elvizlai Thanks for your report!
+Hi @elvizlai
+@elvizlai
+-v ti-storage:/tidata \
+--data-dir="/tidata/pd1" \
+# TiKV
+-v ti-storage:/tidata \
+pingcap/tikv:alpine \
+--advertise-addr="tikv1:20160" \
+--store="/tidata/tikv1" \
+--dsn=raftkv \
+# TiDB
+pingcap/tidb:alpine \
+--store=tikv \
+Restarting TiDB can solve this? @elvizlai
+@elvizlai I will try this.
+@haterbj Please check your iptable status
+@siddontang Please take a look at the pd error message.
+@huachaohuang seems that etcd doesn't start ok?
+LGTM
+Thanks! @foobar
+LGTM
+@qetee TiDB is in beta3 stage now.  We hope we could make it stable but there is no guarantee. So we do not encourage you to use TiDB in the production environment.
+LGTM
+LGTM
+@huachaohuang
+@BusyJay @shenli @tiancaiamao PTAL
+LGTM
+@BusyJay PTAL
+@shenli @coocood @zimulala @XuHuaiyu @tiancaiamao PTAL
+LGTM
+LGTM
+Good job. @foobar
+LGTM Thanks! @foobar
+@foobar May I have your email address?
+@foobar Thanks for your feedback! Could you send us a PR to fix it?
+@foobar Cool!
+@shenli @hanfei1991 @coocood @zimulala @tiancaiamao PTAL
+LGTM
+@coocood @shenli @zimulala @tiancaiamao @hanfei1991
+LGTM
+PTAL @hanfei1991
+LGTM
+There is a argument you should change. Which will decide the size of data for a transaction. @tiancaiamao
+LGTM
+@yangxuanjia Thanks for your PR!
+LGTM
+@foobar @terryzhao
+@shenli @tiancaiamao @BusyJay PTAL
+@shenli PTAL
+LGTM
+LGTM
+LGTM
+LGTM
+@tiancaiamao PTAL
+rest LGTM
+LGTM
+LGTM
+Ping @coocood
+@ngaut There is still a few tests depend on driver. I will update those tests. Hope it could be done in this week.
+Hi @tboerger, you can still use TiDB as an embed database. TiDB acts as MySQL server by listening on unix socket or network socket. To making things simple and clean, users should use any of MySQL drivers.
+We have inspectkv tools. @zimulala
+We don't use debugger at all, it's hard to debug a distributed system with a debugger. Log and distributed tracing tools are very helpful. You can try the IDE for golang from jetbrain. It could analyze interface and its implementations in realtime.  GDB sucks for Go, you may like this https://github.com/derekparker/delve for command line debugging, but @ngaut is right, actually.  @coocood @zimulala @BusyJay
+@coocood PTAL
+PTAL @zimulala
+LGTM
+Fix bugs founded in POC.
+LGTM
+@zhangjinpeng1987 PTAL
+@hzmangel Thanks for your PR.
+@coocood PTAL
+LGTM
+LGTM
+@hzmangel Thank you!
+May I have your Zabbix version? @geekard
+May I have your zabbix verson? I will test it on my machine.
+@geekard Thanks!
+On my machine, displaying 'Status of zabbix' costs less than one second. Please try the latest master.
+@geekard Thanks for your trying.
+@geekard Thanks!
+Hi @geekard:
+@queenypingcap
+LGTM
+LGTM
+@iamxy PTAL
+This is really a flaw. thanks to @hzmangel !
+LGTM
+LGTM
+Thanks @hzmangel
+LGTM
+@coocood PTAL
+LGTM
+LGTM
+Thanks! @hnakamur
+LGTM. Thank you very much @hnakamur
+LGTM
+LGTM
+LGTM @ZombieHippie Thank you very much.
+LGTM
+@ZombieHippie Thanks for your contribution!
+2. Support add, div in xapi.
+@coocood @BusyJay
+LGTM
+LGTM
+@BusyJay PTAL
+LGTM
+@ngaut TiDB works fine with Spark through jdbc.
+@ngaut @c4pt0r PTAL
+LGTM
+LGTM
+@litao-buptsse You can use any java mysql client to connect to TiDB.
+If you meet any problem, feel free to raise an issue or submit a PR.  @litao-buptsse
+@moguding Thanks for your report!
+@SuperGod Thanks for your reporting. Could you send a PR to fix this ?
+PTAL @coocood @shenli
+PTAL @shenli @coocood
+LGTM
+LGTM
+LGTM
+use a higher resolution image and font for logo
+@ngaut @qiuyesuifeng @iamxy  PTAL
+LGTM
+LGTM
+LGTM
+@AkihiroSuda
+@liugangnhm Please sign the CLA.
+LGTM
+LGTM
+LGTM
+@mrmiywj Thanks for your contribute!
+@coocood @zimulala @zxylvlp PTAL
+@mrmiywj
+LGTM
+PTAL @coocood
+@mrmiywj
+@mrmiywj
+@mrmiywj
+Please resolve the conflict.
+LGTM
+@tiancaiamao Do you mean you want to keep your local git repository in an old version?
+Why you want to run `godep restore`?
+@shenli PTAL
+LGTM
+LGTM
+LGTM
+LGTM
+@disksing PTAL
+LGTM
+@tjyang Thanks for your advice!
+@tjyang
+@elffikk Thanks for your report!
+@tjyang Thanks for your feedback!
+LGTM.
+LGTM
+Thank you very much! @liubin
+LGTM
+LGTM
+@bitcubate Thanks for your report!
+@shenli
+LGTM
+LGTM
+@zyguan Thanks for your report!
+@zyguan Thanks for your report!
+@insionng Thanks for your feedback.
+Unfortunately it is a private attribute :( https://github.com/pingcap/tidb/blob/master/meta/autoid/autoid.go#L29
+@coocood @zimulala PTAL
+@zxylvlp +1
+@zyguan Please refer: https://github.com/pingcap/tidb/blob/master/optimizer/typeinferer.go#L253
+LGTM
+LGTM
+PTAL
+@nieyy @shenli PTAL
+LGTM
+@nieyy
+LGTM
+LGTM
+LGTM
+@coocood @zxylvlp PTAL
+LGTM
+Thanks @zyguan
+LGTM
+Rest LGTM
+LGTM
+LGTM
+LGTM
+@zyguan Thanks for your report!
+@zyguan  Yes, we have a plan to add collation info into datum.
+@zyguan I think it is a mistake. Good catch!
+LGTM
+@coocood PTAL
+LGTM
+@zyguan Thanks for your contribution! May I have your email address?
+Thanks @zyguan
+@ngaut @qiuyesuifeng
+LGTM
+PTAL @ngaut
+LGTM
+@steffengy Thanks for reporting the issue.
+@coocood @shenli @zimulala PTAL
+@coocood @shenli @zimulala PTAL
+LGTM
+LGTM
+LGTM
+LGTM
+LGTM
+LGTM
+Thanks! @overvenus
+@qiuyesuifeng @coocood PTAL
+LGTM
+LGTM
+Well done!  @overvenus
+LGTM
+@coocood @qiuyesuifeng
+@overvenus  Thanks.
+LGTM
+LGTM
+Thanks! @overvenus
+@nieyy
+LGTM
+@astaxie Thanks a lot!
+LGTM
+@shenli @zimulala PTAL
+@nieyy @liugangnhm
+LGTM
+LGTM
+@nieyy PTAL
+LGTM
+LGTM
+- [ ] beego
+- [x] xorm
+- [x] gorm
+- [x] iBATIS
+- [ ] peewee
+LGTM
+LGTM
+LGTM
+LGTM
+Thanks @c-wind
+LGTM
+@nieyy @coocood
+@nieyy PTAL
+@nieyy @shenli
+LGTM
+@qiuyesuifeng  PTAL
+@defia You can use go sql driver to access TiDB.
+LGTM
+LGTM @qiuyesuifeng
+LGTM
+PTAL @coocood @qiuyesuifeng @nieyy
+@nieyy
+LGTM
+LGTM
+LGTM
+LGTM
+LGTM
+LGTM
+LGTM
+@steffengy  Thanks!
+LGTM
+@steffengy Thanks for your contribution.
+@steffengy Thanks for your pr.
+@coocood  Please take a look.
+`goleveldb://test/test?parseTime=true`.
+LGTM
+LGTM
+PTAL @shenli @coocood @qiuyesuifeng
+LGTM
+LGTM
+Thanks @nieyy
+LGTM
+LGTM
+Thank you @nieyy
+@losas There is a test case in session_test.go. https://github.com/pingcap/tidb/blob/master/session_test.go#L746
+@losas Yes, this is a much smarter way than mine! Good job!
+LGTM
+LGTM
+@roger-lijian PTAL
+@zxylvlp Thanks for your advice.
+@zxylvlp
+LGTM
+LGTM
+LGTM
+@astaxie  Thanks.
+LGTM
+Hi @astaxie
+Thanks! @astaxie
+LGTM
+Thanks @astaxie
+Thanks @astaxie
+PTAL @shenli
+Well done. @AkihiroSuda
+PTAL @shenli
+LGTM
+Thanks! @AkihiroSuda
+LGTM
+Hi, @lovedboy.
+LGTM
+LGTM
+@nieyy Good idea.
+@teodor-pripoae We find there is a bug in gorm. It ignores error of db.Commit(). See https://github.com/jinzhu/gorm/blob/master/scope.go#L383
+We are going to send a PR to gorm.
+@teodor-pripoae That pr will not work.
+LGTM
+LGTM and thanks for your contribution @c-wind !
+LGTM
+@c-wind  Thanks very much!
+Hi @nieyy ,
+Hi @nieyy ,
+OK! @orangeyts
+@orangeyts `GOPATH` is your workspace path. It should be set uniformly across all go projects in your machine. Please reference [this](https://golang.org/doc/code.html) doc for more details. Once you have setup your `GOPATH`, you can put `tidb` in `$GOPATH/src/github.com/pingcap/`.
+LGTM
+LGTM
+@coocood  @zimulala  PTAL
+@hhkbp2 The old `expression`, `plan/plans`, 'stmt/stmts' package has limited capability for optimization, and it can not be improved due to the design problem, but it supports all types of statements.
+PTAL @coocood @siddontang
+LGTM
+LGTM
+LGTM
+@keithyau
+@keithyau May I have your golang version? You can get it by "go version".
+@keithyau Thanks for your report.
+Also u can send an email to cuiqiu@pingcap.com.
+@keithyau
+LGTM
+LGTM
+LGTM
+LGTM
+@nieyy  Cool, looking forward!
+@keithyau Try this:
+@keithyau Thanks for your report!
+@keithyau There is a system variable "max_connection".
+@keithyau
+@keithyau I am not sure. I am installing drupal on my machine to check it out.
+@keithyau I get the following errors when install drupal. But I do not find error log from tidb-server output. Do you have any idea about this? I use the latest drupal 8.0.1.
+@keithyau I am working on this.
+Please pass go lint.
+LGTM
+LGTM
+LGTM
+LGTM, Could you send a PR ? Thanks.
+LGTM
+LGTM
+@luyee Thanks for your report.
+and https://github.com/pingcap/go-themis/pull/21
+@luyee Good to know, thanks.
+Hi @genedna
+Good idea, thanks @Unknwon
+@genedna  Could you support "make update" in makefile ?
+@Unknwon
+Thanks @Unknwon
+@Unknwon Thanks for report.
+Maybe we should move these tests out of tidb or reduce the pressure as @ngaut  metioned.
+@Unknwon Thanks again.
+@Unknwon  Does the log containing `GC stopped` before too many `GC send key to deleteWorker`, if has, the GC compactor may be blocked when Stop.
+Btw, we should use terror for ErrKeyExists later. @shenli
+@hhkbp2 There is an error in ci.
+LGTM
+LGTM
+| 0  | ElvizLai | 0  |
+| 0  | ElvizLai | 0  |
+x := &ast.DeleteStmt{
+Welcome to the TiDB.
+LGTM
+LGTM
+@coocood PTAL
+LGTM
+LGTM
+LGTM
+Hi @hanfei19910905
+Hi @hanfei19910905
+@ngaut
+Hi, @urandom
+Thanks. @netroby
+LGTM
+LGTM
+Thanks @netroby
+To make "go vet" happy.
+LGTM
+LGTM
+Could you use golang as default image ?
+Author: Ewan Chou coocood@gmail.com
+Thanks @winkyao
+Hi @winkyao :
+Good catch! @winkyao
+Do you think you can fix it ? @winkyao
+@winkyao @disksing
+Welcome to the TiDB.
+Confirmed, thank you @winkyao
+LGTM
+LGTM
+LGTM
+@winkyao
+You mean the error code is different? I tried TiDB. It is the same with mysql. So I am a few confused....
+PS: I worked in Qihoo for 3 years. Nice to meet you here. :)
+@EtienneBruines Do you set correct GOPATH and GOROOT, and append $GOPATH/bin to $PATH?
+@xwb1989  maybe hard code at first.
+LGTM
+LGTM
+Thanks @fuxiaohei
+LGTM
+LGTM
+Thank you @winkyao
+LGTM
+LGTM
+Thank you very much! @winkyao
+@Alienero Click the "detail" button on the right side of the line " clahub — Not all contributors have signed the Contributor License Agreement.".
+@Alienero  we may still use 0x15. Other changes are fine.
+@Alienero We have exprienced incorrect documentation caused compatibility issue, so when there is a conflict between documentation and the source code, we stick with source code.
+LGTM
+LGTM
+@fuxiaohei Please sign the Contributor License Agreement.
+LGTM
+LGTM
+Thanks for your work! @fuxiaohei
+@shangfy
+- [x] NOT LIKE    Negation of simple pattern matching
+- [x] RLIKE   Synonym for REGEXP
+Cool @mrmiywj
+@mrmiywj builtin functions are moved here: https://github.com/pingcap/tidb/blob/master/evaluator
+Hi @a6802739
+Please try `make dev` @a6802739
+LGTM
+Hi @luyee
+@Unknwon Does CI support i386 platform?
+@Unknwon
+Can u use this branch
+https://github.com/pingcap/tidb/tree/qiuyesuifeng/issue-279
+@Unknwon
+@Unknwon
+Thanks.  How about @siddontang function implement? Seems much better:-)
+@Unknwon  Thanks.
+@jmuyuyang Thanks for your feedback!
+@jmuyuyang Thanks for your reply.
+@jmuyuyang
+Hi, @nkev:
+LGTM
+LGTM
+LGTM  :+1:
+- [x] DAY() Synonym for DAYOFMONTH()
+- [ ] Peewee
+- [ ] django
+- [ ] ponyorm
+Go:
+Orm:
+- [ ] Dalga: https://github.com/cenkalti/dalga
+Java：
+- [x] Mybatis
+PHP:
+Dotnet:
+@shenli Any update ?
+I will go through the list tomorrow. @ngaut
+@cppmule
+Hi @cppmule
+I started to write golang three month ago. At first I have the similar feeling with you. But now I think golang is an excellent programming language.
+We DO NOT LIE because all of us really enjoy work with golang. I suggest you to work with golang for some time and then consider this issue again.
+LGTM
+LGTM
+LGTM
+Yes, that is a problem.
+@xwb1989
+@xwb1989
+LGTM
+LGTM
+@Unknwon
+@Unknwon  Do you use the latest code? I have updated it..
+Hi @Unknwon
+LGTM
+LGTM
+Hi @Unknwon
+@Tratar
+Thanks!  LGTM. Thanks
+LGTM
+@c4pt0r
+@insionng Thanks for your PR.
+There are some additional things need to do:
+1.1 godep
+Godep go build
+Godep go test ./...
+Welcome to the TiDB.
+Thanks. @insionng
+LGTM
+LGTM. Thank you @insionng
+Thanks @cznic
+LGTM
+@siddontang I think the CommaOpt should not be here. The parser parse text into statement list, and ';' will be treated as separator between statements. So it is not necessary to add ';' at the end of create statement rule.
+Thanks a lot! @cznic
+LGTM
+LGTM
+Cool, LGTM
+LGTM
+@cznic I referenced TableIdentList related syntax in MySQL docs.
+LGTM
+LGTM
+@cznic  Thanks.
+LGTM
+LGTM
+LGTM
+LGTM
+Thanks! @cznic :+1:
+s/golang/Go/g
+LGTM
+LGTM
+@shenli Updated
+Hi @cznic
+@cznic
+LGTM
+LGTM
+Many thanks! @cznic
+LGTM
+LGTM
+LGTM
+LGTM
+LGTM
+@cznic  Thanks.
+LGTM
+Thanks! @cznic
+LGTM
+Thank you @cznic .
+TODO:
+Do you have github.com/qiuyesuifeng/golex  and github.com/qiuyesuifeng/goyacc in you GOPATH?
+@insionng
+@cznic
+@cznic @shenli
+@cznic
+@siddontang I didn't use -cr, but still can see conflict check report.
+@cznic
+@cznic
+@cznic
+LGTM
+LGTM
+LGTM
+LGTM.
+@shenli  PTAL.
+Hi @mtorromeo
+@mtorromeo  u can update tidb and try again.
+LGTM
+LGTM
+When I run go test in go-xorm/tidb, I meet another error.
+Hi @lunny
+5 External links
+OCC phases[edit]
+@romanoff @Unknwon @no1youknowz
+@romanoff
+Please try this in interpreter dir:
+If there is any error, please tell me.
+@lei-cao any problem can make an issue, Thanks.
+LGTM
+LGTM
+@cznic
+PTAL
+LGTM
+LGTM
+@cznic
+@cznic
+#75  PTAL.
+@cznic
+LGTM
+LGTM
+LGTM
+Please add godep.
+LGTM
+LGTM
+@Unknwon  Thanks.
+Thanks for your report @lunny @Unknwon
+| 1001 | xiaolunwen2 | dev        | 2015-09-07 20:51:33 | 1         | 1.78   |     | 1      |
+@Unknwon  May I see your code?
+LGTM
+PTAL @qiuyesuifeng
+LGTM
+LGTM
+@xiang90 ^_^
+LGTM
+Thanks @Unknwon
+2. godep
+cd tidb
+godep restore
+Could you fix it ? @Unknwon Thanks.
+Hello Unknwon,
+@Unknwon  please review this https://github.com/pingcap/tidb/pull/33
+Hi @Unknwon, what's your timezone?
+Hi @Unknwon  you can check it again. Thanks.
+any updates? @ngaut
+@astaxie
+Does that sound ok?   @fuxiaohei
+LGTM
+LGTM
+LGTM
+LGTM
+LGTM
+LGTM
+LGTM
+LGTM
+LGTM
+immediately modified.
+var bitMask int
+var s []string
+| Variable_name            | Value                                |
+1）我用navicat 连接tidb操作的时候，不能在编辑窗口直接修改数据
+create a rails orm model
+rails g model Book name:string
+rake db:migrate
+rake aborted!
+rails g model Book name:string
+rake db:migrate
+ERROR 1105 (HY000): transaction is too large
+ERROR 1105 (HY000): transaction is too large
+@zimulala
+ERROR 1148 (42000): the used command is not allowed with this TiDB version @zimulala
+UTC Build Time:  2017-02-23 07:19:58 @zimulala This problem has been solved,thx!  Trying to run this command on creating a new table
+ERROR 1105 (HY000) at line 30: unknown column password
+10.2.0.240/241/242        3 TiKV
+Host			CHAR(64),
+User			CHAR(16),
+Password		CHAR(41),
+Host		CHAR(60),
+DB		CHAR(64),
+User		CHAR(16),
+Host		CHAR(60),
+DB		CHAR(64),
+User		CHAR(16),
+Table_name	CHAR(64),
+Grantor		CHAR(77),
+Host		CHAR(60),
+DB		CHAR(64),
+User		CHAR(16),
+Table_name	CHAR(64),
+Column_name	CHAR(64),
+PD     branch huachao/shuffle-region, 92b3cef
+TiDB   branch master, 7882b66
+neword 14:1
+New-Order: -nan%  [NG] *
+The version of the TiDB is
+rystsov@acceptor1:/mnt/perseus/tikv$ ./tidb-latest-linux-amd64/bin/pd-server --version
+Rustc Version:   1.17.0-nightly (ba7cf7cc5 2017-02-11)
+rystsov@acceptor1:/mnt/perseus/tikv$ ./tidb-latest-linux-amd64/bin/tidb-server -V
+I am reading you code for fun
+not use go
+2017/02/14 16:13:35.097 raft.rs:879: [INFO] [region 2] 3 is starting a new election at term 68
+2017/02/14 16:13:49.937 raft.rs:879: [INFO] [region 2] 3 is starting a new election at term 69
+103 log:(time is wrong)
+TiDB says:
+TiDB reports error:
+If it's totally impossible to shrink the lenght of varchar, pls report back 0 altered, instead of rising exception.
+ALTER TABLE `payments`
+Thus, with truncating even in strict SQL mode the lenght will always meet.
+somehow `modify` statement got working...
+Returns error `line 0 column 60 near "" (total length 60)` Does it mean that `DROP COLUMN name CASCADE` will not be supported in the near future? Sad. @zimulala  Thank you!
+Let me know when `DROP COLUMN name CASCADE` will be supported.
+This will let the project to be a little closer to open the door for the django community.
+I mean elimination of incomatibles with the django orm and migration tools.  LGTM  Please answer these questions before submitting your issue. Thanks!
+```gofmt
+id regions
+id regions
+if case_sensitive: sql = 'SELECT table_name FROM information_schema.tables ' \
+Welcome to TiDB.
+@shenli  yes, it was
+FLUSH LOGS;
+```diff
+{"abc", mysql.TypeVarString},
+{[]byte("abc"), mysql.TypeBlob},
+``` Hi, @coocood
+```  PTAL @andelf @shenli
+`a` varchar(20) NOT NULL,
+PRIMARY KEY (`a`)
+BTW, the mysql-workbench shows that the result of `select round(1e3, 2);` has 'Display Size' of 19 and 'Precision' of 5. Do these values matter a lot? Sure @zimulala , I would like to try :)  Please answer these questions before submitting your issue. Thanks!
+`a` varchar(20) NOT NULL,
+PRIMARY KEY (`a`)
+golang 1.6
+@hanfei1991 another example
+`a` varchar(20) NOT NULL,
+PRIMARY KEY (`a`)
+from demo
+where test.a = 'abc'
+from demo
+where test.a = 'abc'
+union
+it throwed some error like this:
+Doing OLTP test.
+Running mixed OLTP test
+Using Special distribution (12 iterations,  1 pct of values are returned in 75 pct cases)
+FATAL: database error, exiting...
+FATAL: database error, exiting...
+FATAL: database error, exiting...
+FATAL: database error, exiting...
+``` diff
+%precedence lowerThanSQLCache
+@@ -2445,6 +2448,7 @@ FunctionNameConflict:
+ERROR 1105 (HY000): transaction is too large @coocood thks, I got  `char_length` and its synonym `character_length`  Hi @tiancaiamao ,
+Flen = -1, Decimal = -1, Charset = 0xef090e "binary", Collate = 0xef090e "binary", Elems = {array = 0x0, len = 0, cap = 0}}, flag = 0}}`
+Yu  Add two functions, bit_length and char.
+Yu
+`var (
+)` Hi @ngaut ,
+Yu
+HI @coocood,
+Yu
+types.Datum
+}` @coocood ,
+| FILES                        |
+| PARTITIONS                   |
+| PLUGINS                      |
+| REFERENTIAL_CONSTRAINTS      |
+| SESSION_VARIABLES            |
+| TABLES                       |
+Yu
+panic(0x104e040, 0xc82000e130)
+b.Start  pd,tikv,tidb succeed!
+[warning] [ddl] DDL job 30 is not in history, maybe not run @zimulala  now insert to  table zx  return the message  'ERROR 1265 (01000): Data Truncated'
+Yu
+`name` varchar(45) DEFAULT '',
+PRIMARY KEY (`worldid`),
+UNIQUE KEY `worldid` (`worldid`)
+PRIMARY KEY (`worldid`),
+UNIQUE KEY `worldid` (`worldid`)
+@coocood
+As you said the bench marks are slower on a remote redis , but a local one , not as much.
+drwxr-xr-x  2 dev dev    4096 Dec  9 23:00 goyacc/
+Yu
+**请手动将TiDB克隆到GOPATH目录，然后运行make命令**。TiDB是一个项目而不是一个库，它的依赖比较复杂，并且parser也是根据parser.y生成的，我们不支持go get方式，而是使用Makefile来管理。
+cc @siddontang @coocood.
+H:\gopath\src\github.com\micro\user-srv>user-srv --database_url="root@tcp(192.168.99.100:4000)/users"
+H:\gopath\src\github.com\micro\user-srv>user-srv.exe --database_url="root@tcp(192.168.99.100:32770)/users"
+[11:1210]Incorrect arguments to EXECUTE
+`H:\gopath\src\github.com\micro\user-srv>user-srv.exe --database_url="root@tcp(192.168.99.100:4000)/users"
+您好，ＴＩＤＢ的架构是不是ＫＶ是单独一层（ＫＶ单独配置），ＴＩＤＢ类似于中间件？  Please answer these questions before submitting your issue. Thanks!
+I will try do a test on aliyun use 6 ecs machine(4 cores, 16G ram)  LGTM  standalone-cluster-deployment is success
+but multi-nodes-deployment is fail
+```bash
+--data-dir=pd2 \
+--data-dir=pd3 \
+```bash
+--store=tikv1
+3. tikv1 error log
+2016-11-22 17:03:49.960888 W | etcdserver: failed to reach the peerURL(http://192.168.50.173:2380) of member c1fa47d93efeaf83 (Get http://192.168.50.173:2380/version: dial tcp 192.168.50.173:2380: getsockopt: connection refused)
+不能完成测试。。。 好的
+很遗憾，不能跑完测试
+ERROR 1105 (HY000): line 0 column 133 near "concat(@START_DAY,@check_time_start, '%!Y(MISSING)-%!m(MISSING)-%!d(MISSING)%!H(MISSING)'))"
+<with some private information, will deliver u some other way>
+some more log
+LGTM
+TiDB:
+ERROR 1105 (HY000): line 0 column 8 near " table SomeTable"
+@shenli @coocood @iamxy
+> go env
+GOBIN=""
+GORACE=""
+GOROOT="/usr/lib/go"
+GOTOOLDIR="/usr/lib/go/pkg/tool/linux_amd64"
+A brief instruction of how to build it.(For people who are less familiar with golang.)
+LGTM
+Thanks @ngaut
+LGTM
+LGTM
+@shenli @coocood @iamxy
+@zimulala
+LGTM
+LGTM
+go env:
+GOBIN=""
+GOPATH="/home/xuruiliang/.go"
+GORACE=""
+GOROOT="/usr/local/go"
+GOTOOLDIR="/usr/local/go/pkg/tool/linux_amd64"
+The input data is from kafka.
+ERROR 1105 (HY000): Column count 2 doesn't match value count 1
++----------+ @shenli
+mysql -uroot -h10.20.8.xxx  -P4000
+mysql> GRANT ALL ON _._ TO  'ruiaylin'@'%'  ;
+[root@l20-8-65 ~]# mysql -uruiaylin -pruiaylin -h10.20.8.6xxx -P4000
+ERROR 1105 (HY000): ERROR 1045 (28000): Access denied for user 'ruiaylin'@'10.20.8.65' (using password: Yes)
+ERROR 1105 (HY000): ERROR 1045 (28000): Access denied for user 'ruiaylin'@'10.20.8.65' (using password: Yes)
+Is this a Bug?
+-v ti-storage:/tidata \
+--data-dir="/tidata/pd1" \
+# TiKV
+-v ti-storage:/tidata \
+pingcap/tikv \
+--advertise-addr="tikv1:20160" \
+--store="/tidata/tikv1" \
+--dsn=raftkv \
+# TiDB
+pingcap/tidb \
+--store=tikv \
+@shenli
+@siddontang
+PD -> TiKV -> TiDB
+TiDB - > TiKV -> PD
+@shenli
+@siddontang that's strange, I pull from pingcap/*:latest.
+@siddontang  you mean using latest tag? the answer is NO. I tried `docker restart`, but still not work.
+CREATE USER 'elvizlai'@'%' IDENTIFIED BY PASSWORD 'cba321';
+GRANT ALL PRIVILEGES ON *.* TO 'elvizlai'@'%';
+mysql -h 138.68.xxx.xxx -P 4000 -u elvizlai -D mysql -p
+the tidb log:
+User: elvizlai
+Password: 4b267316ed17ff850806c9ece954c914b898cad0
+Alter_priv: Y
+指定IP地址xx.xx.89.69后，其它机器还是没法通过MYSQL协议连上来，这是为何呢。
+GOBIN=""
+GOPATH="/home/t/src/go"
+GORACE=""
+GOROOT="/usr/lib/go"
+GOTOOLDIR="/usr/lib/go/pkg/tool/linux_amd64"
+1. start 6x tikv
+6. kill pd
+7. kill leader of region 2
+GOBIN=""
+GOPATH="/root/go"
+GORACE=""
+GOROOT="/usr/local/go"
+GOTOOLDIR="/usr/local/go/pkg/tool/linux_amd64"
+@shenli
+tikv: 8bd91c6cb51ba63cc7bc684d4f5885968dfe9ddc
+LGTM
+but tidb doesn't seem to allow zere-length packet:
+@foobar @terryzhao
+[![CLA assistant check](https://cla-assistant.io/pull/badge/not_signed)](https://cla-assistant.io/pingcap/tidb?pullRequest=1537) <br/>Thank you for your submission, we really appreciate it. Like many open source projects, we ask that you all sign our [Contributor License Agreement](https://cla-assistant.io/pingcap/tidb?pullRequest=1537) before we can accept your contribution.<br/>**1** out of **2** committers have signed the CLA.<br/><br/>:white_check_mark: coocood<br/>:x: shenli
+@tiancaiamao
+I add some wrong test cases and
+@shenli
+MacOS
+//yyParse(l)
+Hi @shenli ,
+Yu
+Hi @ngaut, @shenli and @tiancaiamao ,
+LGTM
+@shenli ，你在pull request #1196 里提到TiDB支持zabbix了！这非常令人兴奋！
+我们的zabbix系统数据库负载非常大(每天新增70GB左右监控数据)，经常出问题，想使用TiDB来解决数据库的shard、吞吐问题，所以请问下你的测试情况，现在迁移有问题么？
+@shenli Your PR #1196 shows that TiDB is now support Zabbix! That's awesome.
+Thanks shenli ! I will try the latest master.
+ERROR 1105 (HY000): line 1 column 11 near "privileges"
+ERROR 1105 (HY000): line 1 column 11 near "privileges"
+But when displaying 'Status of zabbix', it took 74 seconds, which is too long.
+@shenli  Thanks!
+$ mysql  -h 127.0.0.1 -P 4000 -u root -e "create user 'zabbix'@'%' identified by '123';"
+$ mysql  -h 127.0.0.1 -P 4000 -u root zabbix <schema.sql
+$ mysql  -h 127.0.0.1 -P 4000 -u root zabbix <images.sql
+$ mysql  -h 127.0.0.1 -P 4000 -u root zabbix <data.sql
+@shenli Well Done!  It is amazing to see the performance benefits!
+mysqlimport: Error: 1105 line 1 column 36 near ";"
+ERROR 1105 (HY000): line 1 column 1 near "LOAD"
+ERROR 1105 (HY000): line 10 column 1 near "PARTITION"
+ERROR 1105 (HY000): line 8 column 1 near "PARTITION"
+ERROR 1105 (HY000): line 1 column 6 near "VIEW"
+ERROR 1105 (HY000): line 1 column 8 near "DEFINER"
+ERROR 1105 (HY000): line 1 column 8 near "ALGORITHM"
+mysqlimport: Error: 1105 line 1 column 36 near ";")
+ERROR 1105 (HY000): line 1 column 1 near "LOAD")
+set GOARCH=amd64
+set GOBIN=
+set GOHOSTARCH=amd64
+set GOHOSTOS=windows
+set GOPATH=C:\Users\Hplong\Documents\projects\go
+set GORACE=
+set GOROOT=C:\Go
+@ngaut Ok, I am trying to debug it on windows.
+"C:\Users\Hplong\Documents\projects\go\src\github.com\pingcap\tidb>make server
+Log:
+@shenli @ngaut @coocood @disksing
+LGTM
+- QL-LICENSE
+@shenli
+system mac
+@shenli  do as you say,it's ok. ths!
+go env
+set GOARCH=amd64
+set GOBIN=
+set GOHOSTARCH=amd64
+set GOHOSTOS=windows
+set GORACE=
+set GOROOT=D:\devtool\go64
+"github.com/ngaut/log"
+db, err := sql.Open("tidb", "goleveldb://"+dbPath+"/"+dbName)
+2016/06/01 12:56:30 main2.go:28: [fatal] parse goleveldb://D:%5Ctemp%5Ctidb: invalid URL escape "%5C"
+// cut off dbName
+PTAL @shenli @coocood
+cc @shenli @coocood
+cc @coocood
+cc @shenli
+cc @coocood
+cc @coocood
+cc @coocood
+what if the local git repository is not the same as Godep.json says?  @coocood
+fatal: reference is not a tree: 3e62d377d3edbc20520c7934964615f8e91e27cd
+fatal: reference is not a tree: 3e62d377d3edbc20520c7934964615f8e91e27cd
+fatal: reference is not a tree: 3e62d377d3edbc20520c7934964615f8e91e27cd
+@ngaut
+LGTM
+GOBIN=""
+GOPATH="/go-dev"
+GORACE=""
+GOROOT="/usr/local/go"
+GOTOOLDIR="/usr/local/go/pkg/tool/linux_amd64"
+goroutine 47 [chan receive, 10 minutes]:
+Shen
+PTAL @coocood, @shenli
+GOBIN=""
+GOCHAR="6"
+GORACE=""
+GOROOT="/usr/lib/golang"
+GOTOOLDIR="/usr/lib/golang/pkg/tool/linux_amd64"
+Unknown option: -C
+make: **\* [godep] Error 129
+@shenli Here is the output:
+| Variable_name | Value                                                                                                                                     |
+GOPATH="/mnt/Gopath"
+GORACE=""
+GOROOT="/usr/local/go"
+GOTOOLDIR="/usr/local/go/pkg/tool/linux_amd64"
+@shenli I can probably guess are designed to performance.
+@shenli Then, this figure can I change it?
+@shenli @zxylvlp PTAL
+LGTM
+LGTM
+PTAL, @shenli @coocood
+All comments have been revised, PTAL ag, @coocood @shenli @zimulala @c4pt0r
+PTAL ag, @zimulala @coocood
+@zimulala , SELECT operations will call `Seek`, also, user UPDATE operations are not supported for `events_xxx` tables.
+sure, @ngaut
+@ngaut , squashed and rebased
+@shenli Sorry, I forgot it.
+@ngaut Yes, Of course! Wait a minute.
+@ngaut
+@shenli
+@shenli PTAL
+PTAL
+@coocood , one you confirm `sqllogicaltest` is ok, I can close this issue.
+LGTM
+/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin/java -ea -Didea.launcher.port=7533 "-Didea.launcher.bin.path=/Applications/IntelliJ IDEA 14.app/Contents/bin" -Dfile.encoding=UTF-8 -classpath "/Applications/IntelliJ IDEA 14.app/Contents/lib/idea_rt.jar:/Applications/IntelliJ IDEA 14.app/Contents/plugins/junit/lib/junit-rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/lib/ant-javafx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/lib/dt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/lib/javafx-mx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/lib/jconsole.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/lib/packager.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/lib/sa-jdi.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/lib/tools.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/deploy.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/javaws.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/jfxswt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/management-agent.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/plugin.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/ext/cldrdata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/ext/jfxrt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/ext/nashorn.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/ext/sunec.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/ext/zipfs.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/tmp/classes/test/waimai100_backend:/Users/cppmule/idea-workspace/waimai100_backend/trunk/tmp/classes/production/waimai100_backend:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/jjwt-0.4.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/asm-5.0.3.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/cglib-3.1.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/guava-18.0.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/ognl-2.6.9.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/okio-1.3.0.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/dozer-5.3.2.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/httpmime-4.5.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/jsr305-1.3.9.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/okhttp-2.3.0.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/fluent-hc-4.5.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/httpclient-4.5.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/httpcore-4.4.1.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/hamcrest-all-1.3.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/mockito-all-1.9.5.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/pingpp-java-2.1.1.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/assertj-core-3.2.0.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/jackson-core-2.4.2.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/unitils-core-3.4.2.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/bcprov-jdk15on-1.51.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/qiniu-java-sdk-7.0.3.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/weixin-java-mp-1.3.1.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/commons-httpclient-3.1.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/jackson-databind-2.4.2.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/weixin-java-common-1.3.1.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/lib/jackson-annotations-2.4.0.jar:/Users/cppmule/dev-tools/play-1.3.1/modules/docviewer/lib/play-docviewer.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/modules/mockito-0.1/lib/play-mockito.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/modules/mockito-0.1/lib/mockito-all-1.9.1-SNAPSHOT.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/modules/spring-1.0.3/lib/ant-1.7.0.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/modules/spring-1.0.3/lib/play-spring.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/modules/spring-1.0.3/lib/jsr166-1.7.0.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/modules/spring-1.0.3/lib/jopt-simple-3.0.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/modules/spring-1.0.3/lib/ant-launcher-1.7.0.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/modules/spring-1.0.3/lib/spring-aop-3.1.1.RELEASE.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/modules/spring-1.0.3/lib/spring-asm-3.1.1.RELEASE.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/modules/spring-1.0.3/lib/spring-core-3.1.1.RELEASE.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/modules/spring-1.0.3/lib/spring-beans-3.1.1.RELEASE.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/modules/spring-1.0.3/lib/spring-context-3.1.1.RELEASE.jar:/Users/cppmule/idea-workspace/waimai100_backend/trunk/modules/spring-1.0.3/lib/spring-expression-3.1.1.RELEASE.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/ivy-2.4.0.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/oval-1.84.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/c3p0-0.9.5.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/gson-2.3.1.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/h2-1.4.185.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/jamon-2.81.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/jj-imaging.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/jj-textile.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/junit-4.12.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/mail-1.4.7.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/antlr-2.7.7.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/dom4j-1.6.1.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/jaxen-1.1.6.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/jj-wikitext.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/log4j-1.2.17.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/asm-all-5.0.3.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/ezmorph-1.0.6.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/joda-time-2.7.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/jregex-1.2_01.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/xstream-1.4.7.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/commons-io-2.4.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/postgresql-9.0.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/snakeyaml-1.15.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/cglib-nodep-3.1.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/jsr107cache-1.0.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/xmlpull-1.1.3.1.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/activation-1.1.1.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/commons-lang-2.6.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/groovy-all-2.3.9.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/javax.inject-1.0.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/jj-simplecaptcha.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/slf4j-api-1.7.10.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/bcprov-jdk15-1.45.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/hamcrest-core-1.3.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/netty-3.9.4.Final.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/commons-codec-1.10.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/commons-email-1.3.3.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/commons-logging-1.2.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/ehcache-core-2.6.11.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/javassist-3.19.0-GA.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/spymemcached-2.11.7.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/slf4j-log4j12-1.7.10.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/signpost-core-1.2.1.2.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/jboss-logging-3.1.0.GA.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/commons-beanutils-1.8.3.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/validation-api-1.0.0.GA.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/async-http-client-1.8.14.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/commons-fileupload-1.3.1.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/commons-javaflow-1590792.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/commons-collections-3.2.1.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/mchange-commons-java-0.2.9.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/hibernate-c3p0-4.2.15.Final.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/hibernate-core-4.2.15.Final.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/mysql-connector-java-5.1.35.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/c3p0-oracle-thin-extras-0.9.5.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/geronimo-servlet_2.5_spec-1.2.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/hibernate-validator-4.1.0.Final.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/hibernate-jpa-2.0-api-1.0.1.Final.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/hibernate-entitymanager-4.2.15.Final.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/hibernate-commons-annotations-4.0.2.Final.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/jboss-transaction-api_1.1_spec-1.0.1.Final.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/lib/org.eclipse.jdt.core-3.10.0.v20140604-1726.jar:/Users/cppmule/dev-tools/play-1.3.1/framework/play-1.3.1.jar" com.intellij.rt.execution.application.AppMain com.intellij.rt.execution.junit.JUnitStarter -ideVersion5 models.FoodOrderTest
+- [ ] beego
+- [ ] xorm
+- [ ] gorm
+CONSTRAINT `food_order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `waimaiqa`.`user` (`id`),
+CONSTRAINT `food_order_ibfk_2` FOREIGN KEY (`store_id`) REFERENCES `waimaiqa`.`store` (`id`),
+CONSTRAINT `food_order_ibfk_3` FOREIGN KEY (`store_employee_id`) REFERENCES `waimaiqa`.`store_employee` (`id`),
+INDEX `FK_a3t0m9apja9jmrn60uab30pqd` USING BTREE (`user_id`) comment ''
+CONSTRAINT `FK_7rod8a71yep5vxasb0ms3osbg` FOREIGN KEY (`user_id`) REFERENCES `waimaiqa`.`user` (`id`),
+# --- !Ups
+-- Host: localhost    Database: waimai
+CONSTRAINT `FK_ADMIN_RULE_ROLE_ID_ADMIN_ROLE_ROLE_ID` FOREIGN KEY (`role_id`) REFERENCES `admin_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
+LGTM
+This code can be removed?
+LGTM
+@shenli what i mean , if I can use tidb as embedded db in go, and use mysql client to visit the db to check the db at the same time
+PTAL ag, @qiuyesuifeng @ngaut
+@ngaut @qiuyesuifeng , address comments merged, PTAL.
+godep: go exit status 2
+Require an explicit usage of int64 for `MinInt64` as constant.
+@coocood
+seems like I missed that `fsp` part, and im unsure how important it is,
+Is there anything unclear or something I'm missing or
+@coocood
+the reasoning behind this is flexibility:
+won't support these cases.
+@coocood implemented and working
+1. using goleveldb instead of map only for concurrent considerations (INSERT/DELETE/UPDATE/TRUNCATE).
+PTAL, @shenli @coocood
+| crxXDlgcTvLua | OE       | EINGCALLYESE | zckcHksOpSZLqm | SctxnccP5Xix6 | UX34HdLzWiowH7n23Deu | RW      | 256136851 | 3231895072206302 | BC       |        50000 |       0.25 |    -10.00 | 2016-01-15 10:20:46 |
+case *ast.BinaryOperationExpr:
+Please add the arch of the project.
+It is bad to pre-contributor.
+@shenli
+@qiuyesuifeng good catch. Here we go https://github.com/astaxie/tidb/commit/2ca2c8e61b150ff09b89cfd8a6ba4f9343580960
+port = atoi(optarg);
+/* PARAM */
+when i modify the column b's type to char, the test can work well:
+In Apache Phoenix, we can use a JDBC string like `"jdbc:phoenix:zookeeperserver1,zookeeperserver2:3333"` to connect the multi-node cluster from JDBC client.
+@ngaut Great, we have just finished the integration of TiDB and our own storage (thanks for your doc), generally saying we are going to work on performance optimizations next, thus we need performance_schema first to help to diagnose performance issues.
+@ngaut , condition push down and SMP (parallel execution) are two big topics, we are also planning to do so, glad to hear that ur guys already working on that, :+1:
+"os"
+"github.com/jinzhu/gorm"
+gorm.Model
+account := Account{Email: "fooaaa@gmail.com"}
+account = Account{Email: "fooaaa@gmail.com"}
+(Error 1062: Duplicate entry 'fooaaa@gmail.com' for key 'uix_accounts_email')
+Error: Error in second insert, Error 1062: Duplicate entry 'fooaaa@gmail.com' for key 'uix_accounts_email'
+go get github.com/pingcap/go-themis
+go get github.com/ngaut/tso/client
+godep go build
+godep: go exit status 2
+In particular, the definitions in plan.go and ast.go are exactly the same.
+// The returned node's type can be different from the input node if it is a ExprNode,
+@shenli Glad to hear that.
+*: remove goyacc/golex/godep from make update.
+go get github.com/pingcap/go-themis
+go get github.com/ngaut/tso/client
+$(which godep) go build
+godep: go exit status 2
+go get -u github.com/ngaut/tso/client
+go get github.com/pingcap/go-themis
+go get github.com/ngaut/tso/client
+$(which godep) go build
+c.Assert(err, IsNil)
+in gopanic
+in panicmem
+/usr/local/go/src/runtime/sigpanic_unix.go:24
+/home/nieyy/goproj/src/github.com/pingcap/tidb/Godeps/_workspace/src/github.com/pingcap/check/check.go:721
+/home/nieyy/goproj/src/github.com/pingcap/tidb/Godeps/_workspace/src/github.com/pingcap/check/check.go:666
+godep: go exit status 1
+Like above dir list, which  dir should be set for  "GOPATH"?
+@qiuyesuifeng @coocood
+Please note, there are a few points where the behavior differs from mysql:
+@coocood
+sorry to be trouble maker.. just ..
+Does it support mac ?
+@ngaut Yes, but not yet ready for pull request.
+First attempt trying to be a Tidb contributor, :)
+@shenli
+![image](https://cloud.githubusercontent.com/assets/659311/11832516/f201e14c-a3f3-11e5-89e5-0f80fd057abc.png)
+# github.com/pingcap/go-themis
+github.com\pingcap\go-themis\themis_txn.go:257: multiple-value txn.client.LocateRegion() in single-value context
+@ngaut,
+..\go-themis\themis_txn.go:257: multiple-value txn.client.LocateRegion() in single-value context
+This behavior is completely unexpected and seems no way to turn it off.
+vet --shadow
+and empty  password ...
+ERROR 1105 (HY000): line 1 column 1 near "flush"
+Denis
+Does tidb support Spatial database?
+go get github.com/pingcap/go-themis
+# github.com/pingcap/go-themis
+../go-themis/themis_txn.go:173: undefined: kv.ErrRetryable
+../go-themis/themis_txn.go:183: undefined: kv.ErrRetryable
+../go-themis/themis_txn.go:189: undefined: kv.ErrRetryable
+../go-themis/themis_txn.go:197: undefined: kv.ErrRetryable
+go version
+·@ngaut is ok  make make server make interpreter
+@ngaut https://github.com/pingcap/tidb/pull/680
+go get github.com/pingcap/go-themis
+go get github.com/ngaut/tso/client
+$(which godep) go build
+godep: go exit status 2
+Just another note that... test failed on Raspi 2, and the error log is over 3k lines that I can't even reach the beginning point from my terminal...
+OK, but takes time to build on Raspi 2. Please wait.
+> @Unknwon Does the log containing GC stopped before too many GC send key to deleteWorker, if has, the GC compactor may be blocked when Stop.
+Congrats to 3k stars! :trollface:
+Email string `xorm:"unique"`
+Name  string `xorm:"unique"`
+2015/11/24 13:27:19 txn.go:109: [debug] get key:"65_i_uqe_a_email\x00\x01Elvizlai\x00\x01\x00\x00s", txn:379674385191534593
+2015/11/24 13:27:19 txn.go:146: [debug] set key:"65_i_uqe_a_email\x00\x01Elvizlai\x00\x01\x00\x00s", txn:379674385191534593
+go get github.com/pingcap/go-themis
+go get github.com/ngaut/tso/client
+@ngaut Sure. The PR is raised as #615.
+1、using goleveldb
+@ngaut sorry, i mis-touched my ''Enter" key.
+_ "github.com/go-xorm/tidb"
+"github.com/go-xorm/xorm"
+Pv   int `xorm:"default 1"`
+engine, err := xorm.NewEngine("tidb", "goleveldb://test/tidb")
+panic(err)
+a := &A{Name:"ElvizLai"}
+b := &B{Name:"ElvizLai"}
+@ngaut @disksing am i missed something？
+@shenli  I know what you mean , but when i parse this :   DELETE FROM t1 WHERE  id  in ( 2,4,5)  statement , the result show stmt.Refs   is nil  :
+This makes  me  wonder
+2015/11/10 15:17:31 session.go:336: [error] Syntax error: select \* from tbl_test where instr(name, 'a') != -1;
+Hi @siddontang
+Missing : symbol?
+It's no need to include Golang environment at all, because the server ready for serve, no need recompile or include source code.
+/home/huzhifeng/go/src/github.com/pingcap/tidb/expression/variable.go:87:
+/home/huzhifeng/go/src/github.com/pingcap/tidb/plan/plans/fields.go:83:
+/home/huzhifeng/go/src/github.com/pingcap/tidb/plan/plans/final.go:72:
+/home/huzhifeng/go/src/github.com/pingcap/tidb/rset/rsets/rsets.go:110:
+/home/huzhifeng/go/src/github.com/pingcap/tidb/tidb-server/server/driver_tidb.go:243:
+/home/huzhifeng/go/src/github.com/pingcap/tidb/tidb-server/server/conn.go:398:
+@siddontang @shenli
+um...@ngaut some test run two parallel transaction.
+@siddontang  Done!
+DROP TABLE IF EXISTS `nosharding_test`;
+ERROR 1105 (HY000): Error: key already exist
+ERROR 1105 (HY000): Error: key already exist
+ERROR 1105 (HY000): Error: key already exist
+@ngaut yes. I'll fix it later.
+I know what you mean, and It is diffrent from mysql, So I get confused..
+> @xwb1989  maybe hard code at first.
+NVM, just realized the only consumer of UnionStore is transaction, which is(I think as a standalone transaction) is never supposed to be in a concurrent context.
+| CHAR[(length)] [BINARY]
+--> darwin/386 error: exit status 2
+How to deal with the following questions:
+@ngaut I will pick some functions in this issue.
+@ngaut Actually, the `expression` folder has been removed. So maybe this issue could be closed.
+@siddontang , could I have a try for this?
+``` @coocood , should I cross the wall?
+Thanks a lot.  Shouldn't some salt be used? Or ideally a password hashing library so that someone with cryptographic knowledge can maintain the hashing.
+@ngaut @siddontang maybe re-open this issue.
+I'm using Vagrant.
+godep: go exit status 1
+Maybe someday will be fixed automatically... :trollface:
+@qiuyesuifeng passed :D
+@shenli hello
+@shenli dsn named "mysqls" is my test case
+@ngaut The tests for mysql would be some good reference. I'm looking for some test codes like unit tests in TiDB to test these time functions, so that newly added time functions could be tested before submitted to the main branch.
+I got more errors:
+> Written in Go
+> Enjoy TiDB as much as we love Go. We believe Go code is both easy and enjoyable to work with. Go makes us improve TiDB fast and makes it easy to dive into the codebase.
+var datas [][]string
+Instead of being a prick, try providing actionable feedback in the future. Go code tends to be verbose when working with `database/sql`. I think this is an interesting project, and I look forward to watching it progress.
+- remove unexpected binary
+Following is problematic in `HavingRset.CheckAndUpdateSelectList`, :
+LGTM
+godep: go exit status 2
+Hmm... seems my Raspi has really small int. :sob:
+godep: go exit status 2
+104 DeleteFromStmt: deleteKwd LowPriorityOptional QuickOptional IgnoreOptional . from TableIdentList using TableRefs WhereClauseOptional
+charsetKwd     shift, and goto state 65
+engines        shift, and goto state 74
+from           shift, and goto state 631
+password       shift, and goto state 81
+unknown        shift, and goto state 95
+warnings       shift, and goto state 97
+NotKeywordToken    goto state 58
+UnReservedKeyword  goto state 57
+``` yacc
+$$ = tbl
+- foo
+- foo, bar
+- foo, bar, baz
+- , foo
+- , foo, bar
+- DROP TABLE , foo
+``` yacc
+$$ = tbl
+But I have little knowledge of MySQL grammar. Please clarify.
+336 QuickOptional: .  [',', after, autoIncrement, begin, bitType, boolType, booleanType, calcFoundRows, charsetKwd, columns, commit, dateType, datetimeType, deallocate, do, end, engine, engines, execute, first, from, full, global, identifier, ignore, local, mode, names, now, offset, password, prepare, quick, rollback, session, signed, start, substring, tables, textType, timeType, timestampType, transaction, truncate, unknown, value, warnings, yearType]
+quick          shift, and goto state 629
+unknown        reduce using rule 336 (QuickOptional)
+QuickOptional  goto state 628
+cross       reduce using rule 255 (Operand)
+ge          reduce using rule 255 (Operand)
+having      reduce using rule 255 (Operand)
+le          reduce using rule 255 (Operand)
+like        reduce using rule 255 (Operand)
+limit       reduce using rule 255 (Operand)
+lock        reduce using rule 255 (Operand)
+not         reduce using rule 255 (Operand)
+oror        reduce using rule 255 (Operand)
+rlike       reduce using rule 255 (Operand)
+when        reduce using rule 255 (Operand)
+xor         reduce using rule 255 (Operand)
+ge          reduce using rule 224 (NotKeywordToken)
+le          reduce using rule 224 (NotKeywordToken)
+require golang version 1.5 or later
+CrossOpt  goto state 494
+imaginaryLit   reduce using rule 386 (SelectStmtCalcFoundRows)
+unique         shift, and goto state 843
+conflict on unique, shift, and goto state 843, reduce using rule 74
+unsigned       shift, and goto state 831
+@Unknwon Okay~
+cc @ngaut
+@ngaut https://github.com/pingcap/tidb/pull/130/files
+10 AlterSpecification: drop . foreign key Symbol
+foreign        shift, and goto state 866
+@coocood My bad, I mistakenly supposed `COLUMN` is an unreserved keyword. Thanks for making it clear to me. I will fix the PR later this evening (CET).
+``` diff
+%left  xor
+UnReservedKeyword:
+VariableAssignment:
+-       $$ = $2.(string)
+/Users/lunny/gopath/src/github.com/pingcap/tidb/driver.go:355 +0xa9
+/Users/lunny/gopath/src/github.com/pingcap/tidb/driver.go:374 +0xeb
+2015/09/08 12:34:34 txn.go:160: [debug] delete 202_i_uqe_userinfo_usernamexiaolunwens txn:93
+2015/09/08 12:34:34 txn.go:160: [debug] delete 202_i_uqe_userinfo_usernamexiaolunwen2s txn:97
+/Users/lunny/gopath/src/github.com/pingcap/tidb/driver.go:355 +0xa9
+/Users/lunny/gopath/src/github.com/pingcap/tidb/driver.go:374 +0xeb
+/Users/lunny/gopath/src/github.com/syndtr/goleveldb/leveldb/memdb/memdb.go:375 +0xaf
+github.com/syndtr/goleveldb/leveldb.(*Snapshot).Get(0xc8205f28d0, 0xc820f922c0, 0xe, 0x10, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)
+/Users/lunny/gopath/src/github.com/pingcap/tidb/session.go:179 +0x115
+goroutine 20 [chan receive]:
+github.com/syndtr/goleveldb/leveldb.(*DB).mpoolDrain(0xc82026a000)
+[xorm] [info]  2015/09/08 18:06:20.638850 [sql] SELECT * FROM `userinfo` LEFT JOIN `userdetail` ON `userinfo`.`detail_id` = `userdetail`.`id` LIMIT 1
+/Users/lunny/gopath/src/github.com/pingcap/tidb/driver.go:368 +0xa9
+/Users/lunny/gopath/src/github.com/pingcap/tidb/driver.go:387 +0xeb
+I have fixed this on go-xorm/tests@811ef5c. But there are still panics. @shenli
+@ngaut OK. Then we can ignore the `testForUpdate()`.
+and it failed. `godep go build` succeed though.
+godep: go exit status 1
+![](http://reactiongifs.me/wp-content/uploads/2013/12/hell-yes-big-lebowski-lookin-out-my-backdoor.gif)
+go get github.com/go-xorm/tidb
+Welcome to the TiDB.
+And it prints a sound, what is the purpose of this?
+@zimulala Ideally, you should mention this in CONTRIBUTION.md and add this test into travis.
+@zimulala ah. great!
+LGTM. But I cannot press the merge button. :(
+@Unknwon I usually keep them into separate commits:
+2. godep
+OK... there is the diff:
+"github.com/juju/errors"
+"github.com/ngaut/log"
++       "golang.org/x/net/html/charset"
++       "golang.org/x/text/transform"
+TiDB gives me error:
+@Unknwon try `_`
+Thank you both @mathiasrw @shenli
+Please put that on docs... it is very confusing.
+@ngaut Well... You can make then read-only.
+https://github.com/ngaut/log/pull/1

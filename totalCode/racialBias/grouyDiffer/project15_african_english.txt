@@ -1,0 +1,1905 @@
+@karim @chrisjlocke Would either of you have the time/interest to make something suitable? :smile: "Its wacky and its weird and unlike any other feature you've used."  😉  https://github.com/sqlitebrowser/sqlitebrowser/wiki/Resizing-Columns Awesome @chrisjlocke.  Just added a link to it from the front page too. :smile: Oh yeah, forgot about that.... doh.  🦀  Probably close it for now.  We're swamped with issues as is, so cutting down on the non-major ones for a while is probably not a bad idea. :smile:
+I'm wondering if it's a side effect from b7cd1c7dbd0606d12f6b2ab31451760b39cac82f somehow. :smile: I'll have a go tomorrow... certainly ones from early May were OK.  Yes, nightlies from 18 May and 19 May worked fine.  The nightly from 20 May exhibits the above crash.
+I guess the button labels are slightly misleading...
+from Tags
+@ulascanerturk In this case just delete ```/usr/local/bin/sqlitebrowser```. That's the only (important) application file that was installed.  ### Details for the issue
+- [x] DB4S is a bit weird
+@MKleusberg ?
+@ankushbbbr As a thought, since you're using a really old version of our program, would you be ok trying one of our latest nightly builds and let us know if the problem still seems the same?
+* https://nightlies.sqlitebrowser.org/win32/ This is somewhat related to #1005 and might be solved with just the same fix. @ankushbbbr No worries at all. :smile:  In email conversation with @h4yn0nnym0u5e, one somewhat frustrating thing that can crop up when using DB4S (manually, in the "Execute SQL" tab) is getting a join wrong, and the result set tries to return a huge number of rows.  eg 1.6 mill rows
+We may need to define something custom for binary/BLOB importing anyway, just so it can be done in the (rare?) cases it's needed.  eg for importing DBHub.io CSV exports that have binary/BLOB data in them If a value of 33 is detected, do you class that as an integer or a real?  ;)
+@MKleusberg ?
+Just thinking that might be helpful for debugging. :smile: Yep, definitely interested, that would really help. :smile: I've just prepared a test database containing two long lorem ipsum views. ```xx``` is one long line, ```yy``` are many lines. Not sure if they are long enough though. For both views it's struggling (```xx``` prints one long empty line as a tooltip, ```yy``` fills the entire screen with its tooltip) but I never get the weird output from your screenshot.
+From memory though, those instructions might be a bit out of date.  I think (without trying it recently), the command to run is "qmake" not "cmake".  You might need to experiment a bit... :wink: I've added an item related to this for my ToDo list for this week.  For that I'll update our Linux compile instructions, and also figure out the environment variables (or whatever else) is needed for using a custom installation of SQLite or SQLCipher: https://github.com/sqlitebrowser/dbhub.io/issues/32 No worries. 😄
+qmake
+cmake ..
+What's ADB?
+That being said, it's sounding like there's a bad interaction with DB4S + WAL + ADB.  We might be the culprit, or we might not (no idea).  At least there's a workaround for now though. 😁   Hi @kyliostricor, when you say "flipped" that's a bit unclear.  Are you ok to take a screenshot? As a thought, is there any chance you've clicked on a column header in the Browse Data tab?
+@treddy73 When you've got it worked out, are you ok to close this issue?  (am just trying to keep the open issue count not completely out-of-control :wink:)  Thanks @NF1198, that's good info.  Foreign key stuff is directly of interest for @MKleusberg, so he'll likely dig into it in the next few days. :smile: Out of curiosity, is the data set which triggers the crash public?
+First, what's "RIT"?
+@ofelius ping?
+I'll add the sqlb_uk_UA.ts file in the next few days.  Did you base the translation upon our latest development code (eg our "master" branch), or upon something else? I'm attempting to get this working in a branch here:
+&nbsp; &nbsp; https://github.com/justinclift/sqlitebrowser/tree/ukrainian
+- [x] CipherDialog.ui
+![screen shot 2017-04-04 at 13 30 35](https://cloud.githubusercontent.com/assets/406299/24661533/8672bafa-194a-11e7-902d-6680cfc3a9b7.png)
+***Note*** - This next dialog is for exporting to JSON.  There was a bug with the code, so the window title said "CSV" instead of JSON.  Fixed earlier today. :wink: ace89f124d143fb7e594f16b399a35df8059f436
+![screen shot 2017-04-04 at 14 41 05](https://cloud.githubusercontent.com/assets/406299/24661349/0d4d771e-194a-11e7-9c9a-7c94e1bedeba.png)
+- [x] Various other dialogs
+https://github.com/justinclift/sqlitebrowser/tree/ukrainian_version2
+Try one of the nightlies here:
+Does pressing Tab change the focus?  I've not got a Mac to test this on. It's probably not a bad idea to include some shortcuts for switching between tables via keystroke. :smile: @rodrigozanatta It's unlikely to happen in the next fortnight.  Our main developer for DB4S is on holiday for a few weeks, and I'm working on server side stuff in a different language completely. :wink: Still on holiday, so just a quick note from my side: I think we already have exactly what you're asking for, @rodrigozanatta :smiley: When you're using a recent nightly build you should be able to switch tables using the ```Ctrl + PageDown``` and ```Ctrl + PageUp``` shortcuts. Awesome.  Thanks @MKleusberg. :smile:  That's strange.  DB4S asks for a password when it can't recognise the file as a database, so it assumes it's an encrypted one.  Thus the "what's the password?" dialog. :wink:
+I would, but my headspace is a long way from Qt/C++ at the moment. 👼  Looks good :smile: Thanks a lot for this, @dridk :+1:   Interesting.  Sounds like our transaction control bits are/were interfering with setting pragmas.
+@zhanghedr Interesting.  That's the first time a problem like this has been mentioned.
+So I'm wondering what sort of logic I could implement to support your case (maybe even ignoring collisions) but also to not screw it up for non-random default values :smiley:  Are you sure Android is looking at the right place?  sqlite is a bit 'weird' in that if it can't find the file, it tends to create a blank file.  The file structure in Android is also quite 'involved' with quite nested 'directories'.
+@awi1369 Was that with version 3.9.1?  If so, do you have time to try our latest nightly build?  The behaviour may be different in that. :smile:
+2) And what do you get when you open this file? [test2.txt](https://github.com/sqlitebrowser/sqlitebrowser/files/735963/test2.txt) It's the same file but with a Unicode BOM added.
+Hmmm, that's weird.
+I'll give it a go now. For the SQLCipher build it's implementation gets used for both encrypted and non-encrypted databases.  So yep, you're probably right.  Lets experiment a bit with the build script now and figure out what does and doesn't work. :smile: @pmoorelegistek @aludee Do you have time to try these out?
+I can only apply little fix that prevents crash right now. Cool, sounds like progress in the right direction. :smile: Yeah, I don't there is much more that we can do right now. In order to support the foreign key tooltip + shortcut for queries in the Execute SQL tab we'd have to parse and understand SELECT statements and those can become quite complex. We'd need a mechanism to track which column in the results table comes from which column of which table in the database. It's the same effort that's needed to implement editing in the results view (see #393, and #141 as well). @MKleusberg Should this be closed then?
+http://fossil-users.fossil-scm.narkive.com/muAXYMCp/problem-accessing-shared-folder-in-virtualbox
+Note - This is a cheating approach, but it works 😁
+@karim Can you test tomorrow's nightly build to see if it's working for you? :smiley: @chrisjlocke Any interest in updating the Filters page on the wiki with this new operator? :smile: Just updating the wiki, but ... well, its not working for me....
+Changing it to integer works as required.  (`*flushes head down toilet*`) No worries, it took me some time to figure this out, too :smiley: And it wasn't even the first time this confused me :wink:  Thanks for reporting this.  I'm pretty sure someone else has mentioned this happening to them a few months ago too, but I'm not finding the bug report about it just yet.
+Yeah, we kind of do already.  We first try to detect if it's a database file, and if it's not recognisable then we assume it's an encrypted file instead.  So, we then pop open a dialog asking for a password (etc).
+Is there any chance of a copy of the database causing issues? If it is just the schema, then the data can be removed from the database. @iseldonz This sounds very much like a problem with our SQL parser. As @chrisjlocke said, it'd be best to have a look at your table schema. It's sufficient to just have the schema, no data is required. What you can do is to open the database file in DB4S, click the text in the schema column for a not working table, hit Ctrl+C and paste it here in Github. Should be easy for us to fix it then :smiley:
+@zayass Would you be ok to try both of our latest nightly builds, and check if either of those work without crashing?
+Personally, I think the one without encryption is most likely to work.  It could be the encryption library in the other one is behaving badly on your system for some (as yet unknown) reason. But the crash happens in our code (see the first line in the call stack):
+In that function (DbStructureModel::rowCount) some pointer casting magic happens, so maybe the crash happens because of that. Ahhh.  Completely didn't see that. (!) @zayass, Could you share the database with us if it's not private? I can't reproduce it with a ~1 week old nightly.  Well, that's different. :wink:
+I'm kind of thinking it's likely a bug in VirtualBox that's being triggered by some weird edge case.
+Random things to try, that might start to show the shape of the problem:
+On a different tangent, are you ok with compiling things from source code?  It'd be interesting to see if using a version compiled locally in the VM itself has the same problem.  Just in case it's caused by some weird mismatch in (for example) the Qt libraries on your VM vs the system it was compiled on.
+I guess it comes down to... how much effort are you willing to spend to investigate? 😀  @innermous Yeah, it's more likely a Qt issue related to some weird virtualbox bug.  It doesn't mean we should ignore it though, as it *is* obviously affecting DB4S. @jlmcgraw Definitely try compiling DB4S (our abbreviation for sqlitebrowser) on the VM.  I'm *hoping* :smile: it's a weird interaction between VirtualBox and the Qt libraries of the system it was compiled on.  If that's the case, then using a version built on the VM has a reasonable chance of working. @jlmcgraw It's very late in my TZ, so I'm hitting the sack in the next few minutes.  I'll take a look at this issue again tomorrow and see if you've made any progress.
+Is there any chance you can whip up a small dummy database which also crashes, so we can see if it crashes for us too? Hmmm, when you say "standard password protection built into SQLite", that confuses me. :smile:
+Maybe it's a new thing, just recently added? > Hmmm, when you say "standard password protection built into SQLite", that confuses me.
+https://www.zetetic.net/sqlcipher/sqlcipher-ado/ Thanks @chrisjlocke. :smile:
+I'll have a play with it.  Not a huge issue (as fields should be unique
+prefixed. I'm waffling, but sometimes its a pain.
+I've started playing around with this a couple of days ago, too, and it looks like this is a bit more difficult. In the grammar file you'll need to add the VIRTUAL and the USING keyword, but also add some branch for parsing the slightly different syntax of those virtual tables. In our grammar code (in src/sqlitetypes.cpp) there's more work to be done, though, to actually interpret and store the new information. I have added basic support for virtual tables to the grammar parser. It's still a long way to go from here because browsing and editing those tables still doesn't work as expected. But at least the ```Sqlite parse error``` is gone. You can check out the latest version in master and test yourself. And there's still a lot of work to do for better support of virtual tables, so I still want to encourage you to look into this :smiley: If you need any help just post here, write me an email, or post on Gitter. I've just added some code that should make it possible to browse virtual tables. Depending on the virtual table function it should also be possible to add and remove rows and edit cell values. The only thing that doesn't really work at all is editing the table schema of virtual tables, but I guess that's fine for now. Are you interested in giving tomorrow's nightly build a test, @ghellquist? I guess if it works for you we can close the issue :smiley: Same for you of course, @bagage! :smiley: You can check out the latest version from master and compile that again. The warning should disappear and the application should work much better with virtual tables in general.  Does this help?  https://github.com/sqlitebrowser/sqlitebrowser/issues/395#issuecomment-269245184 Guessing you've also tried the basic things like looking for different (eg newer or older) ATI graphics drivers? k, I'd be suspecting something is weird with the graphics card drivers themselves, so that'd be the first thing I'd try changing around if you haven't already.
+Out of curiosity, which SQL variant are you used to which includes them? :smile: Looked into this a bit more.  It turns out [we include a regexp() operator with DB4S](https://github.com/sqlitebrowser/sqlitebrowser/commit/6d1a874f8077b859bee2dd9d4031f242cfa1e807) (I'd forgotten), which should do similar to what you're after. https://github.com/sqlitebrowser/sqlitebrowser/issues/215#issuecomment-77548926
+One caveat - if it turns out we need to do tricky development stuff just to keep XP support working, that's also a case we might need to just drop it. Ahhh, it might be a moot issue then.  There's some stuff in Qt 5.8 which I'm hoping fixes an OSX network communication issue (not sure yet though).  If it doesn't, then no worries we can stick with Qt 5.6. :wink: @urmommaz - DB4S is open Source, so if its such an easy task to support XP, you're more than welcome to code away and give us pull requests.  We can then merge those into the product.
+With the CoreData error you mention, what's the situation where it happens?  (just trying to understand the perspective you're coming from better) :smile: Hmm, that's not difficult to add but I wonder why it would be needed. In the Execute SQL tab you can type in whatever SQL statement you'd like. So I assume you don't mean that part of the program. And in the Create Table window, why would you want the ```IF NOT EXISTS``` bit? The statement wouldn't fail anymore but nothing would happen and you wouldn't even get an error message. I just imagine working on a table definition and, by accident, typing in the wrong table name, clicking OK, and all the work is lost :wink: Or maybe I'm missing something :smiley: Can you explain a little more, @Qlogic? Well, if cut-n-pasting the output of some sqldump type of backup commands, they often generate `CREATE TABLE IF NOT EXISTS` style output.  So this would be useful for handling that without needing people to manually edit the SQL.
+Bizarre it hasn't been picked up before now!
+As a thought, it seems like it'd be pretty strange to have Ctrl+s do things differently on the Execute SQL window.  It's not unusual to run SQL which changes the database (eg update statements), so wanting to "Write changes to disk" (Ctrl+s) after that is fairly normal.
+The max number of lines is now set to 30. This should improve the usability quite a bit, I hope :) Can you test one of the next nightly builds to check if it's working for you, @UweKeim? :smiley: @MKleusberg Should we make it configurable? Nah, it's probably not worth it. I don't think many people would edit that option anyway if we had one. If somebody does complain we can still add it easily :smiley:  No worries at all. :smile: I downloaded the 04/01/2017 nightly and for me, the dropdown goes fullscreen, even bigger than the window (which I like). Does that 30 limit have effect only on Windows? @revolter No, that should work on all platforms. I've tested this on Linux and it worked, too. :smiley:
+@UweKeim Thanks for the quick reply! I'm glad I could help :smiley: Closing this issue then. @MKleusberg, So, then, isn't it a bug that it's showing more than 30 tables for me? @revolter Sorry, you're right! That value applies for Windows and some Linux configurations but not for OS X. On OS X it seems to be impossible to manually set the number of max visible items in an easy way. See [here](https://doc.qt.io/qt-5/qcombobox.html#maxVisibleItems-prop):
+Can you try tomorrow's nightly build, @AndreasMartin72? I've just changed the error handling code a bit but I'm not entirely sure it affects your problem. Still, it's worth a try :smiley: @abbasshah17 Hard to say what's the problem there. We have no chance of finding out what exactly is wrong when failing to open an encrypted database. What sort of Android app are you using? Maybe we can find out what encryption settings they are using. @OmgImAlexis Interesting.  Does it still happen with our recent nightly builds? Oops, I should have included it. :smile:
+They're ordered by date.  There's a build that includes encryption, and one without.  If your database isn't encrypted, then either will be suitable for trying out. Excellent @OmgImAlexis. :smile: @AndreasMartin72 Ping, did you have time to try out a recent nightly build? 😄  @abbasshah17 Did you ever get this fixed? Closing this due to lack of response. No worries. :smile:
+@pirelaurent Would you have time to try our latest nightly 32 + 64 bit builds, and let us know if they still have this crash problem?
+@dmscheck Hmm, that's definitely weird.
+This all lives in the HKCR\ leg of the registry
+> datatype mismatch
+else
+if(code)
+else
+else
+else
+```bash
+@MKleusberg What do you reckon?
+Awesome @compengi, please "make it so". 😁 :
+2. Change Pragma setting
+(that one was a mix-up of 32 and 64 bit dlls)
+@dsimcg Good news.  The nightly builds on Windows - both with and without encryption - now include the FTS3, FTS4, FTS5, and JSON1 extensions.
+![screen shot 2016-10-20 at 16 49 15](https://cloud.githubusercontent.com/assets/406299/19567403/68852aba-96e5-11e6-8f7a-fa9ac371f392.png)
+/off-topic
+GFW?  *blank look*
+Global Force Wrestling?  Great Furry Wombles?  Grey Ferocious Weasels?
+@firstrose I have just moved the "nightlies.sqlitebrowser.org" web server to a new data centre, and it's also now using HTTPS.
+![image](https://cloud.githubusercontent.com/assets/7872218/19605147/69beabba-97b0-11e6-8107-b34246436be2.png)
+qmake
+@ergovia-mobile Interesting.  Was that just now?
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qhash.h:72:52: note:   no known conversion for argument 1 from ‘const QVector<QSharedPointer<sqlb::Field> >’ to ‘ulong {aka long unsigned int}’
+Maybe there's a C++11 setting not being picked up?
+What kind of sleazy bullshit from the Qt team is that? ☹️
+I liked Qt Creator right up until this point.  No longer a fan. ☹️  @ergovia-mobile If you download [Qt 5.7.1 from qt.io](http://download.qt.io/official_releases/qt/5.7/5.7.1/qt-opensource-linux-x64-5.7.1.run), then compile through Qt Creator (open the sqlitebrowser.pro file with it), things compile fine.
+Adding `-DFORCE_INTERNAL_QSCINTILLA=ON` (as per Martin above) to the CMake line works:
+$ cmake -DFORCE_INTERNAL_QSCINTILLA=ON
+@rvalk Ahhh... it sounds like there's a small misunderstanding with how databases work.
+@rvalk Cool. :smile:
+| 1 | abc | def | ghi |
+| 2 | jkl | mno | pqr |
+@rvalk I understand.  It's a pain that this has changed from your point of view. 😦
+http://sqlitebrowser.oldsch00l.com/sqlitebrowser.exe.zip
+Kind of thinking that might be a useful workaround for now.
+@agarny Thoughts?  Does the latest qscintilla release solve the problem properly? :smile: @MKleusberg Ugh... it seems like QScintilla have switched their codebase to be GPLv3 ***only*** with no prior warning (?): https://github.com/opencor/opencor/issues/1301
+I don't even understand why is this happening :/
+CREATE TEMPORARY TABLE tmp AS SELECT total_vol, jname FROM jhem, jdata WHERE jhem.jid=jdata.jid ORDER BY total_vol;
+@struck89 Sorry to hear that you're unemployed now :crying_cat_face: But thank you so much for opening all those issues concerning the plot feature :+1:  We'll try our best to implement those features one by one in the near-ish future.
+Ahhh, so the black on black thing wasn't just a one-off something.  Seems like there's something about Sierra which is triggering it.
+We'll probably need to raise the priority of it then, as Sierra is now in use by people.
+Bitstream Vera Sans Mono seems to be available here:
+Here is Bitstream Vera Sans Mono on 8pt:
+`Lucida Grande @12px` on MacBook Pro Retina:
+Error message, or something else?
+@whamsy That's a little bit unclear.  Are you meaning for DB Browser for SQLite (DB4S), or for a different application? :smile:
+To change the font size for the Browse Data tab, go to `Preferences` → `Data Browser` → `Font` → `Font size`:
+Ironically... I didn't know/remember about the <kbd>⌘</kbd>+<kbd>-</kbd> key combination. :wink:
+@afbpinheiro- irregardless of the number of rows, have you fields containing a large amount of text? (> 30,000 characters)
+@afbpinheiro Just to check... does it speed up if you choose a smaller number in `Preferences` → `Data Browser` → `Content` → `Symbol limit in cell`?
+@mafagafogigante Manually did it, using a really old version of [Snag It](https://www.techsmith.com/snagit.html). :smile:
+- Row 2 = red
+- Row 3 = magenta
+@revolter Sounds workable to me.  Want to get it done? :smile:
+Should this be a #hacktoberfest thing?
+@struck89 The speed stuff gets done at can be fairly arbitrary.  If something looks interesting to muck around with, the chances of it getting done sooner are much higher than stuff that seems super boring. 😉
+@revolter Maybe look for an algorithm which determines "colour distance"?  eg how much difference there is between two given colours
+The "downloads" link there has a list with 165 palettes.  If desired, we could get pretty fancy with things. 😀   ### Details for the issue
+Asking because <key>alt</key> + <key>backspace</key> behaviour isn't one I'm familiar with.  Kind of wondering if maybe it's zsh specific or something? :smile:
+As an initial thought, I'm kind of suspecting it might be related to QScintilla.  Other key binding stuff seems weird when on the Execute SQL tab, so this might be related.
+Awesome!  You're welcome @mrexodia. 😀
+Could be, but the title doesn't say 100% what the problem is, so we need a reply from @kokoar to know for sure.
+-q, --quit        Scriptleri çalıştırdıktan sonra programı kapat
+Thanks @firateski, merged. 😁
+As a thought, what happens if you try qmake instead of cmake? eg:
+For us, CMake seems mostly useful on Windows, with qmake more useful everywhere else.  And I have a bad habit of introducing Windows-isms to the CMake config. 😦
+Awesome, thanks @lulol. :smile:
+@MKleusberg is this of interest to you?
+Excellent @progh2, thank you. :smile:
+Spaseebo!
+Thanks. Spaseebo indeed then. :smile:
+Fantastic @lulol, thank you very much. 😀
+Well, that definitely sounds like a bug. :smile:
+However, none of these are related to CSV. The one mentioned by Iulian was the only one that was happening during the actual import. But it happened only once - after creating the new table - and didn't leak enough memory to be noticeable at first. Other than these, there are no memory leaks reported by Valgrind (well, except for a smaller one in QHexEdit). So this might just be caused the behaviour of the memory manager of the operating system but I'm not sure.
+@gjijon Which pragmas do you mean? All of them, including e.g. the ```user version``` pragma? Or just some of them, e.g. the ```foreign keys``` pragma?
+The reason I'm asking is that some pragmas aren't stored in the database file at all by SQLite, they are only saved for the current connection. So closing and opening the database again will reset them. Foreign keys are one example. In this case that's just the way SQLite works. Others are stored permanently in the database file, for example the user version. If these aren't saved either, then it's definitely a bug in our code :smiley: Closing due to lack of response. ☹️   Ahhh, that's interesting.  We did make some changes to the cut-n-paste code, so this is definitely useful feedback.
+tab = Tabs::PragmaTab;
+It's nonsense, you are doing something wrong.
+tab = Tabs::PragmaTab;
+???
+@innermous Hmmm, is there any way that the load of a database could remove the capture of keystrokes?  eg breaking the keybinding, or changing the object behind it or something
+Some people like having their picture on things they do.  It's a different form of giving recognition.
+Heh Heh Heh
+Is there anything strange or unusual with your table structure?  Are you able to share the database, or it's structure with us, so we can try to replicate the problem?
+"shaddup."
+Yeah, we do see a number of unusual messages like this on the output.  Some seem to be generated by DB4S, and others generated by Qt itself.
+That does seem odd.
+No worries at all.  And yeah, that sounds like a weird one. :wink:
+Yeah.  Sorry about this @aludee
+The exact code I used is here:
+Heh Heh Heh 😈
+So if it's a C++ issue and not related to Xcode 8, why does it build in Linux?
+@ilovezfs Thank you heaps. 😀
+@revolter Sounds good. :smile:
+@ilovezfs, btw, ilovebrew! I really do ❤️
+@ilovezfs No worries at all. :smile:
+@revolter You up for it, or should I?
+@revolter No worries, I'll get it done. :smile:
+Initial communication to upstream QScintilla in progress:
+@agarny Sounds like yours is the way to go then. :smile:
+@elyorm Thanks for reporting it, we will need more info though so we can investigate. :smile:
+@elyorm ping?
+@elyorm Is it happening every time you click `Open Database`?
+I've set it to weird paths, wrong paths and even 'cannot access' paths.  It'll default to the program directory if it can't.  A 'cannot access' path correctly comes up with a warning.
+@elyorm We need more info in order to reproduce this.
+@elyorm @drescherjm Would you have time to try our latest nightly 32 + 64 bit builds, and let us know if they still have this crash problem?
+I wonder how people find these bugs... I thought I am the special one.
+@mafagafogigante Martin has just added a fix for this to the master branch in git.
+Awesome @mafagafogigante!
+Awesome @mafagafogigante, thank you. :smile:
+Excellent, merged. Thanks for keeping on top of this @mafagafogigante. :smile:
+Ahhh.  I was asking a different thing. :wink:
+When you say "on blur", what do you mean? :smile:
+Note in case it's useful, the above is a mash up of these two:
+==> Using the sandbox
+You're welcome @pbtura. :smile:
+Switching to the 'Browse Data' tab creates 5 SQL queries (2 of which are possibly superfluous, but may not be) or possibly more, if the connection has closed ... is this a point of delay for you?
+@abhilash1in Just to check, which version are you using, and which OS is it running on?
+@abhilash1in As a thought, do you have the "Edit Database Cell" panel open?  If so, see if turning that off makes a difference.  If it doesn't something else to investigate is this:
+Will try with BLOBS, as that seems to be the performance 'issue'.
+Obviously, if you're storing 300 KB pictures in a database (as per @abhilash1in) this would explain the even longer delays.
+@abhilash1in can you send me a copy(or just a part) of database? That's needed to localize the trouble.
+@abhilash1in alright, thanks.
+What's surprising me - paging is not helping much.
+@abhilash1in 173 is memory taken by rows displayed on your screen.
+@abhilash1in just adding limit. Partly solves the problem, since table still needs lots of performance improvement (not mentioning filtering and sorting, those will just hang the app when using such a big data).
+@abhilash1in did it work for you?
+> @chrisjlocke the memory usage is a bit strange! Was it with the bloat1, bloat1b or with the original one I shared?
+It was mine, but I was playing with various tabs in the 'Execute SQL' tab, so each tab was using another 300 MB of memory.  Task Manager showed the .exe was only using about 200 MB, so Windows was using it elsewhere...
+@abhilash1in Did you have a chance to try out the latest Windows nightly build?  (if it helps, the download locations are listed on our front page)
+@MKleusberg because I set minimum to 1k :)
+Thank @jungle-boogie.  It's likely the result from changing CMake config in `master` branch yesterday.
+@MKleusberg As a side note... noticed something strange when testing with the old maximum (typo) value of "8092".  On Win64, encrypting a database with a page size of "8092" (not 8192) seems like it goes ok.  However, when re-opening the encrypted database (using 8092 page size), DB4S crashes.
+``` diff
+index 42c9b1f..aa202b9 100644
+PRAGMA foreign_keys = "1";
+PRAGMA encoding
+``` diff
+PRAGMA foreign_keys = "1";
+PRAGMA encoding
+PRAGMA foreign_keys = "1";
+PRAGMA encoding
+``` diff
+PRAGMA foreign_keys = "1";
+PRAGMA encoding
+``` diff
+PRAGMA foreign_keys = "1";
+PRAGMA encoding
+PRAGMA foreign_keys = "1";
+PRAGMA encoding
+@MKleusberg ahaha :smile:  I was just saying.
+@karim is `font` value empty in your .conf file, after you click OK? It's just `font=` right?
+@karim I am not a windows user...
+@karim Try this one out: :smile:
+@karim We can probably get this properly fixed (eg with the Execute SQL one too) in the next day or so.
+@karim If you have a few minutes, would you be ok to try this build out?
+Thanks for pointing this out @geoffblack, that does look like a bug related to #744. :smile:
+@geoffblack Interestingly, this does seem to be already fixed in our latest development code. :smile:
+Heh Heh Heh
+Is the database you're doing this on private or sensitive?  Asking because I'm wondering if you could maybe email it to me?  That way tomorrow I'll try and get the problem to happen for me, so we can fix it. :smile:
+The corruption you describe, is (I think) what would happen if the newline characters are completely missing.  When them missing, the Import dialog just sees everything as one big line and doesn't know where they each end.
+It'll just take some experimentation to find out exactly what's wrong, and fix it.
+@goozak Would you have a few minutes to try out this build?
+@goozak There doesn't seem to be any good way to have the uninstaller abort if the files are in use, or even mark them for removal with the next system restart. 😦
+I'll bear them in mind later, when I next need to dig into the installer again. (unfortunately, it's not standard NSIS, we use a combination of CMake/CPack to drive NSIS.  Turns out that's painful for adding things onto 😦 )
+Here's a task for all who want to contribute but don't feel ready to start C++-coding.
+This only seems a recent 'breakage'...
+`dinDang real,`
+`diddleIDo text);`
+Thanks @lulol, that's fantastic. :smile:
+@Disactive Looking at the website, it seems like an alternative approach to opening SQLite files.
+What does the "protected with RS" bit mean in your request? :smile:
+Protective Master Boot Record (MBR :: verified   CRC32 $252B40D3
+Judging by Sierra's flat out inaccuracy above... it might be best to wait for a few more betas... :wink:
+Thanks, @MarqueIV. :smile:
+@MarqueIV Ouch.  Yeah, that doesn't look great.
+As an alternative thought @MarqueIV, would you be interested in building DB4S to investigate?
+Ah @revolter was faster ^^
+@MKleusberg That Null thought is interesting.  Maybe we should adjust our code to detect that, and if it's Null then return the default value instead?
+For Windows and El Cap, it doesn't hurt to check.  Personally, I'm not expecting those to have the issue, but heck since you're offering to try them out "why not?". 😃
+@MarqueIV, @highPlainsSailor, @compengi, @brozikcz - That might be of interest to you as well. :smile:
+@nkahnfr Would you be ok to try one of our recent nightly builds and see if that makes a difference? (download location is listed on the front page of this project, if that helps) But maybe there is a bug that caused `@Variant(` to be saved instead of an actual color. Thanks all. :smile:
+- [x] CipherDialog.ui
+Thanks @progh2. :smile:
+With the other translations, it's been either one or the other, so the mix is a bit strange.  If that's the best way however, it's fine here. :smile:
+- [x] CipherDialog.ui
+http://screencast-o-matic.com/watch/cDjDQLiLuz
+Heh Heh Heh 😁
+This is a strange behaviour I haven't seen before.  Hopefully it's just a minor string problem or something, rather than a problem in our code.  I'll take a look later today, to see if I can figure it out.
+- [ ] CipherDialog.ui
+Awesome @mafagafogigante.  I'll double check shortly, then take a look at the missing menu option.
+The cause of the missing menu item for `Set Encryption` seems strange.
+&amp;Set Encryption
+15:50 <@peppe> because the default is doing that kind of weird heuristic, which is backfiring in your case
+`peppe` on IRC was correct.  Setting the "Menu Role" to `NoRole` for the the "Set Encryption" string (but translated) works fine.
+@mafagafogigante Should I merge this into our code? :smile:
+Thanks heaps @mafagafogigante. :smile:
+There are a few strings I'm not sure of though:
+- [x] CipherDialog.ui
+- [x] CipherDialog.ui
+![screen shot 2016-08-14 at 19 37 56](https://cloud.githubusercontent.com/assets/406299/17651086/ab41ecee-6256-11e6-922f-7afad50db388.png)
+@kimbar With "Behaviour as expected"... is that "bug still present" or "bug is fixed"? :wink:
+@innermous You're off by a day. :wink:
+@innermous No worries. :smile:
+Sorry @innermous. 😦
+- [x] CipherDialog.ui
+![screen shot 2016-08-10 at 19 31 33](https://cloud.githubusercontent.com/assets/406299/17565884/1abaca92-5f31-11e6-91ab-e947c985f7e7.png)
+With the  _"Ficheros de"_ problem (and the others in the same dialog), it sounds like it could be a problem in Qt4 then.
+@lulol why would you do that?
+Heh Heh Heh
+@innermous Hey look... squashed commit! 😋
+@lulol No worries at all about the Translators team thing.  Some people care about it, some don't.  And it doesn't hurt the project to give people the option. 😁
+@lulol Sorry, I didn't get around to investigating this stuff today.  Instead, I learned how to sign our builds on OSX, then updating our nightly build system scripting to do it automatically.
+@lulol Looking at this now.
+@lulol What do you think, is it best done for 3.9.0?
+@lulol Thanks. :smile:
+Fantastic @lulol, thank you. :smile:
+@lulol Yeah, it's one of those tasks that sounds big enough to be literally worrying.
+No worries @lulol.  Thank you for taking the time to investigate this deeply. :smile:
+Thanks @lulol, that's great. :smile:
+Code which seems to have this problem:
+Additionally, these two have the problem, and are also missing `tr()` around them:
+- [x] CipherDialog.ui
+![screen shot 2016-08-10 at 16 01 09](https://cloud.githubusercontent.com/assets/406299/17558783/ae7fc49e-5f13-11e6-8a91-3160d612adda.png)
+Yes, that's not supposed to happen. 😦
+The concept of a foreign key with "0 index" is confusing me.
+@schdub ping? :smile:
+@eeinfalt ping?
+Four strings on the main window seem untranslated:
+I can put them back (the "&amp;amp;") if that was an incorrect thing to do?
+- [x] CipherDialog.ui
+Thanks @SafaAlfulaij, that's perfect! 😁  👍
+@SafaAlfulaij The newest commit has added two new lines of text, both of which could be seen fairly often by users.  Would you be ok to translate them to Arabic?
+@bakercp 👍
+Yeah, it's weird.  However... this seems to work.
+@revolter Are you ok to test this on your retina display when you get back in front of it?
+@SafaAlfulaij, Looks like the `QHeaderView`'s height is equal to the filter widgets' heights. Did you try just removing the `5` and `2` additions? It should work too.
+And there are now double borders.
+Hmmm, looking at this again on non-retina OSX, the filter heading (using the code for this PR), does seem a bit too short after all.  For example, the third field is DonegallQuay  The "g" and "y" have their lower pieces cut off.
+Ouch.  Yeah, that definitely looks _wrong_.
+There's a weird grey line showing up here:
+@thiagosantos As a side question... would you have time to try out our latest nightly build?
+However, unlike other changes this one won't be in the next nightly build as our nightly builds are still based on Qt4 which doesn't support JSON... If you use Windows, @thiagosantos, then @justinclift might be able to build a once-off for testing purposes. If you are a Mac user, I think you actually can use the normal nightlies :smiley:
+Tried with 3 different tables, actually.
+@innermous You ok to review this? :smile:
+Good job, @SafaAlfulaij .
+@glawrence, What do you mean? Was the badge image missing for you?
+I normally use DB4S to create my databases, and when you create a new table, DB4S uses grave accents around each identifier.
+However, the 'create table' window at the bottom of the 'Modify Table' dialog still uses grave accents.
+So the schema column looks great,  Modify the table, and the 'create table' textbox in the dialog is using solely grave accents.  Save the table, and the schema is a mix again.
+@revolter Cool.  Hadn't come across qpm.io.  Looks useful. :smile:
+- Translation of strings would probably be less complicated (eg #643)
+@SafaAlfulaij Well, that probably explains a few things. :wink:
+@SafaAlfulaij Thanks. :smile:
+@innermous That's a bit confusing.  When you say "shortcuts that _can_ be changed", are you meaning some shortcuts can't be?
+Heh Heh Heh
+@innermous, Where did I say that?
+@revolter
+Just because 'Ctrl' isn't in the right case, it throws a wobbly.
+@thiagosantos I'll go and add it to the script for the nightly builds on OSX now. :smile:
+Oops.  Just realised that the "3.9.0 beta1" build released today for OSX didn't include the JSON1 extension.
+Heh Heh Heh
+Cool, that sounds easily doable then. :smile: @bhj @thiagosantos @slidertom @DjPasco Good news.  The nightly builds on Windows - both with and without encryption -now include the FTS3, FTS4, FTS5, and JSON1 extensions.
+![layoutdirectionauto-arabic](https://cloud.githubusercontent.com/assets/406299/17247494/89cea73c-558b-11e6-834b-f18e803e3df6.png)
+![lefttoright-arabic](https://cloud.githubusercontent.com/assets/406299/17247517/ac5dea06-558b-11e6-87fd-f2a884a82ae6.png)
+![righttoleft-arabic](https://cloud.githubusercontent.com/assets/406299/17247527/b9db3850-558b-11e6-842c-9a51f3603227.png)
+### Arabic
+![setlayoutdirection-rtl-arabic](https://cloud.githubusercontent.com/assets/406299/17247969/ff632182-558e-11e6-8313-c4ee8e7de581.png)
+Heh Heh Heh
+Wow.  Yeah, that's a new one on me to.
+Something doesn't seem right. 😦
+Out of curiousity (as works fine here) @MYeager1967- if you bring up the SQL log (Ctrl L) when you click the refresh button, does the log window populate?  (lines numbers on the left should increase)
+@jtara, I didn't understand your last part. I am using DB4S for SQLite databases inside iOS apps running in simulator too. But I don't need to mount anything. The app's Documents folder is just a regular folder at a weird path.
+@jtara, I know, I'm using simPholders too, but not simPhuse though. And, indeed is strange that it didn't work.
+This definitely sounds like one of the stranger bugs. :wink:
+If you can get the problem to occur again (eg try trying on simPhuse with it), it'll be helpful for tracking down the cause then figuring out a more proper fix. :smile:
+Which extra extensions do you reckon would be useful? :smile:
+:confounded:
+Apparently this happens for languages other than Arabic (eg [French](https://github.com/sqlitebrowser/sqlitebrowser/pull/642#issuecomment-231838973)), which makes it sound like a problem in our code.  Hopefully it's just a setting or something needing to be applied to the strings in the .ui file or similar.
+With this particular issue, I kind of wondered if maybe the punctuation symbols in some strings were doing weird things for the translations.
+Heh Heh Heh
+Should the main caption be translated too?  I presume so.... ?
+Hmmm, the main caption probably should be translated.  I'm not 100% sure though. 😀
+## Arabic
+- foo
+- bar
+- baz
+- foo
+- bar
+- baz
+I assume (in the above example) the bottom 'message' relates to a tooltip, and the line numbers should match.  Slightly confused, as tooltips (translated) seem to be appearing, so didn't want to blindly change line numbers if that didn't matter...
+Having gone through the Arabic and Chinese, and seeing the languages still to go, I'm going to attack this in two 'sweeps'.  First off I'll correct the obvious issues, so its at least presentable, ie, the &amp; mismatches stopping the translations appearing.  This will get the files ready for the planned release.  I'll then go back and thoroughly tidy up.  I've written a quick VB prog to check the .ui and .ts files for mismatches and help locate 'bugs', so they shouldn't be is such a mess as @innermous pointed out.
+Misplaced?
+Progress being made!
+Heh Heh Heh
+Hmm.  Some weird things keep occurring.  Going throuhg the German file for instance, and the captions for the dialogs are appearing in Arabic.
+Oh wow, yeah that's unexpected.
+@SafaAlfulaij Yeah, would be optimal. 😃
+Importantly, people's skill level improves as they gain experience through practise and new challenges.
+- [x] sqlb_ar.ts - Arabic
+- CipherDialog.ui
+- EditDialog.ui
+- PreferencesDialog.ui
+- VacuumDialog.ui
+So, each of the UI's need to be checked for each language.
+## Arabic
+- [ ] CipherDialog.ui
+- [ ] VacuumDialog.ui
+- [ ] CipherDialog.ui
+- [ ] VacuumDialog.ui
+- [ ] CipherDialog.ui
+- [ ] VacuumDialog.ui
+- [ ] CipherDialog.ui
+- [ ] VacuumDialog.ui
+I'll commit later what I've got - I've gone through about 6 languages completely, not just fixing the dialogs.  Green ticks all round in Qt Linguist.
+``` diff
+--- a/src/translations/flags/flags.qrc
+-        <file alias="ar_AR">ar.png</file>
++        <file alias="ar_EG">ar.png</file>
+Guessing you'll keep adding more translated strings to this issue?  If that's the case, just let us know when you're happy with things, and we'll merge it. :smile:
+@justinclift just imo, but in this special case it would be better than a pyle of commits with similar commit messages. Especially if you brought force push immediately before anyone ever fetched changes.
+Well, that definitely sounds like a bug. :wink:
+@revolter Looks like we still have the problem then. 😦
+@innermous Is this related to #645 ?
+@karim If you try the latest nightly build (download locations are listed on the front page), does it happen with that too?
+According to Stack Overflow...
+Gah yeah... that's exactly the problem.  I remember thinking "Lets build this in Debug mode, the extra info might be useful for any crashes".  Without realising we'd need a debug version of other libraries too.
+Sorry for the troubles.  Our foreign key handing (and constraints in general) needs a lot of work.  So, it's completely possible that you're doing things fine... and the application is just not where it needs to be.
+@uguraba ping?
+Hmmm, that's interesting.  The ANTLR2 stuff is part of our source code.  We bundle it with the rest of our source here, and it's **supposed** to be found automatically by cmake.
+Just as a curiosity thing, what happens if you run qmake instead of cmake?
+With cmake, it kind of has a macro like language, so the  "if(NOT ANTLR2 ..." clause you're talking about [here](https://github.com/sqlitebrowser/sqlitebrowser/blob/master/CMakeLists.txt#L35-L38) shouldn't trigger, because it's coming after this line [here](https://github.com/sqlitebrowser/sqlitebrowser/blob/master/CMakeLists.txt#L29):
+find_package(Antlr2)
+&nbsp; &nbsp; https://github.com/sqlitebrowser/sqlitebrowser/blob/master/cmake/FindAntlr2.cmake
+Yeah, that does sound kind of weird. 😦
+@PSE-AG How did this go?
+@PSE-AG Any luck with this? :smile:
+With the `ANTLR2` warnings, there seem to be two distinct paths that can go down:
+With the focus problem, that's interesting.  It's not something I remember anyone mentioning before.  It's probably an unexpected interaction from something... but figuring out what exactly is the next challenge. :smile:
+@shaoran Thanks. :smile:
+Sounds like the focus problem is the same as in #934. But the bi-sected commits mentioned there are from a later date. Maybe it's a connection of multiple things causing this behaviour, I don't know. Either way, if anybody feels like bi-secting this (earlier) problem, *please* do so :smiley:  Interesting.  We use SQLCipher for the encryption.  Is that what Navicat uses? (there are a few different SQL encryption options around)
+@venetasoft ping?
+Gah, wrong button. 😇
+Interesting.  If you commit that code into a branch in your own fork, that would let others compile it pretty easily.  @jungle-boogie may be ok to try it on Linux, and I can also generate a once off OSX build for people to test, if that sounds useful. :smile:
+Thanks @DelphiGit, that's awesome. 😀
+That's weird, I just tried it here (using latest nightly build), and it's working for me.  To minimise the application, what are you doing?  Clicking the orange icon in the top left of the window bar? (that's what I just tried)
+@SafaAlfulaij Cool, that's useful info. 😁
+@innermous Any idea if there's a difference between Qt4 and Qt5 for the resizing glitches?
+@justinclift don't know what are you talking about, honestly.
+@innermous Sorry.  Was typing on a tablet before without really understanding. :smile:
+This should really be fixed I think :smiley: @lvbeck Can you test the latest version (3.9.1 or the nightly builds, whatever you prefer)? I'm pretty sure we quote all names using the ``` ` ``` quotes. Oh no I'm sorry, I was wrong. For the SQL dump we take the CREATE statement as is. This means it's quoted in the SQL export just like it's quoted in the original database. But I can fix that :smiley: @lvbeck Sorry for the confusion :smiley: If you're still interested in this, can you test tomorrow's nightly build and see if it's improving the situation for you? For triggers and views we don't have a chance to do this (yet) but tables and indices should be much better now. No worries :smiley: Just test it whenever you have the time for it. Thank you for your effort! :smiley: @lvbeck ping? @lvbeck Excellent, thanks for checking and letting us know. :smile: @MKleusberg just another tiny feature request, could you please add:
+DROP TABLE IF EXISTS `Tablename`;
+- It's a lot easier to implement for us, e.g. enforcing foreign key constraints: currently we can just send a new cell value to SQLite; sure, maybe it fails but we can handle this error. On the other hand, doing the check by ourselves would involve making queries do the referenced table as well as checking if foreign keys are enabled for this database. Because of this I don't think we can gain any performance here. Because of all the special cases like multi-column keys or the like our code would probably also be more complex than it is now. So in short: more code and no better performance here.
+Thanks @tonypdmtr, that's an interesting catch. :smile:
+Thanks for reporting it @AO-StreetArt. :smile:
+@innermous Awesome! 😁
+@AO-StreetArt Would you be ok to try the latest nightly build (download locations are on the front page of our project) and let us know if it's working properly for you now? :smile:
+@AO-StreetArt Ping?
+Awesome, thanks heaps for testing it and getting back to us @AO-StreetArt. :smile:
+WARNING: The following packages cannot be authenticated!
+In the meantime, code wise it looks ok to me.  But I don't have much Qt/C++ experience yet.  Emailed @MKleusberg to review it, but haven't heard back yet.
+Created a brand new test database here "Untitled2.db", set the password to "abc123" with a page size of 2048.  Added a few rows of dummy data.
+Sorry to be a pain and I know security is not always enjoyed but if we do this right and get it right, then we will get respect.
+- When prompting the user for a password using the CipherDialog, it'd be nice to have a checkbox in there and - when the checkbox is set - save the password and page size automatically, without having to use the preferences dialog.
+@MKleusberg, are these ok? I didn't want to put the buttons on the right side as on the `Extensions` tab because the table would have been too narrow, even if I had icons instead of text.
+@MKleusberg, Currently, when pressing "Add password", the file dialog opens and inserts the file name (including the extension) in the appropriate column.
+@revolter I believe we should make it clear to users that passwords are stored in plain text on their local hard drive, or maybe state the location. That way we are being open and honest and the user knows what is going on, with no surprises
+- Filename
+- Password
+Also, with this idea, when a user opens a crypted database, will he be required to enter that master password? If yes, that would be the exact opposite of what I tried to achieve using this PR.
+- FileZilla stores passwords as Base64 encoded, this has been criticised by a lot of people, hence my concern about storing in plain text
+Yeah, this is the classic security-vs-convenience dilemma.
+@virusmiha Hmmm, accidental Pull Request? :wink:
+This is pretty clearly an accidental PR, so closing it.
+A minor security issue has been reported via Twitter:
+![ckcisjgwkaa3ici](https://cloud.githubusercontent.com/assets/406299/15933265/fcf4f326-2e56-11e6-927f-4573202958a4.jpg)
+@innermous Is this something you'd be ok looking into?
+$ git add foo bar baz
+@DelphiGit You up for doing more stuff? :smile:
+In my opinion, this would look odd:
+Ahhh, that's not good.
+Not sure if there's a better way.
+There are some nice to have features in the newer versions of C++. Most of them we will probably never use, especially since we're relying very much on Qt, but still there are plenty of helpful additions to the language. This could make our code cleaner and more efficient.
+The downside is the compiler support. While pretty much every compiler should support C++11 to a large extend _by now_ there are still many old compiler versions out there which will have trouble with certain C++11 features. Furthermore, most compilers require the user to explicitly activate C++11 support. This makes the project files and the build processes slightly more complicated.
+Questions:
+- How about building on WIndows? I have no idea how well C++11 is supported on MSVC nor how to activate it.
+Questions:
+Sorry @innermous you did, I forgot that
+Ahhh, that's interesting stuff.
+Expected in: /usr/local/lib/libJPEG.dylib
+Hmmm, this is interesting in a non-good way:
+@innermous If you're ok with investigating some of the harder pieces, do you want to look into this?
+This issue is really gamebreaking and nuts, it makes the work with complex constraints impossible. Maybe we can come together to solution.
+@jungle-boogie Received an email from @rp- this morning saying the Windows nightly build box should now be auto-updating its packages.
+People generally don't seem to be demanding the newest things from SQLite anyway, so adding encryption as an option for everyone seems like a decent win.
+Hi @justinclift, @revolter,
+Interesting idea.  If someone (eg not me) knows out to implement that in a practical way, then ok, it's possible.
+@jungle-boogie Would you have the time/interest to try out the new Qt5 based Windows nightly builds?
+Excellent @jungle-boogie, thank you. :smile:
+Hmmm that's a bit difficult to parse. :wink:
+@innermous Sorry Vlad.  I have only recently started learning C++ & Qt, so I don't have the experience to understand this properly and give it a pass/fail.  Instead, I rely on @MKleusberg, who does have the experience.
+@jungle-boogie Would you be ok to compile the latest master code, and verify the fix on Linux?
+@jungle-boogie Would you have time to try compiling and using the latest code again?
+Awesome @jungle-boogie!
+@eitijupaenoithoowohd With the version you're using, is that the standard package on Ubuntu, or did you compile it yourself?  If it's one you've compiled, then @MKleusberg just (today) added a patch which might help.  So, compiling it again would be worth testing. :wink:
+@MKleusberg Maybe we should add some way to trigger output of useful diagnostics / progress / etc? Maybe a command line argument?
+@eitijupaenoithoowohd Thanks, that's useful info. :smile:
+@MKleusberg Thoughts?
+@nickberry17, Did you manage to propose the fix to `QScintilla`?
+For the weird bug behaviour, @MKleusberg returned from holidays yesterday, so he's probably the right person to review bits. (there is a large queue for him through 😵 )
+@jungle-boogie Sorry, didn't notice you've pushed a fix.  Just tested it quickly here, and it looks (mostly) good. :smile:
+Yep, that looks good now.  Thanks @jungle-boogie. :smile:
+Oh wow, that's exceptionally slow.
+Whoa.  Something's not right then. 😦
+[ 58%] Generating ../src/translations/sqlb_ru.qm
+[ 58%] Generating ../src/translations/sqlb_de.qm
+lrelease error: Unexpected characters '%n Zeichen' at /home/travis/build/sqlitebrowser/sqlitebrowser/src/translations/sqlb_de.ts:285:50
+make[2]: *** [../src/translations/sqlb_de.qm] Error 1
+As a thought, have you noticed any text strings in the interface which aren't being translated yet?  I'm not 100% convinced we have total coverage. :wink:
+Weird, sounds like something strange in the windows layer more than a DB4S specific problem.  Are we ok to close this issue, unless it crops up again?
+Thanks @hrvoje-grabusic. :smile:
+WARNING: The following packages cannot be authenticated!
+Yeah, foreign key constraints definitely need some work at the moment.  You're not alone in finding bugs with that part of things. :wink:
+FOREIGN KEY(`id3`,`id4`) REFERENCES `table2`(`id3`,`id4`)
+So both foreign keys appear and aren't mixed.
+@OmarWKH Which OS are you using? (if Windows, is it 32 or 64 bit?)
+@OmarWKH Thanks. :smile:
+@OmarWKH Would you have a few minutes to try out this build?
+@Mochnant This "Issues" section is kind of feature request + bug report + general "Help, it's busted!"  area.
+Hi Laurent
+@elpoolet Is a fix for the exception with "cannot begin a transaction within a transaction" still of interest to you?
+Please try it out, and let us know if it fixes the exception for you. :smile:
+@elpoolet ping?
+@elpoolet Sorry, I don't have the capability at the moment to generate the exe-only builds. 😦
+You're welcome @elpoolet. :smile:
+@sheethalkumarsm If you have a few minutes, would you be ok to try the "3.9.0 beta1" release we did last weekend?
+Thanks @whieronymus. :smile:
+@whieronymus Reminder ping?
+Thanks heaps @revolter. 😁
+Just one slight query.  Executing the current line / SQL enables and then disables the 'Write Changes' and 'Revert Changes' buttons.  Is this correct?  Seems unnecessary and slightly confusing... @chrisjlocke You're right :confused: Just tried two workarounds and neither of them helped. What wonders me most is that everything's so slow that you can actually easily see it.  Wish I could help.  I don't have Windows 10 (and won't ever be running it), so this isn't something I can personally try and find a solution to.
+@rithvikmundra If you have a few minutes, would you be ok to try the "3.9.0 beta1" release we did last weekend?
+Maybe a "Special copy" command, letting the user choose its behaviour?
+Oops, you're completely correct.  "Special paste". :innocent:
+@tchaloupka Are you still around and have the time to test the next build? :smiley:
+@tchaloupka Thanks a lot for your fast reply :+1: That's good news :smiley:
+When you say "onto the app", are you meaning a running instance of the app, or are you meaning the app icon in (say) /Applications? :smile:
+Definitely.  PR's are very welcome here. :smile:
+That's very difficult to understand. :frowning:
+Guessing you are using Google Translate or something? :smile:
+I've obviously got a good knowledge of VB, so just have to bend my thinking to a new slant!
+Yeah, trying variations now.
+Ouch, that's not good.
+@samir-aguiar has been super busy with his work though, so doesn't have time for this in the short/medium-term.
+@fmeneuhe Did that help at all?
+@fmeneuhe There's now. @justinclift made a Windows executable with SQLCipher support which you can find here http://nightlies.sqlitebrowser.org/win64/sqlitebrowser-win64-with_sqlcipher-201605041823.exe
+Ralf
+Ahhh, as a data point, the domain name for the nightlies might be giving the wrong impression with this one:
+Hmmm, well that's just weird. :wink:
+Ralf
+Why does open big tables is causing delay?
+Ralf
+- for `Import`, the path could be `~/Users/Iulian/amazon_exports`
+@darkfeline Thanks for testing and letting us know. :smile:
+Ralf
+Ralf
+Ralf
+Ralf
+was old startup - with immediate query - bad
+Ralf
+Ralf
+Ralf
+Is there any improvement if you use different fonts?  (they can be changed in Preferences)
+Interesting, thanks for reporting it.
+@skifans No worries. :smile:
+Nah, should be ok for now.  Neither @glawrence nor I are C++ developers for this project, we just help out with other bits.  We're volunteer based, and the main developers are taking a bit of time off it seems after the holidays... so there's no debugging going to be done urgently right now. :angel:
+@skifans did you have a previous version installed?
+@skifans You mean it crashed while the open file dialog is opened? Might be difficult to debug then. Do you get any other information in an error message?
+@skifans If you have a few minutes, would you be ok to try the "3.9.0 beta1" release we did last weekend?
+We've fixed a weird crash bug a few weeks ago which kept showing up in strange places.  There's a decent chance that's the one which was affecting you. :smile:
+Thanks @skifans. :smile:
+Thanks for checking and letting us know @skifans. :smile:
+Heh Heh Heh
+If you press the refresh button (just above the "Apellido" heading in your screenshot), does it apply then?
+Also, I'm going to close this issue because the filter delay seems to work fine :smiley: Wow, I always thought it takes a little because the table is large, didn't know there was a delay there. A big thanks from me, too, @MKleusberg! Thanks :smile_cat:   This is a bit confusing... you mention there is no concurrency problem, but also mention using AndroidStudio and DB4S at the same time.  I'm not sure if AndroidStudio changes things or not. :frowning:
+This may be the problem:
+Hmmmm, this seems unusual.  What is it for? :smile:
+Maybe specify a regex format for the databases with that password? Something along the lines of:
+Or are you suggesting a new, improved behaviour? :smile:
+Nice work @huy-cong that's great news. I have been working on something similar with a view to documenting the steps on our Wiki but I am behind you in terms of progress! Would you have time to write up your steps and anything else you noted along the way? Please. If you just sketch something out roughly in a reply here I can then pick this up and format for the wiki, adding my own experience. We can then also update other documentation, however I wanted to make your contribution easy for you! Thanks.
+Thanks @huy-cong that's helpful and appreciated. I will close this issue down now as I believe we are all done.
+@huy-cong Do you still have your CMakeLists.txt file around?
+@kiwina Heh Heh Heh, that's a bit light on details. :wink:
+Thus new nightlies.  Dynamic build though.
+Note - It looks more complicated than it is, as it runs through twice.  Once for Win32, and once for Win64. @tonypdmtr Reading through your original report for this... I think we might have been misunderstanding it.
+No idea how long it will take to get resolved... we're volunteer based.  It might take a few weeks. :angel:
+Indeed.  Its 'out of sync'.  Flipping cells (left and right) obviously fixes it, so ... well..... so its not as bad as it was! :wink:
+I think that maybe that's the real crash.
+@pikeas, Are you saying that if you enable file contents preview and try to open a database, the app crashes?
+@pikeas If this still happens though and you care about it, please feel welcome to re-open this issue and we'll get around to investigating at some point. 😁   Oh, that's interesting.  Thanks for the bug report @muhammad-naderi. :smile:
+Thank you @progh2. :smile:
+Thanks @subdriven, that's Awesome! :grin:
+Interesting.  As a thought, do you have Homebrew installed?
+@lphooge @pbtura Out of curiosity, does the nighty build work for either of you?
+Ping?
+@pbtura @lphooge Do either of you have time to test the new 3.8.0 OSX release build, prior to it being officially published?
+Thanks @lphooge, that's a good start. :smile:
+k.  Are you using a HiDPI monitor?  Kind of wondering if we might need to try detecting for that, and choose different defaults in that situation or something. :smile:
+Thanks for putting up with my questions @pbtura. :grin:
+Thanks a lot for your fast response, @MilosSubotic :smile:
+@PKEv Ping? :smile:
+When you say "shortcuts", what are you meaning? :smile:
+@MKleusberg Ping. :wink:
+@MilosSubotic Thank you very much for contributing :smile: This looks very promising! I'll do some more testing later but I think we can merge this soon :smile: For now there are two more things:
+@MilosSubotic Great timing too.  Our next release will probably be tomorrow, so this code will have a decent amount of real world users pretty soon. :grin:
+- Click on the Database tab, then click on Advanced
+That's weird... I'm pretty sure the cmake is supposed to have two dots in it, not one.
+-- Looking for Q_WS_MAC
+-- Looking for Q_WS_MAC - found
+-- Looking for QT_MAC_USE_COCOA
+-- Looking for QT_MAC_USE_COCOA - found
+Any idea what's different with your system?
+@MrScorp We released a new version (3.8.0) about a week ago.  Would you be ok to try that and let us know if the crash still happens for you?
+Reading over this, this bit confuses me:
+sounds like there is some conflict with shell extensions
+@staz1000 @michalfita As a thought, we've made a new release since this was reported.  That **might** fix the problem.  If not, then trying the latest nightly build may work instead, as that uses a different (static) build process.
+@staz1000 @michalfita Ping?  There's a decent chance this is fixed now in our latest release. :smile:
+@peteristhegreat Ping? :smile:
+@peteristhegreat Is this issue still of use?
+@revolter Sure, when we flip the "Qt5 only" switch for our project, version specific code like that is probably not useful.
+Oh, that's not good.  @MKleusberg ?
+@PKEv Ping? :smile:
+@dannguyen Ping?
+Hmmm, that's unexpected.  If you're on windows, do you have "Microsoft Visual C++ Redistributable Packages for Visual Studio 2013" installed, available [here](https://www.microsoft.com/en-us/download/details.aspx?id=40784)?
+@Aermec Did you have time to try the nightly build? Wildcard escaping is added in there :smile:
+@Aermec Ping. :smile:
+@Aermec Ping 2?
+@raananb Hmmm, that's not good.  It's supposed to display all of the records.
+@raananb With the problem displaying accented characters, do you have time to try our latest released version (3.8.0)?  It would be useful for us to know if that problem is still happening. :smile:
+Thanks Raanan. :smile:
+@bobatwhidbey Do you have the time/interest to try the latest nightly build, and see if that's better for you? :smile:
+SQLCipher is used for encryption support.  At the moment, someone could open your database in something like Notepad and view the data.  It wouldn't be totally human-readable, but it would be 'enough'.  Certainly not good enough if you were storing usernames and passwords, and everyone had access to the database.  For small application use (the main use of SQLite?) or if encryption isn't important, you can ignore the SQLCipher option.  :) @bobatwhidbey As an update, the backward/forward slash inconsistency is fixed in nightly builds from just over a week ago.  We haven't added the row height option (yet) though, but will probably get around to it "at some point". :wink:  Yeah, it's a "known" problem, I just haven't gotten around to investigating it yet.
+Oh, that's weird.  That means the folder you're in when running the command is read-only.
+Hmmm, that's a SIGSEV fault.  Weird.
+@ping?
+Hmmm, is there a typo in your original post there?  It's saying **myDB**.myTable in the first bit, then **main**.myTable for the delete statement.
+Gah, wrong button.  Sorry! :angel:
+@chetan Ouch, that doesn't sound good.  As a thought, you **might** be able to reset it's behaviour by moving or deleting the preferences file for DB4S.  On OSX it should be located somewhere like:
+Thanks @logocomune, that's awesome! :smile:
+Oh, that's strange.  I'll have to try it out later on a Windows system to see if I hit the same problem.
+Thanks @GeorgijK!
+Still, it's going to be guesswork for me, too, cause I don't have a Windows machine here...
+???
+@Bluscream Does that help enough? :smile:
+Ahhhh interesting.  I haven't tried OSX 10.10 at all yet.
+@pamtbaau Is this one working well for you now too? :smile:
+Hmmm, this issue seems like it's fully done now.  Are we ok to close it from your point of view @pamtbaau? :smile:
+@finjulhich Ping...
+Thanks @finjulhich. :smile:
+@MKleusberg could this be done for export too?
+Interesting.  So, it would be better to have this be changeable per column, instead of a default for everything?  I'm thinking that when you open a database for the first time + go to the Browse Data tab, you might need to do something like right click and choose a "Display in Hexadecimal" or something.  And we should store that column preference in the project file for a database too.
+| Binary | [unsure] |
+| Octal | "%o" |
+| Hex | "%#x" |
+| My Custom String | "Hi there %s" |
+Have you added the code for saving/loading the custom format to/from the project file?
+Ahhh.  That sounds like meta information that should be saved into a project file.  @MKleusberg, are you ok to add that? :smile:
+Thanks @Sharpeee, looks good.
+Thanks for this @Sharpeee. :smile:
+@jungle-boogie Ouch, you're completely correct.  That should be editable. 😦
+Thanks @amoghe, that's a good idea. :smile:
+With Android's custom SQLite collation functions, I wonder if the source code is available and also if the license would let us use it?  Instead of creating our own that is.
+@schdub If it's not adding too many code lines, just go ahead. If there should be lower-level changes (which I doubt), some major programming effort, or new depedencies implied we should maybe think about this a bit more. The reason is that we're just talking about two custom collations of thousands out there and I'm not sure where to draw the line... But on the other hand, being able to open Android databases with full functionality out of the box is a major plus :smiley:
+Interesting, that doesn't sound good at all.  Which version of DB4S is this happening with?
+@faacsousa, please send me (jsbot@ya.ru) the file database, which reproduces this problem.
+@faacsousa Would you be ok to download our latest nightly build, and confirm that the fix for this added by @schdub works well for you? :smile:
+We might be able to change the warning message to be less scary, and more informative.  @rp- Thoughts?
+I agree that the text of the warning needs to be changed, but I also think that the mechanism of substituting COLLATION can be improved by:
+@MKleusberg is this good to merge?
+@MKleusberg ping?
+Interesting.  We added the ability to change the SQL font in a recent version (might have been 3.7.0, I don't remember).  I just tried setting the font to Andale Mono:
+Yeah, this is definitely a bug of some sort.  I think @MKleusberg will be interested in this. :smile:
+This seems to be a bug in Scintilla or the QScintilla wrapper around it. I've just compiled the QScintilla example application (after enabling UTF-8 and SQL syntax highlighting in there) and the error still ocurrs. On the other hand, if I change the used lexer from SQL to C++ it seems to work - so the problem is probably somewhere in their SQL lexer and not in the general code, though I'm not entirely sure about that.
+PRAGMA foreign_keys = "0";
+-- 6) dont forget enable FK
+PRAGMA foreign_keys = "1";
+![persian](https://cloud.githubusercontent.com/assets/3153504/8241425/88bc1ad6-1609-11e5-8ac7-45742a82dae9.png)
+Great news @idomintz12 we hope you enjoy DB4S
+- type "XX" [see it overwrites in black]
+Indeed @Sanpasqual123 it is either a CentOS thing or possibly a GNOME/KDE issue. I have just tried on an openSUSE VM and don't see the same issue. With CentOS I have GNOME and with openSUSE I have KDE, so I wonder if the issue is in GNOME compatibility somewhere
+Name        : qt-devel
+@ant-on-io thank you for reporting. This is definitely bug.
+Yeah.  There was a bug in our Unicode handling with 3.6.0.  If you grab the latest nightly build though, it's fixed. :smile:
+@abshuhuhuhu Have you had a chance to grab the latest nightly build, and use that instead?
+There was a bug in the 3.6.0 and 3.6.1 to do with Unicode handling, but it's fixed in our latest nightly builds.  I'm guessing that's the bug you're hitting. :wink:
+@Z4us That's a bit unclear to me... what do you mean? :smile:
+Interesting.  Would you be ok to try our latest nightly build?  There was a bug in our Unicode handling for the Execute SQL tab, which is fixed in that.  I'm kind of thinking that might solve the problem for you too. :smile:
+@meNESS This has finally been fixed. 😁
+Hmmm, it sounds like a dependency is missing or something.
+@MKleusberg Yours? :smile:
+@tbayart please give example of your requests.
+Closing this as it's definitely the Unicode issue we've fixed in our nightly builds. :smile:
+@icol2006, please provide example of your table and query.
+@icol2006, escape field name with "" or [] or ``:
+Thanks @ronCYA. :smile:
+@ronCYA ping? :smile:
+@felagund18, thanks for reporting but this issue is already fixed.
+@AnthonyUccello, Ping? 😄
+Bernardo, thank you very much.
+@magicvinni You're welcome to do anything with this, that respects the licenses. So, yes. :wink:
+@magicvinni You are absolutely welcome to help with keeping them updated if you have the time & desire. :grin:
+Closing this, as it's definitely the known Unicode issue we've fixed in our latest nightly builds. :smile:
+Wow, this has grown to quite an amount of typos by now :open_mouth:
+Again, thanks a lot for looking for all these typos :) In case you should find any more you're always welcome to open a new pull request :smiley:
+@kropochev, something like this?
+It's odd, because I just checked and everything works.
+@jimmyp2 ping?
+@hamidmalek Try using our latest "nightly build".  The download location is on the front page of our repo.
+@justinclift Just tried it with the latest build and it works. So I assume using the nightly build it'll work for @hamidmalek , too. If not it might be necessary to set another font in the Preferences Dialog. The only thing I noticed is that especially selecting text is a bit erratic because of the mix of LTR SQL text and RTL Farsi text but that doesn't seem to be much better in other applications...
+@MKleusberg Hmmm, there's further unicode handing badness mentioned in @jimmyp2's comment above: https://github.com/sqlitebrowser/sqlitebrowser/issues/311#issuecomment-102628344.  eg the loading from a sql file.  Should that be reported as a separate issue or ?
+Thanks @palmiche.
+@lifedomy I did receive the file, but was tired and then went to sleep and forgot about it.
+As a thought, have you tried version 3.6.0 of our program?  We changed some of our Unicode handling in that... and there is a chance it has already fixed the problem. :smile:
+@opeth771, SQLite data types not compatible with MySQL data types. You need to rewrite create statements (such as create table) with column types supported by MySQL.
+@opeth771, ping? Your problem is solved?
+if(ANTLR2_FOUND)
+if(NOT ANTLR2_FOUND)
+merged
+This is failing in Travis CI btw.  Are you ok to look into it?
+I'm not 100% sure, as I've not personally done anything with Travis before.
+Hi Pino!
+Interesting.  We fixed a unicode bug yesterday that might also solve this problem.  Would you be ok to try the latest nightly build and see if that works? (if so, the download locations are on the front page of this repo) :smile:
+Cool.  Thanks for letting us know @z-rui. :smile:
+@gimKondo Any interest in finishing this? :smile:
+Thanks @gimKondo. :smile:
+@samir-aguiar ping?
+Hmmm, looks kind of dodgy really.  Some bits which jump out at me:
+- Requires sending a copy of ID documentation to a third party in Poland I've not personally heard of before (unizeto.pl).  ←  Maybe it's just my lack of knowledge in this space, but this is concerning to me.
+Good point.  If the need for the CREATE TABLE statement is an edge case though, we could probably make it a right click context menu item.  eg. Right click → "Show CREATE TABLE statement", which might free up that widget for being redone... :grinning:
+I'm not entirely sure if I understand you correctly but you can set a foreign key, including a On Delete action, in the Edit Table dialog like this:
+![foreignkey](https://cloud.githubusercontent.com/assets/3153504/8273293/70984122-1867-11e5-93f7-a671dd7eefff.png)
+This is super-weird because on my system it's just working fine :question:
+Oh, that doesn't sound good.  @samir-aguiar this sounds like your kind of thing to look at?
+@cnromaine Would you have time to check the icons on the [3.9.0-beta1 release](https://github.com/sqlitebrowser/sqlitebrowser/releases/tag/v3.9.0-beta1), from your point of view?
+Gah, that's not good.
+@cnromaine Yeah, this is our first Windows release using a new build process (to enable 64 bit Windows builds).  Looks like there are a few kinks to still be worked out. :wink:
+Yeah, that's really weird. :frowning:
+Interesting.  This does kind of sound bug-ish, as we're trying to keep pretty close to the behaviour of SQLite3.
+So, even if someone has (say) a column marked as REAL, if someone decides to try and insert "FOOBAR! WAS! HERE!" (a string) into a field in it... SQLite3 will accept that string and store it fine (as a string).  It will "just work".  In some ways this could be considered a good thing, in some ways it could be considered a bad thing.  Very much "depends how you look at it". :wink:
+Hmmm, as a thought, is the extension a .dll file?  If so, copying it into the same directory as the sqlitebrowser.exe file might let it be found.
+However, I can't guarantee that it's working for databases created with that Unity plugin because I couldn't find much information about the encryption used in that plugin. If they don't rely on SQLCipher internally my fix won't work. But as I said, it's definitely worth a try! I've just emailed the contact point (orangetree@) for the Unity plugin developers, pointing them at this issue + asking if they're using SQLCipher for the encryption layer.
+These features are new:
+Weird, the snippet you pasted really looks odd to me because in the first line it looks like it's trying to link it all together to an application but in the two following lines it looks like it's still compiling the QScintilla library. The error message which must be thrown by the first line says that the library can't be found (yet). Not sure why it doesn't wait for it to be built... Can you maybe try again and post the entire log?
+Will do.  I was using -j9, which is probably responsible for the weird log.  Gimme a few minutes though, as I'm doing something else atm. :wink:
+Regex?
+what does REGEXP have todo with this?
+- Settings (colours, fonts, ...)
+rm -f libqscintilla2.a
+ranlib -s libqscintilla2.a
+On my system -j9 seems to reliably trigger the failure.  -j5 and -j7 don't.  Weird.
+Yeah, I'm not sure how to solve this.  A dodgy workaround :wink: is to have "end transaction;" before your statement.  This closes our implicit transaction, then executes the statement after.
+and other.
+added strings.
+Internationalization with Qt:
+http://doc.qt.io/qt-4.8/internationalization.html
+PS: sorry for my bad English.
+@rp- I'm inclined to merge this, as long as it looks ok to you, @MKleusberg, or @samir-aguiar.
+@DongilKim Do you have time to try out the next nightly build, and see if it's working properly for you now? :smile:
+Looking back over this... @jungle-boogie how did you rearrange the column order during import? @justinclift,
+@galmok Our very latest code has a new export dialog for changing options with the output CSV file.  One of those options is to explicitly state the column name in the output.
+@MKleusberg ?
+@fu-hsi Do you have time to test the next nightly build, and let us know if it works ok now?
+@fu-hsi:
+At least the thing with the crash when adding a UNIQUE constraint in that special case seems to be a bug in SQLite itself. The same happens when executing this code using the command line utility:
+@fu-hsi Do you? :wink:
+Closing it for now.  @fu-hsi Do you have a few minutes to test our latest nightly build, and let us know if it's not working after all?
+@gimKondo Would you be ok to try our latest nightly build, and let us know if the problem is completely fixed for you?
+@gimKondo If the solution you're trying works, would you be ok to make a Pull Request out of it? :wink:
+You're welcome @gimKondo. :smile:
+https://launchpad.net/~peinthor/+archive/ubuntu/sqlitebrowser
+tags need checking.
+Author: Samir Aguiar <samir.aguiar90@gmail.com>
+Author: Samir Aguiar <samir.aguiar90@gmail.com>
+Dodgy workaround though. :wink:
+The "off-by-one" thing could be kind of annoying though. 😕
+On my system when I resize the window, the row number at the bottom changes when about half of the row is visible. I have no idea why it does this because it's not in our code and it didn't use to be like this. Might be a Qt thing or a Qt platform specific thing. Also, I get an extra +1 on the number of the last visible row. So e.g. in your last screenshot I'd see 44793. So no matter how I resize the window it's always wrong :frowning:  Wow, that's weird.  Sounds like we need to intercept the event handler on Linux that changes the row counter, and stop the +1 behaviour. But we'd need to know when exactly it's happening. The problem seems to be that our ```ExtendedTableWidget::numVisibleRows()``` method returns the wrong value which probably means that Qt's ```rowAt()``` returns a wrong value. But as this only happens on some platforms and with some Qt versions it's going to be hard to fix it... Gah. ☹️   I'll check this out tonight too. :smile:
+Awesome @samir-aguiar. :grin:
+and the opposite direction:
+@harrisrap ping? :smile:
+Something incorrect in the way the filters are constructed?
+The problem here was that the spelling of the columns used in the foreign key clauses are different from those actually used in the table definition. See here for example 'customerID' vs 'customerId' (note the final letter 'd'):
+FOREIGN KEY(customerId) REFERENCES customer(id)
+@lallousx86 Would you be ok to try out the nightly build, and let us know if it does or doesn't work well for you now? :smile:
+[Open Encrypted Database #12](https://github.com/sqlitebrowser/sqlitebrowser/issues/12)
+@jmagyari Have you had a chance to try out the new behaviours in our recent 3.7.0 release? :smile:
+@jmagyari Looks like a problem with the data itself then, so I'm marking this as invalid and closing it.
+@grahamlabdon ping?
+Maybe #ffd0cd instead?
+Awesome @samir-aguiar. :smile:
+`-bash: cd: /Users/me/Desktop/Cashe/db: No such file or directory`
+@Oldimac10yrsold Weirdly, I didn't receive the email.  It's definitely possible my anti-spam stuff automatically deleted it, so I've turned them off completely for now.  Would you be ok to try sending it again?
+@samir-aguiar Any idea how we could compile a 32-bit version of DB4S as a once off?
+Heh Heh Heh.  This is proving to be a challenge eh? :wink:
+@Oldimac10yrsold Try this, and let us know if it works?
+That's from @samir-aguiar, who left an initial 32-bit compile running overnight.  We're hoping it works, but not 100% sure. :wink:
+Awesome stuff @Z4us . :smile:
+Wow.  That's unexpected and pretty darn awesome. :grinning:
+Thanks @samir-aguiar, all good then. :grin:
+Non-empty strings between separators? (just saying... I really have no clue if that's appropriate) :grin:
+@samir-aguiar Yeah, if it's easy to also add support for just CR as line endings - and not muck up anything else - then lets do it. :smile:
+@atoregozh - @samir-aguiar deserves your thanks, as he did the work, not me. :wink:
+First question... are you able to assist in getting it done?  eg coding skills, or design skills (eg whip up some potential layout screenshots) or similar? :grin:
+Heh, that's going to be a lot of challenge then. :wink:
+@mafagafogigante, which version do you use?
+@mafagafogigante, it's already fixed
+@samir-aguiar Awesome. :grinning:
+For OSX, it should always be under the Application menu.  For at least Russian and French it's turning up in a different menu ("Vue" for the French).
+- Compiling with this patch applied &rarr; Preferences entry is in the Application menu (checked all of Chinese, French, German, and Russian).
+For 3.6.0, how about "Dragon Emperor Chu"?
+Ahhhh, that's an interesting idea.
+@samir-aguiar Famous historical battles &larr; Meh.. naming a release after the death of lots of people... doesn't sound optimal. :anguished:
+k, on that note how about "Zoidberg has landed".  That's a fictional character (Futurama), and sounds somewhat interesting.  Now, we just need someone with illustration skillz... :grinning:
+(Though I could go with "Naomi Anderson's Dream" as well tbh) :wink:
+"Naomi Andersons Dream" it is. (ran over time, forgot to set up a vote, so just picked the one that appealed most to me :wink:)
+![b9hkk02ccaigrwg](https://cloud.githubusercontent.com/assets/406299/6084142/76fa04ac-ae26-11e4-9ca3-ab8f16ac32e6.png)
+Awesome Samir, yep, that fixed it. :smile:
+@da3moon Would you be ok to try the next nightly build (tomorrow), and confirm back to us if it's all working properly now or not?  (download locations for the nightlies are listed on the front page of this repo)
+@harysutanto Sounds like this was just a simple mistaken variable bug, so should be fixed now.  However, just to be 100% sure, would you be ok to test with the latest nightly and confirm back if it's ok or not? :smile:
+@karai17 Adding foreign keys already is possible :smiley: You have to scroll to the right side end of the grid view in the Edit/Create Table dialog but then you'll find the field you need:
+![foreignkey](https://cloud.githubusercontent.com/assets/3153504/8273293/70984122-1867-11e5-93f7-a671dd7eefff.png)
+@karai17 No worries, you're probably not :smiley: And I have to admit, too, that the field for foreign keys isn't placed very well...
+This is a bit unclear to me.   Can you whip up a dodgy pic or something to illustrate?  (doesn't have to be pretty, just needs to get the concept across) :wink:
+@ashishkumartiwari Ping?
+On a side note, when testing in French the "Preferences" menu item doesn't show up under the main application menu in the correct spot.  It starts up under the "Vue" menu.  No idea why. :wink:
+Hmmmm, you might want to cheat.  When Homebrew downloads source code, it caches the tarball on the filesystem (for me on an OSX 10.9.5 system, it's under /Library/Caches/Homebrew).
+Note though... this is a very dodgy hack.  I'm not sure of a better approach though. :frowning:
+@vassileiosdermentzis ping... :smile:
+Sure, not a problem @vassileiosdermentzis. :smile:
+@samir-aguiar
+Just thinking of this from the point of view of.... "what happens if it starts up in a language I can't read?"  (eg mandarin, japanese, etc).  It would be very tricky to navigate to the preferences dialog in that situation, let alone finding the correct tab/options/'OK'-button.  A language choosing element on the main UI though would let me solve the problem without getting stuck.
+++    QString trans_dir = "%%DATADIR%%/translations";
+++    QDir translationsDir("%%DATADIR%%/translations",
++                          "sqlb_*.qm");
+I can confirm this issue and could track its source down to the combination of a complex check constraint expression (containing an 'or') and using string literals inside it (comparing the column against a number would work). Anyways, the problem is fixed now, so tomorrow's nightly build will hopefully work better for you! :)
+@samir-aguiar Sorry for the late reply but I'd be happy to include this fix in our code. cmake might be the preferred build system but we still try to support qmake as well as we can, so this is definitely welcome! Do you want to open a pull request for this, so you're the author of this fix? If not I can make the commit, too :)
+@Z4us Do you have a few minutes to try out the fix in the next nightly build (from tomorrow onwards)? :smile:
+@bonerfart Sound workable to you?
+@Blackkatt As additional info, which version of DB Browser for SQLite are you using, and on which OS? :smile:
+Thanks for your bug report, @Blackkatt :smiley:
+@Blackkatt Would you be ok to try the next nightly build (after tonight), and confirm back whether it's now working properly or not?  (download locations for the nightly builds are on the front page of this repo) :smile:
+@Blackkatt For Windows you can find them [here](http://rp.oldsch00l.com/sqlitebrowser/). Just download the sqlitebrowser.exe.xz file and uncompress it with 7-Zip or some similar program.
+Chuong
+@samir-aguiar
+@samir-aguiar
+@samir-aguiar To me (non-coder on the team), this sounds fine to me.  Thank you very much for taking care of it. :grinning:
+see the code and it seems that is not possible.
+Hola Alberto!
+@aMarCruz Would you be ok to test our latest nightly build, then tell us if this problem is fixed now? :smile:
+@aMarCruz
+https://launchpad.net/~peinthor/+archive/ubuntu/sqlitebrowser
+@rob-hills Would you be ok to give the ppa a shot, and let us know if it works for you?
+Below: ![image](http://i.snag.gy/Ealr8.jpg)
+Ah sorry, I was expecting a red column. So yes the change is in there.
+@Chuongv Trying with different background colour shadings to show NULL sounds like a decent idea.  Human brain seems to recognise colour a little bit faster than words, so some people may find it helpful.
+This turned out easier than I thought. So here are the various options. We could turn the Null to a red color.
+Edit: This is a fake database which can be found here http://chinookdatabase.codeplex.com
+For me, I kind of like the extreme red NULL (first version) on white background.  Yeah, I'm weird. :wink:
+@77tb What are your thoughts on this too? :smile:
+But this is really some kind of user preference, but for a consistent UI (BLOB indication) I would write the string "NULL"
+If that's workable, @Chuongv, are you up for that challenge?  I'm guessing it'll be a good learning thing, and you'll figure it out.  Plus we're here to give pointers if you have questions and/or run into trouble. :grinning: (And yeah, I'm specifically encouraging you to keep doing stuff on DB Browser for SQLite.  To my thinking, this project is a good avenue for developing C++ skills in software lots of people use. :wink:)
+@Chuongv Don't give up yet. :wink:
+Sparkle is great, but AFAIK is not cross platform :( `fervor` was inspired by Sparkle, and made it cross platform, so maybe we have can salvage something from there.
+https://regex101.com/r/bB0hB2/3
+@Z4us Ahhh, hadn't thought of that as it's not a browser.  But yeah, point taken. :smile:
+So, maybe a status bar thing instead then...?
+Interesting.  Looks like you have coding skills too... we're very open to pull requests if you're interested in submitting one. :grinning:
+Martin did most of the work with the without rowid support, but according to him most of it should work.
+Of course bug like this could always be, I just can't reproduce it here.
+When you say "compile to OS2", what are you meaning?  Are you compiling on the ancient IBM OS/2 operating system? :wink:
+It might be possible to tell from the diff. (unsure)
+@TeLLie ping?
+@TeLLie - Seen this? http://www.techrepublic.com/article/os2-resurrected-blue-lion-becomes-arcaos-details-emerge-for-upcoming-release/
+@DongilKim Which operating system are you using?  If it's Windows or MacOS X, would you be ok to try our latest nightly build, and let us know if it's fixed now?
+@DongilKim Cool.  Would you be ok to try our latest nightly build, and let us know if it's working properly for you now? :grinning:
+@DongilKim Would you be ok to try the nightly build (tomorrow), to check if the problem is fully fixed now?
+@AAverin Which operating system are you using, and which version of DB Browser for SQLite are you trying it with? :smile:
+Interesting thoughts. :smile:
+This one is a bit confusing to me:
+Are you doing it like in my dodgy picture above? :grinning:
+@MKleusberg What do you reckon? :smile:
+I would make this a bit more advanced and remember the path depending on the taken action/category.
+you are using the ancient 2.0 version.
+Why are you trying with ancient versions (over 8 years old)?
+Interesting.  That sounds like a worthwhile request.  Unsure if it would be straightforward, but it could be done.
+First thing to do is try opening up the exported table file using WordPad.  If the Korean characters look ok in the file, then the problem is likely in Excel.  However, if the Korean characters aren't correct in the file-opened-with-WordPad, then our table exporting code could be needing work. :flushed:
+Ahhhh.  The problem seems to be Excel not understanding how to import unicode characters properly, and is trying to import them as text.
+So either the file is encrypted or the database is corrupt
+(likely in database format too then)
+&nbsp; &nbsp; https://github.com/sqlitebrowser/sqlitebrowser/blob/master/src/translations/sqlb_fr.ts
+So, it's not guaranteed ArcheAge does things that way... but there's a decent chance.
+@xiangxw Would you be ok to try the next nightly build, and let us know if the tooltip thing is working ok now? :smile:
+@roehrip You're welcome. :smile:
+@jadeade Would you be ok to try the new nightly build (Friday's), and double check it's all ok from your point of view?
+Thanks @jadeade, that's Awesome. :smile:
+![plein_ecran_08_02_15_18_03](https://cloud.githubusercontent.com/assets/406299/6099070/d3458490-afe6-11e4-8569-06820eb25e06.png)
+![capture_d ecran_2015-02-08_a_18_13_05](https://cloud.githubusercontent.com/assets/406299/6099072/d34d7eac-afe6-11e4-865f-10b87b43b84f.png)
+The menubar looks like from an ancient version.
+@VrIgHtEr Did you have a few minutes to try this out?  Hopefully it solves the problem. :smile:
+@VrIgHtEr ping?
+> >    "aaa","bbb","ccc" CRLF
+> >    "aaa","b CRLF
+> >        appearing inside a field must be escaped by preceding it with
+> >        another double quote.  For example:
+> >    "aaa","b""bb","ccc"
+62d72e6a9e1f and f38c3f13caa
+@beyonav Do you have a few minutes to try the latest nightly build, and check if that works better for you? (download locations are listed on the front page of this repo) :smile:
+@beyonav Ping?
+![kdelanguagesetting](https://cloud.githubusercontent.com/assets/8994559/4490141/88050a1c-4a26-11e4-8644-f39138ad66cc.png)
+![kdeversion](https://cloud.githubusercontent.com/assets/8994559/4490138/87f16a0c-4a26-11e4-891a-2c3f619f3dda.png)
+Heh Heh Heh, that's an interesting bug. :wink:
+> Very bizarre! I have to check out where the LC_ variables (e.g. LC_NAME,
+I'll do a bit more investigation, and if I don't find anything more I will
+Going to close this, as it's (hopefully) just that once off of weird environment variables.  If other people report the same problem in future, we can look into it in more depth. :smile:
+@aMarCruz De nada. :smile:
+¿Se puede incluir una captura de pantalla?
+¿Es el problema con la vista "DB esquema" en el lado derecho?
+Jonorozco2013 reported:
+Sinceramente, no estoy completamente seguro cual es tu problema. Pero acabo de añadir una nueva opción que elimina todas las nuevas líneas en el TreeView. La nueva versión mañana se podrá descargar acá: http://rp.oldsch00l.com/sqlitebrowser/
+Opción:
+Antes:
+Después:
+Para mas detalles acerca de la tabla podés (disculpá el voseo :grinning: ) hacer doble clic al nombre de la tabla. Tal vez eso te ayudará un poco. Si tenés otra idea una captura de pantalla modificada con Paint o algo semejante para mostrarla sería perfecto :)
+@serden84 Is this still being a problem for you?
+@ogloo Would you be ok to try our recent (3.7.0) release? The 64-bit version that is.  In theory, it should open larger database files without a problem: :smile:
+@MKleusberg Good catch. :smile:
+![noscrollingindatabasestructureview](https://cloud.githubusercontent.com/assets/406299/4398404/476bf8ac-4455-11e4-91c5-8650775545c4.png)
+@raananb Ping...
+@ToniTaste Would you have time to try the latest nightly build (tomorrow), to verify this is working for you now?
+@ToniTaste If you test this and it's not completely fixed, please reopen this issue (or let us know some other way). :smile:
+On Sep 25, 2014 6:46 PM, "jadeade" notifications@github.com wrote:
+> custom types! so seems that this feature was dropped somewhere :)
+@jadeade Would you be ok to try the latest nightly build (tomorrow), and let us know if it's working for you as expected? :smile:
+@beyonav Would you have time to test this out in the Windows nightly builds, and confirm back to us if it works?
+Either someone revert meanwhile or wait unril i'm back home
+When you say "compressed and complete" what are you meaning?  That's unclear to me.
+@nielscup Would you be ok to try the very latest code, to confirm it works for you now?  Not sure which operating system you're on... if it's Windows, there are nightly builds available here:
+@nielscup How did this go?
+Hmmm, that's unexpected.
+@Z4us Would you have time to double check it, just to make **absolutely** sure? (you're completely ok to close this once you're happy with it) :smile:
+Because you mentioned the Without Rowid issue:
+@devandanger Cool. Are we ok to close this issue? :smile:
+Martin just added code to not remove the Foreign Keys part of things when editing tables.  As mentioned here:  https://github.com/sqlitebrowser/sqlitebrowser/issues/109#issuecomment-62020996
+@ou9810 Would you be ok to try this out, and make sure it works for you now the way you're expecting?
+Bad news: The icons will stay where they are and the result looks super-weird :/
+Thanks @mafagafogigante, that's very welcome. :smile:
+In file included from src/CommonAST.cpp:12:
+In file included from src/BaseAST.cpp:13:
+Thread model: posix
+http://rp.oldsch00l.com/sqlitebrowser/sqlitebrowser.exe.xz
+Thanks @jadeade. :smile:
+you have some weird characters in your schema definition (scores)
+create table foreignscript(
+@rp- This turns out to be **way** more difficult than I expected. The problem is that antlr + Unicode + C++ seems to equal trouble: antlr doesn't handle multi-byte sequences at all, so what it does for these characters is reading them one by one and trying to make sense out of each one separately.
+Interestingly, there is progress on the C++ port for ANTLR 4:
+- https://groups.google.com/forum/#!topic/antlr-discussion/rjVEUxMJBcI
+http://mirror.salasaga.org/stuff/sqlitebrowser-3.3dev_201407212257.dmg
+> Localized Collation - ORDER BY
+@nirbal The problem you experienced should now be fixed.
+@nirbal ping.  Do you have a minute to try out the latest build?  We're just wanting to make sure it's definitely fixed and working for people now. :smile:
+I didn't try any of the code yet, this is just wild brain-compiler based thinking, so please prove me wrong :)
+@Nakedtoe1 ping?
+@Nakedtoe1 Does this problem still happen for you?
+@Nakedtoe1 If this problem still happens for you, you're welcome to re-open this issue.  We'll investigate it then. :smile:
+That is weird.
+&nbsp; &nbsp; https://twitter.com/brianeunilkim/status/479676964521775104
+Yeah, I'm not sure.  I'm not a C++ coder, so I'm mostly just guessing here. :wink:
+@Maypeur Does this problem happen with the new 3.2.0 version of SQLite Database Browser?
+http://rp.oldsch00l.com/sqlitebrowser/sqlitebrowser.exe.xz
+That said, your statement clearly exposes a bug in our SQL parser: We didn't allow for a NULL constraint; we just checked for NOT NULL instead. Thus a table definition like
+@rafirafi Any chance you can screenshot the error bit?  It's kind of hard to visualise just from a text description. :wink:
+@rafirafi Would you have time to try this new code out? :smile:
+@jonasman Yeah, that's not looking happy.  :frowning:
+http://mirror.salasaga.org/stuff/sqlitebrowser.dmg
+Log:
+Log:
+Log:
+@piacentini Hmmm, do either of these work for you?
+- http://mirror.salasaga.org/stuff/sqlitebrowser_without_readline_v3.1.dmg
+- http://mirror.salasaga.org/stuff/sqlitebrowser_without_readline_pre_v3.2.dmg
+Exception Type: EXC_BAD_INSTRUCTION (SIGILL)
+Exception Codes: 0x0000000000000001, 0x0000000000000000
+http://mirror.salasaga.org/stuff/sqlitebrowser_core2.dmg
+@Shouqun Out of curiosity, does the Applications menu icon for SQLite Browser look ok?  I had to create it without using a High DPI display, so the High DPI icon resolutions were guesswork.
+@stevehodgett We've made a huge amount of changes and bug fixes since this was reported, including many in our unicode handling. Would you have a few moments to try our new release (3.8.0) and make sure it's working properly now for you? :smile:
+Closing this as it's almost been a year without updates. Chances are that the copy-paste situation improved when we moved to Qt5 but either way: there isn't much we can do about it on our side. Adding an edit option to the right side of the hex editor turns out to be difficult, too. We would have improve the QHexEdit widget but that's an external project by different people. The "caf.." problem isn't actually a bug but correct this way: the "é" is encoded using two separate bytes and none of them represents the "é" on its own, thus the two dots. And finally, you can now set the font for the edit dialog, choosing one which doesn't omit NULL bytes but prints a box or something instead. This way "testtest" should become ~~ "test[]test". It's been almost three years, so this is probably just for the records, but: Good news! I've just updated the QHexEdit library in our repository and editing the ASCII code on the right side of the hex editor is now finally supported :wink: @MKleusberg That's awesome. :smile:  Hi!
+Martin here is a small diff that would fix the 2 issues, any comments?
+-    if(QString(hexEdit->data()).toLatin1() == hexEdit->data())     // Any proper way??
+git commit -a --author='Peinthor Rene peinthor@gmail.com'
+I think this is wrong.
+@Z4us Yes, you can pass a path to an encrypted database on the command line:
+As a useful bit of info, @huy-cong [managed to compile](https://github.com/sqlitebrowser/sqlitebrowser/issues/482#issuecomment-175019996) DB4S + SQLCipher on Windows.
+That's nice @huy-cong thanks for that
+You're welcome @ligadata-alison. :smile:
+Only if you log in as Joshua.....
+- [X] Other: _Nightly__
+select * from "Košice"
+PRAGMA main.page_size = 8192;
+PRAGMA main.page_size; // shows 1024
+![](http://i.imgur.com/n8vv3hc.gif) @karim
+The way this feature worked initially and still does with this multiple selection variation is that it fetches the list of names first (that a user can then cherry pick from) then opens a stream, parses and performs actions after in a sequential order over the selected files. The open dialog filters what formats are allowed and the internal parser will warn/skip/err on bad files (invalid csvs). I had a folder with ~7k files with thousands of rows and including decoding and inserting took a little over half hour on a Dell XPS 15 running x64 Win 10.
+Unexpected behaviour.
+SQL Cipher Version 3.11.0 As a fellow developer I'd be happy to :) I can't download it from that address here at work.  I'll try it in a few
+Qt 5.7.1
+> previous quirks with it.
+> <https://github.com/notifications/unsubscribe-auth/AFP7_8CragFk1k_7JaoRfPKELqDAJ7Nqks5r8_0_gaJpZM4Njs0I>
+error.
+>> previous quirks with it.
+>> <https://github.com/notifications/unsubscribe-auth/AFP7_8CragFk1k_7JaoRfPKELqDAJ7Nqks5r8_0_gaJpZM4Njs0I>
+> from Tags
+> <https://github.com/notifications/unsubscribe-auth/AFP7_xW0mWy270s0zvoCgreIYe5jxxr8ks5r9BXFgaJpZM4Njs0I>
+@karim
+1. EditBinPack.rar
+I am not sure whether during compilations data in the PE header is always written into exactly the same addresses, as yet I have no experience in this at all. But I think with basis given by the screenshot next time it would be easier to spot the location of wanted data (at least I would have an idea about what am I looking for). To the 'Hex' method I actually came from executing 'EditBin' method, and then replicated changes performed by editbin.exe manually in my hex editor. So I agree with you that 'EditBin' method looks more reliable and sounds like the correct one. As I've read further, it looks that there are differences in link.exe files and that newer generations of that file won't let editbin.exe to set a version prior to what was limited in its code by Microsoft, instead saying something like "LINK : warning LNK4241: invalid subsystem version 5.01". Again, I might be wrong. Anyways, the link to the three files I gave in method 2, do allow to write a program's OS compatibility to subsystem 5.01. The correspondent option would be:
+Like I said before, I am totally noob in programming, though sometimes I manage to put some parts of puzzles together, and even in this comment I mostly rely on the information obtained from: https://supportxpdotcom.wordpress.com/2012/03/30/editbins-dirty-little-secret @chrisjlocke, I really don't know where did you get it and why did you use that command shown in your CMD prompt screenshot, i.e:
+As for method 1 try these substitutions in hex instead, let's see if it works (works on mine flawlessly):
+![db4swinxp](https://cloud.githubusercontent.com/assets/28617767/26018549/2dbc4aec-3778-11e7-86e8-7ac6cbbdc618.jpg)
+![db4swinxpqt5 7 1 cip](https://cloud.githubusercontent.com/assets/28617767/26021205/af7bc36e-3791-11e7-8f2b-91f2d944314d.jpg)
+- [x] Other: roll-your-own
+`-- This comment causes an error`
+In this case I can see that the SQL submitted by the application has had the line breaks removed, so the extra `SELECT COUNT(*) ...` that's added to give a line count is syntactically wrong, as the terminating `);` has become commented-out.
+causes an error!  You can have block comments in SQL?! 😲
+@karim I think the features I added maybe negated the need for folder selection and the need for prompting for more files to import after, let me know however, keen to see this in after reviews as I have just used it to import some ~7000 files that hold thousands of rows of training data for a neural net.
+multiple kilobytes of random 'ipsum lorem' comments above a simple select
+the error if you're interested.
+else
+// else
+/<<PKGBUILDDIR>>/src/EditTableDialog.cpp: In member function ‘void EditTableDialog::itemChanged(QTreeWidgetItem*, int)’:
+/<<PKGBUILDDIR>>/src/EditTableDialog.cpp:324:24: error: ‘sqlb::FieldVector’ has no member named ‘removeAll’
+make[3]: Leaving directory `/<<PKGBUILDDIR>>/obj-powerpc64le-linux-gnu'
+make[2]: Leaving directory `/<<PKGBUILDDIR>>/obj-powerpc64le-linux-gnu'
+make[1]: Leaving directory `/<<PKGBUILDDIR>>/obj-powerpc64le-linux-gnu'
+Sorry, should have been more clear.  I originally created my SQLite db from the command-line, and was able to upload it to RIT using FileZilla no problem.  I decided to revamp the schema, so I deleted the file from the server.  In the meantime, I installed DB4S, and recreated the db through the UI.  I have no idea whether that's a factor, but now when I try to upload the file, I get the above error. You, sir, are one of the good things in this life.  I closed out of DB4S and still had the problem.  When I exited sqlite3 from the shell, I was able to upload successfully.  Thanks very much.  Chanches Good)   When I open a new database I'm always asked to enter the key used to encrypt the data base file. but as I've never encrypt the file In don't know what to type?
+Please help to solve this problem.
+Hi justinclift
+Just to make sure I am not hallucinating:
+Yes I an confirm it is fixed in the nightly build.  Hello. I made full ikrainian translation for sqlitebrowser.
+PRAGMA foreign_keys = ON;
+PRAGMA foreign_keys = ON;
+I am getting error like "**file is encrypted or is not a database**". Please help me.
+#9  sqlite3RunParser (pParse=pParse@entry=0xbec43e68, zSql=0xe8 <error: Cannot access memory at address 0xe8>,
+#9  sqlite3RunParser (pParse=pParse@entry=0xbec43e68, zSql=0xe8 <error: Cannot access memory at address 0xe8>,
+something funky, do let me know. Crazy things can happen when migrating. Me too One more thing, not sure why or how to fix it. When I tried to add to
+Providing an [AppImage](http://appimage.org/) would have, among others, these advantages:
+It shouldn't be hardware issue since I went to apple store yesterday and they checked hardware and the system and it doesn't have any issue. Then I tested WIFI by pinging google and I closed all applications. First the request time is stable. But after I open DB4S the request time becomes very unstable. And it turned to normal immediately after I closed it.  I can upload screenshot when I back home. This happened in both 2.4GHz and 5GHz WIFI. Today I closed DB4S and network works well without any problem.
+(gdb) bt
+- [X] Other: c0d2e9131ea1bf9eded26f4c3de868d0fbad000a
+font-family: "Al_Mushaf";
+src: url('fonts/al_mushaf.ttf');
+font-family: "Jameel Noori Nastaleeq";
+src: url('fonts/jameel_noori.ttf');
+<h3 style='font-family:"Al_Mushaf"'>
+وَاۡمُرْ
+I want to ignore all HTML tags and these extra UNICODE Characters while searching so that `html` shouldn't return a result while `وامر` should return a result.
+3. Using REGEXP (I couldn't figure it out yet how to do this, I just know that I've to implement it myself)
+Now there are two problems,
+Its also weird that the error on the nightly seems like an CSV file with wrong delimters as I only uses SQL files to export and import (because CSV doesnt work at all).
+trying to import:
+will be developing, the paths are going to change frequently and each
+`name`	INTEGER,
+I agree @justinclift Unicode does need to be possible, so maybe we need an option/choice somewhere to control this The same problem is in "import"
+dÃ¤r
+dÃ¤r
+- [X] Other: Locally compiled v3.9.99___
+Example of wrong filters:
+I had several queries open for a coding test.  Each query corresponded to an answer to a test question.  I had saved the queries to SQL files, but i needed to close the database.  I closed out of all the open query tabs, not realizing i had made changes to each of them after I had last saved.  To my dismay, when I opened the files again all my changes were lost.  It cost me a couple hours of lost work.
+![](http://d.pr/i/Shga+)
+>       'QTreeWidget'
+Since today the preferences mangles colors
+@MKleusberg I have only one
+Yeah, it's a bit of a head scratcher
+2. cmake .
+4. cmake .
+Same corruption issue
+Same corruption issue
+http://pastebin.com/Rbm8HwNT I've discovered something interesting:  I deleted the APT_RWY and APT_APT tables and the corruption is gone!
+I see the same corruption.
+If I try and open the password protected DB in sqlitebrowser, it asks for the password and other setting (pagesize) I set that, put in the password (a 30 hex-character password) - it crashes.
+Ah right. Ok. Here's some info I used to do the password - it looks like the .NET components use RSA to encrypt it with a password:
+Sqlite parse error:  "line 1:8: unexpected token: VIRTUAL" ( "CREATE VIRTUAL TABLE TokenizerTable USING fts3tokenize(\n                    unicodesn,\n                    \"stemmer=french\"\n                )" )
+Sqlite parse error:  "line 1:8: unexpected token: VIRTUAL" ( "CREATE VIRTUAL TABLE MessageSearchTable USING fts4(\n    body,\n    attachment,\n    subject,\n    from_field,\n    receivers,\n    cc,\n    bcc,\n    \n    tokenize=simple,\n    prefix=\"2,4,6,8,10\"\n)" )
+- [ ] Other:
+Hi! I can see that the word VIRTUAL is not part of the list of tokens in sqlite3.g. This probably (have a bit of work to do until I understand things fully) is the reason it is not understood.
+A bit of fun, and a long road for me get up to speed in things I haven´t done for a long time.
+/Gunnar
+Problem Event Name: APPCRASH.
+```bash
+I'm trying to open an encrypted SqLite db and when I enter the key and click ok the dialog just blinks and provides no feedback as to what the issue is.
+TCREncryptionAlgorithm = (eaTripleDES, eaBlowfish, eaAES128, eaAES192, eaAES256, eaCast128, eaRC4);
+FROM other where word like '%عشق%'
+case when word like 'عشق' then 1
+case when word like 'عشق' then 1
+QsciScintilla(parent)
+I think its because of `QsciScintilla`. :\
+`Scintilla` has historical problems with RTL.  ### Details for the issue
+|   +---bin
+|   \---tmp
+```gdb
+at /home/oleg/Документы/программирование/Sources/sqlitebrowser/src/sqlitedb.cpp:1111
+at /home/oleg/Документы/программирование/Sources/sqlitebrowser/src/EditTableDialog.cpp:613
+at /home/oleg/Документы/программирование/Sources/sqlitebrowser/src/EditTableDialog.cpp:564
+at /home/oleg/Документы/программирование/Sources/sqlitebrowser/build/moc_EditTableDialog.cpp:120
+That tool sure spits out a lot of noise,
+2. There are then a lot of registry hits, some of which look like they may be looking for EXEs
+``` c++
+``` gdb
+at /home/oleg/Документы/программирование/Sources/sqlitebrowser/src/sqlitedb.cpp:870
+at /home/oleg/Документы/программирование/Sources/sqlitebrowser/src/sqlitetablemodel.cpp:415
+at /home/oleg/Документы/программирование/Sources/sqlitebrowser/src/MainWindow.cpp:589
+at /home/oleg/Документы/программирование/Sources/sqlitebrowser/build/moc_MainWindow.cpp:438
+from /opt/qt57/lib/libQt5Gui.so.5
+from /opt/qt57/lib/libQt5Gui.so.5
+from /opt/qt57/lib/libQt5Gui.so.5
+at /home/oleg/Документы/программирование/Sources/sqlitebrowser/src/main.cpp:13
+(gdb)
+<Data>571af2eb</Data>
+<Data>APPCRASH</Data>
+<Data>571af2eb</Data>
+IESHIMS.DLL
+I don't have any _obvious solution_ other than to take the time and effort to create an _alternative_ to **SqliteBrowser** built-on the **_afm/fossil_** toolset.
+need for NSIS
+The ANTLR reference does not make clear if it is using Java, Python, C#,
+etc; or how it is expecting to access ANTLR.
+Scintilla compilation
+bundled straight into coff-binary)
+anything complicated with any of its host-platforms]
+translate and fix
+@innermous
+Axis? Axes?
+Where do all the corners (upper left side) that follow a straight line go down to? If I was able to chose "show me X from 0 to 200", I wouldn't be forced to go to EXCEL
+Version de SQLite : 3.11.0 It seems I'm on the testing ppa "ubuntu xenial"
+Urgh, blanks in projects name. We all know, that build systems are troublemakers, but this is just a way to **beg** for it... ;)
+Fixed it with a sed script.
+DESTINATION share/icons/hicolor/256x256/apps/)
+cmake. Correct?
+> package/show/home:frispete:PyQt5/sqlitebrowser
+> troublemakers, but this is just a way to *beg* for it... ;)
+> Fixed it with a sed script.
+>                 DESTINATION share/icons/hicolor/256x256/apps/)
+State of request 451660 was changed by pluskalm:
+Loop
+I can't turn on the lines, because it does not respect the order I asked (order by t):
+The first color it appeared when making this mock example was YELLOW!!
+@revolter It kind of makes sense that somewhere in the code there is a line that says, order the rows by X.
+![result](https://cloud.githubusercontent.com/assets/18152095/19331799/affaf0be-90b4-11e6-939d-dcf81f2fa581.png)
+Ok, this is strange. I read what that thing does and it is doing something unrelated. (bug)
+@MKleusberg
+#ifdef Q_OS_MAC
+/Gunnar
+/Gunnar  ### Details for the issue
+@revolter no, unfortunately it doesn't help.
+// get a default color
+QColor curbkcolor = changeitem->backgroundColor(column);
+Hi @revolter,
+![suggerence](https://cloud.githubusercontent.com/assets/18152095/19335415/161b6718-90d1-11e6-9e6d-4eea3caa9a97.PNG)
+I would personally increase the saturation of excel's (except for yellow, damn YELLOW!)
+but here is a bit of special behaviour:
+/gunnar
+I apologize for not keeping up with the conversation. So this problem is unique to my situation. I have a Surface Book that is docked to two monitors (and also the Surface Book itself).
+## Here are some other weird display issues I got:
+The build is broken.
+Thread model: posix
+Why BSD-specific? I am not running BSD here. Also, master works (built from scratch). Rebuilding v3.9.x now to get a better idea, but I am not tracking the project as closely as you are and I may not know what caused the issue. I may, if I have the time, bisect it from v3.9.x. If you need that, tell me.
+1) import tables from .sql file: https://github.com/sqlitebrowser/sqlitebrowser/files/411587/kuban.db.sql.zip
+@revolter makes a good point regarding the added maintenance burden.
+There are two related issues:
+I don't consider this a bug, but is certainly an odd thing.
+When directly trying to execute
+There is a typo in the About dialog of DB4S.
+unknown type name 'QAtomicOps'
+typedef QAtomicOps<T> Ops;
+typedef QAtomicOps<T> Ops;
+@justinclift Mind giving this patch to qscintilla2 a try?
+@justinclift yes that sounds like a good idea. For instance, Xcode 8 supports more of the c++11 standard.
+@ilovezfs @justinclift
+@agarny do you mind reviewing joshua-meng's patch (https://github.com/joshua-meng/Lunar/commit/751e3f015ecbefe7fcb90f02092574711b6cec3d) vs. yours?
+@ilovezfs
+@ilovezfs, @joshua-meng said it all.
+@joshua-meng's patch requires C++11, which might be a problem for Phil Thompson (the person behind `QScintilla`), I don't know.
+@agarny @justinclift @ilovezfs
+Note that changing "Navegador de dados" to "Navegador" works too, but is clearly worse.
+- [x] Linux: ( gentoo )
+Seems to work at e76e5b3241af5e79474ae32fda393da921696d96 for the test described in the first comment wrt deferred foreign keys.  Thanks!
+- [ ] Other:3.8.5
+> *\* SQLCipher
+> *\* sjlombardo at zetetic dot net
+- [ ] Other
+- [ ] Other
+This is an obj file in COFF64 format, maybe it can be linked directly with 64-bit version of DB4S:
+[Obsolete]
+[/Obsolete]
+It's for a client and I can't share it publicly! Even I'm beginning to wonder now if my PC is starving for resources with Android Studio and Chrome browser open in the background! If you can email me, I might be able to share it personally! abhilash1in@gmail.com  :wink:
+@innermous just the UI
+@chrisjlocke the memory usage is a bit strange! Was it with the bloat1, bloat1b or with the original one I shared? On my PC,
+@innermous may I know the problem and your approach, if you could put it down in words? Just curious :smiley:
+@innermous should I build from the application from source? I'm not sure how to do it. I had a look at [this](https://github.com/sqlitebrowser/sqlitebrowser/blob/master/BUILDING.md) and it looks slightly complicated and I don't have enough time to figure it out. Is it possible to share an installation file?
+undefined behavior.
+*** Error code 2
+On dragonflybsd master:
+*** Error code 1
+*** Error code 1
+*** Error code 1
+`cmake .`
+*** Error code 1
+*** Error code 1
+*** Error code 1
+sean
+This is very annoying.
+@innermous Yes.
+@innermous Only if you are going to build it, cause I don't know how. :smile:
+No no, it is not important at all. I was just wondering, that's all. Cause I changed the font like I normally do in "Data Browser" and it was changed, but then I switched to "Execute SQL" and it was the same, so I thought something was wrong. I didn't notice it has its own font settings in "SQL" tab, sorry.
+Related to #744
+-- Looking for Q_WS_MAC
+-- Looking for Q_WS_MAC - found
+-- Looking for QT_MAC_USE_COCOA
+-- Looking for QT_MAC_USE_COCOA - found
+undefined behavior.
+else
+else
+switch (endFlag)
+switch (startFlag)
+else
+place parentheses around the '!=' expression to silence this warning
+@revolter Ok.
+- [link to the extension](https://chrome.google.com/webstore/detail/session-buddy/edacconmaakjimmfgnblocblbcdcpbko?hl=en)
+If i try to open a encrypted database with your browser, i get an error. Becase this dll encrypt files using RSA (not RS, like i write in the first post, was a keyboard error)
+That will be awesome, but i dont know C++ language, so... i can't give you a big help.
+When running SQLiteBrowser (now renamed to DB Browser for SQLite) on macOS Sierra beta, because the app is unsigned, it can not find its preferences file and as such, the colors in the data browser tab are all black, meaning black text on black background.  Even if you change them, while they will work for that session, closing and reopening the app resets all of your settings.
+Trying to determine if it was a 'color prefs' thing or a 'prefs in general' thing, this time I nuked the prefs file, confirmed the colors were at their defaults, then opened up 'Preferences' and toggled 'Remove Line Breaks in Schema View' (i.e. a pref _not_ related to color). I closed and restarted and sure enough, the colors went wonky again back to black-on-black.  Ironically, the 'Remove breaks' setting _did_ stick.
+So... that's how to get to see what I was seeing.  Apparently the prefs for the colors are either being written, or read incorrectly even though the other prefs seem to be persisting and being read just fine.
+:dart:
+Also, Configurar seems a better choice. I think you are going to fix the bug anyway, so it could be kept that way.
+Some words are defined once but used in different contexts.
+autorisé, autorisée or autorisées.
+I'll change Cipher again.
+In main dialog, I have to change from "masculin" to éféminin" in synchronization
+\4. In Python:
+There is no _"Ficheros de"_ string (or substrings of) that I can find anywhere in the file. :/ Do you know in which line is defined?
+Also in that same dialog the _"New Folder"_ and _"Cancel"_ buttons are not translated but _"Abrir"_ is, but can't find the source _"New Folder"_ text either.
+![portapapeles01](https://cloud.githubusercontent.com/assets/14217781/17837194/7ee1ec5c-67ac-11e6-9f7f-415149b1bb81.png)
+![portapapeles02](https://cloud.githubusercontent.com/assets/14217781/17837196/880884d0-67ac-11e6-9cab-468ca939db51.png)
+@revolter yeah, with a local copy is fine, but I was using the github webgui that apparently doesn't support it and the known way is generating a "reverse" pull request, that even if it works and gets the code in sync it makes a mess with the timelines for future pull requests.
+@revolter well, not sure of that, literal translations of short terms lacking the proper context can be very confusing and become even annoying.
+Ralf
+Ralf
+I've changed the language from `ar_SA` (which is wrong) to `ar`
+![preferences](https://cloud.githubusercontent.com/assets/300484/17383962/7d5ee77a-599e-11e6-9ad2-745fa877afba.png)
+Extras
+Shortcuts are like `Ctrl+C` `Ctrl+V`..
+Edited title to clarify as FR; thanks!
+Other strange symptom is that if I do a query using ExecuteSQL, it will say, e.g. 4 records found, but they aren't shown.
+Perhaps a complication is that I am using it to look at databases in an iOS simulator. (I use simPholders to conveniently find the directory, and it mounts the directory using OSXFuse...)
+@revolter, I think I just solved it. I disabled simPholder's use of simPhuse, and now it seems to be working fine.
+It's strange it worked until today.
+So, A quick "scan" throught the Arabic file showed me that there is a huge number of logical mistakes, I'm referring to This: `<translation>تصدير(&amp;)</translation>` especially.
+Not to mention the grammatical errors and translation mistakes.
+"which doesn't always fit into the translation."
+I'm not sure if you accept that, as if will change almost all of the
+No, it's just another way of translating buttons (To action not noun), and some other Arabic specific rules.
+Added Arabic translation.
+@innermous Nice catch, it's truer to be 'ar_SA' instead of 'ar_EG'.
+@justinclift `sqlb_ar.ts` is done. You can merge it.
+@justinclift Most welcome. No, they should be translated in `sqlb_ar.ts`. Same thing happening with French translation ( and maybe others ), example: `Revert Changes` should be translated ( [here ](https://github.com/sqlitebrowser/sqlitebrowser/blob/master/src/translations/sqlb_fr.ts#L1069)), but it isn't translated in the GUI either.
+You can see the last one was ordering 'DESC'.
+@karim, have you tried using a different database? Can you share the DB?
+@jungle-boogie I have tried different databases, and still the same. This one crash also..
+Hi @karim, I still can't get it to crash. Maybe I'm not doing the same exact thing as you. Also, i'm on WIndows 8.1. Can you try a different profile on your windows computer? Do you have linux or mac to try?
+@karim, I apologize for misunderstanding what you were indicating as the problem.
+@revolter Thanks for this fix!
+Rich
+> Sorry for the troubles. Our foreign key handing (and constraints in
+Unfortunately, foreign key support is a critical need for all my
+Rich
+Rich
+Hi, I'm using sqlitebrowser for arch linux. I installed from yaourt. While i try to use, the application is crashing and without any error message, it will close.
+Could it be a path issue?
+if(NOT ANTLR2_FOUND)
+add_subdirectory(${ANTLR_DIR})
+Oh man, I'm stupid, I only executed `qmake` and didn't realize that it only creates the Malefiles.
+That's strange
+Segmentation fault
+I'm so sorry, I have been terribly busy in the last couple of weeks and I had an operation two weeks ago and have been recovering since then.
+@jungle-boogie I created the topic but I don't have the permission to do that. Ask @justinclift ;)
+I've been experimenting a little.
+Thanks a lot for the patch, @DelphiGit!
+Please help as this is a little annoying.
+however, in the exported sql, the create statement contains backtick (`) as well as double quote (") and single quote (') , which seems to be a random behavior.
+And it's also unpredictable in the CREATE INDEX statements:
+but the exported sql is:
+- enter `abc123` in the `Password` and `Reenter password` field
+Am I doing something wrong or is it another bug? Or I introduced it? As far as I understood, the problem with the invalid popup was when trying to open an encrypted database, right? Could you email your test database just to make sure it works with it as well after solving the problem?
+One more thing, why was the travis change needed? Why didn't it fail for everybody else?
+Just some random thoughts...
+I suggest to remove some margin arround the treeview. It's not clear actually and it looks like 90's app.
+Did you mean `remove` instead of `remote`?
+Expected in: /usr/local/lib/libJPEG.dylib
+lrwxr-xr-x    1 revolt  admin    35B Mar 26 17:26 libjpeg.dylib@ -> ../Cellar/jpeg/8d/lib/libjpeg.dylib
+cask        emacs       gettext     jpeg        libtool     lynx        nettle      readline    tree        youtube-dl
+Why doesn't it show the `libJPEG.dylib`?! I don't understand.
+FOREIGN KEY(`groupid`) REFERENCES `groups`(`groupid`) ON DELETE CASCADE
+If I have multiple tables in a database, let's say they're called `[a-e]`, if I:
+- mouse down on `a`
+- mouse up on `a`
+@MKleusberg I am not sure what view you are speaking about.
+> @jungle-boogie Would you be ok to compile the latest master code, and verify the fix on Linux?
+Perhaps you have reasons to make this request so strange.
+I see there's PNG and BMP, both huge files especially if you store stuff in DB (=you have many rows), what's the reason for no JPEG yet?
+Note: I was really surprised when the portable app showed up as an installer...
+What about UNIQUE fields?
+@tonypdmtr ow...
+You see how ambiguous the whole thing is? We must consider which one of these we need, then we can proceed further to details and implementation.
+Now, with the mouse you can be more creative.
+LIBSQLITE
+If you have suggestions regarding code style, do let me know and I will update the pull request
+%d is decimal!
+If I'd know what the problem is ...
+galaxor slim[2173]: /bin/bash: line 1:   542 Aborted                 (core dumped) sqlitebrowser
+CONSTRAINT fk_multi FOREIGN KEY (id1, id2) REFERENCES to_reference_multi (id1, id2),
+CONSTRAINT fk_single FOREIGN KEY (id3) REFERENCES to_reference_single (single_id)
+FOREIGN KEY(`id3`) REFERENCES `to_reference_single`(`single_id`)
+FOREIGN KEY(`id3`) REFERENCES `to_reference_single`(`single_id`),
+FOREIGN KEY(`id1`,`id2`) REFERENCES `to_reference_multi`(`id1`,`id2`)
+CONSTRAINT fk_multi2 FOREIGN KEY (id3, id4) REFERENCES table2 (id3, id4)
+CONSTRAINT `fk_multi2` FOREIGN KEY(`id3`,`id4`) REFERENCES `table2`(`id3`,`id4`),
+CONSTRAINT `fk_multi1` FOREIGN KEY(`id1`,`id2`) REFERENCES `table1`(`id1`,`id2`)
+Sorry if I made any mistake, English is not my mother tongue
+Do you have the exe only build..
+charm !!!
+This would be so much easier if QSqlTableModel was used :cry: QEditStrategy::onRowChange could be a cure but...
+Regards, AL.
+This is totally wrong behavior.
+`Baz`   TEXT,
+UNIQUE (`Bar`, `Baz`)
+sb.Password = "hjk";
+@inksword - please be more specific. "Opens a Finder" makes no sense, because Finder is an app that always runs. Do you mean "opens a Finder window"? And where do you drag the sqlite file, exactly? Onto the Dock icon, or onto the application icon inside a Finder window (in the first msg you mentioned the app, but I like to double check with you).
+I guess @inksword is happy that he's found a work-around, so it's not an issue for him any more, and politely closed it. :smile:
+Closing was a mistake
+moc_ScintillaQt.cpp
+Generating Code...
+lib /NOLOGO  /OUT:release\qscintilla2.lib @C:\Users\Mitch\AppData\Local\Temp\nmBA84.tmp
+RCC: Error in 'translations\translations.qrc': Cannot find file 'sqlb_en_GB.qm'
+RCC: Error in 'translations\translations.qrc': Cannot find file 'sqlb_ko_KR.qm'
+RCC: Error in 'translations\translations.qrc': Cannot find file 'sqlb_en_GB.qm'
+RCC: Error in 'translations\translations.qrc': Cannot find file 'sqlb_ko_KR.qm'
+Ralf
+I can confirm Karim:
+`anidb_id`  INTEGER UNIQUE,
+FOREIGN KEY(`type`) REFERENCES anime_types ( type ) on delete restrict on update cascade,
+FOREIGN KEY(`status`) REFERENCES anime_statuses ( status ) on delete restrict on update cascade
+PRAGMA foreign_keys = ON;
+In a verry related note, would there be a possibility of creating an extension environment from other languages? I could write the extension I'm suggesting in Python, but would have a hard time in c++.
+Ralf
+The area of Log , is blur
+It's my first time submitting code to a community project, so if this is the wrong channel, I am sorry.
+-- Looking for Q_WS_MAC
+-- Looking for Q_WS_MAC - not found
+LIBSQLITE
+`username`  TEXT UNIQUE
+TANK U 👍
+from ./antlr/ANTLRException.hpp:12,
+from ./antlr/NoViableAltForCharException.hpp:12,
+from ./antlr/ANTLRException.hpp:12,
+from ./antlr/NoViableAltForCharException.hpp:12,
+Huy Cong Vu
+I'll try with cmake then.
+I'm trying to build with MingW 32 bits without success for now.
+LIBSQLITE
+http://www.thetazzbot.com/wp-content/uploads/2016/01/Kodioke100.db_.zip
+@MKleusberg
+![mojibake](https://cloud.githubusercontent.com/assets/4156121/12028493/eada9ae8-ae12-11e5-92f7-d6ed303584e8.png)
+I've never working on installers, so I don't know how or what to setup; since this mojibake message is the ordinary zh_CN default message, I think using default message for zh_TW should suffice.
+Exception Type:        EXC_BAD_INSTRUCTION (SIGILL)
+Exception Codes:       0x0000000000000001, 0x0000000000000000
+One thing I noticed: I got the warning "Warning: sqlite-3.8.11.1 already installed" when trying to install sqlite via brew.
+Code Type:             X86-64 (Native)
+Time Awake Since Boot: 88000 seconds
+Exception Type:        EXC_BAD_INSTRUCTION (SIGILL)
+Exception Codes:       0x0000000000000001, 0x0000000000000000
+12  libqcocoa.dylib                 0x0000000104428d36 0x104405000 + 146742
+37  libqcocoa.dylib                 0x000000010442608d 0x104405000 + 135309
+I have a table 'B' with AID marked as Foreign Key from table 'A'.
+**"Error adding record: FOREIGN KEY constraint failed (INSERT INTO `FriendShip('id', 'user1', 'user2') VALUES(4,0,0);)"** @justinclift I tried today and it seems to work. Windows 10, Version 3.9.1  I updated from v3.7.0 to v3.8.0 (Windows) this morning and now whenever I click the "Browse Data" tab the application crashes.
+Problem Event Name:   APPCRASH
+Exception Code:   c0000005
+Exception Offset: 0000000000001120
+Locale ID:    1033
+@MilosSubotic
+[Some "complex" queries do work in latest command line version, but not in the sqlitebrowser](https://stackoverflow.com/questions/34391632/how-can-i-add-row-position-to-a-query-with-a-sum-column-from-subquery?noredirect=1#comment56524568_34391632)
+Sandra
+@MKleusberg
+- tr("asdf") corrected.
+Ubuntu
+> depth... it's more something that I figured out after a bit of reading and
+> http://mirror.salasaga.org/sqlitebrowser/nightly/
+Ralf
+Ralf
+Ralf
+Ralf
+Weird.. OK I was using Ubuntu when I ran the build, must be a Mac vs Ubuntu
+difference. It's no big deal, I would say to keep (cmake ..) Because the
+Ubuntu guys will just figure out that it needs one to make it work.
+Strange differences...
+Chrome (latest, Mac OSX 10.10) has a History file that is in SQLite format. But opening it with sqlitebrowser 3.7.0 gives the "Invalid file format" error.
+downloads             meta                  urls
+Regards / Pozdrawiam,
+Michał Fita
+I don't understand what you mean with look different?
+Strange behavior.
+En Ych
+En Yach
+En Yach
+inner join Entidad
+inner join NVEstado
+where NV.IdNVEstado = {0}
+Here's the output of the `make`...There's a few errors and warnings but I don't know if they're the root cause of the error (and note that programs my `/anaconda/` path take precedence...don't know if that affects things either):
+rm -f libantlr.a
+ranlib -s libantlr.a
+rm -f libqscintilla2.a
+ranlib -s libqscintilla2.a
+Project MESSAGE: Warning: unknown QT: macextras
+Project MESSAGE: Warning: unknown QT: macextras
+Project MESSAGE: Warning: unknown QT: macextras
+RCC: Error in 'translations/translations.qrc': Cannot find file 'sqlb_fr.qm'
+RCC: Error in 'translations/translations.qrc': Cannot find file 'sqlb_en_GB.qm'
+RCC: Error in 'translations/translations.qrc': Cannot find file 'sqlb_fr.qm'
+RCC: Error in 'translations/translations.qrc': Cannot find file 'sqlb_en_GB.qm'
+Updating 'translations/sqlb_zh.qm'...
+Updating 'translations/sqlb_zh_TW.qm'...
+Updating 'translations/sqlb_de.qm'...
+Generated 37 translation(s) (0 finished and 37 unfinished)
+Updating 'translations/sqlb_fr.qm'...
+Updating 'translations/sqlb_ru.qm'...
+Updating 'translations/sqlb_pt_BR.qm'...
+Updating 'translations/sqlb_en_GB.qm'...
+/Users/dtown/anaconda/bin/uic MainWindow.ui -o .ui/ui_MainWindow.h
+/Users/dtown/anaconda/bin/uic CreateIndexDialog.ui -o .ui/ui_CreateIndexDialog.h
+/Users/dtown/anaconda/bin/uic AboutDialog.ui -o .ui/ui_AboutDialog.h
+/Users/dtown/anaconda/bin/uic EditTableDialog.ui -o .ui/ui_EditTableDialog.h
+/Users/dtown/anaconda/bin/uic PreferencesDialog.ui -o .ui/ui_PreferencesDialog.h
+/Users/dtown/anaconda/bin/uic EditDialog.ui -o .ui/ui_EditDialog.h
+/Users/dtown/anaconda/bin/uic ExportCsvDialog.ui -o .ui/ui_ExportCsvDialog.h
+/Users/dtown/anaconda/bin/uic ImportCsvDialog.ui -o .ui/ui_ImportCsvDialog.h
+/Users/dtown/anaconda/bin/uic SqlExecutionArea.ui -o .ui/ui_SqlExecutionArea.h
+/Users/dtown/anaconda/bin/uic VacuumDialog.ui -o .ui/ui_VacuumDialog.h
+/Users/dtown/anaconda/bin/uic CipherDialog.ui -o .ui/ui_CipherDialog.h
+/Users/dtown/anaconda/bin/uic ExportSqlDialog.ui -o .ui/ui_ExportSqlDialog.h
+/Users/dtown/anaconda/bin/uic ColumnDisplayFormatDialog.ui -o .ui/ui_ColumnDisplayFormatDialog.h
+/Users/dtown/anaconda/bin/rcc -name icons icons/icons.qrc -o release/qrc_icons.cpp
+Code Type:             X86-64 (Native)
+Time Awake Since Boot: 450000 seconds
+Exception Type:        EXC_BREAKPOINT (SIGTRAP)
+Exception Codes:       0x0000000000000002, 0x0000000000000000
+Application Specific Information:
+Sorry for the late reply...I was taking my usual annual SQL cleanse...thanks for the ping, looks like it's fixed!
+Interesting: I uninstalled and reinstalled 3.7.0 64bits on Windows 8.1.
+Raanan Barzel
+Ralf
+Ralf
+But this char is also a wildcard so I'm not able to exclude unwanted items.
+How can I escape wildcard in the filter textboxes?
+Already tried with no luck. Doubling the char doesn't work.
+Under Wndows, on a HD screen, the scrolled list of tables in the 'Browse data' tab is streched horizontally across the screen and becomes uncomfortably wide. It would be nice if its size could be adjusted to the size of the largest table name.
+Raanan
+Raanan
+Raanan
+Bob
+Bob
+Code Type:       X86-64 (Native)
+Exception Type:  EXC_BREAKPOINT (SIGTRAP)
+Exception Codes: 0x0000000000000002, 0x0000000000000000
+Binary Images:
+0x7fff82e6a000 -     0x7fff82e79fef  com.apple.opengl 1.6.14 (1.6.14) <ECAE2D12-5BE3-46E7-6EE5-563B80B32A3E> /System/Library/Frameworks/OpenGL.framework/Versions/A/OpenGL
+0x7fff83fb6000 -     0x7fff8406bfe7  com.apple.ink.framework 1.3.3 (107) <8C36373C-5473-3A6A-4972-BC29D504250F> /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Ink.framework/Versions/A/Ink
+0x7fff8457c000 -     0x7fff8459dfff  libresolv.9.dylib 41.1.0 (compatibility 1.0.0) <9410EC7F-4D24-6740-AFEE-90405750FAD7> /usr/lib/libresolv.9.dylib
+0x7fff86a34000 -     0x7fff86ac4fff  com.apple.SearchKit 1.3.0 (1.3.0) <4175DC31-1506-228A-08FD-C704AC9DF642> /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/SearchKit.framework/Versions/A/SearchKit
+AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x87), Broadcom BCM43xx 1.0 (5.10.131.42.4)
+FireWire Device: My Book 111D, WD, Up to 800 Mb/sec
+Code Type:       X86-64 (Native)
+Exception Codes: KERN_INVALID_ADDRESS at 0x00000003ff46a1d8
+Binary Images:
+0x7fff802d2000 -     0x7fff8050cfef  com.apple.imageKit 2.0.3 (1.0) <9EA216AF-82D6-201C-78E5-D027D85B51D6> /System/Library/Frameworks/Quartz.framework/Versions/A/Frameworks/ImageKit.framework/Versions/A/ImageKit
+0x7fff82e6a000 -     0x7fff82e79fef  com.apple.opengl 1.6.14 (1.6.14) <ECAE2D12-5BE3-46E7-6EE5-563B80B32A3E> /System/Library/Frameworks/OpenGL.framework/Versions/A/OpenGL
+0x7fff83fb6000 -     0x7fff8406bfe7  com.apple.ink.framework 1.3.3 (107) <8C36373C-5473-3A6A-4972-BC29D504250F> /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Ink.framework/Versions/A/Ink
+0x7fff844ab000 -     0x7fff844daff7  com.apple.quartzfilters 1.6.0 (1.6.0) <9CECB4FC-1CCF-B8A2-B935-5888B21CBEEF> /System/Library/Frameworks/Quartz.framework/Versions/A/Frameworks/QuartzFilters.framework/Versions/A/QuartzFilters
+0x7fff8457c000 -     0x7fff8459dfff  libresolv.9.dylib 41.1.0 (compatibility 1.0.0) <9410EC7F-4D24-6740-AFEE-90405750FAD7> /usr/lib/libresolv.9.dylib
+0x7fff86a34000 -     0x7fff86ac4fff  com.apple.SearchKit 1.3.0 (1.3.0) <4175DC31-1506-228A-08FD-C704AC9DF642> /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/SearchKit.framework/Versions/A/SearchKit
+Project MESSAGE: Warning: unknown QT: macextras
+Project MESSAGE: Warning: unknown QT: macextras
+Project MESSAGE: Warning: unknown QT: macextras
+RCC: Error in 'translations/translations.qrc': Cannot find file 'sqlb_fr.qm'
+RCC: Error in 'translations/translations.qrc': Cannot find file 'sqlb_en_GB.qm'
+RCC: Error in 'translations/translations.qrc': Cannot find file 'sqlb_fr.qm'
+RCC: Error in 'translations/translations.qrc': Cannot find file 'sqlb_en_GB.qm'
+Pong.
+Code Type:       X86-64 (Native)
+Exception Type:  EXC_BREAKPOINT (SIGTRAP)
+Exception Codes: 0x0000000000000002, 0x0000000000000000
+Binary Images:
+AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x8D), Broadcom BCM43xx 1.0 (5.10.131.42.4)
+Alternative solutions might be:
+Ralf
+However, there is one issue with this always-on use of % that may be a problem.  It fails to handle the case where a string is also found as a sub-string of another string.  For example, the names: John and Johnson
+So the result it that when we use a program, liker yours great app, the letters øæå is displayed wrong.
+TTC NORGE AS
+Svein
+Just curious if I'm the only one seeing this strange behaviour? Perhaps most users on Windows stick to the release builds and therefore haven't experienced this yet? :)
+AJ
+Rafal Roman
+rafal@seamlessmedical.com
+other privilege._
+When function is called save(...) and instead of saving it releases savepoint - it seems a lit bit strange for me, so I have renamed some functions and fixed couple of logical errors (well, at least from my POV :D ).
+Due to misleading name - I am not sure what was meant in particular points: either "I want to save" or "I want to release savepoint" :)
+2.1 add to the name of the column special character "`"
+However, there are some more issues with at least this particular special symbol.
+Problem Event Name:   APPCRASH
+Exception Code:   c000001d
+Exception Offset: 0000000000095c01
+Locale ID:    1033
+Additional Information 1: 35c2
+Additional Information 3: 763b
+Problem Event Name: APPCRASH
+but still the same issue
+error persists
+Code Type:       X86-64 (Native)
+Code Type:       X86-64 (Native)
+Exception Type:  EXC_BAD_INSTRUCTION (SIGILL)
+Exception Codes: 0x0000000000000001, 0x0000000000000000
+Application Specific Information:
+0   QtGui                           0x000000010047af64 0x100434000 + 290660
+r12: 0x0000000000000011  r13: 0x000000010047af60  r14: 0x0000000100434560  r15: 0x0000000100cbb490
+Binary Images:
+0x7fff848fb000 -     0x7fff849fdfff  libxml2.2.dylib (10.3.0 - compatibility 10.0.0) <AFBB22B7-07AE-3F2E-B88C-70BEEBFB8A86> /usr/lib/libxml2.2.dylib
+0x7fff89fc0000 -     0x7fff8a127ff7  com.apple.CFNetwork (520.5.3 - 520.5.3) <1C11C214-1C70-3358-A709-69C84D999DB8> /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CFNetwork.framework/Versions/A/CFNetwork
+External Modification Summary:
+REGION TYPE                      VIRTUAL
+MALLOC                             31.5M
+MALLOC guard page                    48K
+Stack                              8712K
+__CI_BITMAP                          80K
+__UNICODE                           544K
+missing macextras.
+I tried changing all the colors in preferences and none seemed to work
+I dont have much idea how themes work tho, so no idea whose fault it is :)
+For me, I prefer to display it in Browse Data tab.  For example, in the attached picture, I prefer the item "diag_msg_def_id" to be displayed in hex format because the item are defined in hex format in my software application.
+If I change from default to hex, I get the proper conversion in the text box: `printf('0x%x',`Value`)`, I press ok and see the values. I then right click on the cell and choose `edit display format` and see the drop down now shows custom. I'm not able to actually type in the box, though. Is this expected?
+But the message is still scary...
+Sometimes I use YYYYMMDD format as the user_version in a database to know when it was last modified. It is stored and displayed correctly when using the SQLite3 command line:
+I compared it with old (before Scintilla) appearance:
+![db browser for sqlite - -home-m-mmk-_akarin-lessons-lessons- -students dbs_058](https://cloud.githubusercontent.com/assets/5500999/8283570/383d5aa4-1922-11e5-9d4d-816f290e2124.png)
+Maybe this is some special UTF8 digits, here the another test string:
+абвгдеийклмнопрстуфхцчшщъыьэюяqwerty
+lex->setFont(QFont("Andale Mono", 20));
+![db browser for sqlite - -home-m-mmk-_akarin-lessons-lessons- -students dbs_062](https://cloud.githubusercontent.com/assets/5500999/8289092/84064a28-1944-11e5-9980-fedcca2630c9.png)
+Yes, I do have tables that reference FileInfo with foreign keys. It would have been nice to get clearer error messages or logs, but... you get what you pay for :-}
+`brand` varchar(128) NOT NULL,
+incorrect:
+AFAICS, this occurs since v3.6.0 (export was correct in 3.5.1)
+Anton
+no uft-8 char is support
+I have an existing database with utf-8 strings inside (tested with Eastern-European characters like čšťžýúä any others). Everything works OK, but when I try to import an .sql file (in "Execute SQL" tab, both "Open SQL file" or copy-paste the whole SQL file contents), the characters are replaced with ?.
+eva5618
+in log
+is this 2 different processes ?
+Unrecognized token: "@" when query a column that use @ symbol
+I'm a bit skilled with C++ but I'm not up to date since I didn't used it for 5 years
+When writing unicode characters in executeSqlTab, it instantly becomes a question mark "?"...
+Translated a lot of things.
+Used LibreOffice's built-in Brazilian Portuguese dictionary to find some typos at the end.
+De nada. (We greeted each other in our language).
+Vincent - vincent.maille@ac-amiens.fr
+Vincent
+Vincent
+Strange, now it works, sorry
+A mac version correctly.
+Now that is interesting!
+patch : 6 <-- weird one! It's in the future (3.6.0 is the latest version at this moment).
+"If you don't proceed, NNN.\n"
+I'd also like to know what those "bad things" are. 😄
+'jiāfǎ' word display well at Editor but not well at Grid Cell.
+ǎ letter is crashed.
+[image: 본문 이미지 1]
+Also, thanks to MKleusberg.
+I am not sure why, but I have tried exporting my database to SQL using dbviewer. Then, I go to my website and use phpmyadmin to import the SQL file, and I keep having errors. It does not seem to understand the begin transaction statement. I have tried removing it, but it keeps saying that "integer" is not a valid SQL statement either.
+The small patch series improves the handling/testing of unicode (non-ASCII) data in the `TestImport` test.
+Non-latin1 characters become question marks (`?`) if I try to type them.
+select unicode('α');
+select unicode('?');
+Someone might want to look into the windows version
+Fraud software could be a exploited or compromised code even.
+adam
+I'm doing something wrong but I don't know what. :p
+![image](https://cloud.githubusercontent.com/assets/2979445/7424885/fb4a1c0e-efaf-11e4-8e03-3b75414abcfe.png)
+I have foreign keys allowed in my schema.
+FOREIGN KEY(`lweaponId`) REFERENCES weapons (id)
+ALTER TABLE `characters`
+ADD FOREIGN KEY (`weaponId`) REFERENCES `weapons`(id)
+@AnthonyUccello - How does the structure of your table `weapons` look like?
+(Sorry for the typo weappons in the image, but the issue is the same regardless, I've tried weapons(id) and weapons (id), and manual SQL attempts).
+![image](https://cloud.githubusercontent.com/assets/207884/7376122/9c61456a-edab-11e4-986a-3c3d4da643c5.png)
+![image](https://cloud.githubusercontent.com/assets/207884/7376105/712d0bea-edab-11e4-8b81-42c10d010623.png)
+![image](https://cloud.githubusercontent.com/assets/207884/7376086/3dd89af2-edab-11e4-8285-79a86aa17cf8.png)
+Push it out the door!
+A few hours after sending that message I found that my test of SQLlite behavior was flawed.  I’m not sure the bit data type really behaves differently in the two contexts.  Now I’ve eliminated that data type from my DB so I can no longer test for it.
+https://github.com/sqlitebrowser/sqlitebrowser/wiki/SpatiaLite-on-Windows I think this issue can be closed because it's definitely not an issue with DB4S. I don't believe there's anything to be done other than making a more location-independent build of `mod_spatialite`.  The FileOpenDialog show all files in all formats. The SQLite formats are: *.db, *.sqlite, *.sqlite3, *.db3. Is it possible to add the filter?
+@justinclift you're right, that was confusing. :smile:
+Then encrypt with cipher embedded in DB4S
+Really nice enhancement @MKleusberg!
+The PortableApps Format is ugly portable specification, need much settings, A single zip with all contents are more useful. Note: I'm colombian, my english is bad.
+This could be useful when incrementally building complex queries and subqueries.
+Forgive me is any of this is already in place or has already been discounted as crazy. I have not looked through the code.
+sqlitebrowser consistently crashes upon opening a database with a large blob in it (close to 1GB blob, but not over due to the SQLite max size)... the database(s) work fine in the program that utilizes them, but the browser can't handle it. I get a visual c++ error stating that "This application has requested the Runtime to terminate it in an unusual way."
+I am commenting Using my mobile, so apologies for mis-formatting. Or any other mistakes. :smile:
+> 'Inf'
+> INSERT INTO `foo` VALUES (-Inf);
+> INSERT INTO `foo` VALUES ('Inf');
+Log:
+This is more complex than the programmer thought.
+yes, this is the issue @schdub points on PS.
+The number that %3 gets turned into seems somewhat random, but usually less than 20.
+Note that %1 and %2 are also broken, but %4 and up work.
+tags need checking.
+Andreas
+Andreas
+As Italians express it: IBAL (i.e. "in bocca al lupo")
+FOREIGN KEY(customerId) REFERENCES customer(id)
+FOREIGN KEY(orderId) REFERENCES orders(Id),
+FOREIGN KEY(itemId) REFERENCES item(Id)
+from http://download.vive.net/Northwind.zip
+VIEW CUSTOMER TABLE, VIEW COMPANY NAMES USING FOREIGN CHARACTERS
+They appear correct in NAVICAT
+--[[z4us|bb--]]
+Thanks for remembering! I quite like #ffd0cd by the way and the new tab looks good to me.
+@samir-aguiar sure will do. Thanks for your help in many ways
+end BG info
+cd  /Users/me/Desktop/Cashe/db
+sqlite3 Cashe.db
+My-iMac:~ Games$ cd /Users/me/Desktop/Cashe/db
+-bash: cd: /Users/me/Desktop/Cashe/db: No such file or directory
+Mt-IMac:~ Games$ sqlite3 Cashe.db
+--[[z4us|binz--]]
+@samir-aguiar I went to the MacOS folder and clicked and it opened with this dialogue
+@samir-aguiar Here is what it says in terminal
+Navicat doesnt work either.
+Trace/BPT trap
+"otool doesnt exist"
+Bus error
+/Users/Shared/ZeaGuiL/binz/sqlitebrowser.app/Contents/MacOS/sqlitebrowser ; exit;
+@Oldimac10yrsold can you try the following?
+`ulimit -c unlimited`
+Nice, you can send it to saguiar@gmx.de
+sent the share samir :)
+select \* from Sutra where Id like '%3.%'
+6 Rows returned from: select \* from Sutra where Id like '2.%' (took 2ms)
+That's weird, I've done some tests but couldn't reproduce. Here it immediately changes.
+That's really strange, I followed the steps and it just works.
+@samir-aguiar I'm not sure how to upload the file in this discussion but you can download "handle.csv" from here: http://web.mit.edu/aizhan/www/twitter_api_workshop/docs/
+@samir-aguiar thanks! that did fix it, but why would the sqlitebrowser code not work with CR endings? because they are "old" and no one uses them? I guess there would be some people who would view their csv files using excel, and if they save it, the file will be saved with CR endings.
+@samir-aguiar this might be off-topic re sqlitebrowser issue: I used both options of checking the line endings you suggested and terminal does say that I have CR endings, but when I opened the file in Sublime Text2, and viewed the file's line endings, the tick was on Mac OS9 and not on Windows. Would that imply that sublime text is not recognizing the correct line endings?
+@atoregozh It doesn't work probably because they are not common and are not accepted by the RFC, but I don't know for sure, I've only recently joined the project :smile:
+@samir-aguiar great you already added support for CR? Does that mean that I should reinstall sqlitebrowser? Again off-topic: I actually have Mac OS X, why would sublime show that I have Mac OS 9 and thus I have CR endings?
+@samir-aguiar Thank you so much for helping!
+As a non-native English speaker I don't understand "a real to have" as if 'rea;' is a noun as well?
+The INI thing was just me nitpicking after realizing that the checkversion flag was in the registry. It's always helpful if user preferences are easy to migrate to another system; registry keys/hierarchy are usually not published by developers. Sqlitebrowser is very light on user preferences, but it's a burden with some Windows programs. I didn't realize that Qt libs are handling configuration persistence, so I understand now that it's not worth the hassle. Thanks for looking into it.
+wrong issue :)
+Primavera
+(i.e. Italian for spring - eventually you may write it not exactly correct, but as a pun like 'Prima Vera')
+What about Naomi Anderson's dream?
+Animals - fictional like Snoopy, Snowy (we call him Bobby) etc
+Since it's the centennial of her birth:
+Ohh, that's on me, that's probably caused by ae03113. Sorry about that, I'm taking a look.
+But anyway, thanks for this amazing sowtare!
+da3
+It would be great if the UI itself also had a dropdown of some of the rows when entering foreign key data. phpMyAdmin and MS Access are two examples (with the latter being awful) of GUI tools that do this, but I don't think there's a single SQLite example!
+![foreign-example](https://cloud.githubusercontent.com/assets/5298712/8393439/e964b0ce-1d06-11e5-8c51-b80c9660969c.png)
+Needless to say, I don't understand what's going on.
+==> Caveats
+I've also renamed the Chinese translation file because the program was not finding it (see [QTranslator::load()](http://doc.qt.io/qt-5/qtranslator.html#load) for the patterns used when looking for translation files).
+Command & Conquer - Die ersten 10 Jahre   EA / Westwoo  Strategie         O  1                 PC  kA
+Portal                                                  Knobel / Action   S  0                 PC  kA
+@MKleusberg:
+@Z4us sorry, but I didn't understand. What do you mean by separate file? I meant an option in the Preferences pane to select between the .qm translation files.
+@https://github.com/samir-aguiar I mean it may be possible that developers make a kind of template for translators to easily translate the relevant data in the source to be translated to their language.
+Using port:
+Andrea
+I downloaded latest build (http://rp.oldsch00l.com/sqlitebrowser/sqlitebrowser.exe.xz) a few minutes ago and repeated test2. It still shows the same defect as in ver.3.4.0.
+Andrea
+key_remote_jid,
+key_remote_jid, ASC,
+key_from_me, ASC,
+ROWIDs and the INTEGER PRIMARY KEY
+10:29 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+gap
+10:51 xxxxxxxxxxxxxxxxxx
+Hola,
+QChar ch = new_value.trimmed().at(0);
+else
+(sorry, my "english" is very poor, i edited my post without backtick quotes, for google compat)
+CREATE TABLE foo (
+CREATE TABLE foo (
+MKleusberg, justinclift
+Creando la tabla:
+Una simple prueba:
+-- Database: `acom_mforum`
+added ppa,
+So, I just have tried the ppa from @deepsidhu1313 and the install works but I have an UI issue, maybe because im in Elementary OS. My own build hasn't this issue. The weird problem is now i cant build anymore my own build, the sudo make install say :
+[ 24%] Built target antlr
+@Jerome67000  Thanks to you too !!
+That way we can all be happy, some with their bold red, others more subtle and others keeping the status quo.
+- On Mac perhaps it's better to integrate Sparkle into the project and let it do the job. It's widely used and probably has less bugs than the alternatives.
+Anyway, I'll do some testings with Sparkle and tell what I find.
+edit: I don't know why I confused "acronym" with "anagram".
+DB4S sounds good to me :smile:
+srays_CVS_screenshot.PNG
+![srays_cvs_screenshot](https://cloud.githubusercontent.com/assets/9259050/5159916/378fa020-733d-11e4-95c3-b7981baa8fd4.PNG)
+That's most likely due to the keyword `key` being used without quotes. The following variations work:
+rofl.
+I tried using beyond compare (http://www.scootersoftware.com/index.php) to
+Hihi
+I will make a diff of things i change..
+Loc:
+Hihi
+working with Os2
+Hihi
+Hihi
+Hihi
+Hihi
+See @ https://www.arcanoae.com/blue-lion-go/
+Hihi
+Hihi Justin,
+Hihi,
+I create a sqlite database with the password 'abcd'.When I try to open the database ,this software just told me "Invalid file format"
+OffTopic: What is actually the difference between 'LibreOffice' and 'Open Office' ?
+I'm trying to input some rare UTF symbols, like acute accent (U0301), for example. But looks like edits fields in the UI do not support them.
+Basically seems like lots of software has problems inputting acute accent. Like Windows Notepad, for example. It's a tough symbol because it should combine with the previous symbol by the font itself.
+@AAverin
+My C++ is quite rusty and I've got a lot of things going on at the mo, but I hope I can at least donate through paypal or something? And of course I'll test the nightly. I'm using Db browser on Windows at the moment.
+Oh, I'm sorry, my OP was really ambiguous.
+near ".": syntax error:
+FYI there were some keys in the registry which were pointing to
+some other keys; I don't remember exactly what I did
+Its in KOREAN! :'(
+lol
+Now i dont need to worry about translating rofl
+I might need a translator @_@
+Well at first I thought it would work... until i started seeing garbled names and descriptions xD
+Misery of sword Adventure.... was a messed up item name..
+UPDATE Bar SET a = 23 WHERE b = 2;
+return QVariant();
+// Depending on the role either return the text or the icon
+return PreferencesDialog::getSettingsValue("db", "hideschemalinebreaks").toBool() ? item->text(index.column()).replace("\n", " ") : item->text(index.column());
+else
+return QVariant();
+I spoke a bout Glom (Gnome) and Bento (Mac OS X).
+It should be able to manage multiple forms.
+http://freebox-aymeric.no-ip.org/share/tFVcEKqNG4GqE00e/
+`asde`  INTEGER DEFAULT ''
+`asde`  INTEGER DEFAULT ''
+JO|IN
+J|ON
+Seemingly that 'ancient' version is hanging with the apt-get.
+...y gracias a los desarrolladores por este excelente soft.
+Hola, el problema es el siguiente, es que cuando muestras el esquema de una tabla dentro del TreeView  su tamaño cambia considerablemente dañandole el aspecto a tu programa.
+Aca te dejo la captura de pantalla.
+![sin titulo](https://cloud.githubusercontent.com/assets/8442497/4465018/266e6504-48d8-11e4-9ec0-c88e6dbd6152.png)
+![sin titulo](https://cloud.githubusercontent.com/assets/8442497/4465624/19134208-48dd-11e4-8e13-e037654d87a9.png)
+Need custom types, please!!
+Sqlite3:
+1. Double quotes issue:
+"aaa","bbb","ccc" CRLF
+"aaa","b CRLF
+appearing inside a field must be escaped by preceding it with
+another double quote.  For example:
+"aaa","b""bb","ccc"
+1. CRLF issue:
+I didn't recognize the suffix and somehow my brain went to it being an
+obfuscation to fool virus scanners.
+If github allows it you may change the name of the entire project to e.g. Browser4SQLite or extremely short B4S (1337 [leet] lingo: 845 ;-D)
+Excellent, Justin! Thank you very much indeed. A happy Snow Leopard (10.6.8) user.
+... -- 10000rows
+Event better! trimming fields might not be the standard but I noticed many fields in my 3rd party csv file with lots of white spaces in them, so it’s very useful.
+Weird, memory is around 60% (sqlitebrowser using  400MB), CPU is around 25% and I see the Not Responding status every now and then in the task manager. I will be able to test it on another PC next week.
+Hi Rene,
+Selon Peinthor Rene notifications@github.com:
+I made a review of the file : sqlb_fr.ts (XML file)
+l&apos;ouverture
+l'ouverture
+have a good day overseas ;)
+Michel
+Selon Justin Clift notifications@github.com:
+Screenshot: http://h01.akhil.ru/drop/u6wq
+I tried changing all the colors in preferences and none seemed to work
+recognizing the 'C' in the Deming-circle
+http://commons.wikimedia.org/wiki/File:Deming_PDCA_cycle.PNG
+Kind regards / Vriendelijke groeten / Cordiali saluti,
+http://www.innocentisart.eu
+klaasv@innocentisart.eu
+Kind regards / Vriendelijke groeten / Cordiali saluti,
+http://www.innocentisart.eu
+klaasv@innocentisart.eu
+On Wed, Sep 3, 2014 at 5:33 PM, Klaas V Innocentisart zeaforus@gmail.com
+> Kind regards / Vriendelijke groeten / Cordiali saluti,
+> http://www.innocentisart.eu
+> klaasv@innocentisart.eu
+When I'm attempting the a regexp is this a configuration on my side or just a feature of sqlite3 not currently supported in this app?
+Kind regards / Vriendelijke groeten / Cordiali saluti,
+Klaas V
+On Sun, Aug 31, 2014 at 8:38 AM, Peinthor Rene notifications@github.com
+> http://rp.oldsch00l.com/sqlitebrowser/sqlitebrowser.exe.xz
+> > http://rp.oldsch00l.com/sqlitebrowser/sqlitebrowser.exe.xz
+line 1:47: unexpected token: rowid
+line 1:98: expecting RPAREN, found 'ASC'
+line 1:103: unexpected token: )
+line 1:98: expecting RPAREN, found 'ASC'
+line 1:103: unexpected token: )
+line 1:98: expecting RPAREN, found 'ASC'
+line 1:103: unexpected token: )
+Problem Event Name:   APPCRASH
+Exception Code:   c0000005
+Exception Offset: 00048507
+Locale ID:    2057
+There is a small typo, the package is called build-essential without an 's' at the end.
+anyone able to assist or successful with ubuntu trusty
+Caused by wrong type specifier. rhs is size_t (unsigned long int), but '%u' is (unsigned int)
+May be it should be changed to '%lu' ?
+The actual database wasn't created by me so it might very well be in some weird format but I would like some kind of error message or log telling me that before I give up :)
+It still crashes so i´m guessing the file is weird in some way.
+When i insert new table from .csv file all my characters that are unicode like č,š,đ,ć,ž,ü,ö,ä, convert in ��
+Cornelis.
+C:\teki\_downloads\sqlite>sqlite3.exe C:\teki\_data\PhpStorm\projects\thaisubtitle\backup.sql3
+Thank you very much for mentioning the weird characters!
+![weirdcharacters](https://cloud.githubusercontent.com/assets/670271/3638028/e8ff7c78-1031-11e4-9af1-5bf367a1afaa.png)
+Code Type:       X86-64 (Native)
+Anonymous UUID:  DC05DD22-3070-595F-F815-A7558CA51831
+Exception Codes: KERN_INVALID_ADDRESS at 0x0000000000000000
+18  QtGui                           0x00000001003123cc 0x1002dd000 + 218060
+20  QtGui                           0x000000010030a9a0 0x1002dd000 + 186784
+22  QtGui                           0x000000010030ee48 0x1002dd000 + 204360
+24  QtGui                           0x00000001003169aa 0x1002dd000 + 235946
+Binary Images:
+0x7fff843f3000 -     0x7fff8447fff7  com.apple.ink.framework (10.9 - 207) <96A56EAC-B4AC-3C9A-8C40-64E6196753CC> /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Ink.framework/Versions/A/Ink
+0x7fff85887000 -     0x7fff858dafff  com.apple.ScalableUserInterface (1.0 - 1) <19D73C6D-CA0A-3230-9644-7F01364137ED> /System/Library/Frameworks/QuartzCore.framework/Versions/A/Frameworks/ScalableUserInterface.framework/Versions/A/ScalableUserInterface
+0x7fff875d9000 -     0x7fff87669ff7  com.apple.Metadata (10.7.0 - 800.28) <E85AEB1B-CB17-38BC-B5C6-AAB50B47AF05> /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Metadata
+External Modification Summary:
+REGION TYPE                      VIRTUAL
+CG backing stores                  6528K
+MALLOC                            147.1M
+MALLOC (admin)                       32K
+__UNICODE                           544K
+help!
+Trace/BPT trap: 5
+ZEUS01:~$ brew uninstall Qt
+==> Caveats
+UNIQUE (name)
+The sqlb- is annoying here, is it Ok to remove it?
+Nir
+@rp- I don't think this would be the case. As far as I know the file pointer is not moved line-wise. Even if there is only one line, it should return false as the pointer is at the begining of the line. Do-While seems to be risky, as an empty file might cause the loop-block to execute once before the condition detects it.
+-- INSERT INTO NotWorking( value ) VALUES( "prefixb" );
+"In bocca al lupo",
+Klaas
+maciyepson:~ kutay$ cd foo
+maciyepson:foo kutay$ cd sqlitebrowser
+maciyepson:sqlitebrowser kutay$ qmake
+maciyepson:sqlitebrowser kutay$ make
+maciyepson:sqlitebrowser kutay$ ls -la
+drwxr-xr-x  17 kutay  staff    578 19 Haz 17:42 .
+drwxr-xr-x   4 kutay  staff    136 19 Haz 17:21 ..
+-rw-r--r--@  1 kutay  staff   6148 19 Haz 17:42 .DS_Store
+drwxr-xr-x  13 kutay  staff    442 19 Haz 16:39 .git
+-rw-r--r--   1 kutay  staff    371 19 Haz 16:35 .gitignore
+-rw-r--r--   1 kutay  staff   1788 19 Haz 16:35 BUILDING
+-rw-r--r--   1 kutay  staff   6695 19 Haz 16:35 CMakeLists.txt
+-rw-r--r--   1 kutay  staff  52240 19 Haz 16:35 LICENSE
+-rw-r--r--   1 kutay  staff   6172 19 Haz 16:35 README.md
+-rw-r--r--   1 kutay  staff     63 19 Haz 16:35 currentrelease
+drwxr-xr-x   3 kutay  staff    102 19 Haz 16:35 distri
+drwxr-xr-x   4 kutay  staff    136 19 Haz 16:35 images
+drwxr-xr-x   6 kutay  staff    204 19 Haz 17:24 libs
+-rw-r--r--   1 kutay  staff    178 19 Haz 16:35 sqlitebrowser.pro
+drwxr-xr-x   3 kutay  staff    102 19 Haz 16:44 sqlitebrowser.xcodeproj
+drwxr-xr-x  64 kutay  staff   2176 19 Haz 16:44 src
+drwxr-xr-x   4 kutay  staff    136 19 Haz 16:35 tests
+value NVARCHAR(5) CHECK (value IN ('a', 'b', 'c'))
+value NVARCHAR(5) CHECK (value = 'a' OR value = 'b' OR value = 'c')
+serieid integer not null references filmitem (filmid),
+episodenb integer no null,
+title varchar[max],
+foreign key (serieid) references serie (serieid)
+PRAGMA foreign_keys=OFF;
+`episodenb` TEXT,
+`title` varchar[max],
+Code Type:       X86-64 (Native)
+Anonymous UUID:                      5A8E0892-6942-C090-F53D-E00EE0CD6C23
+Exception Type:  EXC_BAD_INSTRUCTION (SIGILL)
+Exception Codes: 0x0000000000000001, 0x0000000000000000
+19  QtGui                           0x000000010030c53b 0x1002dd000 + 193851
+21  QtGui                           0x00000001003109f7 0x1002dd000 + 211447
+23  QtGui                           0x0000000100318471 0x1002dd000 + 242801
+Binary Images:
+0x7fff8047a000 -     0x7fff80518ff7  com.apple.ink.framework (10.8.2 - 150) <3D8D16A2-7E01-3EA1-B637-83A36D353308> /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Ink.framework/Versions/A/Ink
+0x7fff80d4d000 -     0x7fff80dcefff  com.apple.Metadata (10.7.0 - 707.12) <69E3EEF7-8B7B-3652-8320-B8E885370E56> /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Metadata
+0x7fff811e1000 -     0x7fff811ecfff  libsystem_notify.dylib (98.5) <C49275CC-835A-3207-AFBA-8C01374927B6> /usr/lib/system/libsystem_notify.dylib
+0x7fff860b6000 -     0x7fff86169ff7  com.apple.PDFKit (2.8.5 - 2.8.5) <EAAED40E-7B2C-3312-826E-26A9DEDBF0FC> /System/Library/Frameworks/Quartz.framework/Versions/A/Frameworks/PDFKit.framework/Versions/A/PDFKit
+External Modification Summary:
+REGION TYPE                      VIRTUAL
+CG backing stores                  2116K
+MALLOC                             28.4M
+MALLOC guard page                    48K
+Stack                              11.6M
+__UNICODE                           544K
+AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x8D), Broadcom BCM43xx 1.0 (5.106.98.100.17)
+All the best - jon
+For I am a Bear of Very Little Brain, and
+long words bother me. -- Winnie the Pooh
+I suspect there's a typo in BUILDING, which reads, in part:
+qmake
+qmake
+cmake
+All the best - jon
+"Do I contradict myself?
+Very well, I contradict myself,
+All the best - jon
+All the best - jon
+The best is the enemy of the good -- Voltaire
+I can't seem to figure out how to open an encrypted sqlite database?  If this is not currently possible, I think it would be an appropriate enhancement.
+Yes, please add support for SQLCipher.
+"Coolissimo", Justin, will make the upcoming version "awesomer" than it already would be without this free and open encryption {isn't this kind of a "contradictio in terminis" ?-)} Can't wait :-)
++ VSREDIST
+I'm a technical writer (not a developer). I'm not sure what I am doing. I backed up my website and I have this file called kamanjao_kaman.sql that I'd like to view to make sure my pages are there.
+I will try to do my best...nothing is possible :-) rone
+Mauricio

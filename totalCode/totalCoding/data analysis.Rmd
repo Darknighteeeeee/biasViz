@@ -1,0 +1,170 @@
+
+---
+title: "ALL1"
+date: "2025-08-03"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(plotly)
+library(DT)
+library(heatmap3)
+
+# 这里放你的数据加载函数
+load_project_data <- function(project_num) {
+  # 示例：返回一个 list
+  list(
+    project_name = paste0("项目", project_num),
+    cosine_matrix = matrix(runif(100, -1, 1), 10, 10, dimnames=list(letters[1:10], letters[1:10])),
+    euclidean_matrix = matrix(runif(100, 0, 2), 10, 10, dimnames=list(letters[1:10], letters[1:10])),
+    raw_data = data.frame(word=letters[1:10], value=runif(10)),
+    english_variation = data.frame(group=c("A","B","C"), value=runif(3)),
+    pos_features = data.frame(feature=c("Noun","Verb","Adj"), value=runif(3))
+  )
+}
+
+# 选择数据
+selected_data <- reactive({
+  project_num <- as.numeric(gsub("项目 ", "", input$project))
+  load_project_data(project_num)
+})
+```
+
+## Row {data-height=400}
+
+### 控制面板
+
+```{r}
+selectInput("project", "选择项目", choices = paste("项目", 1:5))
+radioButtons("metric", "选择度量方式", choices = c("cosine", "euclidean"))
+checkboxInput("cluster_rows", "行聚类", TRUE)
+checkboxInput("cluster_cols", "列聚类", TRUE)
+sliderInput("font_size", "字体大小", min=8, max=20, value=12)
+checkboxInput("show_values", "显示数值", FALSE)
+```
+
+## Row {data-height=800}
+
+### 热图
+
+```{r}
+plotOutput("heatmap")   # 用 heatmap3 静态图
+```
+
+```{r}
+output$heatmap <- renderPlot({
+  data <- selected_data()
+  
+  if (input$metric == "cosine") {
+    mat <- data$cosine_matrix
+    title <- paste(data$project_name, "- 余弦相似度")
+  } else {
+    mat <- data$euclidean_matrix
+    title <- paste(data$project_name, "- 欧氏距离")
+  }
+  
+  heatmap3(
+    mat,
+    Rowv = input$cluster_rows,
+    Colv = input$cluster_cols,
+    labRow = rownames(mat),
+    labCol = colnames(mat),
+    cexRow = input$font_size / 12,
+    cexCol = input$font_size / 12,
+    margins = c(8, 8),
+    main = title,
+    showRowDendro = input$cluster_rows,
+    showColDendro = input$cluster_cols
+  )
+})
+```
+
+### 热图数据表
+
+```{r}
+DTOutput("heatmap_table")
+```
+
+```{r}
+output$heatmap_table <- renderDT({
+  datatable(selected_data()$raw_data)
+})
+```
+
+## Row {data-height=800}
+
+### English Variation
+
+```{r}
+plotlyOutput("english_bar")
+```
+
+```{r}
+output$english_bar <- renderPlotly({
+  data <- selected_data()
+  plot_ly(
+    data$english_variation,
+    x = ~group, y = ~value,
+    type = "bar"
+  ) %>% layout(title = paste(data$project_name, "- English Variation"))
+})
+```
+
+## Row {data-height=800}
+
+### 词性特征分析 - 雷达图
+
+```{r}
+plotlyOutput("radar")
+```
+
+```{r}
+output$radar <- renderPlotly({
+  data <- selected_data()
+  plot_ly(
+    type='scatterpolar',
+    r = data$pos_features$value,
+    theta = data$pos_features$feature,
+    fill='toself'
+  ) %>% layout(
+    polar = list(radialaxis = list(visible = TRUE)),
+    showlegend = FALSE,
+    title = paste(data$project_name, "- 词性特征雷达图")
+  )
+})
+```
+
+### 词性特征分析 - 柱状图
+
+```{r}
+plotlyOutput("bar")
+```
+
+```{r}
+output$bar <- renderPlotly({
+  data <- selected_data()
+  plot_ly(
+    data$pos_features,
+    x = ~feature, y = ~value,
+    type = "bar"
+  ) %>% layout(title = paste(data$project_name, "- 词性特征柱状图"))
+})
+```
+
+### 词性特征数据表
+
+```{r}
+DTOutput("pos_table")
+```
+
+```{r}
+output$pos_table <- renderDT({
+  datatable(selected_data()$pos_features)
+})
+```
+

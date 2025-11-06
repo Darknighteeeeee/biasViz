@@ -1,0 +1,152 @@
+(This is really cool btw.)
+Perhaps something involving a bird in an engine room?
+How about some sort of fast bird (or a more cuddly animal), perhaps mechanized, with a big helmet on? We want to emphasize: fast, safe.
+You can take a peak at the current set of designs:
+Been lost the last thirty minutes looking at steampunk birds, this one is amazing:
+http://cdn.designcontest.com/images/twitter-all-stars/steampunk_512x512.png
+After voting, these two designs/designers stuck out:
+at com.twitter.finagle.transport.ClientChannelTransport$$anonfun$2.apply(ChannelTransport.scala:99) ~[Distribution-Server-1.1.4-RELEASE-jar-with-dependencies.jar:?]
+at com.twitter.finagle.transport.ClientChannelTransport$$anonfun$2.apply(ChannelTransport.scala:96) ~[Distribution-Server-1.1.4-RELEASE-jar-with-dependencies.jar:?]
+at com.twitter.finagle.dispatch.SerialClientDispatcher$$anonfun$apply$2.apply(ClientDispatcher.scala:50) ~[Distribution-Server-1.1.4-RELEASE-jar-with-dependencies.jar:?]
+at com.twitter.finagle.dispatch.SerialClientDispatcher$$anonfun$apply$2.apply(ClientDispatcher.scala:49) ~[Distribution-Server-1.1.4-RELEASE-jar-with-dependencies.jar:?]
+`f` is what exhibits the exception.
+Re: reproducing the edge case -- to trigger the issue requires a specific ordering of events which is probably difficult to do synthetically.
+## todo
+Thanks @roanta for bearing with me as I muddled through the finagle-mysql code, and providing guidance.
+## changes in api
+``` scala
+## misc
+No longer marked private[twitter].
+Reopening. Missed that this was in the `gh-pages` branch.
+``` scala
+else
+I think I was referring to the POM :-)
+|     Integer replies
+|     Unfortunately this switch from Int to Long means a breaking change in the API, but it should be very easy for users to fix their client code.
+Note the double `%%`
+``` scala
+``` scala
+name := "finagle-stream"
+-  ).dependsOn(finagleCore, finagleKestrel)
+``` scala
++      Future.exception(new TooManyConcurrentRequestsException)
+-        Future.exception(new ServiceNotAvailableException)
+Yikes, this is an ugly bit of Synchronized\* in Scala-- might consider a more explicit approach, too.
+Is this still an issue?
+> You're encountering a problem due to the asymmetry of the String codec — which is really just a toy codec used as a minimal example for codec construction: it expects requests to be terminated with a newline, but the server codec strips the delimiter. So if you modify your proxy service a little, adding a newline to the request:
+"com.twitter" % "finagle-core_2.9.1" % "1.9.12"
+please make the change in the internal (birdcage) repo.
+it's interesting that you're canceling the Futures.
+LGTM!
+LGTM!
+LGTM
+LGTM
+Yes. I'm developing Xitrum (https://github.com/ngocdaothanh/xitrum), which is based on Netty too. I'm seeing warnings like below when updating Xitrum:
+[warn]                          ^
+[warn]                                   ^
+Sent from a mobile device.
+https://twitter.com/trustin_ko
+https://twitter.com/netty_project
+Maybe something playful about "smuggling" packets?
+What about making the twitter bird a cog, surrounded by three gears that mesh with it?
+Take the twitter logo imposed on a radial plane.  Then re-project it to a flat projection, find the inverse, map back to radial and you get a gear that fits the bird.
+Combining ideas a bit: A bird whose nest is a coffee filter, maybe with some plumbing visible in/around the nest.
+bmdhacks +1
+I like the idea about a mechanized bird.
+http://www.thisiscolossal.com/wp-content/uploads/2013/06/swallows-2.jpg
+What about a 2-second Finagle jingle (audio clip) that plays every time you start a Finagle service? (+ of course every time you read the online documentation)
+How about a bird that wears steampunk goggles? https://www.google.no/search?q=steampunk+goggles&tbm=isch
+Service filteredService = new LoggingFilter().andThen(myService); but that errors because it's abstract.
+So you disagree that I handled exceptions should always be logged at a high
+principle of least surprise...
+confusingly also named LoggingFilter (for historical reasons) :)
+That's some crazy work just to log unhandled exceptions.
+confusingly also named LoggingFilter (for historical reasons) :)
+@Override
+@Override
+@roanta has a local branch where he improved the client.
+Hey Moses,
+# tomcat-native-1.22 is now on archive.apache.org
+Speaking of the devil! :+1:
+Strange... what happens if you make Travis build it with maven instead of sbt? If that's relevant?
+How does this compare and contrast with Akka?
+We need the possibility to change the delimiter used when creating names for Ostrich stats
+implement BITCOUNT, BITOP, PSETEX
+"finagle-protobuf:
+kill POM; seems
+George
+Hi Marius,
+- INCRBY, DECRBY command arguments
+- Integer replies
+Unfortunately this switch from `Int` to `Long` means a breaking change in the API, but it should be very easy for users to fix their client code.
+at com.qileke.finagle.basic.SimpleHttpClient$.main(SimpleHttpClient.scala:25)
+at com.qileke.finagle.basic.SimpleHttpClient.main(SimpleHttpClient.scala)
+Also, should I remove the additional case in EndToEndSpec?
+[error]                                     ^
+[error]                                 ^
+object Proxy {
+Run `ab -n 10 -c 1 http://localhost:8080/spinner.gif` to see it break.
+Authentication is required to use Redis to Go on heroku.
+There appears to be a race condition. I've only seen it once, but here's the relevant portion of the stack trace:
+com.twitter.finagle.builder.MkServer$$anon$5$$anonfun$close$1.apply(ServerBuilder.scala:665)
+com.twitter.finagle.builder.MkServer$$anon$5$$anonfun$close$1.apply(ServerBuilder.scala:664)
+[warn]  ::::::::::::::::::::::::::::::::::::::::::::::
+[warn]  ::          UNRESOLVED DEPENDENCIES         ::
+[warn]  ::::::::::::::::::::::::::::::::::::::::::::::
+[warn]  :: com.codahale#jerkson_2.8.1;0.1.4: not found
+[warn]  ::::::::::::::::::::::::::::::::::::::::::::::
+It seems that finagle-exception hardcodes a dependency on jerkson_2.8.1 in the 2.9.1 repo, which cannot be resolved.
+could you share your hackery? ;) I'd really need it. Thanks!
+https://github.com/twitter/sbt-scrooge/tree/sbt11
+[warn]  ::::::::::::::::::::::::::::::::::::::::::::::
+[warn]  ::          UNRESOLVED DEPENDENCIES         ::
+[warn]  ::::::::::::::::::::::::::::::::::::::::::::::
+[warn]  ::::::::::::::::::::::::::::::::::::::::::::::
+I've updated the request with a04aecb ; so that the SSLEngine is created each time; from the SSLContext passed to the ClientBuilder.
+Marius,
+but none of them has the elegance of the Finagle framework, so we
+can apply to create a reasonably good Protobuf based protocol.
+George
+George
+Hi Marius,
+repo to the Tendril's company account.
+x-discovery and ZooKeeper that has no dependencies on Thrift but I'm not
+George
+but,jars file in http://maven.twttr.com/
+why don't fiex this issues?
+4 project.name=finagle
+https://github.com/twitter/sbt-scrooge/tree/sbt11
+.bindTo(new InetSocketAddress(8082))
+object EchoRouter {
+.bindTo(new InetSocketAddress(8081))
+Thank you, marlus.
+scala:619)
+at com.twitter.finagle.builder.ClientBuilder$$anonfun$12.apply(ClientBuilder.scala:703)
+at com.twitter.finagle.builder.ClientBuilder$$anonfun$12.apply(ClientBuilder.scala:681)
+@mariusaeriksen - left you an email at your @monkey.org email... could you please reply to me there?
+::          UNRESOLVED DEPENDENCIES         ::
+[error]                     ^
+[error]              ^
+[error]                     ^
+[error]                                ^
+From there on... even afer ones adds the correct resolvers and dependencies in the build.sbt file - I am lost as to how to get it to compile against SBT 0.11.0 and Scala 2.8.1
+It would be nice to have the ability to use that boilerplate Service/Client structure and be able to compile our code on SBT 0.11.0 and Scala 2.8.1...
+http://maven.twttr.com/com/twitter/
+https://github.com/twitter/sbt-scrooge/tree/sbt11
+Go back to school,Vadi!
+finagle-thrift has dependends on:
+.cluster(new AWSElbCluster(config.url))
+.reportTo(new OstrichStatsReceiver)
+at com.twitter.finagle.builder.ClientBuilder$$anonfun$10.apply(ClientBuilder.scala:659)
+at com.twitter.finagle.builder.ClientBuilder$$anonfun$10.apply(ClientBuilder.scala:638)
+[error]
+[error]
+get foo
+bar
+get foo
+bar
+``` scala
+Either there is a bad behavior here on Finagle's part or I've messed up something non-obvious in the code...
+Not sure if this is finagle, netty or user error.
+if(nearResponse.../*accepatble*/){
+but that seems more complicated than necessary. Or we can simply pass a flag

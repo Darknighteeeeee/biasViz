@@ -1,0 +1,430 @@
+---
+title: " (Flexdashboard + Shiny)"
+runtime: shiny
+output:
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    theme: cosmo
+---
+
+```{r setup, include=FALSE}
+# ===== 全局依赖包 =====
+library(flexdashboard)   # 仪表盘
+library(shiny)           # Shiny 运行时
+library(dplyr)           # 数据处理
+library(tidyr)           # 数据整形
+library(purrr)           # 函数式编程
+library(readr)           # 读取CSV
+library(plotly)          # 交互图表
+library(ggplot2)         # 基础绘图（可选）
+library(DT)              # 交互数据表
+library(jsonlite)        # 读取JSON
+library(gt)              # 学术风格表格
+
+# 全局绘图默认
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 8,
+  fig.height = 6
+)
+```
+
+
+
+
+
+================================================================================
+# 相似度热图 (Projects 1–20)
+
+```{r}
+# ====================== 工具函数与数据准备（热图页） ======================
+load_project_data <- function(project_num) {
+  file_path <- paste0("project", project_num, ".csv")
+  if (!file.exists(file_path)) {
+    stop(paste("错误：文件不存在 -", file_path))
+  }
+
+  data <- read_csv(file_path, show_col_types = FALSE) %>%
+    mutate(Project = paste("项目", project_num))
+
+  # 宽表：按 Word2 展开两类度量
+  heatmap_data <- data %>%
+    pivot_wider(
+      names_from = Word2,
+      values_from = c(`Cosine Similarity`, `Euclidean Distance`),
+      names_sep = "_"
+    ) %>%
+    as.data.frame()
+
+  # 余弦相似度矩阵
+  cosine_matrix <- heatmap_data %>%
+    select(starts_with("Cosine Similarity_")) %>%
+    as.matrix()
+  rownames(cosine_matrix) <- heatmap_data$Word1
+  colnames(cosine_matrix) <- gsub("Cosine Similarity_", "", colnames(cosine_matrix))
+
+  # 欧氏距离矩阵
+  euclidean_matrix <- heatmap_data %>%
+    select(starts_with("Euclidean Distance_")) %>%
+    as.matrix()
+  rownames(euclidean_matrix) <- heatmap_data$Word1
+  colnames(euclidean_matrix) <- gsub("Euclidean Distance_", "", colnames(euclidean_matrix))
+
+  list(
+    raw_data = data,
+    cosine_matrix = cosine_matrix,
+    euclidean_matrix = euclidean_matrix,
+    project_name = paste("项目", project_num)
+  )
+}
+
+project_numbers <- 1:20
+```
+
+
+Column {.sidebar}
+-----------------------------------------------------------------------
+
+### 控制面板
+
+```{r}
+selectInput(
+  "hm_project", "选择项目:",
+  choices = paste("项目", project_numbers),
+  selected = "项目 1"
+)
+
+radioButtons(
+  "hm_metric", "选择指标:",
+  choices = c("余弦相似度" = "cosine", "欧氏距离" = "euclidean"),
+  selected = "cosine"
+)
+
+checkboxInput("hm_show_values", "显示数值", value = TRUE)
+checkboxInput("hm_cluster_rows", "行聚类(仅展示)", value = FALSE)
+checkboxInput("hm_cluster_cols", "列聚类(仅展示)", value = FALSE)
+
+sliderInput("hm_font_size", "字体大小:", min = 8, max = 20, value = 12, step = 1)
+```
+
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A — 热图
+
+```{r}
+hm_selected <- reactive({
+  req(input$hm_project)
+  project_num <- as.numeric(gsub("项目 ", "", input$hm_project))
+  load_project_data(project_num)
+})
+
+renderPlotly({
+  data <- hm_selected()
+  if (identical(input$hm_metric, "cosine")) {
+    mat <- data$cosine_matrix
+    zlim <- c(-1, 1)
+    title <- paste(data$project_name, "- 余弦相似度")
+    colorscale <- "RdBu"  # 双向配色
+  } else {
+    mat <- data$euclidean_matrix
+    zlim <- c(0, suppressWarnings(max(mat, na.rm = TRUE)))
+    title <- paste(data$project_name, "- 欧氏距离")
+    colorscale <- "Reds"
+  }
+
+  validate(need(nrow(mat) > 0 && ncol(mat) > 0, "矩阵为空或无法构建。"))
+
+  p <- plot_ly(
+    z = mat,
+    x = colnames(mat),
+    y = rownames(mat),
+    type = "heatmap",
+    colorscale = colorscale,
+    zmin = zlim[1], zmax = zlim[2]
+  ) %>%
+    layout(
+      title = list(text = title),
+      xaxis = list(title = "形容词", tickfont = list(size = input$hm_font_size)),
+      yaxis = list(title = "词语", tickfont = list(size = input$hm_font_size))
+    )
+
+  if (isTRUE(input$hm_show_values)) {
+    # 叠加文本（大矩阵建议关闭）
+    txt <- round(mat, 2)
+    p <- p %>% add_text(
+      x = rep(seq_len(ncol(mat)), each = nrow(mat)),
+      y = rep(seq_len(nrow(mat)), times = ncol(mat)),
+      text = as.vector(txt),
+      textposition = "middle center",
+      showlegend = FALSE,
+      hoverinfo = "skip"
+    )
+  }
+  p
+})
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B — 原始数据表
+
+```{r}
+renderDT({
+  datatable(hm_selected()$raw_data, options = list(pageLength = 8, scrollX = TRUE))
+})
+```
+
+
+
+
+
+================================================================================
+# English Variation (Across Projects)
+
+```{r}
+# ====================== 数据准备（English Variation页） ======================
+# 期望文件：sentence_statistics.json
+has_json <- file.exists("sentence_statistics.json")
+if (has_json) {
+  ev_raw <- fromJSON("sentence_statistics.json")
+  ev_df <- tibble::enframe(ev_raw, name = "project", value = "stats") %>%
+    unnest_wider(stats) %>%
+    pivot_longer(
+      cols = c("african_english", "standard_english"),
+      names_to = "type", values_to = "count"
+    ) %>%
+    group_by(project) %>%
+    mutate(total = sum(count, na.rm = TRUE)) %>%
+    ungroup() %>%
+    mutate(
+      percentage = ifelse(total > 0, count / total * 100, 0),
+      project = reorder(project, -total)
+    )
+}
+```
+
+Column {data-width=600}
+-----------------------------------------------------------------------
+
+### Stacked Percentage Bar Chart
+
+```{r}
+if (!has_json) {
+  htmltools::div(style = "padding:10px;", "未找到 sentence_statistics.json 文件，无法绘制图表。")
+} else {
+  plot_ly(
+    ev_df, x = ~project, y = ~percentage, color = ~type,
+    colors = c("african_english" = "#1f77b4", "standard_english" = "#ff7f0e"),
+    type = "bar", hoverinfo = "text",
+    text = ~paste0(
+      "Project: ", project, "<br>",
+      "Type: ", type, "<br>",
+      "Count: ", count, "<br>",
+      "Percentage: ", round(percentage, 1), "%"
+    )
+  ) %>%
+    layout(
+      title = "Percentage of African English vs. Standard English by Project",
+      xaxis = list(title = "Project"),
+      yaxis = list(title = "Percentage (%)", ticksuffix = "%"),
+      barmode = "stack"
+    ) %>%
+    config(displayModeBar = FALSE)
+}
+```
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Data Summary (gt)
+
+```{r}
+if (!has_json) {
+  htmltools::div(style = "padding:10px;", "未找到 sentence_statistics.json 文件，无法生成汇总表。")
+} else {
+  summary_df <- ev_df %>%
+    select(project, type, count, percentage) %>%
+    pivot_wider(names_from = type, values_from = c(count, percentage)) %>%
+    arrange(project)
+
+  summary_df %>%
+    gt() %>%
+    tab_header(
+      title = md("**English Variation by Project**"),
+      subtitle = "Count and Percentage of African English vs. Standard English"
+    ) %>%
+    cols_label(
+      project = "Project",
+      count_african_english = "Count (African)",
+      percentage_african_english = "Percentage (%)",
+      count_standard_english = "Count (Standard)",
+      percentage_standard_english = "Percentage (%)"
+    ) %>%
+    fmt_number(columns = starts_with("percentage"), decimals = 1) %>%
+    fmt_integer(columns = starts_with("count")) %>%
+    tab_spanner(label = "African English", columns = c(count_african_english, percentage_african_english)) %>%
+    tab_spanner(label = "Standard English", columns = c(count_standard_english, percentage_standard_english)) %>%
+    tab_source_note(source_note = md("Data source: `sentence_statistics.json`")) %>%
+    opt_row_striping() %>%
+    opt_align_table_header(align = "left") %>%
+    tab_options(table.width = pct(100), heading.title.font.weight = "bold", column_labels.font.weight = "bold")
+}
+```
+
+
+
+
+
+================================================================================
+# 词性特征分析 (JSON 批量)
+
+```{r}
+# ====================== 数据准备（词性页） ======================
+# 批量读取当前目录下所有 JSON 文件（用于项目级特征）
+data_files <- list.files(pattern = "\\.[jJ][sS][oO][nN]$", full.names = TRUE)
+
+# 排除前一页依赖的 sentence_statistics.json，避免混入特征计算
+data_files <- setdiff(data_files, "sentence_statistics.json")
+
+pos_has_files <- length(data_files) > 0
+
+if (pos_has_files) {
+  all_data <- lapply(data_files, function(x) {
+    tryCatch({
+      json_content <- readChar(x, file.info(x)$size)
+      raw_data <- fromJSON(json_content)
+      data.frame(
+        feature = names(raw_data),
+        value = as.numeric(unlist(raw_data)),
+        project = tools::file_path_sans_ext(basename(x)),
+        row.names = NULL,
+        stringsAsFactors = FALSE
+      )
+    }, error = function(e) {
+      warning("跳过文件: ", x, " (错误: ", e$message, ")")
+      NULL
+    })
+  }) %>%
+    Filter(Negate(is.null), .) %>%
+    bind_rows()
+
+  pos_has_rows <- nrow(all_data) > 0
+
+  feature_labels <- c(
+    "adverb" = "副词", "conj" = "连词", "clout" = "影响力",
+    "auxverb" = "助动词", "analytic_thinking" = "分析思维",
+    "article" = "冠词", "ipron" = "冲动词", "negate" = "否定词",
+    "authentic" = "真实性", "tone" = "语气",
+    "prep" = "介词", "ppron" = "人称代词", "lsm" = "语言风格匹配"
+  )
+
+  long_data <- all_data %>%
+    mutate(feature_label = dplyr::recode(feature, !!!feature_labels, .default = feature))
+}
+```
+
+
+Column {.sidebar}
+-----------------------------------------------------------------------
+
+### 分析选项
+
+```{r}
+if (!pos_has_files) {
+  htmltools::div(style = "padding:10px;", "未找到用于词性特征的 JSON 文件。")
+} else if (!pos_has_rows) {
+  htmltools::div(style = "padding:10px;", "已读取文件，但没有有效记录。")
+} else {
+  selectInput(
+    "pos_project", "选择项目:",
+    choices = unique(long_data$project),
+    selected = unique(long_data$project)[1]
+  )
+}
+```
+
+
+Column {data-width=700}
+-----------------------------------------------------------------------
+
+### 特征值雷达图
+
+```{r}
+if (pos_has_files && pos_has_rows) {
+  renderPlotly({
+    data <- long_data %>% filter(project == input$pos_project)
+
+    # 按定义的顺序排列特征
+    ord_levels <- names(feature_labels)
+    data <- data %>% mutate(feature = factor(feature, levels = ord_levels)) %>% arrange(feature)
+
+    # 补首行以闭合雷达
+    radar_vals <- c(data$value, data$value[1])
+    radar_theta <- c(data$feature_label, data$feature_label[1])
+
+    plot_ly(type = 'scatterpolar', mode = 'lines') %>%
+      add_trace(r = radar_vals, theta = radar_theta, fill = 'toself', name = input$pos_project) %>%
+      layout(
+        polar = list(radialaxis = list(visible = TRUE, range = c(0, 1))),
+        title = paste(input$pos_project, "词性特征雷达图")
+      )
+  })
+} else {
+  htmltools::div(style = "padding:10px;", "无数据可绘制。")
+}
+```
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### 特征条形图
+
+```{r}
+if (pos_has_files && pos_has_rows) {
+  renderPlotly({
+    data <- long_data %>% filter(project == input$pos_project) %>%
+      mutate(feature_label = factor(feature_label, levels = unique(feature_label)))
+
+    plot_ly(data, x = ~feature_label, y = ~value, type = 'bar') %>%
+      layout(
+        title = paste(input$pos_project, "各词性特征值"),
+        xaxis = list(title = "特征", tickangle = 45),
+        yaxis = list(title = "值", range = c(0, 1))
+      )
+  })
+}
+```
+
+
+
+
+
+================================================================================
+# 词性特征数据表
+
+```{r}
+if (pos_has_files && pos_has_rows) {
+  wide_data <- long_data %>%
+    select(project, feature_label, value) %>%
+    pivot_wider(names_from = feature_label, values_from = value) %>%
+    arrange(project)
+}
+```
+
+### 项目特征数据（可筛选）
+
+```{r}
+if (pos_has_files && pos_has_rows) {
+  renderDT({
+    datatable(wide_data, options = list(pageLength = 10, scrollX = TRUE), filter = "top")
+  })
+} else {
+  htmltools::div(style = "padding:10px;", "无数据可展示。")
+}

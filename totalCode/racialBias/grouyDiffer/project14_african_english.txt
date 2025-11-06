@@ -1,0 +1,1052 @@
+And it seems strange: `var if ("development" !== "production") {`  is not existed in my local files.
+@BionBit It's supposed to specify the `domain` of `YAxis`.
+```jsx
+Your commit will change the behavior of many cases. So I'll close this.  @BionBit
+```jsx
+https://jsfiddle.net/xqjtetw0/16562/
+Bug
+Percentages/PIE Chart description data should persist
+```jsx
+```jsx
+```jsx
+http://jsfiddle.net/oqg00j2j/21/
+You should change the `type` of `XAxis`.
+```jsx
+bug
+http://jsfiddle.net/ad071owf/
+http://jsfiddle.net/ad071owf/1/
+@huei-tan-sociomantic Thanks for your contribution. But I think the AnimationDecorator seems to be very strange now which has some inelegant codes like the following.
+```jsx
+And the initial animation of bar seems strange now ...
+@sghgh1996 What kind of bubble chart ?
+```jsx
+http://jsfiddle.net/u3nny58q/
+```jsx
+```jsx
+@radjivC Try the latest version: recharts@1.0.0-beta.1.  @abdulkhaliquem9 Update the props `tick` of PolarAngleAxis:
+```jsx
+```jsx
+```jsx
+@alishir You can specify the type of `<XAix />` to be `number` which has default value "category".
+@alishir Yeah, It's supported now.
+```jsx
+<ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 0, left: 20 }}>
+```  @alishir Try the latest version 1.0.0-beta.4.
+@rafaelc0sta if you move the lines to constructor() then it won't update, so it doesn't really solve the problem for me. I doubt this is helpful, but I tried upgrading to React 16 and it may include better error details:
+(anonymous) @ tend.d461911751abda673965.js:94
+__webpack_require__ @ vendor.d461911751abda673965.js:696
+fn @ vendor.d461911751abda673965.js:117
+(anonymous) @ tend.d461911751abda673965.js:1735
+__webpack_require__ @ vendor.d461911751abda673965.js:696
+(anonymous) @ tend.d461911751abda673965.js:1
+react-dom.development.js?cada:8305 The above error occurred in the <ScatterChart> component:
+in div (created by TabPane)
+in Transition (created by Fade)
+in Fade (created by TabPane)
+in div (created by Tabs)
+in Uncontrolled(Tabs) (created by Robots)
+in div (created by Robots)
+in div (created by Robots)
+in div (created by Robots)
+in div (created by Robots)
+in div (created by Robots)
+in Robots (created by RouterContext)
+in Routes
+``` I've tried to recreate here: http://jsfiddle.net/jgentes/sh4vuy4c/12/
+```jsx
+this occurs when value is small .
+@xile611 ? is there a fix for this
+```jsx
+```jsx
+``` @wewoor @westoncolemanl
+```jsx
+```jsx
+```jsx
+Check this [demo](http://jsfiddle.net/wou4ckza/)
+Check this [demo](http://jsfiddle.net/4tp2qwy7/).  @XIEJUNXIRUOFENG Create a new object each time you update data
+```jsx
+@bcongdon Check the latest version of recharts, I think this has been fixed. Reopen this if it still not works.  @100kristine Change the order  of `<Bar />` and `<Tooltip />`. Move `<Tooltip />` to be after `<Bar />` .  @Krakof The behavior of chart is right, you can try to adjust the data for your visual dimands.  @olegreznichenko You can create a table which render a `PieChart` in the tds of table.   @Poirette Maybe something else is updating the container of chart every time. The chart will update if:
+@nuugut
+```jsx
+<img width="807" alt="wangwang20170710164104" src="https://user-images.githubusercontent.com/6111424/28009695-e89f101c-658e-11e7-84e2-6a182e7da026.png">
+```jsx
+```jsx
+<YAxis  hide />
+```  @alyssaq  What about the version of lodash. I try the latest lodash, it works when only path a single function.
+```jsx
+<ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 0, left: 20 }}>
+```jsx
+You can add css like the following:
+So for the second problem, you can just spect `ticks={[100, 150, 200, 300, ....]}`  @apodaka
+There's some bug of  `connectNulls` of `Line` now.
+@mmcc
+```jsx
+```jsx
+@Ziker22
+```jsx
+```jsx
+```jsx
+solved hence closing   @maurocolella Can you create a jsfiddle demo to reproduce this problem.  @Eric24 Use css or customized tick to omit the first tick.
+```  http://jsfiddle.net/1509v3gc/
+```jsx
+```jsx
+```jsx
+```jsx
+```jsx
+```jsx
+```  @nikhilbhawsinka
+```   @sughanpandita
+```jsx
+```jsx
+```jsx
+```jsx
+```jsx
+Please check [the document of Legend](http://recharts.org/#/en-US/api/Legend) for detail.
+```jsx
+```jsx
+fill: black;
+```jsx
+[Check this demo](http://jsfiddle.net/bbuktzo8/).  @sisiguo I can't reproduce this problem. Please check your dependencies, maybe you have used some third-party PropTypes library.  @dadamssg Use component `ReferenceDot`.
+```jsx
+<ScatterChart >
+``` @Arrow7000
+```jsx
+@Mohendran Sorry! We can't use percentages to calculate the coordinates of all the shapes.  @H3katonkheir You can render customized tooltip by specify the props `content` of `Tooltip` to be a customized react component element or a function.
+```jsx
+<YAxis/>
+#160 Simpler custom labels
+#466  Rotated Axis labels
+and the labels of components diffs very much now. Meanwhile, some simple features like rotate, location,  can only be implemented by customized labels.
+```jsx
+```jsx
+```jsx
+```jsx
+<Legend
+http://jsfiddle.net/n8cysgrj/
+'amt' is abbr. of word 'amount'. You can definite any property name you like.  @Eric24 It's recommended to use `<Text />` to render label. ```jsx
+```jsx
+But problem 2 seems very strange. what's the purple block?
+```jsx
+```jsx
+in div (created by App)
+```jsx
+<YAxis/>
+```jsx
+```jsx
+I have two kinds of thoughts about ErrorBar and candlestick chart now.
+```jsx
+```jsx
+<ScatterChart>
+@ZephD Why set `curSelected` to be `null` ?
+```jsx
+```jsx
+<CartesianGrid stroke='#f5f5f5'/>
+Thanks.  It seems strange in your demo, I'll think about your case.
+@amnsss  Done!
+@clementdevos Maybe there is some bug about `undefined`, I'll check it.
+@RoarkeRandall `Line`, `Area`, `Bar`, `Scatter` , etc, have a props `name`, If you have specified props `name`, the `name` will be used to display in `Legend` and `Tooltip`.
+Yeah, jsfiddle is the simplest environment. I use it to confirm whether the crash  happens online.
+And I found it's really strange. I clone your project and run it, chrome crash every time when I click _Daily_. But after I restart my mac, the crash never happen.
+thank you for @nwhitmont . It's true that the website will down 48h.
+@vaeum
+@kadariyp You can check [this demo](http://jsfiddle.net/rsy7fva9/) for solution.
+Meanwhile it's recommended to create a jsfiddle demo when you meet some problem. 😀
+@colshacol This is duplicated with #249 .
+@alelepd
+<img width="761" alt="wangwang20161118150525" src="https://cloud.githubusercontent.com/assets/6111424/20421688/8890a056-ada0-11e6-9c7f-af04697caad7.png">
+@raspo It's strange to add `onClick` event in `Tooltip`, but  bind event handler in Chart.
+@abpai  The `onChange` of Brush is overwrote by internal event handler in [generateCategoricalChart](https://github.com/recharts/recharts/blob/master/src/chart/generateCategoricalChart.js#L726). Maybe we should refactor  generateCategoricalChart to not simply overwrite.
+@sdoomz
+<ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 0, left: 20 }}>
+<ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 0, left: 20 }}>
+<ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 0, left: 20 }}>
+```jsx
+```jsx
+<ScatterChart>
+@jozsi It's a good idea to dynamically set the maxListeners. And I wonder how many synchronized charts you created in a page ?
+@jozsi So, many charts in a single page?
+@morajabi Can you support a jsfiddle demo ?
+@morajabi The demo you created seems no problem.
+@email2vimalraj You can check this [demo](http://jsfiddle.net/ez3x3z4k/). It just show the actual y axis value by default. What's the problem?
+@cephirothdy2j As mentioned in [#223](https://github.com/recharts/recharts/issues/223). In your case, do you want to cut the lines inner the coordinate system?
+@tobia  If just so, the height of chart may exceed the boundary of container node.
+@kujon
+@kujon Thanks for your advice.
+@tobia The `onClick` event of `Pie` works. But It will be overwrote by `onClick` of `PieChart`. So It seems strange now.
+@squll1 Can you support a  jsfiddle example ?
+@HashDot
+@HashDot OK! it'll be helpful.
+@Moeface Can you support a jsfiddle demo ?
+@kaiser-naren
+@digorydoo
+@susanafcosta Can you give an example ?
+@susanafcosta Because we set some default  values of`fill` and `stroke` in `Scatter`, `Symbol` and some other components, so the style you set in css can't be applied to the dots. It's recommended to set such props, like `fill`, `stroke` and so on, in attributes just like svg element.
+@squll1 Sorry! `gridCount` is deprecated. I'll update the documentation.
+@amay 😭 I can't reproduce this bug.
+@amay Thank you! Maybe we should remove span cache.
+@cephirothdy2j I want to know which kind of display do you want when some points is beyond the min or the max value of domain.
+@oande Only when the areas have the same stackId and yAxisId, these areas can be stacked.  Because different yAxisIds  indicate that these areas have different dimensions, there is no any sense to the sum the values of these areas.
+@oande Sorry! It's a bug of stacked chart.
+@SachaG Temporarily no simpler solution.
+@SachaG  You can set the style of Legend by overwriting the default style.
+@SachaG The order of Legend is consistent with the order of stacked bars. So I'm considering whether to adjust the order of stacked bars.
+@SachaG  I don't what's the problem?
+I will try to support Legend by svg nodes.
+dy: -10;
+3.Also by customized function or react element.
+@madshargreave  OK!
+@Nilegfx
+[Here](http://jsfiddle.net/Lpmwoj9o/) is an example.
+@Nilegfx I would close this issue and pr temporarily.
+@huliyou You can submit PRs to add some components. Our team will discuss whether to merge the pr.
+@godmar When you use `ResponsiveContianer`, we'll try to calculate the width and height of ResponsiveContainer's parent node. But If the height of parent node is 0, we don't know how to calculate the height of `ResponsiveContainer`.  We have many discussion in #135 .  Maybe you can set a `minHeight` to `ResponsiveContainer`.
+Donut
+```jsx
+@amitava82 You can check [this issue](https://github.com/recharts/recharts/issues/171) for two workarounds.
+@amitava82 You can set the `startAngle` and `endAngle` of `Pie` like this:
+<Pie
+@bluespore We have looked at a lot of chart libraries before, like echarts, highcharts, c3, nvd3, chartist, dc.js, and so on. Morris.js is also one of them. Most of these chart libraries can't meet our  various requirements.  That's why we develop recharts.
+@malrase  Thank you for your advice! We are just planning to implement the linkage between legend and chart.
+@ganapativs Thank you! I'll tweak the position of bars for multiple y-axes!
+@kazup0n Thank you. It's the bug of stackOff.
+@chocolateboy Thank you!
+Is [this demo](http://jsfiddle.net/sheubr4L/) what you want ?
+@marchaos [Here](http://recharts.org/examples#BiaxialLineChart) is a demo of LineChart which has two y-axes.
+<CartesianGrid stroke='#f5f5f5' vertical={false} />
+<Line yAxisId="right" type='linear' dataKey='amt' stroke='#F70D1C' strokeWidth={3} />
+@marchaos A workaround is setting the `domain` and `ticks` of two y-axes like [this demo](http://jsfiddle.net/w7qdap9f/1/). But it may be very complex to calculate the domain and ticks.
+@marchaos  If the domains are fixed, you can specify the domain and ticks of YAxis like the following:
+@RichardJECooke
+@marchaos It works fine in [this demo](http://jsfiddle.net/znqLLdev/1/?utm_source=website&utm_medium=embed&utm_campaign=znqLLdev). Can you show your question in an online jsfiddle demo ?
+@marchaos It seems to be the problem of calculation strategy for flex box. You can check this [stackoverflow question](http://stackoverflow.com/questions/7985021/css-flexbox-issue-why-is-the-width-of-my-flexchildren-affected-by-their-content) for detail.
+@RichardJECooke  [uv](https://en.wikipedia.org/wiki/Unique_user#Unique_visitor) and [pv](https://en.wikipedia.org/wiki/Page_view) are just two indicators commonly used in web analysis. You can search `uv` and `pv` in google.
+@RichardJECooke
+There are two workarounds:
+@eXtremeX In such case, you can set the style of the parent node of responsive container.
+[Here](http://jsfiddle.net/vxnhLa14/) is a workaround.
+@Algiras   `Area` does not support this function now.
+@Algiras We'll refactor the events of some components in a few time.
+But when not enough space, this kind of labels can't be guaranteed to render inside the bounds of svg.
+It's very strange about your bundle file.
+Yeah! `maxRadius = 0.5 * Math.sqrt(width * width + height * height)` is a good idea.
+@manuviswam  Which of the following curves do you want to get ?
+2. Filled with unavailable dates
+@manuviswam As you said, you should use ScatterChart to draw the curve. When you use
+@manuviswam
+One is that you need to add `color` in your payload of Legend. Otherwise icon will not be filled, so you can't see the icon.
+@adrianmc [Here](http://jsfiddle.net/0mgjy8nf/) is a workaround, though I don't quite understand this chart.
+You can color the bars differently by customized `shape` in `Bar`.
+I wonder why "Fossil fuels" have a different fill color?
+@isilweo You mean `paddingAngle` of `Pie`. We will support this feature in the next version. Thank you for your advice.
+@isilweo We don't implement `formatter` in Bar. It may be a error caused by copying code from some other file.  And you can implement labels on the top of `Bar` by customized `label`.
+@nickstanish  Do you know the version of safari in ios8.3?
+@nickstanish It works fine in my ios8.3 simulator. You can add `alert(navigator.userAgent);` in jsfiddle to check the version of safari.
+@joshburgess OK! It's helpful for us to find the problem.
+http://jsfiddle.net/d0k0rk0m/2/
+@Cloudo  Merged! Thank you!
+@ycpatel813  You can use customized label to get what you want.
+@shakalakatechie
+@zhaoyihong
+@sankho
+@sankho I think it's better to add `style`  which can set all the presentation attributes by a function. But we are still very cautious to add **props**. Because this feature can be implemented in two ways now.
+@sankho  Thank you very much for your contribution. I really hope that Recharts will become more and more friendly to developers.
+[Implemented by shape](http://jsfiddle.net/8s13xjth/)
+@sankho I prefer developers can use the `shape` or  `data` to approach this feature.
+@iuriikozuliak  I don't quite understand what's the problem.
+@iuriikozuliak Thank you! I have found the reason.
+But, I find `getTicksOfAxis` is in a mess.
+@ochervak `Bar` don't support min-height now.
+@suelspahiu
+Hello again @xile611 ,
+<Bar yAxisId="left" dataKey={this.state.Value} fill='#00AEEF'/>
+@suelspahiu
+One is through css like the following:
+<YAxis/>
+@suelspahiu  Fixed in version 0.13.4
+@xile611 Thank you.
+EDIT: @xile611 hmm should you be able to target Legend such as `<Legend fontSize={16} fontFamily="sans-serif" />`    ?
+@sankho Thank you for your sharing, horizon chart is very interesting. PR is welcome. We don't have guidelines for contribution yet. The most basic is that you should run `npm run lint` and `npm run test` when you finish a chart.
+And you can achieve your target by managing the colors outside (http://jsfiddle.net/nbsb32nd/), but it seems to be not elegant.
+feat: add new chart Sankey Disgram to recharts
+@NoWay1201
+@NoWay1201
+http://jsfiddle.net/ggg0trdh/2/
+@rainandwind0
+@joshburgess
+These two kinds of behaviour is contradictory.
+@zvictor I apologize for my reckless behaviour, I should communicate with you if you are still willing to update the commits.
+And I'm not clear what do you mean when you say rerender the whole chart.
+@hrbustor
+of course, you can see what I mean in jsfiddle:
+http://jsfiddle.net/hzongquan/435Lf8sa/4/
+Thanks! It seems to be a bug.
+@michalg42
+I just borrowed the naming from _Raphael.js_.
+Maybe you  can show  your code, or give me a jsfiddle example.
+<CartesianGrid stroke='#f5f5f5'/>
+<Area isAnimationActive={false} type='monotone' dataKey='amt' fill='#8884d8' stroke='#8884d8'/>
+alias: {
+extensions: ['', '.js', '.jsx', '.css', '.scss', '.json']
+@slestang
+http://jsfiddle.net/ntmm30gk/
+<YAxis/>
+http://jsfiddle.net/sh2bLsh2/
+The customized payload is overwritten by the legend data calculated in `LineChart`, but the data won't be overwritten in the test file.
+Maybe the `payload` should not be overwritten when you have set a customized `payload` in a `Legend`.
+@kennetpostigo
+<YAxis/>
+<Area type='monotone' dataKey='amt' stackId="1" stroke='#ffc658' fill='#ffc658' />
+<RadialBar minAngle={15} label background clockWise={true} dataKey='uv'/>
+</RadialBarChart>
+http://jsfiddle.net/j8w3176p/
+@joshafest  Not closed yet!
+Thanks for @rrag .
+https://jsfiddle.net/dv8b287f/
+@isilweo Can you show you code here? I do not quite understand what is your problem now.
+@isilweo
+PR is welcome!
+I think the props names are a bit obscure. And in order to be consistent , the `value` props of   `ReferenceDot` (Planning Component) would be an object or a string:
+@arcthur @vanthiyathevan @bkniffler @Cloudo
+Yeah, it's really strange! I have used 0.6.3 for a long time .
+But the following errors
+http://jsfiddle.net/rezxmfxm/5/
+Legend has been refactor in version 0.6.3
+http://jsfiddle.net/fxtwg1k7/3/
+@Cloudo
+Legend            yes: 0         no: 47
+Thanks @Cloudo  for  your enthusiasm.
+Thank @Cloudo for help!
+Here is an example (http://jsfiddle.net/Lpk2ky66).
+@Cloudo
+@Cloudo
+bug
+`background` in `Bar` seems not working if you pass a function
+https://jsfiddle.net/ex3ntia/vcfwjno4/
+Bug
+loader: 'babel',
+Errors below...
+I have a babel preset that was removing propTypes.
+Incorrect behavior: https://jsfiddle.net/8415b7yx/
+content={<CustomTooltip customLabel="email alias" />}
+Bug.
+Two errors are emitted:
+<YAxis/>
+MacOS High Sierra
+<Bar
+Unexpected token export
+It seems that `lodash-es` is used on `lib/` build.
+> Unexpected call to method or property access
+bug
+"component": "Legend",
+bug
+![image](https://user-images.githubusercontent.com/685316/33975332-82390e28-e053-11e7-980e-af37a8e2a86d.png)
+"component": "Legend",
+bug
+"name": "Falcons",
+"data": "falcons",
+"datakey": "X",
+"datakey": "Y",
+"datakey": "Z",
+"stroke": "black",
+"strokeDasharray": "5 3 2 3"
+"component": "Legend"
+React & react-dom 15.6.2
+bug
+http://jsfiddle.net/oqg00j2j/
+Any idea what could be wrong?
+at reconcileChildFibers (132:7672)
+loader: 'babel',
+Errors below...
+Bug
+http://jsfiddle.net/ezx7sjrp/
+http://jsfiddle.net/s2tz0ey7/1/
+PS. Thank you for maintaining recharts, I've been using it for months and find it very useful 😄  ❤️   @xile611 ping :)
+bug
+Exception thrown
+It seems that updating to react-dom 16 is the cause.
+```javascript
+```javascript
+buggy behavior: http://jsfiddle.net/v8gxrbyu/
+16:10:23 [1m[31mERROR in ./~/recharts/lib/shape/Symbols.js
+Bug
+I'm using Mac and Chrome. @xile611 but it's still a bug, it has inconsistency issue where the use of label props is limited on stackedBarChart.   ## Do you want to request a feature or report a bug?
+A bug
+`getLegendProps` expects property that is not defined by some cartesian components
+http://jsfiddle.net/xbuvvgoe/
+Bug
+http://jsfiddle.net/ndLhnegs/318/
+![recharts-bar-animation-w o-magic](https://user-images.githubusercontent.com/18140315/33071593-6bbe47ec-cebc-11e7-8e65-b373f872d7fc.gif)
+![recahrts-bar-animation-magic](https://user-images.githubusercontent.com/18140315/33071599-6f73639a-cebc-11e7-9751-2d27a58a3ab9.gif)
+<YAxis tick={<CustomizedTick tickFontSize={this.tickLabelFontSize}/>} tickSize={4}
+<YAxis tick={<CustomizedTick tickFontSize={this.tickLabelFontSize}/>} tickSize={4}
+` http://jsfiddle.net/ndLhnegs/686/
+**Expected behavior as wished with Version `1.0.0-apha.5`**
+**Unexpected behavior with Version `1.0.0-beta.2`**
+The corresponding code is:
+@hueitan,
+jsfiddle : http://jsfiddle.net/7yb87att/
+http://jsfiddle.net/csen65sk/
+http://jsfiddle.net/o0v5heyp/
+<RadialBarChart
+<RadialBar minAngle={22.5} maxAngle={90} background dataKey="uv" >
+</RadialBar>
+</RadialBarChart>
+http://jsfiddle.net/4qo7ba5L/21/
+class CustomLabel extends Component {
+`<Bar
+![animation](https://user-images.githubusercontent.com/8544323/32594867-abd8fc0e-c553-11e7-983a-b686756b9393.gif)
+BUG
+bug
+Can't pass multiple props to radar chat
+and i get  `UNMET PEER DEPENDENCY react@^0.14.7 || ^15.0.0`. Shortened for brevity below:
+│ ├── lodash@4.17.4
+│ │ ├── raf@3.4.0
+├── ansi-html@0.0.7
+```ts
+At the moment the `iconType` is a property of `Legend`.
+@xile611 Can you please share your thoughts? Thanks!
+<Polygon data={polygon} fill='#8884d8'/>
+```javascript
+<ScatterChart width={500} height={400} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+I found some weird behavior when using a Line Chart.
+My Line goes below the X-axis which leads to a weird looking Chart.
+I have reproduced the "bug" in this jsfiddle : http://jsfiddle.net/danielh21/7euyzdu6/10/
+recharts version is 1.0.0-apha.5. I didn't check previous versions.  I want to use different color for each data point in `Scatter` component, like using different color for each slice in `Pie` component.
+```jsx
+``` The documentation makes it sound like Cell isn't valid in Scatter, so I'm not sure about your snippet.  I will say that I had a similar issue recently and although it doesn't scale, I solved it by filtering my data set into multiple sets, then having multiple `Scatter`.
+bug
+```jsx
+@ryanand26's solution seems like a good workaround, but this is definitely a bug. @rafaelc0sta @jgentes Can you create a demo on jsfiddle? The code I had with the issue was really convoluted so not suited to a demo.
+Edit: I've made a suggested fix in a PR. @ryanand26 I took a look at your PR. Great Job! But, removing `Children.only` seems altering the code's logic, because after the change, `isSingleChildEqual` (which internally expects two ReactNodes to before shallow comparision, check out [this line](https://github.com/recharts/recharts/blob/9511adcf62ea0d8bb847b6b4c4d90e62b8ee73f9/src/util/ReactUtils.js#L351))  will always return false for single node array. As a result, it in turn affects this line https://github.com/recharts/recharts/blob/9d42367e658cab6bed0a8f2517f17be9e0cf0957/src/chart/generateCategoricalChart.js#L185. The code governed by this condition affects Brush and etc. @ZheyangSong @xile611  I've looked into it a bit more and the root cause seems to be that the single elements return a count of one but are wrapped in an array. The code change in the fork above is probably safer than the first attempt. @ryanand26 Yes, it is the root cause. You can find more details regarding it from my earlier comment in this thread. Glad to see you pin the issue down! 👍   Is there an easy way to calculate the position for each `Label`? I have a line graph with 2 lines, and want to display the label on top for the top line and underneath for the bottom line (the lines may cross, so one is not strictly greater than the other).
+This issue also appears to be present in the examples. I am away from my computer but I will try produce a fiddle to reproduce the issue when I get back. Thanks! @xile611 - I added an additional Pie shape to your fiddle and it works fine. So that's not the problem. I also tried changing a few other properties to try to isolate the issue I am seeing in my build and did not reproduce the issue in your fiddle. It seems to be pretty stable.
+- clicking the Js-fiddle link.
+<Pie
+<Pie
+Reference Dot:
+Custom Icon:
+For anyone else trying to render custom shapes, here's an example:
+//custom component
+Bug
+- clicking the Js-fiddle link.
+```diff
+One thing that is worrying that I'm not seeing any activity from the owners of the library & not even a comment. There ist still some testcases failing but maybe it's a good starting point For the failing tests, most probably the answers are here https://github.com/airbnb/enzyme/blob/master/docs/guides/migration-from-2-to-3.md because enzyme went through a big change & some APIs changed in behaviour  @ahmedelgabri i tried with hostnodes and its undefined. I was going through documentation & i noticed i have to increase the length by 1. That's odd I just cloned the repo & tried `hostNodes()` & it worked fine, I don't think increasing by one will work
+These are not the same objects
+@xile611 thanks for taking time to further investigate this!
+I join @alexeikaratai question. I have the same problem: when Line draws at first by points its animation works perfectly. But when I try to change points (for example send another data from props) animation haven't restarted from zero point. Is it possible to restart animation when data has changed?
+the code should give a custom color but it didn't.
+http://jsfiddle.net/fpm003na/3/
+http://jsfiddle.net/fpm003na/3/
+<YAxis/>
+<Area dataKey="weChat"
+<Area dataKey="aliPay"
+http://jsfiddle.net/liubko/ktwfp03m/159/
+@xile611  @xile611  can you share some fiddle example?   I'd like to know how can I create a custom label for a [ReferenceDot](http://recharts.org/#/en-US/api/ReferenceDot)
+```javascript
+stroke="#aab8c2"
+<YAxis
+here is my code:
+Or there is no height defined.
+responsiveness is not happening @howardya  how about this http://jsfiddle.net/dqj2k8dc/1/
+![image](https://user-images.githubusercontent.com/4242643/29603024-1928b514-8815-11e7-8201-1833abae6fc4.png)
+Bug
+http://jsfiddle.net/wn4jhdu5/13/ @xile611 @li-xinyang While it does stop text from being selected, I still cannot drag while the cursor is outside the brush, as demonstrated in the gif I posted, leading to a poor UX when using it. Notice the cursor in the d3 gif above when compared to the one here:
+@wewoor can I see what you did? same issue here @westoncolemanl @fengshuo
+```javascript
+```javascript
+also, are PRs welcome?
+but we recommend to set lable like this when u need to add some style to label,    http://jsfiddle.net/huxiaoyun/x2m72age/3/
+@huxiaoyun Thank you for your example. How can configure the label to not be on top of the ticks?  Hi there, right now I would like to build a simple chart with barchart, what I want is when my mouse entered that exact bar (not the whole barchart), the color of that bar will be changed and the rest remain unchanged, is there any way I can do that?
+Bug
+http://jsfiddle.net/teuwcpcL/1/
+const CustomLabel = ({
+## What is the desired behavior?
+const renderLegend = (props) => {
+```jsx
+Vertical Label!
+bug
+I just think there is a small mistake since the operations are made inside of strings.
+Here is a JSFiddle that clearly demonstrates the problem I am referring to in this issue:
+http://jsfiddle.net/x1yoboc7/829/ If you use numbers inside your array for the domain, it works perfectly [fine](http://jsfiddle.net/3v6ecrgc/). As soon as you put strings, it indeed causes a weird behaviour since the Y values are numbers. Maybe I am not understanding you well, let me know if this helps.
+``` Hi @Amthieu
+http://jsfiddle.net/zdhvvt2e/?utm_source=website&utm_medium=embed&utm_campaign=zdhvvt2e
+I know I am missing something. But don't know what.
+``` @Amthieu Thanks a lot :) It worked :D I'm using unit="U$" and getting only values, without U$
+Bug
+https://jsfiddle.net/h03zu2Lf/3/
+<img width="333" alt="screen shot 2017-07-07 at 5 00 28 pm" src="https://user-images.githubusercontent.com/5431793/27980726-af272702-6336-11e7-9e6f-84b4661ebbc1.png">
+<YAxis
+<Bar
+How can  I add some visual difference between small values?
+Bug
+This is possibly a bug.
+<Bar
+<Bar
+Thanks in advance @xile611
+Thanks @nuugut
+Bug
+**Multiple Pies**
+**Code**
+@tonoslav Doesn't work and for me, but only if a Pie have descendants a Cell.
+Bug
+see http://imgur.com/GsbSTEQ
+https://jsfiddle.net/x1yoboc7/818/
+My customized label is this :
+<Pie data={this.props.data} labelLine={false} label={renderCustomizedLabel} innerRadius={60} outerRadius={120} fill="#8884d8">
+Your can have a try. @chuyinweilai That did fix my problem, thanks! @chrisjpatty could you tell me how to fix the problem, I met the same trouble。 Thanks very much!
+@xile611
+```javascript
+let da = data.data;
+Do anyone what the issue is?
+Bug
+http://jsfiddle.net/ckumaresanmba/ar5j5Lye/ Have the same problem too same issue  I can confirm this is a problem in Reference Line (using Responsive Container if that matters).
+which is WRONG..
+Hi!  I am encountering an odd error...
+## Questions, in case I missed something
+```jsx
+<CartesianGrid stroke="#eee" strokeDasharray="5 5" />
+If there is a way to achieve this, please let me know. Otherwise, can you think of a "creative way" to add this in? Or if you give me a few pointers I might fork and try to add it in
+jsfiddle : http://jsfiddle.net/udrq0h2d/
+what is that? I don't actually remember, but I think this is it: http://recharts.org/en-US/api/Brush @golestanirad   ## Do you want to request a feature or report a bug?
+- http://jsfiddle.net/6sp2ejx6/?utm_source=website&utm_medium=embed&utm_campaign=6sp2ejx6
+First using for YAxis:
+what am i missing? i cannot get it.  Thanks but like i said
+<YAxis
+bug
+tooltip="Descargar reportes"
+tooltip="Descargar reportes"
+http://imgur.com/a/WswkM
+http://imgur.com/a/0nekx
+http://imgur.com/a/cOixY
+http://jsfiddle.net/ktwfp03m/5/
+http://jsfiddle.net/9x9cnfpr/3/
+http://jsfiddle.net/5gy5oaru/2/
+http://jsfiddle.net/eceh1hyj/1/
+<YAxis
+http://jsfiddle.net/liubko/x1yoboc7/672/
+bug
+[http://jsfiddle.net/tirumaleshkc/9d72Lnzq/](http://jsfiddle.net/tirumaleshkc/9d72Lnzq/)
+<Pie
+/*fill="darkBlack"*/
+Bug
+[Bug image](http://imgur.com/a/bNofn)
+http://jsfiddle.net/npbq3jbh/2/
+@xiaosansiji
+Recharts focus on common needs, topological graph isn't in their plans as far as I know.  @xile611  as per  your fiddle http://jsfiddle.net/Luk2xapk/1/ this worked but i  had few other requirement so had to add a onClick as well on Legend so i added onClick and i was overriding the .recharts-legend-item CSS for having a border-radius in my legend now after the JsFiddle integration it looks like only Content is working and my onClick doesn't work and it overides my css as well
+renderCusomizedLegend(props) {
+<div className="customized-legend">
+<YAxis/>
+How did you solved.. ? pls share @NischithBopaiah
+http://jsfiddle.net/f07jao0m/4/
+```jsx
+These are the PropTypes in case you need them:
+```jsx
+height: PropTypes.number,
+```jsx
+Just remember to use await, so that Reacts waits for the first setState to finish. The problem for me was that the API returned the numbers in a string format which confused Recharts.  ## Do you want to request a feature or report a bug?
+Not Supported.
+super(props)
+<Legend
+Thx a lot . Is supposed same approach to work with Pie Charts ? Im playing with it with negative resullts :(  Hey, love the library so far, great work! Just moved from ChartJS and I'm enjoying how this works w/ React.
+```javascript
+at Object.RADIAN (Recharts.js:1705)
+http://jsfiddle.net/fvcc6m14/
+at Object.RADIAN (Recharts.js:1705)
+ticks: [130, 135, 140, 145, 150, 155, 160, 165, 170, 175, 180, 185, 190, 195, 200]
+``` @xile611 Thanks.
+@xile611
+bug
+externals: {
+<YAxis ...../>
+Bug.
+Hi Xile,
+<YAxis/>
+<YAxis/>
+// more codes are in here
+`xAxis` are hidden at that moment
+Thanks. @xile611
+@xile611 Can you please provide some example of this ?  Can you make the <Bar> component so it accepts ReactElements also? Currently it accepts only Numbers or Strings and I need a ReactElement because of i18n  Is it possible to convert a string to a number for a line chart? I am creating a number of line charts for a reporting tool. Some of the values are numbers and those work great, but others are strings that are actually numbers. Being able to call `parseInt()` or `parseFloat()` on the strings would be enough for my use, I'm just not finding an acceptable place to do so. Any thoughts?
+* Scatter labels are outside the bubble
+elsewhere:
+In CustomizedDot `props.payload.value` doesn't exists, is `props.value` instead.
+```javascript
+const CustomizedDot = React.createClass({
+What is the expected behavior?
+- Bug
+{id: "pos", name: "ABC", count: 123},
+{id: "inapp", name: "GHI", count: 789},
+fill: "black"
+What is the expected behavior?
+http://jsfiddle.net/millerized/r19hetwn/7/
+http://jsfiddle.net/zh3z3znq/
+http://jsfiddle.net/9xjjuwkk/30/
+http://jsfiddle.net/9xjjuwkk/30/
+What is the expected behavior?
+What is the expected behavior?
+@andypotts I am using recharts v0.22.5 but `<Line activeDot={{ onClick:this.handleClick }} />` is not working in my case. Can you tell me what version of recharts you are using ? > `<Line activeDot={{ onClick:this.handleClick }} />` worked for me.
+Maybe a bug, but maybe just a question.
+What is the expected behavior?
+http://jsfiddle.net/u8udorvy/196/
+```jsx
+What is the expected behavior?
+```jsx
+<ScatterChart >
+```jsx
+Sorry wasting your time. I just got that little f***!
+import _ from 'lodash';
+// need to change
+const heatMapStyle = {
+http://jsfiddle.net/bigearsenal/6hcfzj37/
+http://jsfiddle.net/bigearsenal/6hcfzj37/3/
+```javascript
+<div id="canvas_dahs" className="demo-placeholder" style={{ width: '100%', height: '270px' }} >
+{/*<Scatter name='B school' data={data02} fill='#82ca9d' line shape="diamond"/>*/}
+really, need more document or examples! example: <http://jsfiddle.net/agooou/p39k0vwt/>  Now you can pass an explicit `id` to the Pie component in order to better support server side rendering. This is because the implementation of `uniqueId` in DataUtils.js. In server side, DataUtils.js will be imported once but run several times across several requests. So in client side, the id will be much smaller than server side. That causes checksum issue.  Is it possible to have a bar chart with more than two Bars? All I get is a blank chart.
+http://jsfiddle.net/xtdssj96/13/  How do I do something like this?
+Maybe you can try to create custom shapes
+const CustomizedShape = (props) => {
+<Scatter
+shape={<CustomizedShape />}
+Fabians post is awesome.
+But dy doesn't work. Is there a way to control the offset of the label (without a custom function)? I've tried this every which way, but dy still has no effect on the position of the label. Can you show me in a jsfiddle (I essentially did that, using the CustomizedLabelLineChart example as a starting point)?  What's the difference between using iconType with Legend vs using it in Area/Bar/Line?  Chart is being responsively changed according to the size but label (if they're to long) seems not to be considered in the measurements which means they're cut in some circumstances.
+this is my code:
+```javascript
+<YAxis/>
+I have to say, I really do love this library for ease of use. However, the custom styling of most of these components is a nightmare, and should possibly be rethought, and reworked, as style should not be forced to be the way the creator of the library thinks it should be.
+<i className={classNames({ 'fa fa-spin fa-spinner': this.props.fetchingStats })} /> Filter Overview
+<i className="fa fa-chevron-right" /> </Link>
+"cloudinary": "1.4.6",
+"connect-mongo": "1.3.2",
+"crypto": "0.0.3",
+"datauri": "1.0.5",
+"geoip-lite": "1.1.8",
+"jquery": "3.1.1",
+"lodash": "4.16.4",
+"mongoose": "4.7.0",
+"morgan": "1.7.0",
+"passport-local-mongoose": "4.0.0",
+"react-cropper": "0.10.0",
+"react-geosuggest": "2.1.0",
+"redux-saga": "0.12.0",
+"babel-plugin-istanbul": "2.0.3",
+"chai": "3.5.0",
+"chai-enzyme": "0.5.2",
+"karma-mocha": "1.2.0",
+"karma-mocha-reporter": "2.2.0",
+"karma-safari-launcher": "1.0.0",
+"mocha": "3.1.2",
+"ngrok": "2.2.3",
+"node-sass": "3.13.0",
+"rimraf": "2.5.4",
+"sinon": "2.0.0-pre",
+<Bar
+<Bar
+dataKey='uv'
+<Tooltip cursor={{strokeDasharrasales: '3 3'}}/>
+Really, all this would require is the ability to pad each bar element differently from the center tick mark, so this may exist, but I couldn't find anything about it. Any thoughts on how to do this, or if it can be accomplished?
+transform: translateY(6px);
+Demo: http://jsfiddle.net/liubkoliubko/rk119osf/3/
+<CartesianGrid fill="#f2f2f2" horizontal={false} vertical={false}/>
+<Bar
+<Bar
+<img width="122" alt="captura de tela 2018-03-16 as 15 55 54" src="https://user-images.githubusercontent.com/9158216/37539479-95bdbce6-2932-11e8-9f2f-75a4d132406a.png">
+<Bar
+http://jsfiddle.net/vaeum/dmeaodhc/4/ Hello, @xile611 a thing BarChart thith stackOffset="expand", should be
+and label from Yaxis, should be 0 ... 20% ... 50% ... 100%
+What exactly is it for ? Is it something special ? @evilucifero
+On the example that @cemremengu is referencing, `amt` is no shown on the chart.  The data comes from the Stacked Bar Chart example http://recharts.org/#/en-US/examples/StackedBarChart
+<Bar dataKey="amt" stackId="a" fill="#ff0000" />
+@cemremengu  Thanks for clearing that up. That was really confusing.  It would be great to have support for axis labels that appear rotated, to the left/right of a Y-axis or the top/bottom of an X-axis. See "Temperature" and "Rainfall" in this link for an example: [Rotated Axis Labels](http://www.highcharts.com/demo/combo-dual-axes) I would like this too - I don't use your axis labels for just this reason. Well, OK, but that feels like a workaround to me. Since axes already have labels (which the should--it's an inherent feature of an axis), I think it should be possible to specify how/where the label is drawn. IMHO, the current (exclusive) default of horizontal text at the end of the axis is just about the least likely place the label should be. @xile611 Your suggestion gives me this error:
+From this code:
+```jsx
+<Label angle={-90} value='custom label' position='insideLeft' style={{textAnchor: 'middle'}} />
+I was following other issues and it is using the `angle` prop. But I got this warning too as mentioned by @nhooey :
+@nhooey This warning can be solved by
+/> @SachinKr57;
+Can you please elaborate @arcthur ?
+```jsx
+<RadialBar label={radialLabelStyle} className="clickable" minAngle={15} background clockWise={true} dataKey="uv" />
+</RadialBarChart>
+I am receiving the following error when hovering over the `RadialBar`:
+Is it an error and should be
+The width and color would be specified in order to differentiate the bars at each point.
+<Bar
+<Bar
+getCustomLabel(ix, props, data)
+https://jsfiddle.net/Billsy/un16cwkd/3/
+```jsx
+<YAxis/>
+...the first item disappears, the data is correct on the chart but the 'MON' name goes missing from the bottom along the xAxis.
+<YAxis/>
+<Tooltip label="Legend"/>
+<YAxis/>
+But I don't know if it was Recharts problem.
+// do some transform with props here
+```jsx
+// Customized props
+export const CustomizedXAxis = () => {
+<CustomizedXAxis/>
+I could make a pr.
+```javascript
+@xile611 Also, I know we talked about making this work for candlestick charts, but I actually think they are different conceptually because an error bar is a value you add onto an existing data point (similar to a label) where as a candlestick chart is an actual chart type where each point consists of four values displayed in an histogram like manner. After the error bar PR goes through I can work on the candle chart if you would like. Thanks for the feedback!
+```javascript
+```javascript
+const CustomizedLabel = props => {
+```jsx
+However, it does clash with the tooltip when using the prop "isFront".
+Thank you very much. @xile611
+I think my case is a special case.
+Interesting, no? :) http://jsfiddle.net/b1Lb3kuk/3/
+See http://jsfiddle.net/b1Lb3kuk/13/
+See http://jsfiddle.net/b1Lb3kuk/13/   **Why**
+I need to customize the legend items. In my case, I've added the ability to toggle elements from a chart and I want to style legend items accordingly.
+<Bar
+renderCustomLabel(obj, label, index) {
+``` @xile611 thanks you, but a found some errors
+http://jsfiddle.net/vaeum/q1reejg1/
+error, tooltip is under bars
+My custom label:
+width: PropTypes.number,
+height: PropTypes.number,
+```javascript
+```javascript
+Would this disrupt the current codebase much? Based on `dataKey` being a string I suspected that under the hood the data is simply retrieved by something like this:
+@xile611 I think passing nested keys misses out on a lot of the flexibility enabled by a mapper function and is also a breaking change, since
+@bali182's solution seems ideal. @tarrencev agree, a mapper function gives way more flexibility. By the way, nested paths could be easily achieved with an helper function such as `get` in `lodash`:
+import { get } from 'lodash/fp'
+introducing nested key strings would be a breaking change. Doesn't affect me, but just wanted to make sure it's considered I see that commit reverted. Any updates for nested data keys? @raviteja83  @erayalakese using a function works for me
+`Warning: Encountered two children with the same key`
+else
+<ScatterChart width={600} height={400} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+>     in AnimationDecorator(Scatter)
+```jsx
+gyp ERR! configure error
+gyp ERR! System Darwin 15.4.0
+gyp ERR! node -v v6.4.0
+gyp ERR! not ok
+I'm using versions:
+http://jsfiddle.net/vaeum/7begLcrb/ Hello, bug not resolve ((
+http://jsfiddle.net/vaeum/dmeaodhc/4/  We have `document` available in the backend, th `isSrv` check for that and them renders and give a bad checksum because of the animations probably.
+```jsx
+'legend' - Include in legend only
+Not sure how to remove these margins from the legend.
+`<Legend
+But in ie11, the positioning is wrong.
+My workaround: to add custom css top: -60px specifically for ie11
+Instead, figure out why the markup being generated is different on the client or server:
+@xile611 Thanks!
+![Custom Tooltip](https://cloud.githubusercontent.com/assets/3874813/20497404/f8c44366-aff6-11e6-933b-8bdff158d6e1.png)
+<ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+<Tooltip cursor={{ strokeDasharray: '3 3' }} content={<CustomTooltip />} />
+export function CustomTooltip(props) {
+<div className='custom-tooltip'>
+<ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+<Custom dataKey={'status'} name='status' />
+* stack_LeMans
+Before I press on with this somewhat dirty workaround, I'd be interested to hear if there are any other ways I can structure this.
+Also, why two `Animate` in `<Rectangle><Animate><Animate><path>`?
+http://jsfiddle.net/L00kcpvr/
+<YAxis
+PropTypes warning:
+My code:
+<YAxis
+<Bar
+All of these are within the realm of SVG (though being able to provide a non-SVG component would be ideal), but being locked into using a plain string or a number prevents this.
+const RADIANx = Math.PI / 360;
+const RADIANy = Math.PI / 180;
+<Pie
+Chome Version 54.0.2840.87 (64-bit)
+@xile611 I did try to make the jsfiddle you provided earlier crash but was not successful :/
+Would still be nice to find out the underlying reason as I can't really tell all chrome users to restart their macbook before using the site :p
+```javascript
+// My custom component
+externals: {
+amd: 'recharts',
+import Paper from 'material-ui/Paper';
+{name: 'MJ', avgScoreGiven: 4.0, avgScoreReceived: 2.400 },
+{name: 'theme3', Picker: 'MJ', Score: 7.4},
+songs: [],
+<img src="/james-jean-talib.jpg" />
+<YAxis/>
+</CardActions>
+Dido
+@arcthur @hootbah @LoriKarikari @joyguy55 @sburns  Looks like CloudFlare issue, could be down 24-48hrs...
+Thank you @arcthur & @xile611 for the quick response!
+bgColor = '#bebebe'
+if(data.key === 'A){
+bgColor = '#bebebe'
+<YAxis
+// Chart code.
+http://stackoverflow.com/questions/40410094/calculation-the-x-and-y-coordinate-of-center-in-recharts  Updated to 0.16 this morning and noticed that now the prop strokeDasharray on Line component doesn't get passed down to Curve component. "7 11" outputs as "0px, 0px" @xile611, in my project I have a line chart with an input above it to enable users to enter a goal number which will then appear on the chart as a dashed line using `strokeDashArray`. I just updated to version 0.16.2 which was intended to fix the problem @pcmaffey mentioned above (and it did for the most part). I'm running into an issue, however, where whenever I enter a goal number that is 2 digits long (it doesn't do this with 1 or 3+ digit numbers), the goal line is no longer dashed and the console throws this error:
+@xile611 any clues on what this issue is?
+<Pie
+@xile611 thanks for the clarification
+// natural log
+@truenorthcreative, isn't React.js supposed to re-render when you update state on components ?
+it would be nice if you could post some code or jsfiddle to demonstrate
+@jareechang yes, of course. But the re-render will only affect the changed element, etc. my point is the state changing for _anything_ in the parent will re-render, as will clicking sibling components (even if you want to remove the state argument)
+http://jsfiddle.net/znqLLdev/1/?utm_source=website&utm_medium=embed&utm_campaign=znqLLdev
+@Jareechang charts are rerender. But they not recalculate points for charts
+https://gyazo.com/4d402ff81dd628a37b740da40e0903bd @tiaaaa123 it looks like the data is changing, so what do you want the experience to be? Nvm. Found the issue with what you said!
+If i copy and paste the LegendEffectOpacity example (http://jsfiddle.net/z9orjuww/?utm_source=website&utm_medium=embed&utm_campaign=z9orjuww) into my project (exporting SimpleLineChart and use it in another component), then on hovering the legend, the chart is re-drawn (animations kick in again).  Hi,
+![captusre](https://cloud.githubusercontent.com/assets/8073735/19419163/4056440a-93ef-11e6-983d-9b4662361cff.JPG)
+Thanks you @xile611 .
+I have tested this in safari and it works as expected. The bug occurs in chrome 53.0.2785.116.
+@xile611 I hear you, do you think there is a better place to put it?
+The `onClick` on `Tooltip` definitely feels strange, but it somehow makes sense as the callback is returning the content of the tooltip, and the `onClick` is triggered only when a tooltip is showing.
+@xile611 not sure what you mean by that, just renaming `onClick` to `triggerEvent`?
+@xile611 Why the tooltip can not be shown when I try it on a mobile phone?  An `onChange` function provided to Brush as a prop does not get called.
+http://jsfiddle.net/sdoomz/y6dw0fgh/
+jsfiddle : http://jsfiddle.net/5fwefg90/
+> jsfiddle : http://jsfiddle.net/5fwefg90/
+environment：
+error info:
+```  ``` javascript
+which is not allowed by SVG specs, and got wrong positioning at all.
+@xile611
+@Eric24 @xile611 @jzillmann
+```javascript
+Good point scatter plots should definitly have the option for two error bar directions. I also left the option for their just to be one direction for situations like IQ vs Number of Siblings where there might be an error in only one direction.
+```javascript
+Trying
+<Bar
+<ErrorBar
+<Bar
+<ErrorBar
+I did not get the NaN value you were getting. Here is a screen shot of your chart with all the custom tooltips removed (maybe thats where the error is coming from)?
+<Bar
+<ErrorBar
+<YAxis unit="MB"/>
+@xile611 Thanks for your response. What about the `label` in the `XAxis`?
+In this example: http://jsfiddle.net/patryk0605/akpt76jg/
+<YAxis/>
+Does the same thing on canary.
+This is the component that causes issues:
+<YAxis/>
++    "react-dom": "^15.3.2",
+-    "redux": "^3.5.2",
++    "redux": "^3.6.0",
+Chome Version 54.0.2840.71 (64-bit)
+<YAxis/>
+@xile611 - none of them are synchronized.
+@xile611 - right, that's my use case. Many, unsynced charts on one page.
+Numbers and texts are not clear and tooltip opens in wrong place.
+http://jsfiddle.net/morajabi/2nry4psq/
+@morajabi Using an extra div to wrap my LineChart I was able to avoid the issue with the tooltip being in the wrong place when using ```direction: rtl;``` So my css looks something like:
+<Bar dataKey="mydatakey" label />
+@weita0  Thanks!
+I found an alternative solution, somewhat hacky though.
+custom label as a point with look/style of active dot:
+Not sure if I'd call it a bug, but it's at least unexpected behavior for me.
+// Preserve the desired aspect ratio
+// Preserve the desired aspect ratio
+I'm running into this as well and support @tobia's proposal (only affect the height)
+const categories = ['foo', 'bar', 'baz'];
+I've addressed both of these issues @xile611
+@xile611 [example link](https://jsfiddle.net/Junh/2az6b1ob/1/) Thanks :)
+<YAxis
+<Tooltip content={<CustomTooltip />} />
+const CustomBar = (props) => {
+- Rotation (`angle` prop)
+it would be nice if the following was allowed:
+@xile611 👍
+http://jsfiddle.net/digorydoo/ww51Ln0u/
+This is quite counter-intuitive, it took me almost an hour to find the problem.
+Is this intended or a known issue?
+@techniq oh that's awesome! Would be a huge help for sure.
+Naren.
+Also the properties `tickLine` and `axisLine` on `X/YAxis` don't work in the ScatterChart context like it does for `AreaChart`
+.scatter-point {
+- http://jsfiddle.net/1b5qv2Ld/1/
+- http://jsfiddle.net/1b5qv2Ld/2/
+- http://jsfiddle.net/twzLm0he/
+- http://jsfiddle.net/zvr2qa90/1/
+```jsx
+2) Use several yAxis
+Thanks @xile611 it's a good solution although ideally there would be wider gaps between major tiers.
+Anyone know where the  CustomizedLableLineChart jsfiddle is?    Preview
+I would love to know if there's a simpler way to do this, but for now it seems to work well enough.
+There's actually one issue with my method: as you can see in the last two columns, the line for "1%" goes _behind_ the blue bar. This is because of SVG elements stacks in the order they are drawn, and I don't think there's any way around it…
+<Legend
+.recharts-legend-wrapper {
+.recharts-legend-wrapper {
+Is it not clear that the bars and the legend are in opposite orders?
+```javascript
+This looks really cool! Does it convert the SVG to PNG right in the browser? I didn't even know you could do that!
+**Recharts version**
+https://github.com/recharts/recharts/pull/402 @xile611 @thoqbk
+or add a minWidth(undefined) or minHeight(undefined) or use aspect(undefined) to control the
+@xile611  setting min-height to `ResponsiveContainer` worked perfect to me.
+Thannks @xile611
+@xile611  Thank you!  For now, I am fine with my workaround but I appreciate the quick reply
+@xile611 ,
+Ah, so if you try to use non-plaintext content, you need to be aware that:
+Would be nice if `getAttrsOfPolarLabel` was exposed to end users, so we didn't have to copy stuff out of its innards. @qborreda You got those demos?  Hi once again,
+<YAxis/>
+https://formidable.com/blog/2016/08/05/announcing-victory-0-10-2-and-victorynative/
+> between on React Native.
+border
+symbols
+<YAxis
+border
+border
+http://jsfiddle.net/areski/97q4apgw/2/
+http://jsfiddle.net/areski/97q4apgw/5/
+```jsx
+The current axis label positioning is very unusual.
+``` Hey @youngnicks can you please provide an example on how would you call this inside <YAxis
+```javascript
+rot,
+``` @neekey I had to use this to get it to align nicely.
+<XAxis dataKey="name" label="asdfasdf"/>
+(Still newish to react)
+<XAxis dataKey="name" label="asdfasdf"/>
+Sorry @levininja I can't remember (we eventually moved off recharts a short time later) and I no longer work where we were doing this so I can't access the code to look it up. @jacktasia thanks for the quick response.
+http://jsfiddle.net/dyujxk7L/
+But the bars are overlapping(http://jsfiddle.net/ragrbruL/15/). i want it to be on side by side.
+![](https://i.gyazo.com/4fdca38e3d69e5d5c7ea8557dd99bfe9.png)
+http://jsfiddle.net/kauzp0n/m7w8c7uq/
+http://jsfiddle.net/kauzp0n/csqxnk43/1/
+font-family: Roboto Mono,Consolas,Liberation Mono,Courier New,Courier,monospace;
+white-space: nowrap;
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+<CartesianGrid stroke='#f5f5f5' vertical={false} />
+<Line type='linear' dataKey='amt' stroke='#F70D1C' strokeWidth={3} />
+Where the YAxis on the right represents a different scale (related to one of the line charts).
+hi Xile. You're correct that it does rescale. I believe the problem I'm having is that I have a chart inside a flexbox container. Since recharts is using javascript to compute the resize, I don't think that it will work with flexbox. This isn't necessarily a recharts issue (or d3.js), but I would presume that a change or config on the recharts side would be needed to achieve what I'm doing.
+@xile611 http://jsfiddle.net/9tjsb7k2/embedded/result/. You'll see it opens to the correct size of the window, and if you resize from a small window to make it larger, it works, but not going from larger to smaller.
+http://jsfiddle.net/oezx3kh2/embedded/result/
+Oh, I see. I was hoping they were Recharts values, like min & max.  Thanks for replying.
+<RadialBarChart   width={300} height={244} cx='50%' cy='50%'
+</RadialBarChart>
+That is sad :(  I think I might be forced to use chartist then as it can set more complex values: https://gionkunz.github.io/chartist-js/api-documentation.html
+```jsx
+```jsx
+<RadialBar
+Nachiket.
+@xile611 is this still not supported?
+Ash
+AK
+@Algiras
+@xile611 Since you mention it... :), and speaking of labels on pie charts...
+default as scaleRainbow,
+} from "./src/rainbow";
+default as scaleViridis,
+} from "./src/viridis";
+loaders: ['babel'],
+- Babel-CLI (6.11.4)
+- Babel-Loader (6.2.4)
+- Babel Preset ES2015 (6.6.0)
+- Babel Preset Stage 0 (6.5.0)
+![image](https://cloud.githubusercontent.com/assets/1522455/17277268/f5600d7e-573e-11e6-81cc-af42ce967bf2.png)
+(http://jsfiddle.net/j3d22g0m/)
+Here is the code I am trying
+Thank you @xile611
+{ varX: 'Mon', varY: 10 },
+{ varX: 'Mon', varY: 10 },
+{ varX: 'Sat' },
+I find this to be very strange, because I was expecting the interval prop to mean the base number for ticks to be generated.
+@xile611
+@xile611
+@xile611 Thank you :)
+Additionally, can I colour the bars differently depending on whether or not they are above the threshold line?
+PropTypes.array
+PropTypes.array
+@xile611 There were no console logs. Browser is mobile safari. Tried iOS simulator with ios8.3, and tried an iPhone 4 with ios 6. However, IOS 8.4 simulator worked fine.
+This may have to do with how safari is handling the dimensions of the parent element.
+@xile611  I'll try to put something together when I get some time.
+Here is a fiddle with the problem I am having:
+http://jsfiddle.net/d0k0rk0m/1
+@xile611
+Sorry I haven't had a chance to create a jsfiddle for it.
+An additional idea would be to set an aspect ratio on ResponsiveContainer and if one of the measures is zero then use the aspect ratio and the other to come up with the initial size.
+@nickpalmer What if you use `Math.max` along with the calculatedWidth/calculatedHeight so that percentages are still supported? Maybe aspect should be optional.
+fill must be a string
+@xile611
+@xile611 - Hey, can we connect to talk ReCharts?
+But I may be misunderstanding, and I'm a bit unclear about how to do this w/ `style` - would you mind elaborating here?
+Also, thanks for the fiddle's showing alternative implementations. Personally I'd prefer the library I'm using obfuscate such tasks, so I do like the `attrFormatter` approach as it allows my application code to be less verbose.
+Coverage remained the same at 93.737% when pulling **1bc20126d1d41f6c534485a66f2297d4d316bc09 on iuriikozuliak:hotfix/composed-bar-chart-yAxisId** into **0b2be09c90c1b3c2962d9f76cde8f681f24a5316 on recharts:master**.
+@xile611 wow! thank you so much!
+@xile611 what does the number represent? Percentage? Or pixels?  I am struggling to find a way to allow padding on the Y axis so that the top value is not coming close to the top of the graph itself. This is a stylistic thing that I believe should probably be best achieved while building the svg elements and can not be easily modified using css after the svg has rendered.
+@xile611  I saw `domain` and if I understand it correctly the problem I see is that is you can't really say `max + 20px` as `max` could be any number large or small. The designer in me loves how easy c3 allows you to just throw pixel values at it so my chart doesn't look so crammed and I don't have to worry about the data involved as it's merely a style issue.
+<CartesianGrid stroke='#f5f5f5'/>
+@xile611
+return new Cardinal(context, tension);
+Here is [fiidle](http://jsfiddle.net/mcf1akad/1/)
+The fill is the only thing that has my custom color information passed down, and considering it's a reference to a gradient it doesn't do me much good. The closest I can get achieving the look given the information is this:
+![weirddot](https://cloud.githubusercontent.com/assets/996725/16024411/4e02d548-3187-11e6-90f7-2411a6738595.png)
+I have made a jsfiddle to demo this:
+http://jsfiddle.net/troyblank/ae55bfLm/6/
+As you can see `{props.stroke}` is always `#fff` on any custom dot, and there is no stroke information for custom tooltip payloads to use. It would be a lot more useful for both cases to have the stroke color of the actual line in which it is referencing, which in jsfiddle's case is `#82ca9d`. This would allow any custom tooltip or dot work to be able to really leverage the colors set by any gradient area.
+Best Bodo
+![unbenannt](https://cloud.githubusercontent.com/assets/5469488/15931865/b7dda384-2e59-11e6-99af-3e3806f52428.PNG)
+Im having issues with the ResponsiveContainer. Not sure if related to same issues.
+<AreaChart data={Chardata}
+> Warning: CartesianAxis: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://fb.me/react-special-props)
+> Warning: CartesianAxis: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://fb.me/react-special-props)
+Kinda hacky but it seems to work. Thank you @jasonHzq !
+@xile611 Ok.
+@xile611 Thanks a lot!
+@xile611 how do I disable animation?
+Oh I see, I didn't realize it was specific to the Bar component and not the BarChart component. Thanks.
+The uv is disappeared from Page A, and XAxis is totally wrong, obviously.
+Thanks a lot! Do you guys fancy Chord Diagram contribution? Something along those lines: http://www.global-migration.info/
+Actually I've achieved this in an hacky way, by wrapping the chart in a component and force a full redraw of the chart by changing the component state inside the `componentWillReceiveProps` callback, but that's not an ideal solution.
+2016-04-27 19:28 GMT+08:00 xile611 notifications@github.com:
+> I just borrowed the naming from _Raphael.js_.
+@xile611 wow thanks!
+In my case I was abusing the charts a little bit, using the dataKeys on a horizontal barchart to be the values so it was a little easier to read, and then color coding the bars for identification below them if that makes sense.
+That’s it :octocat:
+Both errors reference multiple copies of React, so I'm think that has something to do with it, but I'm unsure how that is happening, especially if `npm run build` is the official way to build this.
+I also like to be able to choose the number of ticks for each axis, or precise that I want more of them.
+Thanks @xile611
+i try to add css
+http://jsfiddle.net/urt1d7v5/
+but this spec is work
+@kennetpostigo can you show some code?
+<YAxis/>
+<Area type='monotone' dataKey='amt' stackId="1" stroke='#ffc658' fill='#ffc658' />
+<RadialBar minAngle={15} label background clockWise={true} dataKey='uv'/>
+</RadialBarChart>
+anyways it looks like a typo :smile:
+@xile611
+Can we remove `tickCount` from the API doc for `XAxis` then? @itsdeezy PR https://github.com/recharts/recharts.org/pull/66 submitted if you want to add anything.  http://jsfiddle.net/x1yoboc7/15/
+http://jsfiddle.net/x1yoboc7/16/
+Sorry if it seems like I'm complaining. Its a corner case (albeit a confusing one) and the rest of this lib seems pretty :100:. Thanks!
+It's very weird that the default config creates all slices with the same colors. For comparison, I'm adding two pie charts. The left one is recharts, the right one is from c3js.
+Yeah, to be honest, I think the api should change a bit. I was thinking in something like this:
+<Slice name="Mobile" value={70} fill="#9cacf1" />
+I believe it is essential to be able to support composition of custom components, at least for all the cartesian charts.
+Using custom components, and svg elements on a chart is a solution for many problems that are hard to imagine initially. For me it was essential, since there are so many types of financial indicators that the api had to be capable to accommodate new types.
+When using Legend, Tooltip,  XAxis, YAxis, CartesianGrid I have
+<YAxis/>
+my code
+[app]/[recharts]/[oui-dom-utils]/build/index.js:10:29
+Okay, the author just released https://github.com/oneuijs/oui-dom-utils/releases/tag/v0.3.6
+lodash: 112.91 KB (14.3%)
+raf: 2.61 KB (6.17%)
+performance-now: 886 B (33.1%)
+<self>: 886 B (100%)
+pure-render-decorator: 722 B (1.67%)
+react-addons-shallow-compare: 53 B (7.34%)
+<self>: 669 B (92.7%)
+oui-dom-utils: 13.85 KB (1.75%)
+├── ima.js-babel6-polyfill@0.1.0
+├── lodash@4.5.0
+Strange, it didn't work at first, but after the change and a server restart it does.
+http://c3js.org/samples/axes_label.html
+For now Legend is just overlapping.
+http://jsfiddle.net/fxtwg1k7/1/
+Thanks @xile611!
+Your approach of calculating height for `Legend` is a bit tricky, but it works ;)
+http://jsfiddle.net/fxtwg1k7/2/
+Animate           yes: 1971      no: 0
+Legend            yes: 782       no: 0
+Thanks, @arcthur.
+My error is:
+├── UNMET PEER DEPENDENCY react@^0.14.0
+├── UNMET PEER DEPENDENCY react@^0.14.0
+It seems like you specify exact version of react or react-aadons-*:
+@Ohar: As i remember, we should remove the react dependency from recharts, and use react depdency independently.
+| import 'ima.js-babel6-polyfill';

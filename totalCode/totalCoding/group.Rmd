@@ -1,0 +1,100 @@
+---
+title: "English Variation Across Projects"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(plotly)
+library(jsonlite)
+library(dplyr)
+library(tidyr)
+library(gt) # 高端学术表格
+```
+
+```{r}
+data <- fromJSON("sentence_statistics.json")
+df <- tibble::enframe(data, name = "project", value = "stats") %>% 
+  unnest_wider(stats) %>% 
+  pivot_longer(cols = c("african_english", "standard_english"), 
+               names_to = "type", 
+               values_to = "count") %>% 
+  group_by(project) %>% 
+  mutate(percentage = count / sum(count) * 100) %>% 
+  ungroup() %>% 
+  mutate(project = reorder(project, -total))
+```
+
+Column {data-width=600}
+-----------------------------------------------------------------------
+
+### Stacked Percentage Bar Chart
+
+```{r}
+plot_ly(df, x = ~project, y = ~percentage, color = ~type, 
+        colors = c("african_english" = "#1f77b4", "standard_english" = "#ff7f0e"),
+        type = "bar", hoverinfo = "text",
+        text = ~paste0("Project: ", project, "<br>",
+                       "Type: ", type, "<br>",
+                       "Count: ", count, "<br>",
+                       "Percentage: ", round(percentage, 1), "%")) %>% 
+  layout(title = "Percentage of African English vs. Standard English by Project",
+         xaxis = list(title = "Project"),
+         yaxis = list(title = "Percentage (%)", ticksuffix = "%"),
+         barmode = "stack") %>% 
+  config(displayModeBar = FALSE)
+```
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Data Summary
+
+```{r}
+summary_df <- df %>% 
+  select(project, type, count, percentage) %>% 
+  pivot_wider(names_from = type, values_from = c(count, percentage)) %>% 
+  arrange(project)
+
+summary_df %>%
+  gt() %>%
+  tab_header(
+    title = md("**English Variation by Project**"),
+    subtitle = "Count and Percentage of African English vs. Standard English"
+  ) %>%
+  cols_label(
+    project = "Project",
+    count_african_english = "Count (African)",
+    percentage_african_english = "Percentage (%)",
+    count_standard_english = "Count (Standard)",
+    percentage_standard_english = "Percentage (%)"
+  ) %>%
+  fmt_number(
+    columns = starts_with("percentage"),
+    decimals = 1
+  ) %>%
+  fmt_integer(
+    columns = starts_with("count")
+  ) %>%
+  tab_spanner(
+    label = "African English",
+    columns = c(count_african_english, percentage_african_english)
+  ) %>%
+  tab_spanner(
+    label = "Standard English",
+    columns = c(count_standard_english, percentage_standard_english)
+  ) %>%
+  tab_source_note(
+    source_note = md("Data source: `sentence_statistics.json`")
+  ) %>%
+  opt_row_striping() %>%
+  opt_align_table_header(align = "left") %>%
+  tab_options(
+    table.width = pct(100),
+    heading.title.font.weight = "bold",
+    column_labels.font.weight = "bold"
+  )
+```

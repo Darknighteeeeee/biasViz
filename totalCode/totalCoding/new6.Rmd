@@ -1,0 +1,279 @@
+---
+title: "new5"
+date: "2025-10-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+```{r}
+library(shiny)
+library(readr)
+library(dplyr)
+library(tidyr)
+library(plotly)
+library(DT)
+library(jsonlite)
+library(tools)
+
+display_names <- c(
+  "aframe","Alamofire","ExoPlayer","finagle","fresco",
+  "guava","immutable-js","jest","marko","Moya",
+  "nightmare","rclone","react","recharts","sqlitebrowser",
+  "stf","tensorflow","tesseract","tidb","ZeroNet"
+)
+project_keys <- paste0("lsm_result", 0:19)
+
+project_choices <- setNames(project_keys, display_names)
+
+# ------------------------- Data Loaders -------------------------
+
+# CSV for Heatmap (uses project_key + ".csv", e.g., "lsm_result0.csv")
+load_project_data <- function(project_key) {
+  file_path <- paste0(project_key, ".csv")
+  if (!file.exists(file_path)) {
+    return(list(error = TRUE, message = paste0("Cannot find: ", file_path)))
+  }
+  raw <- tryCatch(read_csv(file_path, show_col_types = FALSE), error = function(e) NULL)
+  if (is.null(raw)) return(list(error = TRUE, message = paste0("Failed to parse: ", file_path)))
+
+  names(raw) <- gsub("\\n|\\r", " ", names(raw))
+  cs_col <- grep("cosine|Cosine|cos_sim|cosine similarity", names(raw), ignore.case = TRUE, value = TRUE)[1]
+  ed_col <- grep("euclid|Euclidean|euclid distance", names(raw), ignore.case = TRUE, value = TRUE)[1]
+  w1_col <- grep("^word1$|^word_1$|^word$|^term1$", names(raw), ignore.case = TRUE, value = TRUE)[1]
+  w2_col <- grep("^word2$|^word_2$|^adj$|^term2$", names(raw), ignore.case = TRUE, value = TRUE)[1]
+
+  if (is.na(w1_col) || is.na(w2_col) || (is.na(cs_col) && is.na(ed_col))) {
+    return(list(error = TRUE, message = paste0("CSV missing expected columns in ", file_path)))
+  }
+
+  df <- raw %>% rename(Word1 = !!w1_col, Word2 = !!w2_col)
+  if (!is.na(cs_col)) df <- df %>% rename(Cosine = !!cs_col)
+  if (!is.na(ed_col)) df <- df %>% rename(Euclid = !!ed_col)
+
+  wide <- df %>%
+    pivot_wider(names_from = Word2, values_from = c(Cosine, Euclid), names_sep = "_") %>%
+    as.data.frame()
+
+  cosine_matrix <- NULL
+  euclid_matrix <- NULL
+
+  if (any(startsWith(names(wide), "Cosine_"))) {
+    cm <- wide %>% select(starts_with("Cosine_")) %>% as.matrix()
+    rownames(cm) <- wide$Word1
+    colnames(cm) <- gsub("Cosine_", "", colnames(cm))
+    cosine_matrix <- cm
+  }
+
+  if (any(startsWith(names(wide), "Euclid_"))) {
+    em <- wide %>% select(starts_with("Euclid_")) %>% as.matrix()
+    rownames(em) <- wide$Word1
+    colnames(em) <- gsub("Euclid_", "", colnames(em))
+    euclid_matrix <- em
+  }
+
+  return(list(
+    error = FALSE,
+    raw_data = df,
+    cosine_matrix = cosine_matrix,
+    euclidean_matrix = euclid_matrix,
+    project_name = project_key
+  ))
+}
+
+# sentence_statistics.json for English variation
+load_sentence_stats <- function(json_path = "sentence_statistics.json") {
+  if (!file.exists(json_path)) return(NULL)
+  tryCatch({
+    data <- fromJSON(json_path)
+    df <- tibble::enframe(data, name = "project", value = "stats") %>%
+      unnest_wider(stats) %>%
+      pivot_longer(cols = c("african_english", "standard_english"),
+                   names_to = "type", values_to = "count") %>%
+      group_by(project) %>%
+      mutate(percentage = count / sum(count) * 100) %>%
+      ungroup()
+    df
+  }, error = function(e) NULL)
+}
+
+load_pos_json <- function(project_key) {
+  candidate1 <- paste0(project_key, ".json")
+  candidate2 <- paste0(gsub("result", "results", project_key), ".json")
+  json_path <- if (file.exists(candidate1)) candidate1 else if (file.exists(candidate2)) candidate2 else NULL
+  if (is.null(json_path)) return(NULL)
+  js <- tryCatch(fromJSON(readChar(json_path, file.info(json_path)$size)), error = function(e) NULL)
+  if (is.null(js)) return(NULL)
+
+  # Expect js to be a flat key-value numeric list for POS features
+  data.frame(
+    feature = names(js),
+    value = as.numeric(unlist(js)),
+    project = project_key,
+    stringsAsFactors = FALSE
+  )
+}
+
+feature_labels <- c(
+  adverb = "Adverb", conj = "Conjunction", clout = "Clout",
+  auxverb = "Aux Verb", analytic_thinking = "Analytic Thinking",
+  article = "Article", ipron = "Impersonal Pronoun", negate = "Negation",
+  authentic = "Authenticity", tone = "Tone",
+  prep = "Preposition", ppron = "Personal Pronoun", lsm = "LSM"
+)
+
+# ------------------------- UI -------------------------
+
+ui <- fluidPage(
+  titlePanel("Unified LSM Dashboard"),
+  sidebarLayout(
+    sidebarPanel(
+      h4("Controls"),
+      # choices 使用 named vector：显示 display_names，但 value 为 project_keys（内部用）
+      selectInput("project_select", "Select Project:", choices = project_choices, selected = project_keys[1]),
+      radioButtons("metric", "Heatmap Metric:",
+                   choices = c("Cosine Similarity" = "cosine", "Euclidean Distance" = "euclidean"),
+                   selected = "cosine"),
+      sliderInput("font_size", "Font Size", min = 8, max = 20, value = 12),
+      actionButton("refresh_all", "Refresh All")
+    ),
+    mainPanel(
+      h3("Heatmap"),
+      plotlyOutput("heatmap_plot", height = "700px"),
+      DTOutput("heatmap_table"),
+      hr(),
+      h3("English Variation"),
+      plotlyOutput("engvar_plot", height = "500px"),
+      DTOutput("engvar_table"),
+      hr(),
+      h3("POS Features"),
+      plotlyOutput("pos_radar", height = "450px"),
+      plotlyOutput("pos_bar", height = "350px"),
+      DTOutput("pos_table")
+    )
+  )
+)
+
+# ------------------------- SERVER -------------------------
+
+server <- function(input, output, session) {
+  proj_cache <- reactiveVal(list())
+  sentence_stats_data <- reactiveVal(load_sentence_stats())
+
+  observeEvent(input$refresh_all, {
+    proj_cache(list())
+    sentence_stats_data(load_sentence_stats())
+  })
+
+  # Heatmap reactive (input$project_select is the internal project_key like "lsm_result0")
+  selected_data <- reactive({
+    project_key <- input$project_select
+    cache <- proj_cache()
+    if (!is.null(cache[[project_key]])) return(cache[[project_key]])
+    res <- load_project_data(project_key)
+    cache[[project_key]] <- res
+    proj_cache(cache)
+    res
+  })
+
+  # Heatmap Plot
+  output$heatmap_plot <- renderPlotly({
+    dat <- selected_data()
+    if (is.null(dat) || dat$error) {
+      msg <- if (is.null(dat)) "Data not loaded" else (if (is.null(dat$message)) "Data not loaded" else dat$message)
+      return(plot_ly() %>% layout(title = msg))
+    }
+    if (input$metric == "cosine") {
+      mat <- dat$cosine_matrix
+      if (is.null(mat)) return(plot_ly() %>% layout(title = "No cosine similarity data"))
+      zmin <- -1; zmax <- 1
+      title <- paste(dat$project_name, "- Cosine Similarity")
+    } else {
+      mat <- dat$euclidean_matrix
+      if (is.null(mat)) return(plot_ly() %>% layout(title = "No Euclidean distance data"))
+      zmin <- min(mat, na.rm = TRUE); zmax <- max(mat, na.rm = TRUE)
+      title <- paste(dat$project_name, "- Euclidean Distance")
+    }
+    plot_ly(z = mat, x = colnames(mat), y = rownames(mat),
+            type = "heatmap", zmin = zmin, zmax = zmax, colorscale = "Viridis") %>%
+      layout(title = title, xaxis = list(title = "Word2"), yaxis = list(title = "Word1"))
+  })
+
+  # Heatmap Table
+  output$heatmap_table <- renderDT({
+    dat <- selected_data()
+    if (is.null(dat) || dat$error) return(datatable(data.frame(Message = if (is.null(dat)) "Data not loaded" else dat$message)))
+    datatable(dat$raw_data, options = list(pageLength = 8))
+  })
+
+  # English Variation Plot
+  output$engvar_plot <- renderPlotly({
+    df <- sentence_stats_data()
+    if (is.null(df)) return(plot_ly() %>% layout(title = "sentence_statistics.json not found"))
+    plot_ly(df, x = ~project, y = ~percentage, color = ~type, type = "bar",
+            text = ~paste0(round(percentage,1), "%"), hoverinfo = "text") %>%
+      layout(barmode = "stack", title = "English Variation",
+             xaxis = list(title = "Project"), yaxis = list(title = "Percentage (%)"))
+  })
+
+  output$engvar_table <- renderDT({
+    df <- sentence_stats_data()
+    if (is.null(df)) return(datatable(data.frame(Message = "No data")))
+    wide <- df %>%
+      select(project, type, count, percentage) %>%
+      pivot_wider(names_from = type, values_from = c(count, percentage))
+    datatable(wide, options = list(pageLength = 10))
+  })
+
+  # POS Radar + Bar (load_pos_json expects internal project_key like "lsm_result0")
+  output$pos_radar <- renderPlotly({
+    pd <- load_pos_json(input$project_select)
+    if (is.null(pd) || nrow(pd) == 0) return(plot_ly() %>% layout(title = "No POS data"))
+    order_features <- intersect(names(feature_labels), pd$feature)
+    radar_df <- pd %>% filter(feature %in% order_features) %>% arrange(match(feature, order_features))
+    r_vals <- c(radar_df$value, radar_df$value[1])
+    theta_vals <- c(unname(feature_labels[radar_df$feature]), unname(feature_labels[radar_df$feature[1]]))
+    plot_ly(type = 'scatterpolar', r = r_vals, theta = theta_vals, fill = 'toself', name = input$project_select) %>%
+      layout(title = paste(input$project_select, "POS Feature Radar"),
+             polar = list(radialaxis = list(visible = TRUE, range = c(0, 1))))
+  })
+
+  output$pos_bar <- renderPlotly({
+    pd <- load_pos_json(input$project_select)
+    if (is.null(pd) || nrow(pd) == 0) return(plot_ly() %>% layout(title = "No POS data"))
+    data <- pd %>%
+      mutate(feature_label = recode(feature, !!!feature_labels, .default = feature)) %>%
+      arrange(match(feature_label, unname(feature_labels)))
+    plot_ly(data, x = ~feature_label, y = ~value, type = 'bar',
+            text = ~round(value,3), hoverinfo = 'text') %>%
+      layout(title = paste(input$project_select, "POS Feature Values"),
+             xaxis = list(tickangle = 45), yaxis = list(range = c(0,1)))
+  })
+
+  output$pos_table <- renderDT({
+    all_json <- lapply(project_keys, load_pos_json)
+    all_json <- all_json[!sapply(all_json, is.null)]
+    if (length(all_json) == 0) return(datatable(data.frame(Message = "No POS data")))
+    all_data <- do.call(rbind, all_json)
+    wide_data <- all_data %>%
+      mutate(feature_label = recode(feature, !!!feature_labels, .default = feature)) %>%
+      select(project, feature_label, value) %>%
+      pivot_wider(names_from = feature_label, values_from = value) %>%
+      arrange(project)
+    datatable(wide_data, options = list(pageLength = 10), filter = 'top')
+  })
+}
+
+# ------------------------- Run App -------------------------
+shinyApp(ui, server)
+
+
+
+```
+
+

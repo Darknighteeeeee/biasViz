@@ -1,0 +1,2279 @@
+* Special configuration: tor = always
+## Problems / Questions:
+### Avoid leaking local peer ips to peer exchange
+- Skip local ip ranges on pex
+- Moved to simple UDP broadcasting with custom protocol due [zeroconf problems](#issuecomment-361974868)
+I'm not sure if zeroconf/mdns/bonjour has other benefits over udp broadcasting that we can use/need
+> broadcast: {"cmd":"discoverRequest", "params": {"zeronet": {"port": 15441, "sites_changed": 1517415166, "rev": 3222, "peer_id": "-ZN0061-AnJx5Pamk0U0"}}}
+**Problems**
+**Questions**
+@mkg20001 It's very abstract, missing lots of details, but we will see once it's launched.  Actually you don't have to change anything in content.json, here is the steps:
+- Generate address using vanitygen
+"zeroid.bit": ["1iD5ZQJMNXu43w1qLB8sfdHVKppVMduGz"]
+"cert_pattern": "^1ZeroiD"
+It would allow any certificate provider that's Bitcoin address starts with "1ZeroiD".
+## Problems
+**Possible solution:** Display only the first few letter of the unique part, eg.: user@JnkH...
+* Operating system: Ubunty 16.04
+* Tor status: error
+* Special configuration: no
+ui_restrict =
+Not sure what is "2345Explorer/8.8.3.16721", but I just tested in IE11 (based on `Trident/7.0; Touch; rv:11.0;` part) and it works  You are not missing anything it should work.
+Do you have Tor enabled?
+"sha512": "asd...",
+- Set up mirrors, eg. to http://hellozeronet.github.io/
+- Move to different domain
+import urllib2
+# {"to": 1000001, "cmd": "response", "result": {"tasks": 0, "size_limit": 10, "address": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D", ...
+Please update and see if it's works now. Thanks, I have added a new update to fix connection error with unknown characters: https://github.com/HelloZeroNet/ZeroNet/commit/6fb9c6ef05aa7578bd0529c4022657612bcaf9c8
+ui_restrict =
+"PATH_INFO": "/1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D/css/all.css",
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"ip_local": [
+"multiuser_local": false,
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_host": [
+"fuckcf.cf"
+"ui_port": 43110,
+"Multiuser",
+"TranslateSite",
+"Trayicon",
+"Zeroname"
+There is a bit more peer than usual, but I don't see any suspicious thing.
+https://github.com/HelloZeroNet/ZeroNet/blob/master/src/Ui/UiWebsocket.py#L818
+- Shell-like syntax: Basically breaking all current sites.
+import gevent
+import gevent.monkey
+gevent.monkey.patch_all(thread=False)
+except KeyboardInterrupt, err:
+matchTimeout("^A(B|C+)+D$", "ACCCCCCCCCCCCCCCCCCCCCCCCX")
+KeyboardInterrupt
+host2
+"zeroid.bit": ["1iD5ZQJMNXu43w1qLB8sfdHVKppVMduGz"]
+"nofish@zeroid.bit": {"max_size": 200000}
+And please try in incognito mode (plugins disabled there) It looks weird, something with the directories, please try to open sidebar (drag topright button to left) and press Rebuild.
+plugins/MergerSite/languages
+plugins/OptionalManager/languages
+plugins/Sidebar/languages
+plugins/Trayicon/languages
+Then developers will find the reason why clients don't download files hard, so add a notification to tell the reason is a simple way.  Some people in China needs access blocked sites via a proxy. But if you set a system proxy, ZeroNet will connect to other peers via proxy. Some proxy's bandwidth is limited and can't open a FileServer port, so we need a argument to disable proxy. What application are you using to set the system proxy address?  Is it possible to install ZeroNet to a remote machine?
+$ tar xvpfz ZeroNet.tar.gz
+If the url starts with `#` it won't add `?` anymore, but I recommend you to use `?` instead of `#` (eg. `page.cmd("wrapperReplaceState", [null, "", "?abc"]);`) as hashtags are originally for jumping to anchors on one page and using replace/pushState should not reload the page.  Unfortunately Nacl is not compatible with the crypto we use, pyopenssl does not have functions we need (eg aes encryption). Cryptography probably could work, but has binary dependencies and requires compilation to every platform/openssl version, which could reduce the portability.
+- tried to sign & publish this file to remote machine, but it got rejected: `[2017-04-11 06:10:24,423] WARNING  Site:1NLjoF..qPa7 Verify sign error: KeyError: 'cert_user_id' in ContentManager.py line
+Running `zeronet.py siteVerify 1NLjo...` locally also drops error.
+[2017-04-08 22:04:42,749] DEBUG    TorManager Creating new Tor socket to boot3rdez4rzn36x.onion:15441
+[2017-04-08 22:04:47,596] DEBUG    Site:1Gfey7..fcdp Announced types ['onion'] in mode startup to 5 trackers in 1.047s, errors: [], slow: ['1.05s http://tracker1.wasabii.com.tw:6969/announce']
+import StemPlugin
+- enable Multiuser plugin again
+>>> gevent.version_info
+`cd /media/AiDisk_a5`
+cd ZeroNet
+tmux
+![](https://zgab33vy595fw5zq-zippykid.netdna-ssl.com/wp-content/uploads/2017/09/growth_smaller_tags-1-1024x878.png)
+4 | 5 |   | Python | 4.678% | +1.21%
+import os
+4096 bit RSA key CB9613AE, created: 2017-01-15, expires: 2022-01-14  are the `,` necessary at the `('TCP', 'UDP',)` ?
+250-PROTOCOLINFO 1
+If it happens often please enable `--debug_gevent`, so it will log any hang that take more than 100ms. It looks like around site 1F7b27... can you try to pause it? And please give me the full address of this site, so i can try it myself. Probably it causes lots of other problems, so it's really not recommended to have that large site.   I think a `if self.env['REQUEST_METHOD'] != 'GET':` restriction will be enough for the `actionWrapper` (we catch OPTIONS earlier and POST to non-wrapper files are ok.  upnpopening is disabled in tor mode and why is it better raising IGDError instead of SOCKS5Error (I think it would be usefull to keep UpnpPunch.py standalone from other libs)  Thanks, fixed in latest rev: https://github.com/HelloZeroNet/ZeroNet/commit/bea212a8d1fbf314b5a40e8828d17ab9d0bec27a  Thanks for the suggestion, but is tor works in china (without transport protocols) at all? It would be nice to find  away to unpack tor.exe and the transport protocols from the .exe
+- https://github.com/HelloZeroNet/ZeroNet/commit/6c68f8dd6ccb351861ba5cb4854ac1b309e1ed15 Fix content type detection of "/anysiteaddress", so wrapper no longer allowed to load by json request
+I think these should fix the problems Hm, probably we can't filter every "fake" request by headers. Tomorrow I will add a modification that will only add sites if valid wrapper_key present.  Thanks for reporting, fixed: https://github.com/HelloZeroNet/ZeroNet/commit/6a71bb256e7ff2e970f7adea5e1193c87f246ee4  From now git commits are signed https://github.com/HelloZeroNet/ZeroNet/commit/901478475fb15a910d3c99ccb161730b4e84ca25 Just, sent it, please check again  `zeronet.py --debug siteDownload anysite` should do that  Fixed in Rev1797: It will skip broken sites on startup and use crash-safe writing for root content.json file.  Yeah, I'm also uncertain about utf8 domain names, no one can tell the difference between Оnet, ⵔnet, Onet, Οnet or Onet (All uses different "0" character)
+$ codesign --verbose --force --deep --sign "Open Source Developer, Tamas Kocsis" ZeroNet.app
+$ codesign -v ZeroNet.app/
+ZeroNet.app/: CSSMERR_TP_NOT_TRUSTED
+Alternative it can be based on if the .app is in the /Application or not Horray! I was able to produce .app that accepted by the gatekeeper, but if I download it using safari it runs differently: on startup it got moved to /private/.../AppTranslocation/ read-only directory, so I'm not sure how can we make it portable
+from Tkinter import Tk
+import os
+import zeronet
+print "Gui started"
+from Tkinter import Tk
+except Exception, err:
+print "Gui error: %s" % err
+print "Gui ended"
+- [x] Test portable autorun
+Switching to conda looks like fixed it and the zipped .app also become smaller: 8.7MB -> 7.9MB
+conda install gevent
+$ codesign -vvvv ZeroNet.app/
+# Other todo:
+- [X] Higher resolution icon
+- Program FIles (just kidding)
+- hdPrivatekey x 10..........0.192s [x3.65: Insane!!]
+CryptHash:
+- os.urandom(256) x 100 000..........0.085s [x7.65: Insane!!]
+- hdPrivatekey x 10..........0.185s [x3.78: Insane!!]
+CryptHash:
+- sha256 5M x 10..........0.150s [x4.00: Insane!!]
+- os.urandom(256) x 100 000..........0.071s [x9.15: Insane!!]
+- pack 5K x 10 000..........0.214s [x3.64: Insane!!]
+- Like query x 100..........0.289s [x6.23: Insane!!]
+import os
+from gevent.coros import RLock
+from gevent.lock import RLock
+from gevent.coros import RLock, Semaphore
+from gevent.lock import RLock, Semaphore
+"address":"12F55EiSQ2drprqCyKdrpSbz5tP8JKexLy",
+"description":"Welcome to ZeroMe! Runner: Nofish",
+"cloned_from":"1BLueGvui1GdbtsjcKqCf4F67uKfritG49",
+"address":"12F55EiSQ2drprqCyKdrpSbz5tP8JKexLy",
+"modified":1481138875.097,
+I will try whats happens with the wsh-based one.
+Alternative you can edit the all.js directly or make ZeroBlog multilanguage by adding
+"translate": [
+yes, zeronet using self-signed certs, so mitm is possible on non-tor connections, i dont think blockchain is a good place to store this information (and also requires to every client run full node)
+https://github.com/HelloZeroNet/ZeroNet/blob/master/src/Translate/languages/hu.json
+https://github.com/HelloZeroNet/ZeroMe/blob/master/languages/hu.json
+https://github.com/HelloZeroNet/ZeroTalk/blob/master/languages/hu.json
+https://github.com/HelloZeroNet/ZeroNet/blob/master/plugins/Sidebar/languages/hu.json
+https://github.com/HelloZeroNet/ZeroMe/blob/master/languages/hu.json
+https://github.com/HelloZeroNet/ZeroTalk/blob/master/languages/hu.json
+https://github.com/HelloZeroNet/ZeroNet/blob/master/src/Translate/languages/hu.json
+https://github.com/HelloZeroNet/ZeroNet/blob/master/plugins/Sidebar/languages/hu.json
+https://github.com/HelloZeroNet/ZeroMe/blob/master/languages/hu.json
+https://github.com/HelloZeroNet/ZeroTalk/blob/master/languages/hu.json
+It's only used for UPNP port opening: https://en.wikipedia.org/wiki/Universal_Plug_and_Play
+other option is add write permissions to /etc/zeronet.conf modify to:
+https://github.com/HelloZeroNet/ZeroNet/blob/master/plugins/Sidebar/languages/hu.json
+https://github.com/HelloZeroNet/ZeroMe/blob/master/languages/hu.json
+https://github.com/HelloZeroNet/ZeroTalk/blob/master/languages/hu.json
+After the lastest update i get this error starting zeronet.
+`locale -a`
+POSIX
+https://jsfiddle.net/kha51nn0/
+"Peers": "Csatlakozási pontok",
+"Connected": "Csaltakozva",
+"Connectable": "Csatlakozható",
+"Connectable peers": "Csatlakozható peer-ek",
+"Received": "Fogadott",
+"Received bytes": "Fogadott byte-ok",
+"Files": "Fájlok",
+"Image": "Kép",
+"Other": "Egyéb",
+"User data": "Felh. adat",
+"Size limit": "Méret korlát",
+"Set": "Beállít",
+"Optional files": "Opcionális fájlok",
+"Total size": "Teljes méret",
+"Database": "Adatbázis",
+"search feeds": "Keresés források",
+"{feeds} query": "{feeds} lekérdezés",
+"Reload": "Újratöltés",
+"Rebuild": "Újraépítés",
+"Identity address": "Azonosító cím",
+"Change": "Módosít",
+"Update": "Frissít",
+"Resume": "Folytat",
+"Site address": "Oldal címe",
+"Donate": "Támogatás",
+"+ {num_bad_files} more": "+ még {num_bad_files} darab",
+"This is my site": "Ez az én oldalam",
+"Site title": "Oldal neve",
+"Site description": "Oldal leírása",
+"Save site settings": "Oldal beállítások mentése",
+"Sign": "Aláírás",
+"Opened": "Nyitva",
+"Closed": "Bezárva",
+"_(Disabled)": "Kikapcsolva",
+"_(Error)": "Hiba",
+"Status": "Állapot: ",
+"Re-check opened port": "Port újraellenörzése",
+"How to make Tor connection work?": "Hogyan lehet bekapcsolni a Tor kapcsolatot?",
+"Disable always Tor mode": "Tor mindig mód kikapcsolása",
+"Help to keep this project alive": "Segíts életben tartani a projectet",
+"This site currently served by ": "Ez azt az oldalt jelenleg ",
+"Some sites we created:": "Pár oldal, amit mi csináltunk:",
+"Microblogging platform": "Mini blog-motor",
+"End-to-end encrypted mailing": "Ponttól-ponting titkosított üzenetküldő",
+"_(Sites)": "Oldalak",
+"_(Files)": "Fájlok",
+"Connected sites:": "Elérhető oldalak",
+"More sites:": "Több oldal:",
+" hours ago": " órája",
+" days ago": " napja",
+- It does not works for every string, eg if you have somthing like this: `if (mode == "Page") $("#mode").text("Page")` and you want to translate "Page" then it will also translate the one in condition so it will never matches. As for solution for this you have to write: `if (mode == "Page") $("#mode").text(_("Page"))` and if put `"_(Page)": "Oldal"` to the translate json, it will only translate `_("Page")`
+https://github.com/HelloZeroNet/ZeroNet/blob/master/src/Translate/languages/hu.json
+https://github.com/HelloZeroNet/ZeroNet/blob/master/plugins/Sidebar/languages/hu.json
+https://github.com/HelloZeroNet/ZeroMe/blob/master/languages/hu.json
+https://github.com/HelloZeroNet/ZeroTalk/blob/master/languages/hu.json
+``` @WalnutATiie Can you please check these commands?
+https://chrome.google.com/webstore/detail/zeronet-protocol/cpkpdcdljfbnepgfejplkhdnopniieop
+That "can't start new thread" error does not looks good, no idea why.
+ProxyRequests off
+ProxyPass / http://127.0.0.1:43110/
+ProxyPassReverse / http://127.0.0.1:43110/
+<Location /Websocket>
+ProxyPass ws://127.0.0.1:43110/Websocket
+ProxyPassReverse ws://127.0.0.1:43110/Websocket
+- `./uimedia` will not work for http://127.0.0.1:43110/mysite.bit/otherdirectory/
+there is a multiuser plugin, but if you care about your privacy you should run two separate installation in tor always mode (start the second one eg. with `--fileserver_port 15442 --ui_port 43111`)
+you can use `--multiuser_local` to disable that restriction
+Lots of VPS (most?) providers makes your account suspended for running Tor, so I think we should not start it by default.
+- [x] FF/IE Edge test
+ZeroMe
+If you use tor always, then it does not matter, your port will be close every time.
+@DaniellMesquito You don't need to upgrade ZeroNet, the change is only in ZeroHello site's source code which should happen automatically.
+[2016-08-09 03:34:31,642] ERROR    TorManager Tor controller connect error: error: [Errno 10061] No connection could be made because the target machine actively refused it. in TorManager.py line 154 > socket.py line 342
+Is it possible to add to the ZeroNet network, the concept of AlternativeTo ?
+http://alternativeto.net/software/alternativeto/
+Easiest way to to this is install Tor browser bundle, start it then start zeronet using `zeronet.py --tor_proxy 9150 --tor_controller 9151 --tor always`
+are you sure are you running in tor only mode? it should display "Successfully started Tor onion hidden services." message then (https://github.com/HelloZeroNet/ZeroNet/blob/master/src/Ui/UiWebsocket.py#L68) then.
+you are probably doing something wrong: out of limits/invalid files/etc.
+There is multiple possibility to solve this:
+- Bsddb: 5.7MB
+Added a custom debugging, please save it to ZeroNet/src/Ui dir the restart and see Path: ... debug lines
+"nanasi": [ "16PmAP6z2MCJX9jNjvMrteMfnqX4KeDRNT" ],
+"zeroid.bit": [ "1iD5ZQJMNXu43w1qLB8sfdHVKppVMduGz" ]
+There is many problems with webrtc:
+- Tor connection not possible (Around 50% of ZeroNet clients using Tor)
+#### Cons:
+- Db corruptions
+i think custom trigger should work if you put it as index
+I have created mirrors:
+Distributing on torrent probably would cause other problems,since it's blocked on many networks even outside of China
+@TheNain38 it's not related to this problem, hmac would not help on that
+- Much larger messages
+I know, this is a more complicated solution, but it was chosen because of the reasons i written in my prev comment.
+it goes against "uncensorable" goal, so not a good idea
+It can be done two ways:
+Questions:
+Eg if you create a `plugins/DarkSkin/all.css` file on all.css request it would also append this file's content to the end. (same for js)
+https://regex101.com/r/kG2iI0/1
+@drjmedulla
+@drjmedulla Can you check if ZeroNet is not running twice? (eg via taskmanager, search for python.exe)
+cd "$(dirname "$0")/../ZeroNet"
+It would be nice to see whats different please try the -vv option
+Yes, include tor if you want to use it. Docker philosophy: one service = one container
+You need to add
+zeronet sites runs in sandboxed iframe for security reasons, in this enviroment not every javascript functions are available.
+Different browsers, different limitations.
+for zeroblog:
+js/ZeroBlog.coffee
+@jamesalexanderdickerson Do you have any special character in the directory path where you have extracted ZeroNet?
+I dont understad, the sites.json contains the site's bitcoin address (eg. 1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT), which is case-sensitive
+multiuser_local
+# Idea1: Hotpatch
+If required (will try to translate zerohello and zerotalk and it will turns out), then we could add allow partial and regex matches by `js/all.js:re` and `js/all.js:partial`
+- [ ] Performance benchmarks
+- [ ] Implement as "Multilanguage" plugin
+## Cons
+- Harder first time translation
+## Cons
+- Adds extra complexity/noise to source code
+https://github.com/HelloZeroNet/ZeroNet/blob/master/src/Translate/languages/hu.json
+https://github.com/HelloZeroNet/ZeroNet/blob/master/plugins/Sidebar/languages/hu.json
+https://github.com/HelloZeroNet/ZeroMe/blob/master/languages/hu.json
+https://github.com/HelloZeroNet/ZeroTalk/blob/master/languages/hu.json
+can you please run `ulimit -a` ?
+Popular apps like scribus, krita are also adopting this method to distribute their apps.
+[GCC 5.2.1 20151010], Gevent: 1.1b1
+base.href = document.location.href.replace("/media", "").replace("index.html", "").replace(/[&?]wrapper=False/, "").replace(/[&?]wrapper_nonce=[A-Za-z0-9]+/, "")
+ZeroNet protocol is totally different from bittorrent and does not use any torrent liblary, so it's not an issue here.
+`zeronet.py siteSign 1Apr5ba6u9Nz6eFASmFrefGvyBKkM76QgE --inner_path data/users/content.json --publish` should help (or you should pass the `--inner_path data/users/content.json` also for sitePublish)
+``` coffeescript
+OR
+But it's a very special case (currently i skipping features that affects < 20% of users), so it could wait.
+Todo:
+- [x] Settings: Always Tor mode, Update all sites, Update to latest ZeroNet version
+- [x] New logo favicon/systray
+'topic' AS type,
+ZeroMe: A twitter-like social site
+- [x] Avatar upload
+- ZeroID independent (comments still requires zeroid)
+Cons:
+- Initial seeding can be problematic
+Cons:
+- GoZero
+- GroundZero
+- ZeroNation
+- ZeroWorld
+- ZeroSpark
+- Zolo
+- Zelf
+- Zello
+@62gs8ha: Merger site (and zeronet) is mainly for data-based sites, but you can define optional files that only downloaded when the user's browser requests it.
+The Tor controll protocol (port 9051) only accept connections from 127.0.0.1, but if multiple user has access to your computer then it's recommended to enable CookieAuthentication.
+- Allows to store Tor/ipv6/i2p addresses
+"onion": "3fyb44wdhnd2ghhl",
+"onion_sign_this": 439284923849,
+- Always: Open hidden service on startup, use Tor for every connection, do not bind on normal ip
+- Disable: Do not use Tor at all
+- [x] Onion address support for Bootstrapper
+- [x] Disable SSL over Tor connections
+- [x] Only Tor mode
+- [x] Disable Tor mode
+what do you mean?
+It was related to gevent 1.0.2, fixed in 44a68104fb867f193433aea2be0c791475ff3913
+Problems:
+For experimentation I tried javascript based encrypt/decrypt solution (bitcore), but it's around 80x times slower, so it's not really an option.
+After doing some research encrypting using only the ecc public key ([bitmessage method](https://github.com/Bitmessage/PyBitmessage/blob/master/src/highlevelcrypto.py#L23)) is not secure eg.: https://www.reddit.com/r/Bitcoin/comments/2ntpvh/bitcrypt_encryption_with_bitcoin_addresses/cmhmny9
+(similar to [electrum's encryption](https://github.com/spesmilo/electrum/blob/ae425764237d89a5e16db4f984406509f08f2601/lib/bitcoin.py#L541), but without hmac)
+It would be nice if someone with more experience in this field give some advice if its a good way to encrypt messages like this.
+Added my ideas and questions here: https://www.reddit.com/r/crypto/comments/3t6vnm/need_guidelines_for_ecc_based_messaging/
+Cons:
+- It's more complicated and harder to implement
+- Add message_id -> aeskey
+- Encrypt again
+- Decrypt messages using ECIES
+### Method 2 (One time shared secret):
+Checking new shared secrets:
+Its looks like a problem with utf8 file names. I will check it later, but not sure if related to this problem.
+The log showin other sites, 1DWTx5..qTJd (has utf8 filenames), 16Basi..mTcs
+It was tricky one, which antivirus software causes problem like this?
+Its error: the response to the ping is "Pong"
+- Line 52 will pass under the River Ij, currently served by GVB ferries.
+peer2 = ['12ab', 'bbc9', 'd39a']
+- [x] More testcase
+Every site is served from a sandboxed iframe that is treat the content as being from a unique origin.
+``` python
+Or is it even better using [os.urandom](https://docs.python.org/2/library/os.html#os.urandom)?
+``` python
+It gives me: `XMLHttpRequest cannot load http://127.0.0.1:43110/zeroid.bit. No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'null' is therefore not allowed access.`
+udp://sugoi.pomf.se:2710
+http://torrent.gresille.org/announce
+udp://sugoi.pomf.se:2710
+http://torrent.gresille.org/announce
+Socket error: NameError: global name 'SSLContext' is not defined in Connection.py line 124 > Connection.py line 180 > CryptConnection.py line 40 > ssl.py line 382 > ssl.py line 84
+OK, thanks for reporting, im going to install an Ubunto to see why is it happening
+While the JavaScript has some advantage (eg. more people know it), but I think Python is more advanced language, so we don't have plans to switch to node.js. Although the alternative implementations are welcomed.
+Probably required modifications:
+- I'm a TAB person, going to need some time to get used to spaces :)
+// enable possibly unsafe changes (E226, E24, W6)
+// aggressive level, 0 to disable:
+"ignore": ["N802"]  // We use camel cased function names
+``` python
+I try to find alternative more lightweight solution to encryption...
+Custom AES:   1000 req 100000 kbytes transfered in 5.92737412453 Mem: 11.90625
+Need more experimenting, not sure if its possible using http://pydns.sourceforge.net/ & Tor network
+merged
+Zlib    0.074s  558.68KB
+Gzip    0.130s  547.09KB
+Bro     7.856s  438.01KB
+Zlib    0.010s
+Gzip    0.011s
+Bro     0.012s
+Edit: Added LZMA/Brotli compression levels:
+Zlib     0.069s   558.68KB  0.011s
+Gzip     0.132s   547.09KB  0.011s
+Lzma     1.372s   455.77KB  0.057s
+Bro/3    0.052s   502.25KB  0.011s
+Bro/4    0.059s   507.89KB  0.010s
+Bro/5    0.160s   527.18KB  0.012s
+Bro/7    0.269s   527.06KB  0.012s
+Zlib        0.071s      558.68KB    0.010s
+Gzip        0.131s      547.09KB    0.012s
+Lzma        1.343s      455.77KB    0.058s
+Bro/2       0.042s      504.26KB    0.010s
+Bro/3       0.049s      502.25KB    0.011s
+Bro/7       0.298s      527.06KB    0.012s
+- tar.brotli: 2.0MB
+| Tar.gz  | 0.47     | 6.99s |
+| Tar.bz2 | 4.5      | 82.3s |
+#### Problem 2
+"cert_user_id": "qu363c@zeroid.bit",
+| Tar.gz            | 2.6MB   | 0.58s    | 8.64s   |
+| Merged Tar.gz     | 2.4MB   | 0.20s    | 2.49s   |
+| Tar.bz2           | 1.9MB   | 4.38s    | 77.3s   |
+| Merged Tar.bz2    | 1.8MB   | 0.58s    |  7.2s   |
+| Merged Zip        | 2.4MB   | 0.13s    | 1.84s   |
+- Use `apt-get python-gevent`
+Hm, i think the problem is with the openssl.
+``` python
+except Exception, err:
+To enable password for webui:
+Cons:
+Cons:
+Required modifications:
+- nofish: username, has to be unique per site
+.bit domains can be problematic that way: a domain could have clearnet ip address and also zeronet address representation.
+So it looks harder than I first throught...
+probably it would be smart to change the .bit to something zeronet related to prevent mixing with real namecoin .bit mappings, ideas that came up:
+Cons:
+So I'm not sure if thats the problem.
+Cons:
+Cons:
+- Display warning to user: You are in Tor-only mode, you should also configure your browser to use Tor network. (maybe restrict external resources using Content Security Policy)
+- DHT: Its not easy to write a good DHT implementation and Tor doesnt support UDP, so we need custom DHT (it requires reliable servers for bootstrapping and not sure if its going to work fine with current small number of nodes) or proxies that converts DHT traffic to tcp.
+- Ability to black/whitelist sites
+- It should work using on Tor (TCP only, maybe UDP on clearnet)
+- It should work using on Tor (TCP only, maybe UDP on clearnet)
+- [x] Add Disqus to allow comments/questions
+Faq:
+``` python
+``` python
+``` python
+- The currently used bitcoin crypto libs doesn't support it, so they need to be modified
+In full Tor mode we create a new .onion address for every site you seeding to improve privacy by make it harder to find out what other sites you using. So if someone has 100 sites in his/her client then on the startup we need to create 100 i2p address on startup.
+![sizelimit](https://cloud.githubusercontent.com/assets/10350359/6200295/73dc987e-b471-11e4-9438-4d23e5adb5d4.png)
+"zeronet": {
+"blog": "1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8",
+``` python
+import DNS
+Cons:
+another alternative:
+http://namecha.in/name/d/zeronetwork
+yeah you probably right a custom prefix could be better solution, but i think we can have both: z/ prefix for .zero d/ prefix for .bit.
+If he owns the private key he could have access to bitcoins too. (havent tried yet)
+I have tried the BitTorrent Maelstorm about 1 month ago (found on a russian forum :) ) and I was not impressed. Its basically a torrent client embedded into a browser.
+Cons:
+f(*args, **kwargs)
+``` python
+- Stop zeronet
+- Use siteSign
+Something with built-in rate limiting and maybe client priority will be nice, but I don't know anything like this for python :(
+Torrent like file splitting and distributing
+- Most of the peers using Tor network to connect ZeroNet, that is not suitable to transfer big files
+BitTorrent support is planned in the next 6 months, which will provide solution for big files
+## Questions
+Cons:
+Cons:
+Cons:
+Cons:
+- Has to be authenticated separately
+- Cookie/CORS problems?
+- [x] Experimental piecemap hasher
+Cons:
+Cons:
+- Can't display separate leech/seed number
+Cons:
+- Added complexity: Need new protocol extension to exchange and find in this field
+- Implemented a custom compression format for piecefields
+* Special configuration:  in /etc/tor
+So this PR adds two options:
+Kaffiene does use ZeroWiki's database, but it uses JavaScript SQLite.
+> proof-of-storage and proof-of-bw is really hard (impossible?)
+3) Cloned ZeroTalk fork in
+* Tor status: not available
+* Tor status: Default setting
+SyntaxError: unqualified exec is not allowed in function 'bench' it is a nested function (UiRequest.py, line 645)
+And it worked fine. Is it due to an older python version? I'll have to look into updating. My ZeroNet on Windows is running off of Python 2.7.9(pure coincidence) and didn't encounter this. So it probably is related to that old bug I mentioned. @April93 Weird, that `exec init in globals(), locals()` is Python3-style. [Here's the stackoverflow page](https://stackoverflow.com/questions/4484872/why-doesnt-exec-work-in-a-function-with-a-subfunction) I read on how to 'fix' the problem. No idea what's going on tbh. PR: #1253. I tried updating to python 2.7.14 and it works fine without the fix. Yeah, looks like this was a bug in Python <=2.7.8, which was fixed in 2.7.9.
+But i have suspection if this issue is caused by TorBrowser, because in Firefox, sites are loading!
+Update: after a few minutes i closed some zites in TorBrowser which i tried to open and then i see all is loading in TorBrowser. Thank you！！！
+import urllib2
+req.colse()
+I will get Error:
+Thx help me. That's incorrect use of `ZeroNet-win-dist`. Instead of:
+@elliekeli
+In clearnet you have a login, a password and sometimes a nick. In ZeroNet, your nick would be `elliekeli`, your login would be `1AoDYdMxwA55FTp2FNBrMaMv9r1ZzC6jSu`, and password would be a private key (which is stored in `core/data/users.json`). ZeroNet shows that login in sidebar.
+ZeroNet is decentralized, so there can be options when nickname isn't unique (e.g. KaffieID). But login is auto-generated and guaranteed to be unique. Password is also auto-generated, so there is no chance you would be hacked (if someone doesn't steal your `users.json`, of course).
+@elliekeli
+Please report it if you think this an error.
+Please report it if you think this an error.
+"PATH_INFO": "/1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"ip_local": [
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_port": 43110,
+"Cors",
+"TranslateSite",
+"Trayicon",
+"Zeroname"
+The cause is a computer virus. @kofzhanganguo where did you download ZeroNet from?  ### Step 1: Please describe your environment
+* Tor status: disabled
+Ranged requests like `0-100000` when file size is `100` only never end. Moreover, after a couple of such requests even normal requests fail.
+```javascript
+function ajax(size) {
+1. Send `ajax(50)`
+2. Send `ajax(1000)` a couple of times (about 5 is enough for me)
+3. Send `ajax(50)`
+Looks like the `src/Test/TestRateLimit.py::TestRateLimit::testCall FAILED                [ 49%]` test failed. Is this important? @krixano lemme check. That check is about how much time some op takes. So that's not important in this case as I didn't edit that part of code. Using the same dropdown code as ZeroHello might be a good idea, and look cleaner. It does use a ⋮ instead of an arrow but that could work as well. @anoadragon453 I tried to find other buttons which look the same way, but didn't manage to do that. So maybe a dropdown would be better, right. Though I am not sure what would be better. @HelloZeroNet, do you allow me to bring yet-another-library to Sidebar plugin? @HelloZeroNet Did you get a letter from `saketjoshiiit [at] gmail [dot] com`? Kinda spam? @HelloZeroNet I'll use that library then. @HelloZeroNet
+```javascript
+I know you can use `?` right now, but that doesn't work with complex queries.  ### Step 1: Please describe your environment
+* Web browser: Tor Browser
+It seems to happen randomly, and I've experienced this problem in earlier versions.
+* Special configuration: 5400 RPM HDD
+- 226.250s: data/1FREEMLT3GSta6TynuAC9EWM5mXCnrxkiu/data/zeroblog.db
+ZeroTalk15.59 MB + 0.00 KBOptional ♡ 0.1 ⋰  8.53 MB ⋱  89.53 MB
+> The connection to ws://127.0.0.1:43110/Websocket?wrapper_key=350c7***longstringhere*** was interrupted while the page was loading. all.js:69:16
+btw., mentioned error:
+> The connection to ws://127.0.0.1:43110/Websocket?wrapper_key=350c7***longstringhere*** was interrupted while the page was loading. all.js:69:16
+* Tor status: not available
+* Special configuration:
+@anoadragon453 Change line `47` of file `plugins/Multiuser/MultiuserPlugin.py`.
+>@anoadragon453 Change line `47` of file
+* Special configuration: ____
+ui_host sub1.zeronet.io sub2.zeronet.io
+* Tor status: disabled
+depends on 3D support(probably WebGL), but
+1. Open the ZeroNet GUI in some non-standard browser, like
+http://www.midori-browser.org/
+https://rekonq.kde.org/
+https://konqueror.org/
+check, whether 3D/GPU-s are supported and
+height might be used, the way geography related
+I have some JavaScript experience from AN ERA, WHEN THERE WERE
+at the catch side I threw an exception that contained a GUID as part of the
+https://github.com/martinvahi/raudrohi/blob/master/src/devel/raudrohi_lang.js#L321
+a plugin/tool for the KomodoEdit
+https://www.activestate.com/komodo-edit
+solution is totally PROGRAMMING LANGUAGE AGNOSTIC.
+id est using only regex is not safe enough.
+have the opportunity to download the various fancy
+JavaScript widget libraries, so I had to develop my own.
+DRIVERS!!!!!!!
+GIVEN HARDWARE!!!!
+TRULY BAD TRACK RECORD.
+Apart from fancier rendering, the 2017 3D web technologies, the
+https://www.khronos.org/webgl/
+https://www.khronos.org/webgl/
+* https://www.dragonflybsd.org/
+* Probably also the https://www.haiku-os.org/
+http://www.orangepi.org/
+http://www.banana-pi.org/
+http://cubieboard.org/
+nginx configuration：
+proxy_pass http://127.0.0.1:43110/zLSmz1ekvt1MpCPMKeJPjgmk96fUYVr8WJ/; #fictitiou address
+* zeronet fails to start:
+* Tor status: not
+add_header Strict-Transport-Security max-age=63072000;
+location /Websocket {
+unable to write 'random state'
+[GCC 5.4.0 20160609], Gevent: 1.2.2
+[2017-11-21 08:28:41,452] DEBUG    TorManager > AUTHENTICATE de3f48423a2ee3c2618c69735706bcc8f7212c379919a4c86e785af7e1dabc5d
+unable to write 'random state'
+[2017-11-21 08:28:44,697] DEBUG    TorManager Created new hidden service for global: fsdcuvwbodlj2luo
+[2017-11-21 08:28:52,187] DEBUG    TorManager Creating new Tor socket to sgwevpsn6jiky5sr.onion:15441
+[2017-11-21 08:28:55,947] DEBUG    Ui.UiServer 127.0.0.1 - - [2017-11-21 08:28:55] "GET /amorgan.bit HTTP/1.0" 200 2893 0.034490
+[2017-11-21 08:28:55,955] DEBUG    TorManager Creating new Tor socket to boot3rdez4rzn36x.onion:15441
+[2017-11-21 08:28:57,421] DEBUG    Ui.UiServer 127.0.0.1 - - [2017-11-21 08:28:57] "GET /amorgan.bit/?wrapper_nonce=c35c8e89364e8f4289595ab224dee939b6322df4bcc4ac032572b21fdb975914 HTTP/1.0" 200 5719 1.330377
+[2017-11-21 08:28:58,870] DEBUG    Ui.UiServer 127.0.0.1 - - [2017-11-21 08:28:58] "GET /amorgan.bit/stylesheets/stylesheet.css HTTP/1.0" 200 4798 1.235468
+[2017-11-21 08:28:59,007] DEBUG    Ui.UiServer 127.0.0.1 - - [2017-11-21 08:28:59] "GET /amorgan.bit/stylesheets/github-dark.css HTTP/1.0" 200 2985 1.371288
+[2017-11-21 08:28:59,259] DEBUG    Ui.UiServer 127.0.0.1 - - [2017-11-21 08:28:59] "GET /amorgan.bit/images/bkg.png HTTP/1.0" 200 1483 0.211680
+[2017-11-21 08:28:59,434] DEBUG    WorkerManager:1PHyzw..zsRL 185.107.169.23:15441: Verify correct: images/blacktocat.png
+[2017-11-21 08:28:59,438] DEBUG    Ui.UiServer 127.0.0.1 - - [2017-11-21 08:28:59] "GET /amorgan.bit/images/blacktocat.png HTTP/1.0" 200 532 0.385516
+[2017-11-21 08:29:11,487] DEBUG    FileServer Conn#40 i7ruayarmwebvn6e.onion [?] > Connecting...
+[2017-11-21 08:29:11,487] DEBUG    TorManager Creating new Tor socket to i7ruayarmwebvn6e.onion:15441
+# Zeronet Proxy
+# Zeronet Proxy
+>Not sure what is "2345Explorer/8.8.3.16721"
+[20:22:41] Site:1Nse6W..bCUy Loaded json: 700 (latest: data/users/1LZzxKdbygD4K1u8qeoLpN2kp7tCWY3BHW/content.json)
+[20:22:53] Site:1Nse6W..bCUy Loaded json: 1100 (latest: data/users/1PKNvEdchbcRLGFcnC5i8NynuVivAfK7W/content.json)
+[20:23:02] Site:1Nse6W..bCUy Loaded json: 1400 (latest: data/users/1LTbyAkCarDCq7jtcEHXptbJwRE8TpKJSQ/content.json)
+During this GUI doesn't respond. @HelloZeroNet Please?  @shortcutme, I understand that SQL is difficult, but using regular expressions to parse SQL... Here are some more hacks:
+Separately, it just doesn’t make sense to fork Namecoin for a private network. Who’s going to mine it and why would they do that? This is a rhetorical question (it’s out of scope it seems to me, so the answer likely doesn’t matter). Not quite, it was actually discussed as a use case in documentation.  As note above the plug-in already is implemented for a bootstrapped build. A majority of altcoins are forks of other crypto-currencies, so the logic behind this would be to perhaps implement a blockchain agnostic feature to perhaps support any coin with name value stores (ie. Emercoin) in order to further decentralized DNS and identity management.  I reloaded zeronet， and restored user.json. But I found that I lost control of the original blog http://127.0.0.1:43110/1G5bve8RqNK7Gm8fheEvPfqqhokUAYYmh4/ I cannot publish new article
+ControlPort 49051
+SOCKSPort 49050
+-- clemat
+// 3: sign
+Created main site Issue #1147 with address 14EQaGqfahEJ9iV8tBqanZojHza7N1A3cM
+and data hub with address 15bk2bBQMN44i3qcnEFmaiqK42ortd3U8r
+- but what on earth is "signs" ?? what should i put here?
+"address": "1PvRsF1nDwYAUD...................",
+"1PvRsF1nDwYA................": "HBuZ30xjcw9TJ0bNL6C4LpdSiUlqp1RkebE52o..............."
+File "plugins/Zeroname/UiRequestPlugin.py", line 30, in createArguments
+raise ArgumentError(action, message % conflict_string)
+[15:58:31] TorManager Starting self-bundled Tor, due to Tor proxy port 127.0.0.1:9050 check error: No connection
+User=zeronet
+User = zeronet
+self._read_event = io(fileno, 1)
+self._read_event = io(fileno, 1)
+self._read_event = io(fileno, 1)
+self._read_event = io(fileno, 1)
+self._read_event = io(fileno, 1)
+self._read_event = io(fileno, 1)
+self._read_event = io(fileno, 1)
+self._read_event = io(fileno, 1)
+self._read_event = io(fileno, 1)
+self._read_event = io(fileno, 1)
+If i am not wrong i am connected to zites: 561
+I am "connected to" (visited and not deleted) roughly 600 zites.
+it seems like You solved it, because for last around 7 hours i seen no "[Connection with UiServer Websocket was lost](https://github.com/HelloZeroNet/ZeroNet/issues/1249)" and have no issue browsing zeronet which is great. Thank you Just now i found zites are not loading in TorBrowser, it resulted in default browser error: The connection was reset.
+"PATH_INFO": "/1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"SERVER_NAME": "ishland",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"ip_local": [
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_port": 43110,
+"Cors",
+"TranslateSite",
+"Trayicon",
+"Zeroname"
+print "Starting ZeroNet", err
+[GCC 4.9.2], Gevent: 1.0.1
+TorManager Tor controller connect error: error: [Errno 111] Connection refused in TorManager.py line 165 > socket.py line 342
+TorManager Starting self-bundled Tor, due to Tor proxy port 127.0.0.1:9050 check error: No connection
+- Pinging 5 times peer: Kekgy:15441...
+`[15:23:58] Site:Kekgy Announce to 0 trackers in 0.324s, failed` `[15:24:35] Site:1Name2..hM9F Announce to 0 trackers in 0.013s, failed                                                         "hostname" 15:24 03-Oct-17[15:24:50] FileServer Internet offline` I need help! Why do I always hear chirping crickets when something is supposed to run on Raspi... Because if someone has a really stupid problem they get answers immediately. I need support! @Akito13 brother, the community needs help as well, and these inputs from you are valuable indeed.
+Host: zer0n.rocks
+"HTTP_REFERER": "https://zer0n.rocks/1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D/?wrapper_nonce=977893fe138e7846a37a802ce7b1ea5964a43a60327c0beda1d152c9e5fcd9a6",
+"PATH_INFO": "/1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D/css/all.css",
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"ip_local": [
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_port": 43110,
+"Cors",
+"TranslateSite",
+"Trayicon",
+"UiPassword",
+"Zeroname"
+ssl_certificate /etc/letsencrypt/live/zer0n.rocks/fullchain.pem;
+ssl_certificate_key /etc/letsencrypt/live/zer0n.rocks/privkey.pem;
+ssl_ciphers 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256';
+add_header Strict-Transport-Security max-age=15768000;
+access_log /var/log/nginx/access.log;
+error_log /var/log/nginx/error.log;
+```javascript
+```javascript
+zeroFrame.cmd("fileGet", ["merged-SomeID/MY_MERGED_SITE/conten.json"]); // note a typo; hangs
+```javascript
+zeroFrame.cmd("fileGet", ["merged-SomeID/MY_MERGED_SITE/conten.json"]); // note a typo; hangs
+**UPD URGENT**
+```javascript
+[GCC 6.3.0 20170118], Gevent: 1.1.2
+KeyboardInterrupt
+ether c4:34:8f:ab:db:34  txqueuelen 1000  (Ethernet)
+loop  txqueuelen 1  (Local Loopback)
+ether aa:da:88:8d:6e:93  txqueuelen 1000  (Ethernet)
+ether aa:da:88:8d:6e:93  txqueuelen 0  (Ethernet)
+ether 3c:97:0f:79:86:a0  txqueuelen 1000  (Ethernet)
+[GCC 6.3.0 20170118], Gevent: 1.1.2
+KeyboardInterrupt
+Still, using both the Tor Browser and the clearnet enabled Chromium, the web interface failed to load. Also, I've checked my router configuration to make sure that it is fowarding port 15441, though I'm  not sure if it that's a relevant factor if not for publishing content at the Zeronet.
+KeyboardInterrupt
+```py
+[GCC 6.3.0 20170118], Gevent: 1.1.2
+And a corresponding response in the terminal running ROFLcoptor:
+"Name": "gnome-shell-torstatus",
+[GCC 6.3.0 20170118], Gevent: 1.1.2
+unable to write 'random state'
+[14:24:16] TorManager Creating new Tor socket to boot3rdez4rzn36x.onion:15441
+[14:24:42] - Trying to open port 15441.
+[14:24:46] Site:1Name2..hM9F Http tracker tracker1.wasabii.com.tw:6969/announce error: local variable 'response' referenced before assignment
+``` @HelloZeroNet I see... Then it must be due to the sandboxing configuration that the Tor Browser and Chromium are subject to by default under [Oz](https://github.com/subgraph/oz) that I wasn't able to access this page. I should see how to make the necessary exceptions and then edit this post with my findings.  Err: AttributeError: 'list' object has no attribute 'next' in UiServer.py line 94 > UiRequest.py line 116 > MutePlugin.py line 138 > MultiuserPlugin.py line 62
+"PATH_INFO": "/1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"ip_local": [
+"multiuser_local": false,
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_host": [
+"fuckcf.cf"
+"ui_port": 43110,
+"Cors",
+"Multiuser",
+"TranslateSite",
+"Trayicon",
+"Zeroname"
+"address": "1Demofj5ntgDJxagDfAqQeH3FZua4zVBFA",
+[14:34:29] Site:1Demof..VBFA - dbschema.json
+[14:34:29] Site:1Demof..VBFA - index.html
+[14:34:29] Site:1Demof..VBFA - css/cover.css
+[14:34:30] Site:1Demof..VBFA - js/ZeroPage.js
+[14:34:30] Site:1Demof..VBFA Site sign failed: content.json: UnicodeDecodeError: 'ascii' codec can't decode byte 0x8d in position 25: ordinal not in range(128) in UiWebsocket.py line 381 > ContentManager.py line 626 > CryptBitcoin.py line 49 > main.py line 520 > main.py line 404
+CryptBitcoin uses `ecdsa_sign` of pybitcointools for signing. `ecdsa_sign` uses `electrum_sig_hash` for hash calculating:
+# WTF, Electrum?
+input = u"# coding: ascii\n\N{SNOWMAN}".encode('utf-8')
+"cloned_from": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"signers_sign": "G1E/p9KgKUSvMqVYlXc+ZcmjWhLUxAUAuwMJOJBvvEipGHYWo3qI/qXccgUQpREoqW21+l+fnkjyucXm9uNNHfA=",
+Please report it if you think this an error.
+"PATH_INFO": "/0chan.bit",
+"QUERY_STRING": "/pol/",
+"SERVER_NAME": "Denneisk",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"ip_local": [
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_port": 43110,
+"Cors",
+"TranslateSite",
+"Trayicon",
+"Zeroname"
+>> str = str.replace("Content publish queued for", "Tartalom publikálása elhalasztva")
+>> str = str.replace("seconds", "másodperccel")
+2. stop gracefully with SIGINT
+I believe this is a bug on the zeronet daemon After sometime the zeronet daemon spits out this message from `sudo systemctl status zeronet`
+nginx conf (part of)
+access_log /var/log/nginx/zeronet/default.log;
+error_log /var/log/nginx/zeronet/error.log;
+proxy_set_header X-Forwarded-Proto $scheme;
+location /Websocket {
+zeronet conf
+and What is 'VerifyError: sites too large' and 'Ui UiServer : No user found'?
+CryptMessage  disabled-DonationMessage  disabled-Zeroname-local  Multiuser   OptionalManager  Stats    Zeroname`
+One file contains capture for Tor only mode and another for default zeronet start without any parameters.
+| Tor    +-----------+ 176.126.252.12     |      capturing
+This is banned:
+Forbidden
+it seems to have a distaste for anything other than IP numbers. Think I figured it out. The only way to get it to work:
+5. FLOOD or MODIFYING POSTS AFTERWARDS!11
+#### Problems:
+3. 51% attack
+#### Problems:
+#### Problems:
+#### Problems:
+[GCC 4.9.2], Gevent: 1.0.1
+[08:39:37] TorManager Starting self-bundled Tor, due to Tor proxy port 127.0.0.1:9050 check error: No connection
+Please, do `sudo systemctl start tor` and `sudo systemctl status tor` @grez911 No output to `'PROTOCOLINFO' | nc 127.0.0.1 9051 `and `sudo netstat -anp | grep tor`. Tor **is** running:
+250-PROTOCOLINFO 1
+Looks like something wrong with the tor in your case. @Akito13 Are you still having this problem? @imachug Zeronet works, but it doesn't run with Tor.   It sends me to Sites.ZeroNetwork.bit
+Give a `<input>` to set any language (for example: `JP`) Have we considered setting up a transifex? its pretty good for tracking translation completion  https://travis-ci.org/HelloZeroNet/ZeroNet/builds/259342067#L655-L664 https://github.com/vbuterin/pybitcointools/issues/175  @HelloZeroNet is this the right way to resolve the undefined name errors at https://travis-ci.org/HelloZeroNet/ZeroNet/builds/259342067#L665-L673 @cclauss, what do you think about #1016?  @shortcutme Is this the right way to fix these two undefined name errors?  I have this list:
+gevent
+rsa
+pyelliptic
+@yurivict @HelloZeroNet All third-party libraries are in src/lib, isn't it? > if the built-in, raw socket based tor communication way does not works for you.
+py-stem is required for alternative way to access Tor through the optional plugin StemPort that only works when native access method fails.
+You should delete socket-based code in favor of the Tor-supplied py-stem module. py-stem always works, and is externally supported. If it breaks, you can always have Tor people fix it. It's easier this way, no need to maintain separate code that does the same without any benefit.
+And add py-stem to the list of dependencies.
+I'm getting a "SecurityError (DOM Exception 18): The operation is insecure." while trying to check/store a login information cookie. I realize that this is because localStorage isn't accessible from a sandboxed iframe. Is there a way to get around this?  抱歉，你不能删除你自己拥有的站点。
+- Unhandled exception
+File "/Users/lihaoxuan/Downloads/ZeroNet-mac-dist/ZeroNet.app/Contents/Resources/__boot__.py", line 81, in <module>
+File "/Users/lihaoxuan/Downloads/ZeroNet-mac-dist/ZeroNet.app/Contents/Resources/__boot__.py", line 66, in _run
+- Unhandled exception
+- Unhandled exception
+Thanks That's great. Thanks! @HelloZeroNet @antilibrary Close maybe?  The Highcharts/Highstock JavaScript on http://127.0.0.1:43110/eris.bit isn't loading with version 0.5.7 on Windows. It's working fine with earlier versions, including 0.5.6.
+This is problematic since zeronet cannot start:
+IntegrityError: FOREIGN KEY constraint failed
+MbN/data.json
+[21:14:21] Site:1RedkC..uFdL data/users/1KN1Au7SRmeTmffcxxoyPABDpvqmq7iMbN/conte
+when trying to rebuild from sidebar -
+Site:1GnTA9..Vxad Error importing data/users/1C1gnFcVv9J9kUjF4odDMRYcEWVPJbbqFp/data.json: UnboundLocalError: local variable 'row' referenced before assignment in SiteStorage.py line 130 > MutePlugin.py line 126 > SiteStorage.py line 75 > Db.py line 268 > DbCursor.py line 147
+"user_name": "davidnelband@zeroid.bit",
+- Using Alpine instead of Ubuntu (the image's size is now *77 MB* instead of *421 MB*)
+xhr.open('GET', '/kaffiene.bit/cors-138R53t3ZW7KDfSfxVpWUsMXgwUnsDNXLP/data/ZeroWiki.db', true);
+Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at http://127.0.0.1:43110/kaffiene.bit/cors-138R53t3ZW7KDfSfxVpWUsMXgwUnsDNXLP/data/ZeroWiki.db. (Reason: CORS header ‘Access-Control-Allow-Origin’ missing).  (unknown)
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"ip_local": [
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_port": 43110,
+"TranslateSite",
+"Trayicon",
+"Zeroname"
+Debian 9, x64
+@Nofish: this NEEDS to be fixed with URGENCY. Thanks @kai0: now I know what is hapenning here.
+Here I'm persecuted by the owners here, and they spy in my house anything I do in the Internet. When I created a site, in less than 1 minute it gained 5 peers without any promoting!
+@shortcutme @HelloZeroNet
+@zwgshr @imachug @MuxZeroNet @PeterSurda
+>      @MuxZeroNet
+> ule>
+>     import gevent
+> ule>
+Downloading/unpacking gevent
+ibution
+ory 'deps\c-ares'
+er directory 'deps\c-ares'
+ory 'deps\libev'
+ry 'deps\libev'
+ory 'deps\libev'
+ory 'deps\libev'
+import gevent
+Thanks? Where is my name in the page of the update 0.5.7 in the ZeroNet's blog and other media where possibly this update was announced by you?  These are the install instructions for Debian instructions -
+@shirishag75 @HelloZeroNet Please, close.  I use windows. tor was bundled to zeronet. but how can I set?  I can find it  ./Library/Application Support/ZeroNet/data
+What a fuck! imo, it'd be nice if there were a way for the user to discover this path through the ui IN sierra，this is the only path  Android mobile open https://zeronet.io  can't download zeronet APK. click download no response. Same here, this seems to be due to the following GitHub URL resolving to a 404:
+Thanks! I think that would be a security issue.
+[21:32:05] Site:1CpQfw..GP2o 5.101.103.222:15441 Getting connection error: AttributeError: 'NoneType' object has no attribute 'get' in Peer.py line 81 > ConnectionServer.py line 147 (connection_error: 1, hash_failed: 0)
+Please also note typo ```errror```.
+crypt: null,
+Usually the response includes the crypto both clients support (as seen in live traffic).
+At least afaik. But I have seen that behavior in live traffic too. ...and it completely leaves out the fact about tls wrapping the socket afterwards and that the handshake is optional (afaik the client responds to requests even if no handshake was sent, if that is a feature)
+When I open ZeroNet, a ZeroHello page opens.
+Please report it if you think this an error.
+"PATH_INFO": "/1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"SERVER_NAME": "JK-GPD-win",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"ip_local": [
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_port": 43110,
+"TranslateSite",
+"Trayicon",
+"Zeroname"
+:confused: What is this...
+`2345Explorer/8.6.2.15747`
+Please report it if you think this an error.
+"HTTP_ACCEPT_CHARSET": "us-ascii,ISO-8859-1,ISO-8859-2,ISO-8859-3,ISO-8859-4,ISO-8859-5,ISO-8859-6,ISO-8859-7,ISO-8859-8,ISO-8859-9,ISO-8859-10,ISO-8859-1
+"HTTP_ACCEPT_LANGUAGE": "ru,en;q=0.2,*;q=0.1",
+"PATH_INFO": "/1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"ip_local": [
+"language": "ru",
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_host": [
+"zeronet.babak.home.balancer.ru"
+"ui_port": 43110,
+"Cors",
+"TranslateSite",
+"Trayicon",
+"Zeroname"
+user_urn = "%s/%s" % (content["cert_auth_type"], content["cert_user_id"])  # web/nofish@zeroid.bit
+user_urn = "n-a/n-a"
+```javascript
+"zeroid.bit": [ "1iD5ZQJMNXu43w1qLB8sfdHVKppVMduGz" ]
+"nofish@zeroid.bit": { "max_size": 100000 }
+```javascript
+Signing fails because there is no `content.json`, and `n-a/n-a@n-a` is used as `cert_user_id` instead Thanks!  Currently `fileRules('content.json')` throws `Pop from empty list`. This patch fixes the exception and gives valid result.  Signs with keys are now saved. `signs_required` is checked. By the way, @HelloZeroNet.
+Then, `A` adds new post:
+```javascript
+typeof "ABCDE"[0] == "undefined"
+Please report it if you think this an error.
+"PATH_INFO": "/yangleitj.bit/",
+"QUERY_STRING": "Post:18:yourname.com%E7%BB%91%E5%AE%9Ayourname.bit",
+"SERVER_NAME": "ZBT-WE1326",
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"ip_local": [
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_port": 43110,
+"TranslateSite",
+"Trayicon",
+"Zeroname"
+![sin titulo](https://user-images.githubusercontent.com/8495728/27008374-53545980-4e3d-11e7-823d-a2d3ace56852.png)
+![sin titulo2](https://user-images.githubusercontent.com/8495728/27008381-7b70c246-4e3d-11e7-8f16-b1e2cdd07c4d.png)
+![sin titulo2](https://user-images.githubusercontent.com/8495728/27015245-9017c380-4ed7-11e7-9cdf-2f92427c8fc6.jpg)
+![sin titulo](https://user-images.githubusercontent.com/8495728/27018439-99146322-4efe-11e7-817e-42526af48c24.png)
+![sin titulo](https://user-images.githubusercontent.com/8495728/27018839-8599cda2-4f01-11e7-95cb-7c2e8ed1cdf0.png)
+_Dynamic websites_
+1. Create new zite
+2. Change `optional` entry to `^abc def$`
+`optional_files` entry in `content.json` contains `abc def` file. i have a similar bug. I can limit file extensions. ok. fine. but I want to limit zite size by keeping larger content (jpegs. gifs) which otherwise load and exclude by filename or folder. This doesnt seem to be working. also, we need to deal with spaces in filenames. Its a utf issue but---lfn has been around for awhile now. > exclude by filename or folder
+I would like to customise a bit the startup of ZeroNet, mainly by passing Tor to the Browser ports and setting it to open on Tor, etc.
+tiferrei Yes, it can.
+```ini
+fixed the missing import error  If I try to run the current zeronet version in a VM with Ubuntu v16.10 I get this error:
+[GCC 6.2.0 20160914], Gevent: 1.1.1
+[10:50:33] TorManager Starting self-bundled Tor, due to Tor proxy port 127.0.0.1:9050 check error: No connection
+response = meth(req, response)
+response = meth(req, response)
+Log:
+Config /etc/zeronet.conf:
+data_dir = /var/lib/zeronet
+log_dir = /var/log/zeronet
+[2017-05-16 17:47:14,036] INFO     FileServer Checking port 15441 using canyouseeme.org...
+YAburh7ppfqJhmB', u'1MaiL5gfBM1cyb4a8e3iiL8L5gXmoAJu27']
+[13:18:32] Site:1MaiL5..Ju27 Signing data/users/1JkE7hM6oLZAcHF7ikfYAburh7ppfqJhmB/content.json...
+[13:18:32] Site:1MaiL5..Ju27 Saving to data/users/1JkE7hM6oLZAcHF7ikfYAburh7ppfqJhmB/content.json...
+[13:18:32] Site:1MaiL5..Ju27 File data/users/1JkE7hM6oLZAcHF7ikfYAburh7ppfqJhmB/content.json signed!
+[13:18:33] Site:1MaiL5..Ju27 [OK] 176.9.137.49:15441: File not changed 6/10
+[13:18:33] Site:1MaiL5..Ju27 [OK] 24.229.162.230:15441: File not changed 10/10
+[13:18:38] Site:1MaiL5..Ju27 [FAILED] 112.2.254.78:0: None
+[13:18:38] Site:1MaiL5..Ju27 [FAILED] 185.38.14.215:0: None
+[13:19:36] Site:1iD5ZQ..duGz Publishing content.json to 2/271 peers (connected: 34) diffs: ['data/users.json'] (0.21k)...
+i have anther Q
+how can i fix the tor error 111
+``` its not respond  where can i find this file from my mobile device?  ok, I just want to preface this by saying it's one of those awful errors that seem to be OS dependent, and exactly how it manifests itself is seemingly random.
+Please report it if you think this an error.
+"PATH_INFO": "/1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"config_file": "/Users/tongxiaofeng/Library/Application Support/ZeroNet/zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"ip_local": [
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_port": 43110,
+"TranslateSite",
+"Trayicon",
+"Zeroname"
+This isn't terribly significant except for people being strictly behind Tor or VPNs, in which case this may leak their identity.
+```javascript
+Please consider using another wrapper or crypto library, such as [pyOpenSSL](https://pypi.python.org/pypi/pyOpenSSL), [cryptography](https://cryptography.io/en/latest/), [PyNaCl](https://pynacl.readthedocs.io/) or [pySodium](https://github.com/stef/pysodium). Here is a crypto library choice discussion among Ethereum devlopers: ethereum/pydevp2p#58
+```javascript
+```javascript
+```javascript
+```javascript
+@shortcutme can weigh in, but if you are correctly listed on the globe and the number of real peers is correct, then it probably shouldn't include you.
+"address": "1Gyhw9AfTojuc42h6nHmV9QCgroTXG9WRt",
+^ It's just missing "cert_user_id" You can get to it by loading my development site: http://127.0.0.1:43110/1Gyhw9AfTojuc42h6nHmV9QCgroTXG9WRt
+```javascript
+var fileContent = btoa(unescape(encodeURIComponent(JSON.stringify(_self.model.toJSON(), null, '  '))));
+A couple of things to consider:
+This may be problematic for you
+| | Server: Hey! This is an invalid (used) nonce!                            | |
+Please report it if you think this an error.
+``` @HelloZeroNet I have send you(nofish) a POC in private by zeromail.    It would be nice if zeroupdate zite has a zeronet version on it so it could be easier to see witch version it has now.
+it seem to be specific to  `--trackers` as `--proxy` return no error.  isn't it a bug ?
+i am using macos  @zohdi11 Have you tried starting ZeroNet with the parameters I mentioned above? I am very sorry but I haven't done that yet. I will try to fix it then I will tell you what happened
+asn1crypto (0.22.0)
+cffi (1.10.0)
+cryptography (1.8.1)
+gevent (1.2.1)
+idna (2.5)
+pycparser (2.17)
+pyparsing (2.2.0)
+diffs: [u'data/data.json'] (0.16k)...
+Yes, there are a few drawbacks with this method:
+"cloned_from": "1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8"
+please check your grammar on the website, I have found 2 wrong words
+"Es ist nirgendwo, weil es überall ist!"
+In the actionDbQuery function in UiWebsocket.py, the variable s which is keeping track of execution time is only defined when the debug flag is specified but is used with the verbose flag and thus has not been initialized.  I recently install the new Linux cinnamon 18.1 and I downloaded your ZeroNet bundle but I seem to be having problems with it. After I downloaded the bundle I clicked on ZeroNet.sh to set up ZeroNet and it loaded the ZeroNet site for the first time like it was supposed to. Well the next day I clicked on zeronet.py to get it running like I did when I had the old version of Linux but for some reason it wont load ZeroNet site. I only get a screen that says unable to connect. I noticed the only way I can get ZeroNet to load now is to always click on ZeronNet.sh every time instead of the zeronet.py like I used to do. I also have my port open. I typed in run zeronet.py in the command terminal and got this
+Command 'grun' from package 'grun' (universe)
+Tor network can improve the connectability for these users, but it has many issues for the users who needn't anonymity:
+https://bit.surf:43110/1CiDoBP8RiWziqiBGEd8tQMy66A6fmnw2V/bugs/ Closed with this [dirty hack](https://github.com/MuxZeroNet/ZeroMux/commit/b694e018b4c4996f868eaf690c49c9ff90969f0d?diff=split#diff-532cf85ec3b656c424293aa6eeeadf9fR106).  also, add SiteStorage.list as non-recursive
+directory listing (`os.listdir`)
+@clarkzjw @ysc3839  But check if it really works:
+@ysc3839 ~ Similar to #873 , but it's so bad that we can't have a public IP.  The codepage changer was outputing a short msg, also waiting for the exe, this way it should start it and go away.   Was looking to see if this question was asked (and/or answered) already...all I found was this #458.
+``` http://www.gevent.org/gevent.monkey.html
+plugins/CryptMessage/Test/TestCrypt.py::TestCrypt::testEcies PASSED
+plugins/CryptMessage/Test/TestCrypt.py::TestCrypt::testEciesUtf8 PASSED
+plugins/CryptMessage/Test/TestCrypt.py::TestCrypt::testEciesAes **FAILED**
+aes_iv, aes_encrypted = CryptMessage.split(ecies_encrypted.decode("base64"))
+``` I have been using it for a while. No DNS leaks, is able to receive content from and push content to Tor Network peers, and it creates onion services quickly. Could anyone test this in Whonix? @adrelanos
+4) disabled TOR also helper.
+TorManager self-bundled Tor fallback: Tor proxy port 127.0.0.1:9150 check error: No connection
+- We are encrypting against a **passive** attacker.
+# By using any of these weak cryptos, you will be labeled as a bad boy.
+'NULL', 'EXPORT', '-EXP-', '-LOW-', 'MEDIUM', 'Anon', 'anon', 'ANON',
+'RC4', 'RC2', 'DES', 'SEED', 'KRB', 'ADH', 'SRP', 'PSK', 'DSS',
+HOST, PORT = 'zeronet.io', 443
++	"Mute": "Attiva Silenzia",
++} @HelloZeroNet You are welcome!  ;D   提交得比我还快，也不吱一声。  This just started happening, but for some reason no Zeronet pages will load past the Zeronet wrapper in Firefox with multi-process enabled. If I load ZeroHello for example, I'm greeted with a white page and the Zeronet button/sidebar. However, if I open a new window using the menu option "New Non-e10s Window" and then try to visit ZeroHello, the page loads like it's supposed to.
+[FAILED] mfqipozsmdbgdnmq.onion:15441: {'to': 1, 'cmd': 'response', 'error': 'File invalid'}
+> [GCC 4.8.4], Gevent: 1.0
+> Average Speed: 43678.8 w/s. Current Word: 'IroXCb'
+shift@srv:~/ZeroNet$ python start.py --ui_ip myip --ui_password mypassword
+[GCC 5.4.0 20160609], Gevent: 1.1.2
+last line seems from w3m...
+In Whonix, ZeroNet runs on the workstation and Tor on the gateway. These are two different VMs connected by internal network. All outgoing connections are forced through Tor.
+ZeroNet continues to function, it fails to notice broken Tor hidden services connection. Do you consider this a bug?
+## Problems:
+Im not shure if this means /assets/xyz
+The previous implementation is racy: after sending a command it would
+OpenSSL version 0100020AF
+<meta name="referrer" content="origin-when-crossorigin">
+```bash
+1. Is the content securely and smartly (e.g. ZeroNet measures statistics about network congestion, considers constraints set up by the administrator - e.g. maximum size of the storage, maximum bandwidth used for up/down, etc.) cached to minimize overall pressure and to increase availability and stability? Or is it just a naive implementation of the torrent protocol (i.e. opening of thousands of connections one by one, and thus effectively DDoSing small SOHO devices with NATs, which count up to the vast majority of all leaf nodes of the internet network infrastructure)?
+1. In many legislations, there are e.g. black lists of web sites with censored content or any other identifiers technically describing the censored content (so to answer your question - the "who" is the state). Should there be any trial, all the data will be either easily accessed (because of saved passwords) or decrypted (because of weak ciphering, some mistake or just because of access to enormous or breakthrough computing resources) or because of torture or whatever, it's way better to not have these data persisted at all. These countries include Germany (huge audio and video prohibition - just try any German VPN on youtube), Czech republic (online hazard games), USA (various...), Australia, China, Turkey, Sveden, ...
+1. Ok, in case Tor is blocked (e.g. Syria, Turkey, etc.), is there any other way how to "hide" yourself? Ok, now it's clear to me what is the direction of ZeroNet. I must admit I'm a bit disappointed, but on the other hand I know very well how difficult it is to build a well-behaving P2P network serving for universal purposes.
+**However, the exe version works fine till now.**
+loadJson
+loadJson
+loadJson
+- The return values of `os.path` APIs can be either in Unicode or in file system encoding. Make sure to use Unicode parameters so that the APIs will always return Unicode strings.
+## Test cases
+http://127.0.0.1:43110/Tamás.bit/Kocsis/
+uid                 [ unknown] Tamas Kocsis (4096) <tamas@zeronet.io>
+uid               [ unknown] Tamas Kocsis (4096) <tamas@zeronet.io>
+Confirmed. Fingerprint = `960F FF2D 6C14 5AA6 13E8  491B 5B63 BAE6 CB96 13AE`
+```bash
+PROTOCOLINFO
+250-PROTOCOLINFO 1
+Tor is getting:
+250-PROTOCOLINFO 1
+`[18:29:16] Site:1F7b27..nQpw Announced types ['ip4'] in mode startup to 6 trackers in 10.001s, errors: ['udp://tracker.leechers-paradise.org:6969'], slow: ['10s+ http://tracker.tordb.ml:6881/announce']`
+Some more log:
+[18:31:19] Site:1UDbAD..MkoV [FAILED] 87.8.48.197:15441: {'to': 21, 'cmd': 'response', 'error': 'File invalid'}
+[18:31:19] Site:1XdLr6..sbrx [FAILED] 83.162.192.96:15442: {'to': 34, 'cmd': 'response', 'error': 'File invalid'}
+[18:31:19] TorManager Creating new socket to l3s7qjjuechqwjqq.onion:15441
+[18:31:19] Site:1UDbAD..MkoV [FAILED] 146.0.226.141:15441: {'to': 32, 'cmd': 'response', 'error': 'File invalid'}
+[18:31:19] FileServer Conn#520 lfeyaddtybbkwoai.onion [?] > Connecting...
+[18:31:19] TorManager Creating new socket to lfeyaddtybbkwoai.onion:15441
+[18:31:19] Site:1UDbAD..MkoV [FAILED] 81.101.99.227:15441: {'to': 21, 'cmd': 'response', 'error': 'File invalid'}
+[14:56:55] WorkerManager:13NCGa..4qJi uqv72ckqpxtyc5sq.onion:15441: Hash failed: content.json, failed peers: 1
+[14:56:55] Site:15iysH..1zwb Http tracker http://tracker.tordb.ml:6881/announce?uploaded=0&downloaded=0&numwant=30&compact=1&event=started&peer_id=-ZN0051-dNMDN23HJy9L&port=15441&info_hash=B%9DMf%08%3D%EF%13%06tV%CE%3B%3E%FCF%A9%23G%C0&left=0 error: local variable 'response' referenced before assignment
+[14:56:55] Site:1QFEUK..Vxtt Queried listModifications from: [<Peer:188.166.30.172>, <Peer:62.210.38.248>, <Peer:198.96.90.57>, <Peer:uknb5s2pbysyqxai.onion>, <Peer:z2wvu3yk6bi5t746.onion>]
+[14:56:55] Site:1QFEUK..Vxtt Bad files: {u'index.html': 2}
+[14:56:56] FileServer myyrm4zogomizutv.onion Connect error: SOCKS5Error: 0x04: Host unreachable in ConnectionServer.py line 139 > Connection.py line 97 > TorManager.py line 285 > socks.py line 681 > socks.py line 383 > socks.py line 458
+[14:56:56] FileServer Removing Conn#578 myyrm4zogomizutv.onion [?]...
+[14:56:56] TorManager Creating new socket to kje2hlnfruhcthgo.onion:15441
+[14:59:17] Site:1LbkPo..wiGD Queried listModifications from: [<Peer:78.119.181.5>, <Peer:176.50.171.99>, <Peer:198.96.90.57>]
+[14:59:17] WorkerManager:1AcGB3..UjUT 46.166.148.236:10754: Force skipping
+[15:09:27] - Error packing peer address: Peer:zion.host
+[15:09:27] TorManager Creating new socket to n3fyjwuphifelinl.onion:15441
+[15:09:27] WorkerManager:1CiDoB..nw2V Added worker: a45r25hfmhosfwb5.onion:15441, workers: 3/6
+[15:09:28] TorManager Creating new socket to xlhlzjml7air7mil.onion:15441
+[15:09:28] FileServer GetFile read error: IOError: [Errno 2] No such file or directory: u'data/1MaiL5gfBM1cyb4a8e3iiL8L5gXmoAJu27/data/users/1K6PW55RQ1mGgZRhvJ95rjafUjApsr4UFT/content.json' in FileRequest.py line 172
+[15:09:28] TorManager Creating new socket to a45r25hfmhosfwb5.onion:15441
+[15:09:29] TorManager Creating new socket to ymvc4rwcjiy3gw53.onion:15441
+[15:09:29] Site:1BLueG..tG49 data/users/1AWKKjCvCFvUbmrbBtqrMSfAGZ8D6tAVHt/data.json file size does not match 47619 <> 47815, Hash: False
+[15:09:29] WorkerManager:13NCGa..4qJi Added worker: 46.166.148.236:43935, workers: 1/6
+[15:09:29] WorkerManager:13NCGa..4qJi Added worker: 46.166.148.236:80, workers: 2/6
+[15:09:29] WorkerManager:13NCGa..4qJi Added worker: 217.234.41.182:15441, workers: 3/6
+[15:09:29] WorkerManager:13NCGa..4qJi Added worker: 185.21.216.182:15441, workers: 4/6
+[15:09:29] WorkerManager:13NCGa..4qJi Added worker: 46.166.148.236:10754, workers: 5/6
+[15:09:29] WorkerManager:13NCGa..4qJi Added worker: 198.96.90.57:15114, workers: 6/6
+[15:09:29] Site:1Mr5rX..Y5Ba Queried pex from 2 peers got 3 new peers.
+[15:09:29] WorkerManager:13NCGa..4qJi Added worker: 217.234.41.182:15441, workers: 5/6
+[15:09:29] WorkerManager:13NCGa..4qJi Added worker: 46.166.148.236:10756, workers: 6/6
+[15:09:29] Site:13NCGa..4qJi Queried pex from 2 peers got 3 new peers.
+[15:09:29] FileServer GetFile read error: IOError: [Errno 2] No such file or directory: u'data/1MaiL5gfBM1cyb4a8e3iiL8L5gXmoAJu27/data/users/1EfmLDysqgowLW291CxbikEMi9ttHfuHEz/content.json' in FileRequest.py line 172
+[15:09:30] TorManager Creating new socket to 3sjxnopgf66rkyeh.onion:15441
+[15:09:30] Site:1F7b27..nQpw Queried listModifications from: [<Peer:136.243.32.225>, <Peer:136.243.32.225>, <Peer:136.243.32.225>, <Peer:zion.host   >, <Peer:kwp7a4hotazel4t7.onion>]
+[15:11:28] Site:153QQi..ThAZ New downloadContent pool: len: 1
+[15:11:28] Site:153QQi..ThAZ Ended downloadContent pool len: 1
+[15:11:28] FileServer Removing Conn#589 t3uaum3rhkg346aj.onion [?]...
+[15:11:28] FileServer Removing Conn#593 rtr72wr7uoxs755l.onion [?]...
+[15:11:28] FileServer Removing Conn#602 b5oh63pi4m6qzree.onion [?]...
+[15:11:28] FileServer Removing Conn#604 kpam4drekpzbp3xh.onion [?]...
+[15:11:28] FileServer Removing Conn#605 lnjwdgofhfdszrok.onion [?]...
+[15:11:28] FileServer Removing Conn#610 2vqck6zp77dd2hab.onion [?]...
+[15:11:28] FileServer Removing Conn#613 ekdi4dogln3cgpj7.onion [?]...
+[15:11:28] FileServer Removing Conn#625 4c7nqwy2oplk4ii6.onion [?]...
+[15:11:28] FileServer Conn#626 ajqizquqqtoruggz.onion [?] > [Cleanup] Connect timeout: 121.784416914
+[15:11:28] FileServer Removing Conn#626 ajqizquqqtoruggz.onion [?]...
+[15:11:28] FileServer Removing Conn#628 6ffuavyqjbyxlpkt.onion [?]...
+[15:11:28] FileServer Removing Conn#635 mosybb5njwf7jxwr.onion [?]...
+[15:11:28] FileServer Removing Conn#636 juynot5yov3cmt4s.onion [?]...
+[15:11:28] FileServer Removing Conn#645 zn3uiuosnisdgmhh.onion [?]...
+[15:11:28] FileServer Removing Conn#650 bg7urxdua3t6egto.onion [?]...
+[15:11:28] FileServer Removing Conn#694 zubh6cyryfycnboh.onion [?]...
+[15:11:28] FileServer Removing Conn#701 xijjojg6zwlxssw4.onion [v2]...
+[15:11:28] FileServer Removing Conn#706 n3fyjwuphifelinl.onion [?]...
+[15:11:28] FileServer Removing Conn#715 xlhlzjml7air7mil.onion [?]...
+[15:11:28] FileServer Removing Conn#718 a45r25hfmhosfwb5.onion [?]...
+[15:11:28] FileServer Removing Conn#721 ymvc4rwcjiy3gw53.onion [?]...
+[15:11:28] FileServer Removing Conn#725 3sjxnopgf66rkyeh.onion [?]...
+[15:11:28] FileServer zubh6cyryfycnboh.onion Connect error: SOCKS5Error: 0x06: TTL expired in ConnectionServer.py line 139 > Connection.py line 97 > TorManager.py line 285 > socks.py line 681 > socks.py line 383 > socks.py line 458
+[15:11:28] TorManager Creating new socket to vynllijpdr2sedc7.onion:15441
+[15:11:28] FileServer a45r25hfmhosfwb5.onion Connect error: SOCKS5Error: 0x04: Host unreachable in ConnectionServer.py line 139 > Connection.py line 97 > TorManager.py line 285 > socks.py line 681 > socks.py line 383 > socks.py line 458
+[15:11:28] FileServer b5oh63pi4m6qzree.onion Connect error: SOCKS5Error: 0x04: Host unreachable in ConnectionServer.py line 139 > Connection.py line 97 > TorManager.py line 285 > socks.py line 681 > socks.py line 383 > socks.py line 458
+[15:11:28] TorManager Creating new socket to 4oahc3swfvcxc4np.onion:15441
+[15:11:28] FileServer t3uaum3rhkg346aj.onion Connect error: SOCKS5Error: 0x04: Host unreachable in ConnectionServer.py line 139 > Connection.py line 97 > TorManager.py line 285 > socks.py line 681 > socks.py line 383 > socks.py line 458
+[15:11:28] FileServer 3sjxnopgf66rkyeh.onion Connect error: SOCKS5Error: 0x04: Host unreachable in ConnectionServer.py line 139 > Connection.py line 97 > TorManager.py line 285 > socks.py line 681 > socks.py line 383 > socks.py line 458
+[15:11:28] TorManager Creating new socket to z2czimhivuljrjbt.onion:15441
+[15:11:28] FileServer lnjwdgofhfdszrok.onion Connect error: SOCKS5Error: 0x04: Host unreachable in ConnectionServer.py line 139 > Connection.py line 97 > TorManager.py line 285 > socks.py line 681 > socks.py line 383 > socks.py line 458
+[15:11:28] TorManager Creating new socket to xy266jz475jq5oy6.onion:15441
+[15:11:28] FileServer ci25ipdy5v63dsvv.onion Connect error: SOCKS5Error: 0x04: Host unreachable in ConnectionServer.py line 139 > Connection.py line 97 > TorManager.py line 285 > socks.py line 681 > socks.py line 383 > socks.py line 458
+[15:11:28] FileServer 6ffuavyqjbyxlpkt.onion Connect error: SOCKS5Error: 0x04: Host unreachable in ConnectionServer.py line 139 > Connection.py line 97 > TorManager.py line 285 > socks.py line 681 > socks.py line 383 > socks.py line 458
+[15:11:28] TorManager Creating new socket to lvnjytkzhm64jymu.onion:15441
+[15:11:28] TorManager Creating new socket to tracsop3onzonqa3.onion:15114
+[15:11:28] FileServer bg7urxdua3t6egto.onion Connect error: SOCKS5Error: 0x04: Host unreachable in ConnectionServer.py line 139 > Connection.py line 97 > TorManager.py line 285 > socks.py line 681 > socks.py line 383 > socks.py line 458
+[15:11:28] FileServer ajqizquqqtoruggz.onion Connect error: SOCKS5Error: 0x04: Host unreachable in ConnectionServer.py line 139 > Connection.py line 97 > TorManager.py line 285 > socks.py line 681 > socks.py line 383 > socks.py line 458
+[15:11:28] FileServer rtr72wr7uoxs755l.onion Connect error: AttributeError: 'NoneType' object has no attribute 'get' in ConnectionServer.py line 139 > Connection.py line 113
+[15:11:28] FileServer xlhlzjml7air7mil.onion Connect error: SOCKS5Error: 0x04: Host unreachable in ConnectionServer.py line 139 > Connection.py line 97 > TorManager.py line 285 > socks.py line 681 > socks.py line 383 > socks.py line 458
+[15:11:28] FileServer n3fyjwuphifelinl.onion Connect error: SOCKS5Error: 0x04: Host unreachable in ConnectionServer.py line 139 > Connection.py line 97 > TorManager.py line 285 > socks.py line 681 > socks.py line 383 > socks.py line 458
+[15:11:28] FileServer ieu4q7dcfqymc3gz.onion Connect error: AttributeError: 'NoneType' object has no attribute 'get' in ConnectionServer.py line 139 > Connection.py line 113
+[15:11:28] TorManager Creating new socket to cqayehbtutng4xc7.onion:15441
+[15:11:28] TorManager Creating new socket to zn3uiuosnisdgmhh.onion:15441
+[15:11:28] FileServer 2vqck6zp77dd2hab.onion Connect error: SOCKS5Error: 0x04: Host unreachable in ConnectionServer.py line 139 > Connection.py line 97 > TorManager.py line 285 > socks.py line 681 > socks.py line 383 > socks.py line 458
+[15:11:28] WorkerManager:17SyG6..nWUe 2vqck6zp77dd2hab.onion:15441: Hash failed: w/157.x, failed peers: 0
+[15:11:28] TorManager Creating new socket to oslhde4hmue2a5uo.onion:15441
+[15:11:28] FileServer flhqkem7guxfyyuh.onion Connect error: AttributeError: 'NoneType' object has no attribute 'get' in ConnectionServer.py line 139 > Connection.py line 113
+[15:11:28] FileServer Removing Conn#679 27foqhxvstvphjco.onion [v2]...
+[15:11:28] FileServer juynot5yov3cmt4s.onion Connect error: AttributeError: 'NoneType' object has no attribute 'get' in ConnectionServer.py line 139 > Connection.py line 113
+[15:11:28] FileServer GetFile read error: IOError: [Errno 2] No such file or directory: u'data/1MaiL5gfBM1cyb4a8e3iiL8L5gXmoAJu27/data/users/17ND23oJHqMroRGC9QLdGsMBoJL8dcuExQ/content.json' in FileRequest.py line 172
+[15:11:28] FileServer Conn#712 3lznwqq5mkj3wtl7.onion [v2] > Unknown response: {'to': 1, 'cmd': 'response', 'error': "File read error: IOError: [Errno 2] No such file or directory: u'data/1BLueGvui1GdbtsjcKqCf4F67uKfritG49/data/users/1AWKKjCvCFvUbmrbBtqrMSfAGZ8D6tAVHt/data.json' in FileRequest.py line 172"}
+[15:11:28] Site:157npZ..k8dH Announced types ['ip4'] in mode startup to 7 trackers in 121.971s, errors: [], slow: ['10s+ http://tracker.tordb.ml:6881/announce', '1.06s http://tracker1.wasabii.com.tw:6969/announce']
+[15:11:28] Site:17SyG6..nWUe Announced types ['ip4'] in mode start to 7 trackers in 121.734s, errors: [], slow: ['10s+ http://tracker.tordb.ml:6881/announce', '1.08s http://tracker1.wasabii.com.tw:6969/announce']
+[15:11:28] Site:1GRYnz..tcoo Announced types ['ip4'] in mode startup to 7 trackers in 120.105s, errors: [], slow: ['10s+ http://tracker.tordb.ml:6881/announce']
+[15:11:28] Site:1Bvzxo..S5YT Announced types ['ip4'] in mode startup to 6 trackers in 118.105s, errors: ['udp://tracker.leechers-paradise.org:6969'], slow: ['10s+ http://tracker.tordb.ml:6881/announce', '118.10s http://tracker1.wasabii.com.tw:6969/announce']
+[15:11:28] WorkerManager:153QQi..ThAZ New task: content.json, peer lock: None, priority: 9999, optional_hash_id: None, tasks started: 1
+[15:11:28] WorkerManager:153QQi..ThAZ Starting workers, tasks: 1, peers: 0, workers: 0
+[15:11:28] WorkerManager:153QQi..ThAZ Added worker: 46.166.148.236:10753, workers: 1/6
+[15:11:28] TorManager Creating new socket to 2x7sq67b6raod7a7.onion:15441
+[15:11:28] TorManager Creating new socket to 2wdvexcsmf22kv4g.onion:15441
+[15:11:28] TorManager Creating new socket to gg5io7mmhphhynz4.onion:15441
+[15:11:28] TorManager Creating new socket to 3pjoopk4kmyctd2l.onion:15441
+[15:11:28] TorManager Creating new socket to clnlxnwrukcyl7n3.onion:15441
+[15:11:28] TorManager Creating new socket to gbo7ehx6r2cngep4.onion:15441
+[15:11:28] TorManager Creating new socket to t62h72vh2v6rlyia.onion:15441
+[15:11:28] TorManager Creating new socket to 5ol7mej6nfm23suc.onion:15441
+[15:11:28] TorManager Creating new socket to lypuo35uwtbjkcdm.onion:15441
+[15:11:28] TorManager Creating new socket to mvrxd7iy26aso3xf.onion:15441
+[15:11:28] TorManager Creating new socket to 6nspjvssdbt7iocw.onion:15441
+[15:11:28] TorManager Creating new socket to ymvc4rwcjiy3gw53.onion:15441
+[15:11:28] TorManager Creating new socket to qth7dzrbhkzx4sex.onion:15441
+[15:11:28] TorManager Creating new socket to vnkygm4u7jclajyw.onion:15441
+[15:11:28] FileServer Conn#785 176.50.171.99 [v2] > Crypt in connection using: tls-rsa (server side: True)...
+But not for some mirrors, such as https://tor.eff.org/ and https://www.theonionrouter.com . Tor is not work at most network environments in China, but many people use a foreign proxy to make tor work.
+raise err
+OK, My Chrome browser successfully pops up the hello zeronet page.
+Escape and Seed
+document.getElementById("an-iframe").src = "http://127.0.0.1:43110/13Lo9wpxbogHdaTQ9rGZruu9MJZnigzU3B/"; // EmojiDay site
+Json merged-ZeroMe/1oranGe[...]/data/users/1[...]/content.json load error:
+name = adrelanos
+email = adrelanos at riseup dot net
+signingkey = 713AAEEF
+https://github.com/reinderien/mimic (The super evil)
+https://github.com/adam-lynch/olc (Similar super evil)
+https://github.com/MattOates/Text--Homoglyph/blob/master/lib/Text/Homoglyph.pm6
+https://github.com/codebox/homoglyph
+https://github.com/minimaxir/big-list-of-naughty-strings/blob/master/blns.json (Big list of naughty strings)
+Suppose someone registered for a fancy domain name `☉net.bit` (the Sun symbol), and a bad guy registered for a domain name `⊙net.bit` (the circled dot operator) for phishing.
+Most fonts are not optimized for differentiating these homographs, so we want ZeroNet to display them in puny coded form.
+Zip:
+@kaero your are wrong:
+* Sketch https://www.sketchapp.com/
+* branding (uh?) What about [Nuitka](http://nuitka.net/pages/overview.html)?  Actually macOS's .app is a directory. So we can store files in it. > Actually macOS's .app is a directory. So we can store files in it.
+half-assed.
+![](https://i.gyazo.com/12b8b9727e36eb36c301c6354573cf2b.png)
+[Pic of Demanded Difficulty on Bitmessage](http://www.image-share.com/ijpg-3409-191.html)
+def ParsePeers(site):
+<h1>Forbidden</h1>
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_port": 43110,
+"TranslateSite",
+"Trayicon",
+"Zeroname"
+seems like uipassword bug..
+> multiple encodings.
+```pytb
+from gevent.coros import RLock
+>     "QUERY_STRING": "",
+>     "SERVER_NAME": "wangpan.cc",
+>             "http://tracker1.wasabii.com.tw:6969/announce"
+>         "verbose": false
+>         "Trayicon",
+>         "Zeroname"
+How is ZeroNet supposed to make Tor work differently? Try to append "--tor disable" to the start command as long as Zeronet is not blocked thanks to both of you. Both suggestion fixed my problem.  Every time I start my ZeroNet 0.5.1 on my Unbuntu 12.04, I can see this error message repeated in the console after running ZeroNet for a few minutes.   coffee script not friendly of i18n, like that:
+else
+display = (parts.getFullYear() + "nian" + String(parts.getMonth() + 1) + "yue" + parts.getDay() + "ri")
+else
+else
+if chars > 1500
+else
+back = "#{Math.round(secs / 60 / 60 / 24)} 天之前"
+else
+else
+else
+if chars > 1500
+else
+It is strange.
+However,
+127.0.0.1 - "GET /site_a/?vaild_request HTTP/1.1" 200 -
+127.0.0.1 - "GET /site_a/?vaild_request HTTP/1.1" 200 -
+document.getElementById('inner-iframe').src = 'site_a/?vaild_request';
+"HTTP_ACCEPT_LANGUAGE": "ru",
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_port": 43110,
+"TranslateSite",
+"Trayicon",
+"Zeroname"
+forbo$ ./ZeroNet.app
+Yes, it is difficult attacks to defend from. Have any ideas on how to defend in the future?
+Can we add "peer you already asked for that piece stop asking/Ill stopping serving you".
+from Crypto.Random.random import StrongRandom
+# ... Words can not describe how sad I am.
+from random import Random as StrongRandom
+-rw-r--r--  1 root root  1196 ноя 28 00:03 Vagrantfile
+https://github.com/icf20/ZeroNet/blob/master/src/Translate/languages/ro.json
+watch out: https://en.wikipedia.org/wiki/Distributed_minimum_spanning_tree  0
+![capture du 2016-11-15 11-49-18](https://cloud.githubusercontent.com/assets/14799472/20302990/99550efa-ab29-11e6-88f7-746a392dd4ad.png)
+Strange it's present on my system :o but the bell is not correctly formated
+Also, as I know Python isn't very fast. And network connection and browser loading are slower. So I think it's uncenessary to benchmark.
+[2016-11-08 22:01:47,499] WARNING  Site:147nKE..kEua Content.json parse error: IntegrityError: FOREIGN KEY constraint failed in ContentManager.py line 213 > ContentDbDict.py line 61 > ContentDbPlugin.py line 198 > ContentDb.py line 88 > Db.py line 83 > DbCursor.py line 80 > DbCursor.py line 49
+[2016-11-08 22:01:47,500] INFO     Site:147nKE..kEua - [SKIPPED] content.json
+[2016-11-08 22:01:47,501] INFO     Site:147nKE..kEua - data.json (SHA512: 6370550e55a7469994e2b12aea3ed8450acb56ad7e5f1955c438dce199410c6b)
+Please report it if you think this an error.
+"PATH_INFO": "/shadowsocksr.bit/",
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"multiuser_local": false,
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"Zeroname",
+"Multiuser",
+"Trayicon",
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_port": 43110,
+"Trayicon",
+"Zeroname",
+[GCC 4.9.2], Gevent: 1.0.1
+I have now this error:
+[GCC 4.9.2], Gevent: 1.0.1
+[GCC 4.9.2], Gevent: 1.0.1
+[20:54:47] TorManager Tor controller connect error: error: [Errno 111] Connection refused in TorManager.py line 154 > socket.py line 342
+[RT-AC54U /opt/home/admin/ZeroNet-master]# opkg install python-openssl
+[GCC 5.3.0], Gevent: 1.1.2
+[GCC 5.3.0], Gevent: 1.1.2
+[GCC 5.3.0], Gevent: 1.1.2
+[RT-AC54U /opt/home/admin/ZeroNet-master]# python -c "import ctypes.util; print ctypes.util.find_library('crypto')"
+[RT-AC54U /opt/home/admin/ZeroNet-master]# pip install crypto
+Collecting crypto
+Collecting Naked (from crypto)
+100% |████████████████████████████████| 593kB 84kB/s
+Collecting shellescape (from crypto)
+Collecting pyyaml (from Naked->crypto)
+100% |████████████████████████████████| 256kB 200kB/s
+Collecting requests (from Naked->crypto)
+100% |████████████████████████████████| 522kB 93kB/s
+[RT-AC54U /opt/home/admin/ZeroNet-master]# python -c "import ctypes.util; print ctypes.util.find_library('crypto')"
+2016年11月4日星期五，suzumiyasmith notifications@github.com 写道：
+> https://github.com/notifications/unsubscribe-auth/AFgy_f9ipYqbn5hFtSHfBPtl0qzLmsxdks5q6r6rgaJpZM4KpMsP
+Media referrer error
+Please report it if you think this an error.
+"PATH_INFO": "/1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D/",
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_port": 43110,
+"Zeroname",
+"Trayicon",
+哦耶 @@  thank you very much. i get it .:))
+"title": "foo.bit",
+You are right, it is a security issue.
+``` diff
+- Misses         3233       3234     +1
+- Partials        414        415     +1
+``` diff
++ Misses         3233       3230     -3
+Partials        414        414
+You mean "disabled-Multiuser" i try to rename but will be Crash(ERROR)
+![image](https://cloud.githubusercontent.com/assets/13134193/19437338/8ca44114-94a7-11e6-8109-af0226814fc4.png)
+Probably something that should be fixed in Brave anyway.
+While testing with Tails (see #610) ZeroNet stops or gets stuck while attempting to make a connection.
+[GCC 4.9.2], Gevent: 1.0.1
+1. It seems Tails has restrictive Tor SOCKS proxy rules so that apps that don't work properly don't use it.
+3. When ZeroNet is started without Tor and Tor proxy, it also cannot connect (running as amnesia, with or without sudo).
+I double checked the Tor Socks port (tried --tor-proxy as well).
+###Tor Disabled
+[GCC 4.9.2], Gevent: 1.0.1
+###Tor Enabled
+[GCC 4.9.2], Gevent: 1.0.1
+``` diff
+Misses         3233       3233
+- Partials        414        416     +2
+> (eg. tor) it means he/she wants every connection to use that. Even a local
+> https://github.com/notifications/unsubscribe-auth/AAefxRsO4EyeV6cNB6hIisBmnnEViVenks5q9QaigaJpZM4KUzaU
+that is a good point, that would require an entirely different PR.
+> 127.0.0.1 and specified proxy (tor or sam) ips
+``` diff
++ Misses         3234       3230     -4
++ Partials        415        414     -1
+that is taking too long.  This fixes Savannah bug #47439.
+[GCC 6.2.0 20160822], Gevent: 1.1.1
+KeyboardInterrupt
+[GCC 6.2.0 20160822], Gevent: 1.1.1
+You can easily get the revision number with Regex e.g `"(?<=self.rev = )\d+"` (so no external libraries are needed) however there would probably be a better way of doing it.
+For my ZeroNet(Werkzeug)-based project I'll use **Angular2** routing instead of **CoffeeScript**, for example http://127.0.0.1:5000/detail/11 but I'll see this error:
+``` python
+> When creating a SPA there are routes that are only known to the browser. For example, /customer/21 may be a client side route for an Angular app. If this route is entered manually or linked to directly as the entry point of the Angular app (aka a deep link) the static server will receive the request, because Angular is not loaded yet. The server will not find a match for the route and thus return a 404. The desired behavior in this case is to return the index.html (or whatever starting page of the app we have defined).
+[GCC 5.4.0 20160609], Gevent: 1.1.0
+I hit F12 and it brings up Developer Tools but I don't know what I'm looking for, I've never used that because I'm not a developer or coder.
+It seems that the problem has compounded as the zite (antilibrary.bit) got bigger.
+[20:10:18] Site:147nKE..kEua content.json: Site too large 71768737 > 10485760, aborting task...
+[20:10:19] Site:147nKE..kEua WebSocket handleRequest error: KeyError: 'content.json' in UiWebsocket.py line 99 > UiWebsocket.py line 176 > SidebarPlugin.py line 448 > SidebarPlugin.py line 130 > ContentManager.py line 271 > ContentDbDict.py line 54
+[12:04:19] Site:147nKE..kEua content.json: Site too large 167468609 > 10485760, aborting task...
+[GCC 5.4.0 20160609], Gevent: 1.1.2
+KeyError: '13$$$$$$$$$$$$$$$$$$$$$$$$$3'
+I opened cmd and ran ZeroNet.cmd from inside it and got an error pointing to C:\python... (apparently I already had Python installed and I _think_ it was trying to use this version which lead to the error).
+I removed the PATH entry for Python from my Environment Variables, ran ZeroNet.cmd again and it worked fine.
+I _think_ it was actually PYTHONPATH that I deleted
+why does this happen & how could this be prevented?
+``` diff
+- Misses         3267       3273     +6
+- Partials        412        413     +1
+``` diff
+Misses         3267       3267
+Partials        412        412
+$ docker run -d -p 15443:15441 -p 43112:43110 aitorpazos:myZeroNet
+$docker run -e "ENABLE_TOR=false" -d -p 15442:15441 -p 43111:43110 aitorpazos:myZeroNet
+$ docker run -e "ENABLE_TOR=true" -d -p 15444:15441 -p 43113:43110 aitorpazos:myZeroNet
+$ docker exec -ti jolly_stonebraker ps -ef
+Internal error: KeyError: u'data/users/content.json'
+Site:17GijT..NBEW WebSocket handleRequest error: KeyError: u'data/users/content.json' in UiWebsocket.py line 99 > UiWebsocket.py line 176 > SidebarPlugin.py line 448 > SidebarPlugin.py line 130 > ContentManager.py line 265 > ContentManager.py line 263 > ContentDbDict.py line 54
+`Internal error: KeyError: u'data/users/{user_adress}/content.json'
+``` diff
+Misses         3267       3267
+Partials        412        412
+Is this connected to torrent plugin at all?
+Also i have Multiuser Plugin on for my group of friends
+@HelloZeroNet Not very clear what 'but the trackers will add the originating ip' means, could you please explain it a little bit more detailed?
+[14:06:55] FileServer Checking port 15441 using canyouseeme.org...
+and the error im getting:
+``` diff
+- Partials        412        425    +13
+Wrong repo maybe?
+socket.gaierror: [Errno -2] Name or service not known
+socket.gaierror: [Errno -2] Name or service not known
+socket.gaierror: [Errno -2] Name or service not known
+I do not have tor, but the port is opened.
+[2016-09-07 17:18:30,354] DEBUG    TorManager Tor proxy port 127.0.0.1:9050 check error: No connection
+[2016-09-07 17:18:31,388] DEBUG    FileServer Conn# 3 112.102.78.195 [v2] > Crypt in connection using: tls-rsa (server side: True)...
+$ ping torrent.gresille.org
+ping: unknown host torrent.gresille.org
+[GCC 4.9.2], Gevent: 1.0.1
+[19:36:27] FileServer Checking port 15441 using canyouseeme.org...
+Just install it, then type `ufw allow 15441`
+There are some alternative methods of becoming an active peer:
+- Turn on Tor Always mode
+Hi @vishnuhariam .
+`D:\Softwares\ZeroNet Bundle\ZeroBundle\ZeroNet>"D:\Softwares\ZeroNet Bundle\ZeroBundle\Python\python.exe" zeronet.py --debug siteSign 17RGryGYEe3DS8ZadoPDqvnee7mihjF1cr
+PluginManager Loading plugin: CryptMessage
+PluginManager Loading plugin: Zeroname
+PluginManager New class accepts plugins: ConfigPlugin (Loaded plugins: [<class 'Zeroname.UiRequestPlugin.ConfigPlugin'>, <class 'Config.ConfigPlugin'>])
+- Signing site: 17RGryGYEe3DS8ZadoPDqvnee7mihjF1cr...
+Site:17RGry..F1cr - [SKIPPED] content.json
+Site:17RGry..F1cr Changed files: ['content.json']
+Site:17RGry..F1cr Signing content.json...
+Site:1MaiL5..Ju27 ContentDb init: 0.015s, found files: 9627, sites: 14
+Site:1BLueG..tG49 ContentDb init: 0.000s, found files: 544, sites: 14
+Site:1BLogC..AGg8 ContentDb init: 0.000s, found files: 413, sites: 14
+Site:1GrEen..yt7i ContentDb init: 0.000s, found files: 608, sites: 14
+@martinvahi Is this problem still present? What is your OS? I can't reproduce it on Ubuntu.  After upgrading my zerobundle to vertion 0.4.1, I've got an error:
+- Easy to add disqus-like plugin for any zite.
+Would zeronet benefit from this?
+Pixi.js 3.0.3 - ✰ WebGL ✰      http://www.pixijs.com/    ♥♥♥
+``` diff
+Branches       1423       1423
+- Misses         3046       3047     +1
+- Partials        409        411     +2
+@weakish
+On my machine, this site is the clause: `http://127.0.0.1:43110/1ARCHYFfke9k3Jbj9uVXmbeDV9XueK3hLA`.
+@weakish, I see now the log and had the same error. Thanks for help. I never hear talk about "date" folder, but "data" is where the sites are placed. You don't know the diff between "date" and "data", how can you see a debug log better than me and say have knowledge to say my site is the problem? 1ARCHYFfke9k3Jbj9uVXmbeDV9XueK3hLA is my site, why?! I'm sure you seen my site in another issue and going here to talk that the cause of problem is my side, but I'm not the reason of the problem!
+@weakish
+> On my machine, this site is the clause: http://127.0.0.1:43110/1ARCHYFfke9k3Jbj9uVXmbeDV9XueK3hLA.
+> I stopped zeronet, remove date/1ARCHYFfke9k3Jbj9uVXmbeDV9XueK3hLA and its entry in sites.json.
+@DaniellMesquito
+`this site is the clause` is not accurate. I'm in a hurry.
+It a preconception commet, like the machism. My brazillian Internet connection have 10MB diary limit, after it my connection works at 3KB per second. And ZeroNet works very well in this extremely-poor connection! I don't think what you say is a point to disconsider saving the data plans of your users. I don't see the point of download unecessary bytes if it can download only what user needs. This uses BitTorrent-like, Tor, Bitcoin, Namecoin and a bunch of things, why not use GIT too?!
+The initial altcoins:
+- [ ] Dash
+@obv-mikhail
+Hi @Plasmmer
+``` python
+> NameError: name 'PROTOCOL_SSLv3' is not defined
+https://github.com/pfrazee/beaker
+@HelloZeroNet Why didn't you make a tagged github release? Many OSes normally take only tagged releases.
+@wpyok500 Released several days ago. Please close this issue.
+I don't understand what is causing it does it have the wrong URL to reach the tor network?
+[2016- 00:00:04,578] ERROR    TorManager Tor controller connect error: error: [Errno 10061] No connection could be made because the target machine actively refused it. in TorManager.py line 154 > socket.py line 342
+[2016- 00:00:06,088] ERROR    TorManager Tor controller connect error: error: [Errno 10061] No connection could be made because the target machine actively refused it. in TorManager.py line 154 > socket.py line 342
+[2016- 00:00:08,094] ERROR    TorManager Tor controller connect error: error: [Errno 10061] No connection could be made because the target machine actively refused it. in TorManager.py line 154 > socket.py line 342
+[2016- 00:00:10,598] ERROR    TorManager Tor controller connect error: error: [Errno 10061] No connection could be made because the target machine actively refused it. in TorManager.py line 154 > socket.py line 342
+[2016- 00:00:13,601] ERROR    TorManager Tor controller connect error: error: [Errno 10061] No connection could be made because the target machine actively refused it. in TorManager.py line 154 > socket.py line 342
+Aug 10 05:16:55.149 [notice] Tor can't help you if you use it wrong! Learn how to be safe at https://www.torproject.org/download/download#warning
+uri : "http://sjdf893hiwjkehrod.onion/bigMovie.mp4"
+sha256 : "jk98ey934hoi099u23u423"
+sha256 : "ASDH=ASDB234234"
+``` diff
+- Misses         3065       3144    +79
+- Partials        413        415     +2
+Hi all. I made a test site for that: 1ASN2GD7AMLcBwo6AViiEAf4KNX55Af6Ki
+Homebrew? Now I am confused, what is Homebrew? It looks like Alice is falling down the rabbit hole. I am looking for an idiot proof method of installation as I am not as knowledgeable as many techs. Thanks for the replies!!!
+> access the zeronet from there looks ridiculous to me.
+The comment of @Adrianzo is inappropriate and should really be deleted.
+but im recieving the following error:
+Site:19NtJa..BhUm File data/users/content.json not exist yet, loading default values...
+Site:19NtJa..BhUm - [SKIPPED] .DS_Store
+Site:19NtJa..BhUm - [SKIPPED] content.json
+Site:19NtJa..BhUm - [SKIPPED] 1C1gnFcVv9J9kUjF4odDMRYcEWVPJbbqFp/.DS_Store
+Site:19NtJa..BhUm - 1C1gnFcVv9J9kUjF4odDMRYcEWVPJbbqFp/comment.json (SHA512: cbfd867e907d85320ad81b40c0bdb55aa8cb7bb2764fe43f5b8970fc4cb55845)
+Site:19NtJa..BhUm - [SKIPPED] 1C1gnFcVv9J9kUjF4odDMRYcEWVPJbbqFp/content.json
+Site:19NtJa..BhUm - 1C1gnFcVv9J9kUjF4odDMRYcEWVPJbbqFp/data.json (SHA512: 58265e6c679f9ab9df3f93be403819201072e6c0ee892c6601fb4ab0f9481853)
+Site:19NtJa..BhUm - 1C1gnFcVv9J9kUjF4odDMRYcEWVPJbbqFp/post_vote.json (SHA512: 1b10cf2997c3be89d2c0a35e6a48e004b09d20241f335daa9f0d54f5d29fb182)
+Site:19NtJa..BhUm Adding timestamp and sha512sums to new content.json...
+Site:19NtJa..BhUm Verifying private key...
+Site:19NtJa..BhUm Signing data/users/content.json...
+Site:19NtJa..BhUm data/users/content.json: No rules
+Site:19NtJa..BhUm Sign failed: Invalid content
+"zeroid.bit": [ "1iD5ZQJMNXu43w1qLB8sfdHVKppVMduGz" ]
+"bad@zeroid.bit": false,
+"nofish@zeroid.bit": { "max_size": 100000 }
+Why not directly use Tox? ...
+I guess if you use both Tor and ZeroNet you should be safe?
+TorManager Tor controller connect error: error: [Errno 111] Connection refused in TorManager.py line 154 > socket.py line 344
+FileServer Checking port 15441 using canyouseeme.org...
+Site:1MGiNz..xxxx Publishing content.json to 5/0 peers (connected: 0) diffs: [](0.00k)...
+Port being open vs. closed is a security matter, and ZN should handle the situation carefully and accurately.
+I cannot start Zeronet with Tor on Arch Linux.
+I receive the following error when I start zeronet:
+For some reason Hello Zeronet shows very different peer counts:
+The separate counts of onion peers are also all very different.
+This is confusing, shouldn't they be all the same or very close?
+Is ZN supposed to succeed seeing site hosted on tor-only peer from another tor-only peer? I think this should work, but it doesn't work for me.
+I tested ZN inside the Tor-connected VM and it works fine.
+``` diff
+- Misses         2993       3098   +105
+- Partials        398        402     +4
+-----BEGIN RSA PRIVATE KEY-----
+-----END RSA PRIVATE KEY-----
+Onions can be generated using Shallot (https://github.com/katmagic/Shallot):
+shallot a | grep -v '^\-*$' | sed -e 's/.*tries: //'
+Actually, this mode can't work outside of the VM, because it needs DNS resolution hooked up to Tor and IP routed through Tor, which I never saw to be done outside of the VM.
+- Whonix VM
+- Qubes VM
+One probably could make a whole network hooked to Tor, but this isn't a practical setup.
+I am not sure, but I don't think this is supposed to happen a lot.
+[20:32:04] Ui.UiServer 127.0.0.1 - - [2016-06-01 20:32:04] "GET /0chan.bit/?wrapper_nonce=1199450251540766d66f23dfe1285918d0cd7c4e26544dbb4efd63ea06627b4d HTTP/1.1" 200 854 0.005294
+[20:33:36] Site:1NZNtZ..MsUc [CHANGED] data/0chan.db
+[20:33:36] Site:1NZNtZ..MsUc content.json verified: 38, quick: True, bad: [u'data/0chan.db'], optionals: +0 -0
+[20:33:36] Site:1NZNtZ..MsUc data/users/1PLdGxrwFvAS9eDYeDA4xVWRTvAruCy3PP/content.json verified: 2, quick: True, bad: [u'data/0chan.db'], optionals: +0 -0
+[20:33:36] Site:1NZNtZ..MsUc data/users/1Cua1p5SQi9a68VuLtGovWAh3VwKxZY9Dn/content.json verified: 2, quick: True, bad: [u'data/0chan.db'], optionals: +0 -0
+[20:33:36] Site:1NZNtZ..MsUc data/users/1KwTTgPRSTHFmmJAFBt6kQfdyNeSM5KJuH/content.json verified: 2, quick: True, bad: [u'data/0chan.db'], optionals: +0 -0
+[20:33:36] Site:1NZNtZ..MsUc data/users/1Gi4g59DwnkjgL9VmvmrfC95tMymyWFaaY/content.json verified: 2, quick: True, bad: [u'data/0chan.db'], optionals: +1 -0
+[20:33:36] Site:1NZNtZ..MsUc Bad files: {u'data/0chan.db': 1}
+[20:33:36] Site:1NZNtZ..MsUc Start downloading, bad_files: {u'data/0chan.db': 1}, check_size: False, blind_includes: False
+[20:33:36] WorkerManager:1NZNtZ..MsUc kafcdfs4ijxz2j3o.onion:15441: Someone already working on data/0chan.db, sleeping 1 sec...
+[20:33:37] WorkerManager:1NZNtZ..MsUc kafcdfs4ijxz2j3o.onion:15441: data/0chan.db, task done after sleep: False
+[20:33:37] WorkerManager:1NZNtZ..MsUc dxoxbmsxyeckxwef.onion:15441: data/0chan.db, task done after sleep: False
+[20:33:54] WorkerManager:1NZNtZ..MsUc rkq3koi5hoxb235g.onion:15441: Hash failed: data/0chan.db, failed peers: 3
+[20:33:55] WorkerManager:1NZNtZ..MsUc kafcdfs4ijxz2j3o.onion:15441: Hash failed: data/0chan.db, failed peers: 4
+[20:33:55] WorkerManager:1NZNtZ..MsUc dxoxbmsxyeckxwef.onion:15441: Hash failed: data/0chan.db, failed peers: 5
+[20:34:01] WorkerManager:1NZNtZ..MsUc er3kkmqqdqa3kz7h.onion:15441: Someone already working on data/0chan.db, sleeping 1 sec...
+[20:34:02] WorkerManager:1NZNtZ..MsUc er3kkmqqdqa3kz7h.onion:15441: data/0chan.db, task done after sleep: False
+[20:34:03] WorkerManager:1NZNtZ..MsUc er3kkmqqdqa3kz7h.onion:15441: Hash failed: data/0chan.db, failed peers: 9
+[20:34:17] WorkerManager:1NZNtZ..MsUc rxwiqtp4drcytjlk.onion:15441: Hash failed: data/0chan.db, failed peers: 12
+ZN should move the files that browser requests to the top of the download queue so that the client will more likely see some version of the site instead of just waiting for something that he maybe doesn't even need at the time.
+Something isn't working, but I can't tell what.
+log_dir = /var/log/zeronet
+Thank you. Also after enabling the "This is my site" option I am presented with a javascript alert() that states:
+├── lib
+└── ZeroChat.coffee
+/* ---- /1A6J3fhJvUc7eTfonTU24a4n8GTM46YBxq/js/ZeroChat.coffee ---- */
+This may or may not be a related - not sure.
+In general it is more flexible to have self-setuid option.
+control_auth_cookie is a deliberately quite restricted file. Regardless of zeronet, Tor best practice are effectively to add the debian-tor group to tor allowed users AND set CookieAuthFileGroupReadable to 1 .
+That's how they manage who can use Tor on the machine. IMO Setting suid on zeronet side seem like a dirty workaround to me.
+``` diff
+Misses         2993       2993
++ Partials        403        398     -5
+It is not supposed to work right?
+1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT
+1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8
+1Gif7PqWTzVWDQ42Mo7np3zXmGAo3DXc7h
+1MaiL5gfBM1cyb4a8e3iiL8L5gXmoAJu27
+Eli
+Eli
+[GCC 5.2.1 20151010], Gevent: 1.1b1
+You can trace this bug on [nanasi board](http://127.0.0.1:43110/16KzwuSAjFnivNimSHuRdPrYd1pNPhuHqN), for example.
+Generating a 2048 bit RSA private key
+Generating a 2048 bit RSA private key
+@dsyo2008
+[18:44:21] Site:1LU8xo..JgXd [FAILED] 83.132.73.252:15441: {'to': 6, 'cmd': 'response', 'error': 'File invalid'}
+[18:44:21] Site:1LU8xo..JgXd [FAILED] rw7wdm75rzxagkl2.onion:15441: {'to': 4, 'cmd': 'response', 'error': 'File invalid'}
+[18:44:21] Site:1LU8xo..JgXd [FAILED] 188.166.30.56:15441: {'to': 56, 'cmd': 'response', 'error': 'File invalid'}
+[18:44:21] Site:1LU8xo..JgXd [FAILED] 213.167.240.113:15441: {'to': 4, 'cmd': 'response', 'error': 'File invalid'}
+"address": "1LU8xoH9wk1DaWDkegEqT1d4UP6R2MJgXd",
+"address": "1LU8xoH9wk1DaWDkegEqT1d4UP6R2MJgXd",
+"cert_sign": "GyLaVKphCSOstiHCR9a8T4yw1La77mD3p2zF4dM5L7ynRDesJDpSXr/GP7LADyY9zgE/syFJOszFsX9Kr5RZtT0=",
+"cert_user_id": "1BJeFXLjVNYEo@anonchat",
+"address": "1LU8xoH9wk1DaWDkegEqT1d4UP6R2MJgXd",
+"anonchat": [ "1DKJtcz3JSLoaUprXcnEeD5LgXJSsfcn1x" ],
+"zeroid.bit": [ "1iD5ZQJMNXu43w1qLB8sfdHVKppVMduGz" ]
+exceptions
+proxy
+util
+- CryptMessage
+- disabled-(Bootstrapper; Dnschain; DonationMessage; Multiuser; UiPassword; Zeroname-local)
+- Trayicon
+- Zeroname
+On ZeroMail I've got: stats icon (upper left), ZeroMail icon (upper right), 'New message', 'inbox', 'sent' (right), don't have contacts (I had one before) and 'Inbox: no message' and 'No message selected'
+EDIT: error messae appear while editing:
+@Jzarecta why are you making off-topic topic comments in unrelated issues?
+I think this should be reconsidered because it would further reduce the entry barrier for accessing decentralized websites from "download, extract, execute" to "click on this link".
+Most browser support [IndexedDB](https://developer.mozilla.org/de/docs/IndexedDB) which can be used to store multiple gigabytes of data (up to some % of the available disk storage in chrome AFAIR)
+> Tor connection not possible (Around 50% of ZeroNet clients using Tor)
+I just found ZeroNet, so I'm sorry if I misunderstood something about how it works.
+> Tor connection not possible
+Are you running a local ZN or going over a proxy ?
+If local ZN: can you check what your debug.log says ?
+i meet this problem but i am going over a proxy ,can help me ? @Erkan-Yilmaz  Problem is probably from your proxy @yulele17 .
+- gevent 1.0.2
+- gevent 1.0.2
+zeronet error like this:
+协议  应用名称    客户端IP 内部端口    外部端口
+the error is following:
+You can try to fix the problem of your network if you can, otherwise Tor is your main option to circumvent the imposed limitations.    UiWebsocket.py:440
+i said clicking from 1HeLLo
+is a obvious flaw / bug then
+@icf20 In ZeroMail he sets the `"domain": "Mail.ZeroNetwork.bit"` in `content.json`, which is what is causing ZeroHello to point to the .bit domain, and not to the address directly
+@TheNain38
+"address": "1MaiL5gfBM1cyb4a8e3iiL8L5gXmoAJu27",
+"description": "End-to-end encrypted messaging",
+@icf20 Btw, if you want to contact me, you can send me a ZeroMail at `thekill38`
+When i try to enable Tor for every connection, i got this error
+my i Hope to have the mobile version
+the seceond solution seems unsafe, or you need to set a passwd for the server i guess
+in my opinion this is a huge privacy risk because GPS
+> Can you explain what you mean by GPS being a privacy risk?
+on that topic is a bit more complex, for example google play services ask for gps, cell data(tower cell), wifi data, general location every 40-60 seconds
+>     "QUERY_STRING": "",
+>         "verbose": false
+>         "Trayicon",
+>         "Zeroname",
+The easiest way to fix this is to add a MAC. I would recommend HMAC-SHA256 as that is already used in ZeroNet. The key for the mac could either be provided separately, or both the aes key and the mac key could be derived from a single key using HKDF or another secure algorithm.
+msg = 'abcdefghijklmno'
+- "Bob" successfuly decrypted a mail from "Eve" with the same content as the mail from "Alice"
+@TheNain38 It is definitely a problem that you were able to do that, and I wasn't aware that was possible. Adding an HMAC will in itself not be sufficient, to fix that. Some more changes will be required.
+@mirrorwish If you use a nonce and an HMAC, it should be good to prevent this attack, right?
+@TheNain38 Assuming that the nonce is placed under the HMAC, and that the recipient checks that this nonce was not previously received, then I believe it would be.
+@TheNain38  You can contact me at
+Bitmessage: BM-87ZQse4Ta4MLM9EKmfVUFA4jJUms1Fwnxws
+ZeroMail: ichigo (I haven't really used this so I'm not sure if it works)
+@mirrorwish
+ZeroMail: thekill38
+You seem a bit cautios about adding a MAC, and I don't really understand why, as I see no downsides.
+PK: Public Key
+To encrypt a mail:
+@HelloZeroNet It's a **shared secret**, look at this image:
+> Much larger messages
+@basxto I assume you are mainly referring to PastePr.
+I don't know yet if your usage of 'aesEncrypt/Decrypt' in PastePr is secure, but I will look into it, and give my judgment.
+@icf20 The problem with that is not many people have Bitcoin. Zeronet is very noob friendly so you should not expect many people using it to have Bitcoin or even know how to get it. Also a spammer could have a Bitcoin balance and once it has been detected as spamming they could just launder their Bitcoins and spam again.
+@AceLewis it's not a problem for anyone except for people who do not have Bitcoin. They can get bitcoin if they want.
+Also it requires energy to run a gpu. So it's more like mining bitcoin just with a negative roi. Scammers will buy GPU if it pay off. It all depend on the ROI of the phishing campain.
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://torrent.gresille.org/announce"
+"ui_port": 43110,
+"Zeroname",
+"Trayicon",
+Forbidden
+Please report it if you think this an error.
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"ip_local": [
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://tracker1.wasabii.com.tw:6969/announce"
+"ui_port": 43110,
+"TranslateSite",
+"Trayicon",
+"Zeroname"
+escreveu:
+It looks like CRIME depends on observing multiple ciphertexts.
+In basically any ZeroNet design I can think of, there is only going to be one ciphertext per patch - I can't see a mechanism for an attacker to force the site owner to inject his extra content and repeatedly patch the site?
+- python
+- python3
+but not python2.
+rebased
+-rpcwait
+``` python
+I wonder if we have the same issue as early Bitcoin-core days where people steal the wallet.dat because of plain text.
+Should ZN have an encryption mechanism of the user.json and sites.json?
+@almet
+@almet @5hanth @ratijas Maybe the encrypted users.json feature can be implemented as a plugin, similar to the web ui password plugin.   I'm following the [site tutorial](http://127.0.0.1:43110/Blog.ZeroNetwork.bit/?Post:43:ZeroNet+site+development+tutorial+1), and I'm getting the above error at the last stage (before publishing).
+http://127.0.0.1:43110/uimedia/all.css [HTTP/1.1 200 OK 2ms]
+http://127.0.0.1:43110/uimedia/all.js [HTTP/1.1 200 OK 4ms]
+http://127.0.0.1:43110/1H1Ee3oP5tVZqz5kmQVqqfXjFUDx8kAinN/js/all.js [HTTP/1.1 200 OK 0ms]
+Cons:
+- For SSL + Python, does anything prevents us to pin the versions (like what you're currently doing) in the `setup.py`?
+As much as we all appreciate restatements of the self-obvious, the "Are we children? Or are we men?" hypothetical was a tongue-in-cheek reference to [Devo](https://rateyourmusic.com/artist/devo)'s 1978 synthpop classic [**"Q: Are We Not Men? A: We Are Devo!"**](https://rateyourmusic.com/release/album/devo/q__are_we_not_men__a__we_are_devo_)
+👍 🤐 👍
+May the genderless penguin be with you, fellow packagers. 🐧  please first stop to bully. Secondly, if you think that zeronet is a nightmare so fork it and make your own. > It's not simply the lack of a setup.py script, PyPI wheel, or eponymous top-level package. It's also […]
+And I couldn't find what makes this condition.I'll report as soon as I know.
+How would this be different from adding new features in like this `css/plugins/DarkSkin/all.css` ?
+@-moz-keyframes flip {
+@-moz-keyframes flip {
+@-moz-keyframes flip {
+@-moz-keyframes flip2 {
+are spaces and ( ) supported ?
+Please report it if you think this an error.
+"PATH_INFO": "/1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://torrent.gresille.org/announce"
+"ui_port": 43110,
+"Trayicon",
+"Zeroname"
+OR
+a proxy.
+# Bad privatekey
+assert not site.content_manager.sign(inner_path, privatekey="5aaa3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMnaa", filewrite=False)
+content = site.content_manager.sign(inner_path, privatekey="5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv", filewrite=False)
+INFO:Site:1TeSTv..xQGT:- [OPTIONAL] data/img/zeroname.png (SHA512: bab45a1bb2087b64e4f69f756b2ffa5ad39b7fdc48c83609cdde44028a7a155d)
+INFO:Site:1TeSTv..xQGT:- [OPTIONAL] data/img/zeroname.png (SHA512: bab45a1bb2087b64e4f69f756b2ffa5ad39b7fdc48c83609cdde44028a7a155d)
+E                              u'data/img/zeroname.png': {u'sha512': u'bab45a1bb2087b64e4f69f756b2ffa5ad39b7fdc48c83609cdde44028a7a155d',
+E                                                            u'signers': [u'15ik6LeBWnACWfaika1xqGapRZ1zh3JpCo'],
+E         Differing items:
+E         -                      u'data/img/zeroname.png': {u'sha512': u'bab45a1bb2087b64e4f69f756b2ffa5ad39b7fdc48c83609cdde44028a7a155d',
+E         u'signers': [u'15ik6LeBWnACWfaika1xqGapRZ1zh3JpCo'],
+# Bad privatekey
+assert not site.content_manager.sign(inner_path, privatekey="5aaa3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMnaa", filewrite=False)
+content = site.content_manager.sign(inner_path, privatekey="5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv", filewrite=False)
+INFO:Site:1TeSTv..xQGT:- [OPTIONAL] data/img/zeroname.png (SHA512: bab45a1bb2087b64e4f69f756b2ffa5ad39b7fdc48c83609cdde44028a7a155d)
+INFO:Site:1TeSTv..xQGT:- [OPTIONAL] data/img/zeroname.png (SHA512: bab45a1bb2087b64e4f69f756b2ffa5ad39b7fdc48c83609cdde44028a7a155d)
+oli@praxis:~$ python
+With the version of gevent in the requirements.txt I get:
+monkey.patch_all(thread=False, subprocess=False)
+from gevent import socket
+NameError: name 'PROTOCOL_SSLv3' is not defined
+gevent==1.0.1
+CryptHash:
+- os.urandom(256) x 100 000..........5.640s [x0.12: Sloooow]
+``` coffeescript
+``` coffeescript
+It's fast solution using nonstandard attribute for Chrome only. This issue awaiting full cross-browser solution: catch window opening from parent frame. Something like this:
+@TheNain38 I am developing service for authorization via social networks and need normal `window.open` or any alias (it's not a problem to write `@cmd "openWindow"` instead of `window.open`).
+Update: ZeroNet also fails on PyPy 5.0. However the benchmarks on PyPy 5.0 (providing Python 2.7.10) compared with those from vanilla Python 2.7.11 on the same machine are interesting:
+CryptHash:
+- os.urandom(256) x 100 000..........1.913s [x0.34: Ehh]
+! Error: '\x84\xa3int\xce@\x00\x00\x00\xa5float\xcb@\xc8\x1c\xd6\xe61\xf8\xa1\xa4text\xda\x14\x00hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello\xa6binary\xda\x01\x00fqv\xf0\x1a"e\x10,\xbe\x9cT\x9e(\xa5]u\x072C\x8c\x15\xa2\xa8\x93Sw)\x19\x02\xdd\t\xfb\xf67\x88\xd9\xee\x86\xa1\xe4\xb6,\xc6\x14\xbb\xd7$z\x1d\xb2\xda\x85\xf5\xa0\x97^\x01*\xaf\xd3\xb0!\xb7\x9d\xea\x89\xbbh8\xa1"\xa7]e(@\xa2\xa5g\xb7[\xae\x8eE\xc2\x9fL\xb6s\x19\x19\r\xc8\x04S\xd0N\xe4]?/\x01\xea\xf6\xec\xd1\xb3\xc2\x91\x86\xd7\xf4K\xdf\xc2lV\xf4\xe8\x80\xfc\x8ep\xbb\x82\xb3\x86\x98F\x1c\xecS\xc8\x15\xcf\xdc\xf1\xed\xfc\xd8\x18r\xf9\x80\x0f\xfa\x8cO\x97(\x0b]\xf1\xdd\r\xe7\xbf\xed\x06\xbd\x1b?\xc5\xa0\xd7a\x82\xf3\xa8\xe6@\xf3\ri\xa1\xb10\xf6\xd4W\xbc\x86\x1a\xbb\xfd\x94!bS\xdb\xaeM\x92\x00#\x0b\xf7\xad\xe9\xc2\x8e\x86\xbfi![%\xd31]\xc6\xfc2\xc9\xda\xc6v\x82P\xcc\xa9\xea\xb9\xff\xf6\xc8\x17iD\xcf\xf3\xeeI\x04\xe9\xa1\x19\xbb\x01\x92\xf5nn4K\xf8\xbb\xc6\x17e>\xa7 \xbbv'
+'\x84\xa3int\xce@\x00\x00\x00\xa4text\xda\x14\x00hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello\xa5float\xcb@\xc8\x1c\xd6\xe61\xf8\xa1\xa6binary\xda\x01\x00fqv\xf0\x1a"e\x10,\xbe\x9cT\x9e(\xa5]u\x072C\x8c\x15\xa2\xa8\x93Sw)\x19\x02\xdd\t\xfb\xf67\x88\xd9\xee\x86\xa1\xe4\xb6,\xc6\x14\xbb\xd7$z\x1d\xb2\xda\x85\xf5\xa0\x97^\x01*\xaf\xd3\xb0!\xb7\x9d\xea\x89\xbbh8\xa1"\xa7]e(@\xa2\xa5g\xb7[\xae\x8eE\xc2\x9fL\xb6s\x19\x19\r\xc8\x04S\xd0N\xe4]?/\x01\xea\xf6\xec\xd1\xb3\xc2\x91\x86\xd7\xf4K\xdf\xc2lV\xf4\xe8\x80\xfc\x8ep\xbb\x82\xb3\x86\x98F\x1c\xecS\xc8\x15\xcf\xdc\xf1\xed\xfc\xd8\x18r\xf9\x80\x0f\xfa\x8cO\x97(\x0b]\xf1\xdd\r\xe7\xbf\xed\x06\xbd\x1b?\xc5\xa0\xd7a\x82\xf3\xa8\xe6@\xf3\ri\xa1\xb10\xf6\xd4W\xbc\x86\x1a\xbb\xfd\x94!bS\xdb\xaeM\x92\x00#\x0b\xf7\xad\xe9\xc2\x8e\x86\xbfi![%\xd31]\xc6\xfc2\xc9\xda\xc6v\x82P\xcc\xa9\xea\xb9\xff\xf6\xc8\x17iD\xcf\xf3\xeeI\x04\xe9\xa1\x19\xbb\x01\x92\xf5nn4K\xf8\xbb\xc6\x17e>\xa7 \xbbv'
+0.143s [x5.46: Insane!!]
+- unpack 5K x 10 000..........0.161s [x7.46: Insane!!]
+0.012s [x10.81: Insane!!]
+- hdPrivatekey x 10..........0.267s [x2.62: WOW]
+CryptHash:
+- os.urandom(256) x 100 000..........2.400s [x0.27: Sloooow]
+``` pytb
+Closing ?  @border0464111,
+[GCC 5.2.1 20151010], Gevent: 1.1b1
+ValueError: Extra data: line 4356 column 2 - line 4356 column 3 (char 147007 - 147008)
+offtopic you need to port some of the services to ZN
+are you using the flag: `--tor always`?
+???
+data/1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8/js/utils/Class.coffee
+data/1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8/js/utils/Follow.coffee
+data/1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8/js/utils/Text.coffee
+data/1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8/js/utils/Time.coffee
+data/1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8/js/lib/highlight.pack.js
+data/1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8/js/lib/identicon.js
+data/1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8/js/lib/jquery.cssanim.coffee
+data/1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8/js/lib/jquery.csslater.coffee
+data/1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8/js/lib/marked.min.js
+data/1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8/js/lib/pnglib.js
+data/1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8/js ['utils', 'lib'] ['all.js.old', 'all.js', 'Comments.coffee', 'ZeroBlog.coffee']
+data/1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8/js/Comments.coffee
+data/1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8/js/ZeroBlog.coffee
+├── lib
+├── 00-lib
+└── ClassAnimal
+├── Animal.js
+├── ClassMammal
+│        ├── Mammal.js
+│        └── ClassDog
+│                   └── Dog.js
+└── ClassReptile
+├── ClassSnake
+|         ├── Snake.js
+└── ClassTurtle
+└── Turtle.js
+Is this the correct order?
+js/ZeroBlog.coffee
+Site:17JcQZ..yi7F - [ERROR] Only ascii encodes filenames allowed: img/sitio_gran_tamaño.png
+example site: http://127.0.0.1:43110/191C1ggdcP31gFfTtwxH1CBSycXF7tR8uC (probably all **NSFW**)
+With Bundle:
+By the way, I am connected to internet via an OpenVPN server. Sorry I forgot mentioning earlier.
+It looks like this error happens when I am connected to VPN. Without VPN I can connect.
+The Errors also looks like a network problem to me, Having it working without the VPN is telling us that the problem is more on the VPN side then Zeronet.   is there any official PPA ? stable /testing PPA ?
+See: http://askubuntu.com/questions/71510/how-do-i-create-a-ppa
+Please report it if you think this an error.
+"PATH_INFO": "/1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://torrent.gresille.org/announce"
+"ui_port": 43110,
+"Trayicon",
+"Zeroname"
+[2016-03-12 18:33:38,388] DEBUG    TorManager Tor proxy port 127.0.0.1:9050 check error: No connection
+unable to write 'random state'
+Ah, Ubuntu 15.10 latest is Tor 0.2.6.10 (recommended) :D Too lazy togo and build ... thx anyway
+"1Mr5rX9TauvaGReB4RjCaE6D37FJQaY5Ba": {
+"1mr5rx9tauvagreb4rjcae6d37fjqay5bA": {
+"1mr5rx9tauvagreb4rjcae6d37fjqay5ba": {
+``` coffeescript
+@alxbob It is a question for me? It's not my site. I just learned how it (and zeroID) works. Any authorization service (including zeroID) is only associating username with public key. On "Nanasi text board" you sign the certificate yourself, so anybody can choose any username (one username may be associated with two or more public keys). It is quite useless service because you can work directly with public keys (without usernames) without any authorization service.
+Can something like that apply to zeronet id?
+Exception Type:        EXC_BAD_INSTRUCTION (SIGILL)
+Exception Codes:       0x0000000000000001, 0x0000000000000000
+[GCC 5.3.1 20160220], Gevent: 1.0.1
+When we want to always use Tor, there is no need to check for an open port. Let alone opening a port. That should be avoided.
+But you cannot - and do not try to open a port at the Tor exit, right?
+@adrelanos
+ZeroNet:
+"config_file": "zeronet.conf",
+"homepage": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://torrent.gresille.org/announce"
+"ui_port": 43110,
+"Multiuser",
+"Trayicon",
+"Zeroname"
+Damn that gives me zeronet.py: error: unrecognized arguments: --multiuser_local on ubuntu ... :/
+File "/Users/yoannlamotte/ZeroNet-master/src/Plugin/PluginManager.py", line 27, in loadPlugins
+but what about transfer? qrcode?
++1 for BIP39 from cli for backup purpose.
+[12:52:45] Site:1MaiL5..Ju27 Announce to 0 trackers in 1.228s, failed
+``` ini
+LimitNOFILE=8192
+> Forbidden
+> Media referrer error
+>         "Multiuser",
+>         "Trayicon",
+>         "Zeroname"
+can you even fix the tor thing.
+The way to implement this is wrapping the 'executable' (python code) in a Windows service. I'm sure it's quite easy to implement (I've wrapped exes as services before, but not python scripts).
+> FileServer Checking port 15441 using canyouseeme.org...
+It's address is [1P9jGD6MBCieqFCHU1777CgyzoZZcnoba2](http://127.0.0.1:43110/1P9jGD6MBCieqFCHU1777CgyzoZZcnoba2)
+Sounds indeed like a cache of some kind then.
+> https://chrome.google.com/webstore/detail/clickclean/ghgabhipcejejjmhhchfonmamedcbeod
+Oh and now over zeronet forums - https://screencast-o-matic.com/watch/cDeeqi1lyh
+import gevent
+where's gevent?
+@Wolden
+For instance I have my ZeroNet files on my Desktop `/Users/Alexander/Desktop/ZeroNet/ZeroNet-master`. If you are new to navigating through `bash` I would highly recommend Codecademy's [Learn the Command Line](https://www.codecademy.com/learn/learn-the-command-line) tutorial.
+[sudo] password for metulburr:
+[GCC 4.8.2], Gevent: 1.0.2
+[01:51:10] TorManager Tor addOnion error: 510 Unrecognized command "ADD_ONION"
+250-PROTOCOLINFO 1
+ɥsıɯɐɥ.bit
+http://127.0.0.1:43110/ɥsıɯɐɥ.bit responds with:
+Thanks again for returning control to the edge, peer to peer, autonomous networks, so cool.
+Hamish.
+That is a poor excuse.
+You might also like to consider how squatted NMC names are, opening up the full Unicode space may well defeat that.
+To complain about phishing and unicode while exploiting torrent and bitcoin protocols and their attendant criminality is lame.
+Given the much easier and effective phishing attacks, taking a position of protection against this kind of esoteric quirk is patronising.  I'm not saying it can't be done, but attempting to guard against such attacks by denying choice isn't worth the effort.
+Then the problem is small. I assumed the browser-like implementaion (most Unicode names are shown in address bar). Thats why they have blacklists and [complex display algorithm](https://wiki.mozilla.org/IDN_Display_Algorithm) that determine which to display, Unicode name or raw punycode.
+Issue and PR have been closed, with comment "IDNA domains will not be supported due to security concerns."
+rm -rf ~/zeronet/data/1P9jGD6MBCieqFCHU1777CgyzoZZcnoba2 ;
+git init ~/zeronet/data/1P9jGD6MBCieqFCHU1777CgyzoZZcnoba2 ;
+git remote add zeronet ~/zeronet/data/1P9jGD6MBCieqFCHU1777CgyzoZZcnoba2 ;
+**~/zeronet/data/1P9jGD6MBCieqFCHU1777CgyzoZZcnoba2/.git/hooks/post-receive**
+ADDRESS=1P98WASDA1829381293
+remote: - Signing site: 1P9jGD6MBCieqFCHU1777CgyzoZZcnoba2...
+remote: Site:1P9jGD..oba2 Opening site data directory: data/1P9jGD6MBCieqFCHU1777CgyzoZZcnoba2/...
+remote: Site:1P9jGD..oba2 - [SKIPPED] content.json
+remote: Site:1P9jGD..oba2 - dbschema.json (SHA512: 8d2f854f49da2274f2910cbbd459c64114889ec054bc2a5281403069608ab6dc)
+remote: Site:1P9jGD..oba2 - index.html (SHA512: 4f17b4c089db199bf32a0c489677918b65a78898a59d33fe0a9385a572cbd047)
+remote: Site:1P9jGD..oba2 - Makefile (SHA512: 13a061f7f254295f1bb8f6da6faeddd59fdd4ed6158297999cef68fc05e51c0b)
+remote: Site:1P9jGD..oba2 - [SKIPPED] .git/config
+remote: Site:1P9jGD..oba2 - css/fonts.css (SHA512: b6f94148691a218d2b356f2225d827130264f35bebed995b4a3ce6cffff6cea7)
+remote: Site:1P9jGD..oba2 - css/pastie.css (SHA512: 52418309befb7d4c6d382ae5c9259a85c9e849b7faa54be1799366d18da4582b)
+remote: Site:1P9jGD..oba2 - css/lib/monokai.css (SHA512: e1811d0440ab59c0a08fa4b837c11415a6a21aba0de8614ff24afbe729f3cbb8)
+remote: Site:1P9jGD..oba2 - css/lib/solarized-light.css (SHA512: ed789d816a95b6430f792e2e607b1977ea2bf884cfd73154ca178353d0466c81)
+remote: Site:1P9jGD..oba2 - data/head.json (SHA512: 8e42e05b4d855c06a7a2cf7513d88203cbf26c0561aa7afa3c9a82d244e5b269)
+remote: Site:1P9jGD..oba2 - img/loading.gif (SHA512: 8a42b98962faea74618113166886be488c09dad10ca47fe97005edc5fb40cc00)
+remote: Site:1P9jGD..oba2 - js/in-edit.coffee (SHA512: 8a1817addabcb0b39179b197886874c1b8b485457bd6f530a456613615977a57)
+remote: Site:1P9jGD..oba2 - js/model.coffee (SHA512: edf9db5f1c66a5d5493918c8d9c153ec62d526dc60e84f721e1d1ce1d2bc860e)
+remote: Site:1P9jGD..oba2 - js/pastie.coffee (SHA512: 978fb4e0bccdb0d8d9dadff7a240024ad48f4c00ae342a219309b00f0b25f458)
+remote: Site:1P9jGD..oba2 - js/lib/autosize.js (SHA512: 290402e112101296acbd7190817bd072af840f173961304368b6583b317ef537)
+remote: Site:1P9jGD..oba2 - js/lib/Class.coffee (SHA512: 3015ca4162fcd80307fb253db12b5b02ecc96229e1cd2e9f959ee7c67598c13e)
+remote: Site:1P9jGD..oba2 - js/lib/highlight.pack.js (SHA512: 2257263ffbebca8c6e771f77d394d5f42a31b369b531b65bba58b6b9a5ed169c)
+remote: Site:1P9jGD..oba2 - js/lib/jquery-1.12.1.min.js (SHA512: b5e18a4432083726af300f0759dda2b7de79eb21d6e912ee6b2d71937b3f77ce)
+remote: Site:1P9jGD..oba2 - js/lib/lodash.js (SHA512: 62c31067023f512921153e6d5d55a6ab3a838e2095dd08d09e2adc7f3e9f4929)
+remote: Site:1P9jGD..oba2 - js/lib/sha1.js (SHA512: c6c991367d1840e93b5fe6f200d89ffbc6fa800c3a12cdb65a197b3871c1b415)
+remote: Site:1P9jGD..oba2 - js/lib/ZeroFrame.coffee (SHA512: 061d8ba1c45c6f38d6382470f3a7a0a6f19f16e77f44afbda7509b4e0dbd2361)
+remote: Site:1P9jGD..oba2 Creating tables...
+remote: Db:zeropastie Table keyvalue outdated...version: False need: 2, rebuilding...
+remote: Site:1P9jGD..oba2 Importing data...
+remote: Site:1P9jGD..oba2 Imported 0 data file in 0.000151872634888s
+remote: Site:1P9jGD..oba2 Adding timestamp and sha512sums to new content.json...
+remote: Site:1P9jGD..oba2 Verifying private key...
+remote: Site:1P9jGD..oba2 Correct 1P9jGD6MBCieqFCHU1777CgyzoZZcnoba2 in valid signers: ['1P9jGD6MBCieqFCHU1777CgyzoZZcnoba2']
+remote: Site:1P9jGD..oba2 Signing content.json...
+remote: Site:1P9jGD..oba2 Saving to content.json...
+remote: Site:1P9jGD..oba2 File content.json signed!
+remote: - Loading site...
+remote: TorManager Tor controller connect error: error: [Errno 61] Connection refused in TorManager.py line 151 > socket.py line 344
+remote: - Starting ZeroNet...
+To /Users/frangossauro/workspace/Codes/ZeroNet/data/1P9jGD6MBCieqFCHU1777CgyzoZZcnoba2
+PluginManager Loading plugin: CryptMessage
+PluginManager Loading plugin: Zeroname
+PluginManager New class accepts plugins: ConfigPlugin (Loaded plugins: [<class 'Zeroname.UiRequestPlugin.ConfigPlugin'>, <class 'Config.ConfigPlugin'>])
+ZeroNet 0.3.7 r1275
+[21:27:27] Site:1MaiL5..Ju27 Publishing to 5/71 peers (connected: 12)...
+[21:27:28] Site:1MaiL5..Ju27 [OK] 178.60.5.55:15441: File not changed
+[21:27:28] Site:1MaiL5..Ju27 [OK] ny27lf76ghxwe6ii.onion:15441: File not changed
+[21:27:28] Site:1MaiL5..Ju27 [OK] gqj37ljyvgcj7y7c.onion:15441: File not changed
+[21:27:28] Site:1MaiL5..Ju27 [OK] 181.28.60.183:15441: File not changed
+[21:27:28] Site:1MaiL5..Ju27 [OK] lzzxlcrdtrsr2a4r.onion:15441: File not changed
+[21:27:28] Site:1MaiL5..Ju27 [OK] 37.191.193.9:15441: File not changed
+[21:27:28] Site:1MaiL5..Ju27 [OK] 5.101.103.222:15441: File not changed
+[21:27:28] Site:1MaiL5..Ju27 [OK] 2.153.143.63:15441: File not changed
+[21:27:29] Site:1MaiL5..Ju27 [OK] gek3jkgrs42hsclr.onion:15441: File not changed
+Segmentation fault
+[2016-03-02 21:27:34,380] DEBUG    User:removed New encrypt privatekey generated for 1MaiL5gfBM1cyb4a8e3iiL8L5gXmoAJu27:removed
+Still segfaults:
+[23:17:25] Site:1iD5ZQ..duGz [OK] iyisg7gas7ewyxkh.onion:15441: File not changed 3/3
+[23:17:26] Site:1iD5ZQ..duGz [OK] ojyllvy2dpr7t4y7.onion:15441: Thanks, file content.json updated! 5/3
+[2016-03-05 23:17:49,112] DEBUG    User:blablabla New encrypt privatekey generated for 1MaiL5gfBM1cyb4a8e3iiL8L5gXmoAJu27:1234567890
+gpg: directory `/home/metulburr/.gnupg' created
+gpg: new configuration file `/home/metulburr/.gnupg/gpg.conf' created
+gpg: WARNING: options in `/home/metulburr/.gnupg/gpg.conf' are not yet active during this run
+gpg: keyring `/home/metulburr/.gnupg/secring.gpg' created
+gpg: keyring `/home/metulburr/.gnupg/pubring.gpg' created
+gpg: /home/metulburr/.gnupg/trustdb.gpg: trustdb created
+gpg: directory `/home/metulburr/.gnupg' created
+gpg: new configuration file `/home/metulburr/.gnupg/gpg.conf' created
+gpg: WARNING: options in `/home/metulburr/.gnupg/gpg.conf' are not yet active during this run
+gpg: keyring `/home/metulburr/.gnupg/secring.gpg' created
+gpg: keyring `/home/metulburr/.gnupg/pubring.gpg' created
+gpg: /home/metulburr/.gnupg/trustdb.gpg: trustdb created
+Mar 03 01:04:01.191 [notice] Tor can't help you if you use it wrong! Learn how to be safe at https://www.torproject.org/download/download#warning
+gpg: WARNING: unsafe ownership on configuration file `/home/metulburr/.gnupg/gpg.conf'
+Password:
+root@ubuntu:/home/metulburr/ZeroNet-master# gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -
+root@ubuntu:/home/metulburr/ZeroNet-master# apt-get install tor
+wine-mono0.0.8
+root@ubuntu:/home/metulburr/ZeroNet-master# vim /etc/tor/torrc
+root@ubuntu:/home/metulburr/ZeroNet-master# /etc/init.d/tor restart
+* Stopping tor daemon...                                                                          [ OK ]
+* Starting tor daemon...                                                                          [ OK ]
+root@ubuntu:/home/metulburr/ZeroNet-master# usermod -a -G debian-tor metulburr
+root@ubuntu:/home/metulburr/ZeroNet-master# ls -al /var/run/tor/control.authcookie
+[GCC 4.8.2], Gevent: 1.0
+now i get the ConnServer Error. I am assuming the tor is working fine with zeronet?!
+@ASBaumgarten Thanks!  Just got it installed and ran it along side.  Unfortunately I got the Big Red X with "Sorry. You are not using Tor.", but I'm new to all this so I'll keep poking around.  Might you be able to point me in the direction of a correctly configured .torrc file?
+@ASBaumgarten **Touchdown!**  Thank you for your help.  Below is my current state and the steps I performed to get here (in case anyone else is interested).
+- Used homebrew to install Tor (`brew install tor`), which installed v0.2.7.6
+- Started Tor in a terminal window
+- git clone https://github.com/gyulaweber/ZeroNet
+even faster: docker pull gyulaweber/zeronet_tor
+`nginx`?
+Are you guys talking about HTTPS to the localhost:43110 interface? Not sure what https, Cloudflare or Lets Encrypt add here?
+nginx.conf
+server_name FQDN;
+add_header Strict-Transport-Security max-age=604800;
+ssl_certificate /root/ZeroBundle/ssl/zeronet.crt;
+proxy_set_header X-Forwarded-Proto $scheme;
+``` zeronet.conf
+Collecting gevent
+Building wheels for collected packages: gevent
+copying gevent/monkey.py -> build/lib.macosx-10.11-x86_64-3.5/gevent
+File "/private/var/folders/s9/h4qsl5vj1yx80k58lp3211580000gn/T/pip-build-4gr3dygb/gevent/setup.py", line 312, in run_setup
+File "/private/var/folders/s9/h4qsl5vj1yx80k58lp3211580000gn/T/pip-build-4gr3dygb/gevent/setup.py", line 234, in build_extension
+File "/private/var/folders/s9/h4qsl5vj1yx80k58lp3211580000gn/T/pip-build-4gr3dygb/gevent/setup.py", line 139, in configure_libev
+TypeError: unsupported operand type(s) for >>: 'builtin_function_or_method' and '_io.TextIOWrapper'
+Failed building wheel for gevent
+Failed to build gevent
+copying gevent/monkey.py -> build/lib.macosx-10.11-x86_64-3.5/gevent
+File "/private/var/folders/s9/h4qsl5vj1yx80k58lp3211580000gn/T/pip-build-4gr3dygb/gevent/setup.py", line 312, in run_setup
+File "/private/var/folders/s9/h4qsl5vj1yx80k58lp3211580000gn/T/pip-build-4gr3dygb/gevent/setup.py", line 234, in build_extension
+File "/private/var/folders/s9/h4qsl5vj1yx80k58lp3211580000gn/T/pip-build-4gr3dygb/gevent/setup.py", line 139, in configure_libev
+TypeError: unsupported operand type(s) for >>: 'builtin_function_or_method' and '_io.TextIOWrapper'
+MacBook-Pro:ZeroNet-master jarla$ python zeronet.py
+import gevent
+- hdPrivatekey x 10..........0.127s [x5.52: Insane!!]
+CryptHash:
+- sha256 5M x 10..........0.152s [x3.95: Insane!!]
+- sha512 5M x 10..........0.110s [x5.44: Insane!!]
+- os.urandom(256) x 100 000..........2.067s [x0.31: Ehh]
+The UI is suggesting that there is a problem with Tor connecting.
+As I said, I configured Tor as suggested in the FAQ. I'm a member of the group, etc.
+echo 'PROTOCOLINFO' | nc 127.0.0.1 9051
+250-PROTOCOLINFO 1
+Also, I tried to connect to the control port with TorCtl for python and it worked fine as long as the "data" directory was at the proper permissions BUT zeronet still spits out that same error.
+I'm using ubuntu 15.10.
+Trying to run from master:
+monkey.patch_all(thread=False, subprocess=False)
+File "/usr/lib/python2.7/dist-packages/gevent/monkey.py", line 379, in patch_all
+What does this mean? With the same zero id I'm not the sender on both devices? And, clicking on the trash of a message isn't deleting, but hiding it?
+I don't think `pkill python` is the most efficient, is there another way?
+else
+fi
+Bittorrent over Tor isn't a good idea
+- http://hal.inria.fr/docs/00/47/15/56/PDF/TorBT.pdf
+Are you sure, that zeronet's usage of torrent does not suffer from the same issue?
+What in case only Tor proxy settings without Tor ControlPort - hence without Tor hidden services?
+@adrelanos from what I understand ZeroNet relies on BitTorrent Trackers for peer discovery, which means the ips, ports and hashes being advertised by ZeroNet clients can be leaked from any of the Trackers (due to the tracker scrape API)
+Is there a special way I must connect to see changes locally on refresh? Or is using http://127.0.0.1:43110/{Public_site_key} proper?
+Seems like every time I edit a coffeescript file and click 'update' on the site, it says "x File update failed" where x is a number (which makes me think I'm not going to the proper place to see it locally since it shouldn't need to 'update').
+This is weird, I went back to check my code and it's the old code (but I see the new changes)
+Odd then, because I sign it and look at all.js and my changes aren't in the file. If I delete all.js and hard refresh the page it acts like all.js still exists.
+Now it just generated it... Odd
+@Stackoverload Btw I'm called `thekill38` on ZeroNet, if you want to send me a ZeroMail ;)
+2. zeronet.py siteSign 1Apr5ba6u9Nz6eFASmFrefGvyBKkM76QgE
+3. zeronet.py siteVerify 1Apr5ba6u9Nz6eFASmFrefGvyBKkM76QgE
+"zeroid.bit": [ "1iD5ZQJMNXu43w1qLB8sfdHVKppVMduGz" ]
+"bad@zeroid.bit": false,
+"nippletwister@zeroid.bit": { "max_size": 100000 },
+hmm, only safari bug.
+zero://<hash or domain>
+TorManager Tor addOnion error: 510 Unrecognized command "ADD_ONION"
+Is it a bug? or... What am I doing wrong?
+That doesn't seem right. In lieu of something easier like NPM, I'm looking for a static C/C++ library i can import into something like QT which is embeddable, and doesn't involve an installation of Python or the dependencies (e.g. Msgpack).
+@azcoppen  have you managed to produce something ?
+In this case, it's highly likely that peers would be incriminated as _publishers_ of material (more severely punishable and increasingly risky), - rather than just viewers - , if identified by IP. The Tiananmen problem given above is provocative enough that even a static JPG could put a peer at risk of a criminal offence in that jurisdiction, and the recording of the IP on the network would be incriminating.
+...is the AES provision within G-Wan:
+http://gwan.com/api#crypto
+As silly as a question as this might sound, how do i have control over what i'm seeding? And how do i explain the same thing to someone who is less technical? One of the stated design goals of Zeronet is a simple and attractive UI, but i can't see how to do that at all.
+I understand the issue, but I don't think it's in zeronet design to provide such level of security.
+If you have your state actors in your threat modeling, best is to use some amnesiacOS.
+WebSocket handleRequest error: TypeError: 'bool' object has no attribute '__getitem__' in UiWebsocket.py line 96 > UiWebsocket.py line 174 > UiWebsocket.py line 309 > UiWebsocket.py line 275
+`Site:113VKv..Gqm8 WebSocket handleRequest error: TypeError: 'bool' object does not support item assignment in UiWebsocket.py line 98 > UiWebsocket.py line 178 > UiWebsocket.py line 454`
+too much fiddling I guess :)
+user_urn = "%s/%s" % (content["cert_auth_type"], content["cert_user_id"])  # web/nofish@zeroid.bit
+[GCC 5.3.1 20160101], Gevent: 1.0.1
+rev859 | False | Opened: False | Crypt: ['tls-rsa'] | In: 0.00MB, Out: 0.00MB | Peerid: -ZN0035-aegwVkCOPMiG |
+Tor hidden services (status: Error ([Errno 111] Connection refused)):
+Collecting gevent
+uname -a
+Codename:   rosa
+- [GCC 4.8.2], Gevent: 1.0
+[GCC 4.6.3], Gevent: 0.13.6
+Segmentation fault
+sudo pip update gevent
+p/pip-s8lODB-record/install-record.txt --single-version-externally-managed --compile:
+building 'greenlet' extension
+@adrelanos
+This feature seams like a kind of zerome, they seams very familiar.
+Please forgive my poor English:)
+I vote for ZeroSociety or ZeroMe
+Chatter
+Blabber
+ChitChat
+Babble
+@makdisse ZeroSociety was my first thought too - http://mrrobot.wikia.com/wiki/Fsociety :)
+Zerotopia
+Zerome or myzero
+ZeroMe and MeetZero are the most appealing choices from the list.
+I also have a less serious name suggestion taken from the Star Trek universe: "[Unimatrix Zero](https://en.wikipedia.org/wiki/Unimatrix_Zero)," which is the name of a censorship-free decentralized social network of rogue Borg. Perhaps it's silly, but I had to mention it given the obvious parallels.
+ZSociety
+Great news! Is there a zite address you could share with us?
+SOCKSPort 9150
+echo 'PROTOCOLINFO' | nc 127.0.0.1 9151
+250-PROTOCOLINFO 1
+Install TorBrowser.app; it exposes ports 9150 (SOCKS proxy) and 9151
+1. I understand. Not sure I fully agree, I like the idea to have zeronet connect through TorBrowser: it makes things easier to install and understand (is it on, is it off? You can see it immediately).
+[15:39:22] TorManager Tor addOnion error:
+res = self.request("ADD_ONION NEW:RSA1024 port=%s" % self.fileserver_port)
+I don't quit TorBrowser.app very often, it was just for testing :)
+$ uname -a
+binwalk (2.1.0)
+bsddb3 (6.1.0)
+cffi (0.9.2)
+ecdsa (0.13)
+gevent (1.0.1)
+greenlet (0.4.9)
+pyasn1 (0.1.6)
+pycparser (2.12)
+ZeroNet 0.3.4 r664
+[GCC 4.9.2], Gevent: 1.0.1
+from Crypt import CryptConnection
+[GCC 4.9.2], Gevent: 1.0.1
+[20:46:27] Site:1MaiL5..Ju27 WebSocket handleRequest error: AttributeError: function 'BN_new' not found in UiWebsocket.py line 65 > UiWebsocket.py line 143 > CryptMessagePlugin.py line 89 > __init__.py line 16 > openssl.py line 449 > openssl.py line 439 > openssl.py line 49 > __init__.py line 378 > __init__.py line 383
+[20:46:27] Site:1MaiL5..Ju27 Publishing to 5/27 peers (connected: 21)...
+ctypescrypto (0.3.1)
+-rwxr-xr-x corinna/vinschen 2270227 2015-12-03 23:47 usr/bin/cygcrypto-1.0.0.dll
+-rwxr-xr-x corinna/vinschen  433683 2015-12-03 23:47 usr/bin/cygssl-1.0.0.dll
+4218 number of names
+ordinal hint RVA      name
+4    3 000414B0 AES_bi_ige_encrypt
+12    B 00042120 AES_encrypt
+13    C 000410C0 AES_ige_encrypt
+19   12 0018AB20 AES_version
+4215 1076 00032F40 whirlpool_block
+[GCC 4.9.2], Gevent: 1.0.1
+- hdPrivatekey x 10..........0.158s [x4.43: Insane!!]
+CryptHash:
+- os.urandom(256) x 100 000..........0.290s [x2.24: Fast]
+[11:04:28] Site:1MaiL5..Ju27 WebSocket handleRequest error: AttributeError: function 'BN_new' not found in UiWebsocket.py line 65 > UiWebsocket.py line 143 > CryptMessagePlugin.py line 89 > __init__.py line 16 > openssl.py line 456 > openssl.py line 445 > openssl.py line 49 > __init__.py line 378 > __init__.py line 383
+[GCC 4.9.2], Gevent: 1.0.1
+- hdPrivatekey x 10..........0.144s [x4.86: Insane!!]
+- sign x 10..........0.070s [x5.00: Insane!!]
+CryptHash:
+- os.urandom(256) x 100 000..........0.289s [x2.25: Fast]
+Regarding the note about including I2P addresses, it would be a good idea to read I2P's BitTorrent docs (linked in #45) to check how I2P's slight torrent protocol differences would affect ZeroNet. I don't think it should overly affect this ticket, but I'm not familiar with ZeroNet specifics.
+[GCC 4.8.2], Gevent: 1.0.2
+[22:58:30] FileServer Checking port 15441 using canyouseeme.org...
+Tanx a Lot! It is ok but is encryption needed?
+[GCC 4.8.2], Gevent: 1.0.2
+[23:23:20] FileServer Checking port 15441 using canyouseeme.org...
+[23:23:46] FileServer Checking port 15441 using canyouseeme.org...
+Is encription problem mine or is a bug?
+Affero further protects the project against SaaSS :)
+Affero closes a known loophole in the GPL, when it comes to webservices:
+> Both versions of the Affero GPL were designed to close a perceived application service provider (ASP) loophole in the ordinary GPL, where, by using but not distributing the software, the copyleft provisions are not triggered. Each version differs from the version of the GNU GPL on which it is based in having an added provision addressing use of software over a computer network. This provision requires that the full source code be made available to any network user of the AGPL-licensed work, typically a web application.
+> https://en.wikipedia.org/wiki/Affero_General_Public_License
+Again, it is a loophole by _your_ definition. Not everyone necessarily agrees with you (and as I said, look at the trend, Affero is dead in the water). If decision is made to change, that's fine by me, but most users, as well as devs, (see that Figure 2) have figured out what works well for them. Look at BitTorrent, Bitcoin and other recently successful projects and see what licenses they use.
+nonsense (and poorly argued one at that)
+> nonsense (and poorly argued one for at that)
+[GCC 4.8.2], Gevent: 1.1b7.dev0
+[12:58:54] FileServer Checking port 15441 using canyouseeme.org...
+**ExpatError: no element found: line 1, column 0
+ExpatError: no element found: line 1, column 0
+[12:59:13] FileServer Checking port 15441 using canyouseeme.org...
+TorManager Tor controller connect error: error: [Errno 111] Connection refused in TorManager.py line 154 > socket.py line 344
+- FileServer Checking port 15441 using canyouseeme.org...
+Could you explained it's theory?
+[19:30:06] FileServer Checking port 15441 using canyouseeme.org...
+[19:30:47] Site:1MaiL5..Ju27 data/users/1NS9qMabhcMJpQqeqeFy14j3z9DkqNCWzS/content.json: Site too large 10486472 > 10485760, aborting task...
+"config_file": "zeronet.conf",
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://torrent.gresille.org/announce"
+"ui_port": 43110,
+"Trayicon",
+"Zeroname"
+When connecting to [ZeroMap](http://127.0.0.1:43110/1yUji4qPD7GAog8XkP3EDMEfrL995S4Xd), I get a Server error:
+Plugins
+@HelloZeroNet Can the issue be closed?  It would be cool, I was going to ask for something like this to send encrypted messages between other users, so it would be possible to exchange data directly to someone without others knowing the content
+- ui_ip = *
+- ui_restrict =
+Forbidden
+Please report it if you think this an error.
+"config_file": "zeronet.conf",
+"udp://open.demonii.com:1337",
+"udp://tracker.leechers-paradise.org:6969",
+"udp://9.rarbg.com:2710",
+"http://torrent.gresille.org/announce"
+"ui_port": 43110,
+"ui_restrict": [
+"Trayicon",
+"Zeroname"
+It displays too much information to someone who's access is forbidden
+[ZeroWebsocket] Error error
+[ZeroWebsocket] Error error
+[ZeroWebsocket] Open
+[Wrapper] Setting title to ZeroTalk - ZeroNet
+tocols
+[18:16:18] Site:1TaLkF..jipT Announced port 15441 to 1 trackers in 0.212s, error
+[18:16:21] Site:16Basi..mTcs Announced port 15441 to 1 trackers in 0.424s, error
+-Ki9lZdZB8xIe&port=15441&info_hash=%ACO%82%C3%A9%D2%27Q%ECi_%ED%DF%93%BE%DB%0F+%
+A3%88&left=0 error: [Errno 10054] Une connexion existante a d¹ Ûtre fermÚe par l
+Æh¶te distant
+[2015-10-23 18:48:35,917] DEBUG    Site:16Basi..mTcs Announced port 15441 to 1 trackers in 0.178s, errors: [], slow: []
+[2015-10-23 18:48:50,920] DEBUG    Site:16Basi..mTcs Can't update content.json
+[2015-10-23 18:49:31,053] DEBUG    FileServer Conn#70 70.37.165.32 [v2] > Crypt in connection using: tls-rsa (server side: True)...
+Generating a 2048 bit RSA private key
+[2015-10-23 20:06:04,017] DEBUG    Site:1Name2..hM9F content.json verified: 4, quick: True, bad: [u'index.html', u'data/names.json', u'css/all.css', u'js/all.js'], optionals: +0 -0
+[2015-10-23 20:06:04,111] DEBUG    - Added new site: 1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr
+[2015-10-23 20:06:12,799] DEBUG    FileServer Conn#23 70.37.165.32 [v2] > Crypt in connection using: tls-rsa (server side: True)...
+[2015-10-23 20:07:20,989] DEBUG    FileServer Conn#24 70.37.165.32 [v2] > Crypt in connection using: tls-rsa (server side: True)...
+[2015-10-23 20:07:31,377] DEBUG    FileServer Conn#25 70.37.165.32 [v2] > Crypt in connection using: tls-rsa (server side: True)...
+[2015-10-23 20:07:33,311] DEBUG    FileServer Conn#26 70.37.165.32 [v2] > Crypt in connection using: tls-rsa (server side: True)...
+[2015-10-23 20:08:06,325] DEBUG    FileServer Conn#27 70.37.165.32 [v2] > Crypt in connection using: tls-rsa (server side: True)...
+[2015-10-23 20:08:08,555] DEBUG    FileServer Conn#28 70.37.165.32 [v2] > Crypt in connection using: tls-rsa (server side: True)...
+[2015-10-23 20:08:10,940] DEBUG    FileServer Conn#29 70.37.165.32 [v2] > Crypt in connection using: tls-rsa (server side: True)...
+[2015-10-23 20:09:02,562] DEBUG    FileServer Conn#30 70.37.165.32 [v2] > Crypt in connection using: tls-rsa (server side: True)...
+[2015-10-23 20:09:04,486] DEBUG    FileServer Conn#31 70.37.165.32 [v2] > Crypt in connection using: tls-rsa (server side: True)...
+[2015-10-23 20:09:05,486] DEBUG    FileServer Conn#32 70.37.165.32 [v2] > Crypt in connection using: tls-rsa (server side: True)...
+With chrome it won't reconnect either... And it is more buggy than ever...
+This bug is the only thing that really bothers me.
+Quantum computer can break BitCoin cryptography
+There are post-quantum crypto implementations, but as far as I know they're somewhat experimental and not yet shipped by default within Openssl/Libressl. I'd estimate that a government with a large budget could possibly build a quantum cryptanalysis machine for prime factoring small key lengths within a decade.
+When Openssl will be declared unsecure anymore, It will be a good time to address the problem.
+Closing ?   Jus an usage idea.
+The idea is something like Disqus, but based on zeronet.
+Decentralized P2P based commenting for everyone system is born. Just an idea, may be not a good one.
+@risoul  : Sort of a decentralized "commentanything.com" upon zeronet ?
+2nd one master race!
+On 28 September 2015 at 10:18, Wisketchy Dobrov notifications@github.com
+The description for the `ping` function says `Pong` rather than `Ping`. `i` is very near to the `o` on the keyboard, so this is a typo.
+Oh I think I see. `Ping Pong`. ~ Very poetic. I should read the focus fully before making an error report.
+Does this bug still exist?
+I thought it was easier to read as a code block without the white in-between
+The sentence in the pruple banner `This site currently served by 70 peers without any central server.` is grammatically incorrect and should be `This site is currently served by 70 peers without any central server.` **is** was needed.
+or commotion?
+Location: src/Crypt/CryptConnection.py:70
+Location: src/Crypt/CryptConnection.py:90
+Location: src/Crypt/CryptConnection.py:100
+I know it may sounds strange and premature, but probably it will be really nice to create and handle a website (and the signature) using a Trezor device. The official Python API are already released and it will enhance the security behind ZeroNet.
+Does it sounds crazy?
+I don't think there should be a peer hierarchy, and whether or not someone has a powerful machine should be irrelevant.
+"peer hierarchy" sounds like an oxymoron :)
+Lol yes @pecc0
+It would be a problem for big sites. A site with a million files using a 4-character hex hash would have to find the user with the file from 27 users, that's a lot of overhead.
+Please provide a http proxy so that I can change my browser to use that one to access zeronet sites.
+So ZN already has that feature?
+gekko-master leotreasure$ pip install gevent msgpack-python
+//frame busting
+Run local custom DNS server
+I personally feel that the custom DNS server (although would work) is a bad solution. It is not user friendly at all and if there is a hiccup you got yourself with an angry user without internet to get help from.
+We also have an unusual behavior here  for example : When you got a request for an non-existing ".bit" address the customdns can't say anything regarding whether the domain is valid or not (where as normally it should) (only your zeronet local server has this info), so it must tell you this domain is valid (in fact it may not be) and route you to localhost. (An attacker could for example try to use up your ram by filling up the customdns tables with random invalid .bit names which would then be cached because they are in fact valid (then your customdns process crash and you got yourself with an angry user without internet)).
+I quickly look at it but the quick fix looks like security done client side in javascript (and as a malicious js script we are the client).
+Please forgive some of my ignorance, as I am neither a professional programmer nor a security analyst:
+return str.replace(/(-[A-Za-z])/g, function(match) {
+encode('1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D');
+document.write('<script type="text/javascript" src="/uimedia/all.js?rev=915"></script>');
+[GCC 4.8.2], Gevent: 1.0
+I really love the idea of decentralize web, and I am making something like this. It will be great help if you can share some of you ideas.
+Previously child processes were not reaped, leaving zombies behind.
+Hi, As i understand this project is a combination of bittorent decentralised technology and bitcoin-like crypto to serve web pages.
+You can _distribute_ `dynamic content` via IPFS.
+Dynamic sites like forum or ZeroMe, use ZeroNet.
+Please support Python3.
+@DoWhileGeek cool! :+1:
+Python 2 is now [less than three years from the chopping block](https://pythonclock.org). :hocho:
+Ssomeone just needs to bite the thankless bullet and start doing it. The sooner this painful migration begins, the sooner this painful migration ends. Or to paraphrase an [ancient Chinese and/or African proverb](https://s-media-cache-ak0.pinimg.com/originals/ad/12/56/ad125658e28ffd37f5e72502ca41ce87.jpg):
+I'm not sure about the situation when this comment was made, but isn't it true that we now have the ZeroNet bootstrap protocol? Is it possible that IPv6 support could be added to this protocol like how it was done for Tor hosts?
+There seems to be an error when running in debug mode on linux.  When running zeronet with
+S466531257 BOSS - PAETH CLAUDIUSRAPHAEL
+S466531257 BOSS - PAETH CLAUDIUSRAPHAEL
+S466531257 BOSS - PAETH CLAUDIUSRAPHAEL
+It is irritating and also seems to worry the chromium build , when for example
+S466531257 BOSS - PAETH CLAUDIUSRAPHAEL
+If you might give it a try , wonderful and if functioning please explain syntax in Python , if you mind .
+S466531257 BOSS - PAETH CLAUDIUSRAPHAEL
+S466531257 BOSS - PAETH CLAUDIUSRAPHAEL
+import os
+subprocess.call([CHROME, '--kiosk'])
+As i am just vaguely understanding the itself-eating-snake it gives me a feel of right direction ( if applicable in the version of python you based it on --- another reason i hate python )
+S466531257 BOSS - PAETH CLAUDIUSRAPHAEL
+S466531257 BOSS - PAETH CLAUDIUSRAPHAEL
+: I am fighting Python , since my first contact with it in the beginning Nineties , so forgive my ignorance ; This project ( ZeroNet ) is the first that attracts me that much that i am WILLED to puke my face ( to understand that , i am oldschool : FORTRAN, ALGOL, PASCAL, TURBO PASCAL, C C++, JS, ECMA and in terms of feeling good : LISP ) ( ... just to explain ) ;
+[GCC 4.9.2], Gevent: 1.0.1
+[16:43:43] FileServer Checking port 15441 using canyouseeme.org...
+[GCC 4.9.2], Gevent: 1.0.1
+So, am I doing something wrong?
+Sure thing. Here is a slice from the log.
+[REDACTED]
+At a glance, there are two bad things happening...
+Hmm, very odd. Seems to be working now?
+[GCC 4.9.2], Gevent: 1.0.1
+http://127.0.0.1:43110/lýc.bit/
+There is also an error with the encoded domain-name form:
+http://127.0.0.1:43110/xn--lc-0ka.bit
+Also worth saying, when I goto http://zero/xn--lc-0ka.bit (using zeronet chrome extension), I get a weird message:
+Not Found: data/xn--lc-0ka.bit/index.html
+Some xn-- names are working, http://127.0.0.1:43110/xn--tqh.bit for example AKA ⑂.bit (http://namecha.in/name/d/xn--tqh)
+[20:00:03] Site:1BLuis..oYQw content.json: Site too large 101549465 > 10485760, aborting task...
+[20:00:03] Site:1BLuis..oYQw content.json: Site too large 101549465 > 10485760, aborting task...
+[20:00:04] Site:1BLuis..oYQw content.json: Site too large 101549465 > 10485760, aborting task...
+[20:00:04] Site:1BLuis..oYQw content.json: Site too large 101549465 > 10485760, aborting task...
+[20:00:04] Site:1BLuis..oYQw content.json: Site too large 101549465 > 10485760, aborting task...
+[20:00:04] Site:1BLuis..oYQw content.json: Site too large 101549465 > 10485760, aborting task...
+the merger site feature is now into production. Closing ?  @HelloZeroNet Please, close the issue.   But surely we also need an OCaml or Haskell version.
+``` python
+Could I suggest integrating something like [Travis-CI](http://docs.travis-ci.com/user/languages/python/) into the flow of things?
+> - I'm a TAB person, going to need some time to get used to spaces :)
+Very cool project, I found a typo, "Content.json not exits: data/", "not exits" is in the code 26 times, it shouldn't be "doesn't exist" in most instances :)
+Currently ZeroNet isn't big enough to make a difference, but in the future this could help save a lot of space?
+subdomain        IN      TXT    "zero=1Gfey7wVXXg1rxk751TBTxLJwhddDNfcdp"
+Also, maybe my definition of big is different. For me big (when talking about text) means 200MB+. Which, if we're talking about user generated content, is a nice problem to have. But from what I got, these 10 minutes would decrease if you merge the files. And that should probably be enough.
+bussiere@kusanagi:~/WorkspaceSafe/ZeroNet-master$ ./start.py - Starting ZeroNet...
+bussiere@kusanagi:~$ python -V
+bussiere@kusanagi:~$ python -c "import gevent; print gevent.**version**"
+bussiere@kusanagi:~$ sudo pip install gevent
+[sudo] password for bussiere:
+The directory '/home/bussiere/.cache/pip/log' or its parent directory is not owned by the current user and the debug log has been disabled. Please check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+The directory '/home/bussiere/.cache/pip/http' or its parent directory is not owned by the current user and the cache has been disabled. Please check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+The directory '/home/bussiere/.cache/pip/http' or its parent directory is not owned by the current user and the cache has been disabled. Please check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+bussiere@kusanagi:~$ python -c "import gevent; print gevent.**version**"
+It worked when i made a venv.
+from gevent import socket
+NameError: name 'PROTOCOL_SSLv3' is not defined
+[17:54:51] - Config: Config(action='main', coffeescript_compiler=None, debug=True, debug_socket=False, disable_udp=False, disable_zeromq=False, fileserver_ip='*', fileserver_port=15441, homepage='1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr', ip_external=None, open_browser=None, proxy=None, size_limit=10, ui_ip='127.0.0.1', ui_port=43110, ui_restrict=False)
+[17:54:51] PluginManager New class accepts plugins: SiteManager (Loaded plugins: [<class 'Zeroname.SiteManagerPlugin.SiteManagerPlugin'>, <class 'Site.SiteManager.SiteManager'>])
+Segmentation fault: 11
+Process:               Python [18548]
+Identifier:            Python
+Code Type:             X86-64 (Native)
+Time Awake Since Boot: 10000 seconds
+Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
+Exception Codes:       KERN_INVALID_ADDRESS at 0x0000000043dadc2c
+__TEXT                 0000000100e23000-0000000100e25000 [    8K] r-x/rwx SM=COW  /usr/local/Cellar/python/2.7.9/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python
+Binary Images:
+External Modification Summary:
+REGION TYPE                      VIRTUAL
+MALLOC                             43.6M
+MALLOC (admin)                       16K
+__UNICODE                           552K
+AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x134), Broadcom BCM43xx 1.0 (7.15.166.24.3)
+Segmentation fault: 11
+Aidans-MacBook-Pro:Downloads aidan$
+- hdPrivatekey x 10..........0.144s [x4.85: Insane!!]
+CryptHash:
+- Insert x 10 x 1000..........0.265s [x3.78: Insane!!]
+All additional information would be awesome. :)
+I am trying to run ZeroNet on Raspberry Pi and I am getting this error! Not sure what to do.
+pi@raspberrypi ~/zeronet/ZeroNet $ python zeronet.py
+[GCC 4.6.3], Gevent: 1.0.1
+[21:48:23] FileServer Checking port 15441 using canyouseeme.org...
+Under --debug flag I see,
+1GamESVFyJfkmbxtcrLR2VX4m4VFmwyeRY.zero
+gets converted
+1gamesvfyjfkmbxtcrlr2vx4m4vfmwyery.zero
+Ultimately, I think using the `zero://` scheme with a custom browser is the best. [I think an Electron app allows for custom schemes.](http://electron.atom.io/docs/api/protocol/) The Brave browser is built on Electron. A custom browser for ZeroNet would be awesome!
+From zeronet.io, or just from the gh page?
+im more of a server and network guy then a coder how ever it kind of looks like a connectoin error
+[2015-03-31 08:35:18,687] DEBUG    Peer:115.205.165.189:15441 1TaLk3..sPKQ Getting connection error: Notify: Worker stopped in Peer.py line 40 > ConnectionServer.py line 94 (connection_error: 2, hash_failed: 0)
+[2015-03-31 08:35:18,695] DEBUG    Peer:82.73.156.95:15441 1TaLk3..sPKQ Getting connection error: Notify: Worker stopped in Peer.py line 40 > ConnectionServer.py line 94 (connection_error: 0, hash_failed: 0)
+[2015-03-31 08:35:18,703] DEBUG    Peer:212.92.214.123:15441 1TaLk3..sPKQ Getting connection error: Notify: Worker stopped in Peer.py line 40 > ConnectionServer.py line 94 (connection_error: 0, hash_failed: 0)
+[2015-03-31 08:35:26,061] DEBUG    Ui.UiServer 192.168.1.5 - - [2015-03-31 08:35:26] "GET /Websocket?wrapper_key=QAlouWb5wWt8 HTTP/1.1" 101 129 26.638448
+[2015-03-31 08:35:29,471] DEBUG    Ui.UiServer 192.168.1.5 - - [2015-03-31 08:35:29] "GET /Websocket?wrapper_key=QAlouWb5wWt8 HTTP/1.1" 101 129 3.326747
+- You can support various access methods:
+- I'm not sure IP filtering is worth considering because it's not guaranteed for a user, and some people are deliberately using ZeroNet through Tor.
+Maybe using something like this https://github.com/pyca/pynacl used in openbazzar
+"address": "1evJheeFpVQkHaZdAzEMj75w5T14ogZWT",
+"sha512": "dc5af04d2cde806f4bab9a0dd6b09d367c9f2dd51dd5f22a36c2dc56aa6e925e",
+How do you mean twice? The only thing that would actually be shared out would be the encrypted zip.
+You mean public zeronet proxies? True... but are you thinking that if it was per-file, it would be decrypted in the browser? Otherwise you still have to trust the server with the key.
+Surely that's only (number of users \* encrypted 256 bit key)? That's 32 users/kilobyte, minus some for overhead - doesn't seem insane to me.
+That way if a password or the address were ever compromised, the site owner could simply disable the compromised user's address/password, while everyone else's would still work. @anoadragon453 Absolutely, I started outlining some ideas at https://github.com/OliverCole/ZeroNet/wiki/Private-sites-on-ZeroNet, but haven't had time to work on it further. Let me know if you want to talk over what I wrote - it wasn't finished.
+https://github.com/Ayms/node-Tor
+https://github.com/prof7bit/TorChat/tree/torchat_py
+http://twister.net.co/?page_id=54
+https://github.com/Ayms/node-Tor
+( IPFS tactics)
+Could we use https://github.com/closeio/redis-hashring in Python or https://github.com/RJ/ketama in C?
+- Nice crypto layer for handling encrypted blobs and signatures;
+- Can it reliably work over Tor (or over TCP at all)?
+- [Dynamic Distributed Hash Tables.](https://www.youtube.com/watch?v=p8iugvHeGcg)
+- [Pastry, Tapestry and Kademlia.](https://heim.ifi.uio.no/michawe/teaching/p2p-ws08/p2p-5-6.pdf) p. 5.
+_Edit: Removed "Toy DHT." Added Pastry, which is not a toy._ We got a new problem:
+chart says 32 is the Z character
+'wsgi.input': <gevent.pywsgi.Input object at 0x7f53eaac0910>,
+In the console seems a bit odd, in that case.
+- AFAIR Vuze's azi2phelper plugin manages the I2P and clearnet DHTs separately.
+change every few minutes for increased privacy.
+@HelloZeroNet Any news? I'm really looking forward for this to be implemented, as I prefer I2P support much more than Tor support... And many other users want to have I2P support, instead of Tor support because it is distributed and peer-to-peer friendly
+> @aaannndddyyy [1] in theory, yes it can. In practice, you'd want to
+> (for 3-hop tunnels), so you'd need to be sharing appropriately to
+hidden service (just like visiting 200 eepsites using your eepProxy) or
+I have the impression, thugh, that i2p in that respect is much more
+ressource hungry and needs significant traffic overhead per-tunnel. Is
+too (torrent, …)
+What are the frontend used in zeronet?
+Something like a NSFW warning before downloading. It would have to rely on site creators, but it's a nice workaround.
+There was a typo in which was attempting to log out the wrapper_key, but instead it was spelled "wraper_key".
+`[Error] Sandbox access violation: Blocked a frame at "http://themacmini09.agrius.feralhosting.com:43110" from accessing a frame at "http://themacmini09.agrius.feralhosting.com:43110".  The frame requesting access is sandboxed and lacks the "allow-same-origin" flag.
+gb (all.js, line 7)
+It might be necessary to add:
+Now all is good on os x safari
+After I've published it once, ZeroNet allows me to publish latin version of this fields, but downloads old version of site from some peer immediately.
+https://openname.org/about
+"zeronet": {
+"blog": "1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8",
+Perhaps "z/zeronet" would contain:
+{ "": "1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr",
+"blog": "1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8"
+Perhaps this is total pie-in-the-sky given that tools for treating namecoin as clearnet DNS are already available so we just hijack the "d/" prefix.  That said, shouldn't we at the least swap out the ".bit" for ".zero"?
+What will be ZeroMarket and ZeroBay??? or why is it gray?
+- pip install gevent
+I'm not a professional of bitcoin but I know that bittorrent protocol implement resources discovery and advertising.
+As an enthusiast web developer looking for cool tools and plateform, I want to be able to use them by learning how they're working and how they address some of my issues, but I would certainly not us this cool tools if I dramatically have to change the way I'm developing my website.
+For example, it would be cool to have a way to request for a list of nearest peers ables to provide a set of  resources (Website on your specific project) and then use Bitcoin crypto capabilities to check if it's not a MITM style attack etc.
+For this last rule, a more complex one would be to keep in a bitcoin blockchain (or something similar) the history of the propagation of the resources and their signature to avoid any malicious modification.
+I'll closely follow your updates on all the zero's projects ;-) way more interesting technology in here than everything I heard of on the Internet for now :D
+I deeply think that p2p is the right solution to build a bright new decentralized Internet as the global bandwidth increase every day and in the same time more and more company like Virgin / Google / Facebook etc try to build grid and outer-space networks to avoid the current ISP Controlled one.
+I'm working on p2p projects too so, when a friend of me linked me your work, I was really impressed by how it has been done so far and how far you are on it.
+Would async managing this be able to help? Or is it because the greenlets are trying to attach to the same socket?
+gevent.spawn(worker)
+I suppose thats sort of odd, but I try the siteSign command and get notified that it succeeded:
+Something like [Celery](http://www.celeryproject.org/) should be able to monitor the usage, and perhaps limit it, in the long run, with gevent compatibility. That being said, it might be a bit of a hack to use.
+I really support the IPFS idea, instead of working against we should include IPFS in the future, the network will become amazing.
+If you can resign secure Tor usage you can use http://www.cachep2p.com/ in javascript
+We would need to allow support for files packs, for example, instead of having each individual file available for redistribution we could have a 'folders' like approach: all images, video course XYZ, all video courses of category ABC, books from id 1 to 100, all books in my shelves, music album DEF, all classical music albums, etc.
+For a site like 0chan, the site owner could pack the different categories and users can then seed the whole category (eg: seed all files from /dev/). For a site like ZeroWiki, the same thing applies, the site owner could split the seeding in sections like: seed all images, seed all pages, seed history of all pages, OR he could use different wiki categories like: seed all content of category ABC.
+|        | ZeroNet | BitTorrent |
+How can we encourage people to seed?
+Can I use evil AJAX requests to download the whole Internet to your computer and blow up your hard drive?
+> nofish ━ on Jun 09, 2017
+> It's planned this summer, right now I experimenting with merkle trees.
+> nofish ━ on Jun 10, 2017
+> That CoC [*Code of Conduct*] is pretty spooky, since it seems to apply US law globally, and, assuming it's enforceable, it means the IPFS devs are susceptible to state coercion.
+To do so sanely, a browser-based user interface for managing optional files is all but essential. Specifically, ZeroHello might introduce a new zite-specific context menu item (e.g., named "Files," "Share," "Details," "Content," or something similar). When clicked, this item might open a new browser tab:
+In other words, I2PSnark in ZeroNet drag *ala*:
+![I2PSnark UI](http://i.imgur.com/dT01pls.png)
+> Same goal, but torrent files using it's own non-standard encoding (bencode) and outdated, not secure anymore sha1 encryption.
+Msgpack  @antilibrary
+Read @leycec s above post:
+nofish ━ on Jun 10, 2017
+- They do think of [supporting Tor](https://github.com/ipfs/notes/issues/37), but then again, may not be a good idea, and if users want to share big files they should think about using VPN or something else.
+3. Select a cryptographically secure random integer k from [1, n-1].
+Javascript console shows: http://gyazo.com/f1cee5522fe1516d501b8cea7339deb4
+https://github.com/HelloZeroNet/ZeroNet/blob/master/src/Ui/UiWebsocket.py#L80
+[u'opt', u'id']
+[22:39:39] Site:1EU1tb..E4Vr WebSocket error: KeyError: 'cmd' in UiWebsocket.py line 34 > UiWebsocket.py line 81

@@ -1,0 +1,1321 @@
+If you have received this in error or have any questions, please contact us at cla@fb.com. Thanks! Thank you for signing our Contributor License Agreement. We can now accept your code for this (and any) Facebook open source project. Thanks!  Thank you, @liubinyi for improving the docs! LGTM =)   Thank you for your pull request and welcome to our community. We require contributors to sign our Contributor License Agreement, and we don't seem to have you on file. In order for us to review and merge your code, please sign up at https://code.facebook.com/cla - and if you have received this in error or have any questions, please drop us a line at cla@fb.com. Thanks!
+const myRecord = new ABRecord()
+Looking into TypeScript's own lib, it seems like https://github.com/Microsoft/TypeScript/blob/master/lib/lib.d.ts#L1097 might be leveragable. #1146 Also mentions a desire for a sounder filter function - I was wrong to suggest TypeScript couldn't do that, but it seems Flow cannot yet. I just put up #1155 which includes a type-checked test that seems to be working just fine without requiring much specific annotation, the test before the changes to the type definitions failed with the same "Type 'List<A>' is not assignable to type 'List<C>'." error you were seeing before I think the trick was to put the version using guards before the version that does not, since TypeScript attempts to apply each override in the order they were defined.  Thank you for your pull request and welcome to our community. We require contributors to sign our Contributor License Agreement, and we don't seem to have you on file. In order for us to review and merge your code, please sign up at https://code.facebook.com/cla - and if you have received this in error or have any questions, please drop us a line at cla@fb.com. Thanks!
+- vars-on-top
+The issue with computing Merkel-style hashes per node when doing equality checking is that you may convert a one-pass equality algorithm into a two-pass equality algorithm, first computing and comparing hashes, and then if equal comparing data structures as well to avoid collisions. An important difference from a Merkel-tree is that Immutable data structures are designed to live in memory and operate efficiently for general purpose use, so they do not use cryptographically secure hashes.  Thank you for your pull request and welcome to our community. We require contributors to sign our Contributor License Agreement, and we don't seem to have you on file. In order for us to review and merge your code, please sign up at https://code.facebook.com/cla - and if you have received this in error or have any questions, please drop us a line at cla@fb.com. Thanks!
+What sort of interoperability are you thinking about? I'm going to close this issue - I believe Maybe/Either/Option is a really cool construct, but I'd love to see such a thing take off as a general use library outside of this one first. Then if interoperability opportunities arise we can take those on in more detail.  Thank you for your pull request and welcome to our community. We require contributors to sign our Contributor License Agreement, and we don't seem to have you on file. In order for us to review and merge your code, please sign up at https://code.facebook.com/cla - and if you have received this in error or have any questions, please drop us a line at cla@fb.com. Thanks!
+@augusto-moura milliseconds matter in aggregate! This function is one called very frequently, so I don't think a 25x slowdown will be acceptable. We need to find another approach with a less punishing performance cost. @leebyron , it looks like you fixed it by this commit recently:
+Specifically, I think it's appropriate for errors to be thrown for misuse of `set` or `remove` because they're indicative of mistaken usage. `record.set('unknownkey', 'value')` would be a no-op and typos would be likely to blame for a difficult to debug issues. However I agree `merge` should work similarly to the constructor and allow for applying a merged set that may contain more keys than the record itself does. Thinking about this more, I think making a breaking change to `remove` by adding throwing behavior could be inappropriate for the next immediate release and so perhaps dropping the error behavior is a reasonable backup plan - and ideally we can use type checking systems like typescript and flow to detect the sort of accidental misuse of set and remove.  Thank you for your pull request and welcome to our community. We require contributors to sign our Contributor License Agreement, and we don't seem to have you on file. In order for us to review and merge your code, please sign up at https://code.facebook.com/cla - and if you have received this in error or have any questions, please drop us a line at cla@fb.com. Thanks!
+@howardjing great job. Thanks for being so precise. Sorry for the nitpicking!  In the meantime, `Seq.Keyed()` will not expect array-likes.  Could you try the following:
+<img width="467" alt="zrzut ekranu 2016-12-20 o 21 13 37" src="https://cloud.githubusercontent.com/assets/1693190/21366258/3d520de2-c6f9-11e6-973e-4aa7dba1c286.png">
+Second is to bias towards creating an ecosystem around immutable-js. I know there are a lot of requested features, and I think the best case scenario is that we encourage a small-library ecosystem around a set of shared patterns and interfaces. That enables a marketplace of ideas and removes myself, Facebook, or any other maintainers from the path of innovation.
+Ah no wait, I'm reading the diff upside down! Quick someone get me coffee!
+JavaScript Objects only support string keys, but they allow specifying them without the quotes (as of ES3) which makes numeric character string keys *look* like numbers, but they're not.  I'm guessing this has been abandoned - we do need folks to sign the CLA, for what it's worth.  @Retsam thanks for the excellent answer  It's not clear that this is worth the added code. Maybe we need some sort of "immutable.js improvement proposal" IIP type process, because I feel bad just saying "meh". But, that said, we have to draw the line somewhere. I am going to close this but if you object then let's discuss because maybe there is something more intelligent to do here.  Thank you for your pull request and welcome to our community. We require contributors to sign our Contributor License Agreement, and we don't seem to have you on file. In order for us to review and merge your code, please sign up at https://code.facebook.com/cla - and if you have received this in error or have any questions, please drop us a line at cla@fb.com. Thanks!
+What's up with the `DocVisitor` changes?
+This is really touching a zillion different things, huh. How did you test to make sure none of these are in error? @lacker, is this PR ready to be merged? Hey @Merott sorry for the huge delay but I'd love to readdress this.
+I think you may be misunderstanding some fundamental concepts here. I definitely recommend backing up and getting a better grasp on what it is you're trying to accomplish without additional tools like redux and immutable or babel/es6 and only including these when they help you accomplish something in a better way.
+Output: `'"string \"foo\" bar"'`
+Unfortunately this sort of thing still isn't possible in a performant way.  Thanks for pointing this out! So, if we just add a failing test then the CI will lie down in the snow and die. So I think we would need to simultaneously have a fix for the bug, and a test. I am going to close this PR but if you would like to fix the problem as well then please feel free to reopen!  Thank you!  Sorry, but this isn't enough information for me to answer a question  Sorry, but I don't think such a function is appropriate for the general library. Though this may be something you can create an npm package from if it is of common usage!  So https://github.com/facebook/immutable-js/pull/878 refactored the flow types and also added tests for them. Would you mind updating this PR to merge those changes in, and also add a test that catches this? Thanks! OK, I am going to close this one in favor of 1027.  Seems to be fixed in master by moving the definitions of `map` to their subtypes  I'm on a pretty epic bug. I wanted to fix imports according to [this](https://github.com/facebook/immutable-js/issues/863#issuecomment-264611660) comment. The problem is that when I wrap everything in `declare module` everything is exported correctly, except for `List`. The funny thing is that if I rename `List` to `Lista` or really anything, it works. I just wanted to say that overall having flow type tests in this repo will make it a lot better, because it'll be a lot easier for us to accept a lot of the type-bug-fixes that have been submitted, so you are a hero for putting this PR together @wokalski  thanks for the review - I broke CI and didn't know about it. The little things you mentioned should be fixed now. Does `$ExpectError` actually fail if there is no error there or does it just allow an error on the subsequent line? Good point! It does fail. YOLO  Thank you for signing our Contributor License Agreement. We can now accept your code for this (and any) Facebook open source project. Thanks!
+> Stack('abc')
+> s = Stack('abc')
+It looks like this PR has been abandoned since that last comment never got any response. I am going to close it under that theory but if you are still interested in working on this please feel free to reopen! OK let's see what we should do here. I guess one question is how we should handle deprecations. I don't think the approach of doing a `console.warn` when you use it is quite the right one - that might cause trouble in some environments because you might have `console.warn` do something very interrupty and not even realize what's happening. I think we would be better off just commenting that methods are deprecated, and then removing them in the next major version bump. I will ping @leebyron about what the right timing is here.  Fixed in master will be release soon  Javascript `>` and `<` operators attempt to coerce values into primitives before comparing - so doing that with a collection like `Map` is surely going to get weird unexpected results.  Thank you for your pull request and welcome to our community. We require contributors to sign our Contributor License Agreement, and we don't seem to have you on file. In order for us to review and merge your code, please sign up at https://code.facebook.com/cla - and if you have received this in error or have any questions, please drop us a line at cla@fb.com. Thanks!
+What's different about `filter` and `flatten` that need to be defined differently from say, `map`, which is defined directly on `Iterable`?
+const arr = [1, 'foo', 2, 'bar', 3, 'batz'];
+const arr = [1, 'foo', 2, 'bar', 3, 'batz'];
+This is definitely something that would be nice to have one day. #88 tracks.
+class ABRecord extends Record({a:1,b:2, networkstatus:null}) {}
+Unfortunately this operation is not supported.
+undefined
+undefined
+```  Native behavior is to throw an error, which is at least more descriptive.
+a: foo,
+b: foo
+- <s>move documentation generator source of truth to flow type + babel.</s> - Note, updated to latest TypeScript instead.
+sItem.price = sneakerDif.price;
+sItem.trade = sneakerDif.trade;
+sItem.isbm = sneakerDif.isbm;
+sItem.info = sneakerDif.info;
+sItem.brand = sneakerDif.brand;
+sItem.quality = sneakerDif.quality;
+sItem.reRelease = sneakerDif.reRelease;
+sItem.colors = sneakerDif.colors;
+This is a strawman document, which means I'm interested in your feedback on these priorities and to understand if I may have missed something.
+undefined
+One recurring point of confusion with this library is that people confuse what operations are fast vs slow. I'm noticing that this is related to how verbose an API is - people seem to expect short terse API to be fast. That gives me pause for `without` - since it's a one-liner to implement yourself so there's low value in adding it to the library, and people may become confused between when to use `without` and when to use `delete`.  Fixed in master and will be released soon!  Thank you for your pull request and welcome to our community. We require contributors to sign our Contributor License Agreement, and we don't seem to have you on file. In order for us to review and merge your code, please sign up at https://code.facebook.com/cla - and if you have received this in error or have any questions, please drop us a line at cla@fb.com. Thanks!
+Specifically only for Records, yes it is an experimental feature  The records themselves do not know where they exist within a parent (or multiple parents!)
+I understand that the original example was intentionally contrived, but any code that updates a single or few values like this is best done directly:
+For example, in your Link click handler, you're not using the return value of "store.set('aa', 100)" which would be the updated version of "store".
+Destructuring would be awesome, ideally without having to use get.
+I'm looking for the right way to support:
+So these two variants should behave as you expect:
+Nope, this should not be possible.
+Thank you for writing this! I added it to fromJS as well in ecae145be82a137f1b7f2d2fad67ad90e9c65ee1
+The issue here is not in Immutable, but JS objects. JS object properties are _always_ strings.
+You're defining `Car` as a kind of Record that always has 0 keys.
+>  I guess I'm still struggling with the different between OrderedMaps and Lists and when to use what.
+Use an `Immutable.Map`
+Similarly with the list of phones, as your example illustrates a list of maps with a single key, you need to look through the list to figure out which to update, but then also remember to update at the correct key. This is probably pretty burdensome to deal with, and I would recommend a single map with many keys.
+Thanks for starting to explore this!
+@ryan953 - I'm not totally sure, but that's something we'll need to solve in order to make this really work for everyone.
+That's not quite right, an `Iterator` (`keys`, `values`) and `Iterable` (`keySeq`, `valueSeq`) present different APIs and capabilities.
+Wow, that's huge data.
+Have you tried Transit.js? It can help with moving rich data from server to client. I would be curious if that is at all helpful.
+Since this is a "stylistic suggestion" and super old I am going to close the issue. Thanks for bringing this up!  Thank you for your pull request and welcome to our community. We require contributors to sign our Contributor License Agreement, and we don't seem to have you on file. In order for us to review and merge your code, please sign up at https://code.facebook.com/cla - and if you have received this in error or have any questions, please drop us a line at cla@fb.com. Thanks!
+In the first example, `one` and `two` are not values, but function objects, and they are not value-equivalent, which is why given a list of those two functions, indexOf will not see the first as equivalent to what you're searching for.
+I'm not entirely sure of what's going with get property, I've never actually tested doing that.
+Sorry, I meant List<NestedValue>, not Array<NestedValue>. But also, it's not yet obvious to me from your examples, so please humor me with more input to understand the pattern.
+var myDeepList = fromJS([ [ 'a', 'b' ], [ [ 'c', 'd', 'f' ] ] ]);
+Do you have a suggestion for what the method name should be that would be familiar and idiomatic to mongo users?
+It is intentional that NaN is poisonous as it's meant for error propagation. NaN is usually a surprising value and you don't want to mask over errors by default - but instead handle them explicitly when they're possible.
+This is intentional - only a select few methods can be used in `withMutations` for List those are `set`, `push`, `pop`, `unshift`, and `shift`.
+For those looking for guarantees about deep immutability, I strongly suggest using Flow or Typescript so that you can provide static type checks making guarantees about what kinds of values are passed around your program. For our products at Facebook this has effectively solved this sort of issue for us. The added benefit is that this checking doesn't need to be done at Runtime which maintains a performant and slim deployed program  Thank you for your pull request and welcome to our community. We require contributors to sign our Contributor License Agreement, and we don't seem to have you on file. In order for us to review and merge your code, please sign up at https://code.facebook.com/cla - and if you have received this in error or have any questions, please drop us a line at cla@fb.com. Thanks!
+Very cool. I'll probably hold off on adding something like this into the library itself until the support is broader, as people are concerned about library byte weight, but this monkey patch is a pretty great way to start experimenting with this.
+- General disagreement on key path format. Some want dots, some want JSONPath, and there are other competing standards. I don't think it's the place of this library to make a call on this.
+It's also different functionality! Since Maps can have complex keys, the array itself could be a key into a Map, so having one function that does both would limit these uses.
+Yes, any Map key that means something specific in the context of an Object property will be dangerous to convert to a JS object.
+- Non-string Keys of a Map, such as numbers.
+Thanks for all the detailed input @Gozala.
+which is a reference error, or:
+Rough and dirty sketches of an API might look like:
+See this super contrived example of nested records with factory functions.
+var abab = RecordB({ a: { b: { a: { b: null } } } });
+console.log(abab.toString());
+var _Complex = Record({...})
+class Complex extends _Complex {
+@zerkms certainly the code is not un-runnable, there just may be dangerous caveats. For example, Immutable collections have a method called "map". If you define
+However, now that I've thought about it a bit more, I'm not sure just not adding the property descriptors is a good idea because it will defy the expectations of the developer. Certainly in your example of Shirt, you would expect `myShirt.size` to be "XL" and not "2". It would be especially weird for `myShirt.size` and `myShirt.get("size")` to not be the same value.
+Yeah - the more I'm thinking about it, the more I'm concerned about the pandora's box that you brought up just now (and before) @tgriesser.
+@vtambourine I'm a little confused about your prop-types example. Are you saying that you have arrays of Immutable Maps? Or do you have Immutable Lists of Immutable Maps? Or Records?
+Unfortunately not, @gniquil - or at least not without severe performance and memory penalty.
+Hey zachasme,
+This approach is more interesting.
+Merging into #1050 - sorry for the massive delay  Thanks. I must have had a dyslexic moment.
+Ahh yes. `toJS()` is lossy for a lot of reasons.
+you can stop crawling the tree. You must spend O(N1 + N2) time to determine the
+In a Red Black Tree, you also must then balance the result of the merge, which
+@swannodette I'm sure you can provide some good advice here. What are the benefits and pitfalls of meta in practice in most clojure apps?
+Some subtasks:
+@pluma it won't break it no. But of course, if you require `"immutable/fromJS"` then you'll implicitly also be requiring `Map` and `List`.
+Currently the bulk of the library is distributed across three files: Iterable, Map, and List. List and Map both extend from Iterable, so at the very most you could drop from 15kb to 10-12kb if your application uses only Maps or only Lists. I also haven't evaluated how much weight using Webpack or Browserify would add to the size for partial builds vs the ultra-thin Esperanto packager currently used for full builds, my hypothesis is somewhere around 0.5-1kb, but this is something I'll investigate.
+This is a bit counter to the purpose of Cursors, which seek to be invisible and act as the types they wrap.
+Also yes, separate issue
+Were you expecting something else, or are you doing something else and expecting this?
+And property access always coerces to string!
+Funny story: we used to represent ids as numbers on the client instead of strings, we even ran `parseInt()` to get them. We had a shortcut function for linking to someone's profile, setting the URL to `"facebook.com/" + id`. At some point a bug elsewhere caused IDs to be formatted slightly differently so our number parsing started to return `NaN` and all links went to my old manager's profile.
+@geekyme are you seeing an instance where a value is being coerced? That sounds like a bug, could you show some code which replicates the issue?
+Thanks again for bringing up this confusing example!
+Interesting!
+Event sequences are a bit of a different kind of beast from what Immutable covers. That's an example of a Stream or Observable, a concept that's out of scope of this library.
+Is there something specific you were looking for that relates Event sequences to Immutable collections?
+Really strange. I'm curious, did you open an issue with browserify? This seems like a case they should be able to identify and correct for.
+Also, what you've come across is an artifact of the hash code function: decimal values are discarded to compute them. I'll open a related issue to improve the hasher
+Thanks for bringing up this edge case, I updated the wiki page to better illustrate this.
+Languages based on immutable structures handle this in different ways:
+Clojure has `atom` which is a bit different (and easier to understand IMHO). Atom is an atomically locked mutable wrapper. Since JavaScript is single threaded, no locks are necessary so it's only a mutable wrapper. In other words: `{ value: "foobar" }`.
+Here's an example where splat creates ambiguity:
+Can I ask why you were expecting `undefined` as the return value?
+I think this pattern is a nice protection against the type of ugliness that you're running into.
+Can I ask your use case? Since this has come up a few times, I want to take it seriously, but I also want to be sensitive to the use case of complex objects (including functions) as keys:
+All in all, a fairly tricky edge case to address, but this does seem like potentially valuable functionality. I'm just collecting use cases so I can think about the best way to introduce it that supports what people are after.
+The second line of your code uses a variable named `notSetValue` in a different way (hence why I think this may be due to confusing documentation) - in that case it's implying "If a value was not set here, set it to this". That's the current implementation of `setIn`, actually.
+@Dashed can your use case be solved by using `setIn` instead of `updateIn`? The fix there is quite clear, but I'm still not quite sure what the best way to solve `updateIn` is.
+Considering that we would be limited to strategies that are persistent, this might be a little bit hard to follow for most. Would specifying custom properties be sufficient? Such as saying "sorted" instead of "red-black tree".
+This is part of why I'm concerned about allowing `length` on `List`. It means something specific in JavaScript as part of "array-like" which implies bracket notation access with numbers.
+A lot of the JavaScript core library treats "array-like" as a special case which can change behavior. We want to ensure that the JavaScript core library doesn't start treating `List` as an array-like, otherwise we will see a bunch of github issues opening like "JavaScript thinks my `List` is full of `undefined`".
+I truly agree, @astorije. I would love for a common interface, I just have yet to find a way to make that happen.
+Here's a jsfiddle which should help as a basic test for this:
+http://jsfiddle.net/exc8vbhc/1/
+However, I'm not sure that NaN and friends should be ignored. NaN has significance when used in math operations - the result of a math operation in which NaN is an argument should always produce NaN. It's a way of bubbling error conditions up through nested operations.
+I'm not sure yet what the right fix for this is yet.
+> Okay I realize this question may be semi-flawed CS-ically because we probably want to go with a whitelist approach of building a new list using .filter() or something rather than chaining removals, as positions change after every single remove mutation.
+Lee Byron
+Sure, go nuts. You might want to start with the ones I've already written for Jasmine.
+var mutable = { foo: "bar" };
+mutable.foo = "baz";
+map.toJS(); // { ref: { foo: "baz" } }
+I'm not super familiar with Reflux, so let me know if this makes sense to you:
+It was also broken before that change :)
+Yeah, it's treating these as "array-like" which is too aggressive for both fromJS and Map constructor.
+> Finally, somewhat offtopic, but why did you choose obj.set('field', value) over obj.set({field: value})?
+I think I've got us on a tangent though :), we both agreed above that expecting usage of a development build to catch issues could be problematic enough.
+@abergs - if each record in the collection was a modification of a previous record then this works today! Just sub `List` for "Collection".
+@Pauan mind sharing your perf script? It would be interesting to run it again since some perf improvements for small Maps have been added and I'm not sure if it was before or after your test.
+var ia = new Int8Array([0,1,2]);
+var list = Immutable.List(ia);
+Converting back requires a little work:
+var _ABRecord = Immutable.Record({ a: 1, b: 2 });
+getAB() {
+Thanks @pluma, good explanation :)
+Thank you. I'm not sure wtf happened here.
+I'd love to see an example of your flux stores!
+Solved in 9e63cc0b6f3a310cfe73b0adf86daf72c847e769 - will be on npm soon
+This has a lot of negative side-effects.
+- There is no clear way to describe holes in iterators.
+cc @DavidTimms @spicyj @Tvaroh @tgriesser @rockymadden
+Diffs are in.
+Yeah this is definitely not ideal.
+`Array#join()` is weird. Check out these edge cases the test runner caught that illustrates the extra checks.
+books: { name: 'Somename', price: 15},
+magazines: { name: 'Anothername', price: 8},
+books: { name: 'Somename', price: 15},
+magazines: { name: 'Anothername', price: 8},
+I agree this behavior isn't very clear right now and might not even be right.
+I'm glad you're unstuck, I have no idea why the PropTypes.instanceOf is doing the wrong thing. Maybe worth opening an issue on @facebook/team-react ?
+NaN
+undefined
+@JaapRood @torgeir - I just pulled v2.4.0 from github and npm - it's definitely a breaking change that should have been a major version number bump.
+cc @tgriesser - I know you're working with Cursors as well.
+Whoa, bizarre. Thanks for the report I'll try to see what's going on. —
+If this is device specific, I'm going to throw blunt things in the general direction of Cupertino.
+This is still heisenbuggin' because as soon as I do something like:
+RB Tree sounds like the right way to do this.
+(Which is exactly what `Immutable.is` does for Cursors).
+Correct @Tvaroh, sorry for the post before test.
+Ok, I'm going to close. @dangoor please re-open or just shout if you think I'm closing in error.
+Hi @ide!!!
+> ## awesometown
+> https://github.com/tgriesser/mori-cursors
+On Fri, Aug 29, 2014 at 1:51 AM, Joseph Silvestre
+arr === arr
+Also, just curious, what runtime are you using to get these numbers? Node? Chrome?
+Ultimately it came down to minified & crushed size.
+Let's rename to "rest" and "butLast"
+Damn!
+Wait, what's wrong with the comment?
+(I always found "init" confusing since it's a popular abbr. of "initialize")
+var seqKV = seqEntries.fromEntries();
+I imagine this depends on what you plan on using zip for. It's often used in clojure to create k,v pairs to build maps from, in which case we would want "tuple", but of course if you're using it to build more immutable structures, you would want `List.of`.
+I'm glad you're enjoying them. They're definitely still experimental, so bring feedback as you have it!
+Hey @jasonkuhrt - I'm a huge fan of functional libraries, and the functional tools you're talking about (I even have a project to add some haskell style functions and operators to JS called [loda](https://github.com/leebyron/loda-js)).
+On Tue, Aug 5, 2014 at 1:43 PM, Nathan Sobo notifications@github.com
+On Tue, Aug 5, 2014 at 3:04 PM, Nathan Sobo notifications@github.com
+Thanks @hyPiRion this is really helpful.
+Nice work @Pauan!
+I haven't spent much time benchmarking or optimizing Immutable.js yet, so there are likely some wins to be had. A huge thanks to you and @swannodette for illustrating some baselines to strive for. It's always awesome and inspiring to see the headroom to strive to close :). However one thing I want to be cautious of, and part of why I've under-prioritized benchmarking, is comparing benchmarks to every day use. I don't think benchmarks are enough to prove or disprove an idea unless they closely mirror common use scenarios. AVL trees are really interesting and I'm looking forward to seeing how they may play a role in this lib, or at least in the new landscape of these structures as a whole. May I also suggest a composite test where reads and writes are interleaved at different frequencies? Most common use tends to read a lot more than write which is part of why Clojure/Scala/immutable chose to optimize for reads instead of writes
+> // 3 times undefined??? WAT
+@Tvaroh - I just added similar benefit in 95fdfa4. It replaces the dist directory with a built and minified file that's wrapped in a universal module so it can be used by node, amd or a script tag.
+However, the totally valid point that @Tvaroh has brought up is that a **common case** is that a single sequence method is called and the desired resulting value is the same type as the original, and this flexibility makes the common case at best more verbose than desired and at worst confusing. I agree with the problem, but will need to think about the best way to solve it.
+Unfortunately that means custom data structures in JavaScript must have a different read API from Object and Array for the foreseeable future.
+Thanks @guersam!
+Thanks @pluma :+1:
+I just added this in f7ec901e6e0d89caf69ba8a65f0c1c53cb137402 - but I'm open to feedback on improving it further! @swannodette if you see any missed opportunities, I'm all ears.
+> Or is the obj meant to be in thousands?
+Thanks for highlighting this point of confusion, @benjamingr!
+On Wed, Jul 30, 2014 at 9:18 AM, Isaac Salier-Hellendag
+On Wed, Jul 30, 2014 at 7:40 AM, Panu Horsmalahti
+>     class Bar {
+>     export = Bar;
+newMap.set('foo', 'baz');
+There are a few things dangerous about this (pit of failure):
+newMap.set('foo', 'baz');
+- Respecting the mutability of the original collection is done for you.
+@kozlitinaelja  @liubinyi - I see you contributed last changelist in this project, can you help us resolve this pull request ? isPlainObject should be returning false for the deep prototype chains,
+Object from a different type system. (for example an object defined under
+an iFrame)
+http://tobyho.com/2011/01/28/checking-types-in-javascript/
+-Jinal
+Some technical details:
+@fikriauliya could you potentially reopen this issue?  I'm experiencing the same problem but only over a slow connection.
+**Code**
+"experimentalDecorators": true,
+"lib": [
+```javascript
+//     "subKey": "ha ha!",
+//     "subKey": "ha ha!",
+b: foo,
+const fancyRecord = MakeRecord{new class {
+console.log(fancyRecord.getterForA);
+Hopefully these definitions are as useful for you as they are for me! This is what we do in my team at Facebook, although it's super hacky:
+- Flow recognises `MyRecord` as a type
+Map({ baz: 'baz' }),
+No, the question was how you'd describe Records and make them work with Flow.
+^^^^ property `size`. Property not found in
+^^^^^^^^^^^^^^^^^^^^ Map
+Hi @leebyron , It seems so bizzare but all **is** fuctions are undefined.
+There is another issue opened (#1165) but reports only isImmutable undefined. Sorry for the direct mention but because of the severity of the situation, I thought It would be better this way.
+```javascript
+//or
+```javascript
+Thanks for the suggestion. The docs really confused me on this topic. I didn't realize the docs were for 4.0, even though that's not complete yet. why not update npm's package to lasted version ????  @Bamieh thanks for your solution, except it still returns true if I use, for your example `MY_ENTITY.asMutable()`, not sure what to do about that. @ElGoorf can you show some code, i cannot really understand your case. `asMutable` is a method on immutableJS objects, so having this function implicitly indicates that you are using an immutableJS entity. additionally, calling `asMutable` on an immutable object returns an immutable object, with the only difference that:
+```javascript
+super(
+```javascript
+super(
+const myRecord = new ABRecord()
+```javascript
+const myRecord = new ABRecord();
+Obj:
+Obj:
+```diff
+The issue is multiple inheritance, like this:
+^^^^ property `setB`. Property not found in
+^^^^^^^ ABClass. Expected polymorphic type instead of
+Is this even nearly correct? How is the Record type meant to be used?
+We have a showstopper, here, it's not a minor issue. And it has been many months now.
+Not blaming FB people here: it's just we all want to achieve on top of Immutable something that might be too complicated for a javascript type checker.
+It causes some issues like those:
+```ts
+```ts
+```ts
+Thought since maybe it's sort of an edge case, and usually you'd use the `filter` without a type arg, maybe not that big of a deal :)
+```ts
+```ts
+But yeah no way around it I guess, es2015+ is around and there is babel and so on.  It'd be great to have a method on `Collection`s that turns a `Collection<?T>` into a `Collection<T>` by filtering out `null` and `undefined` values.
+```ts
+x: string
+Yep. Sorry, I just can't stop sometimes. `dist/immutable.min.js` changed because of `uglify-js` update > Specifically the ts-jest changes are controversial and reduce test coverage, so I'd like to discuss those in isolation
+Thanks  1. Currently unit tests written partially in typescript and partially in javascript, personally - it's confusing. Is there any reason why it's like that?
+P.S. GJ with issues! This repo looks so lonely without you. >  just to bump up the version of Jest
+https://blog.travis-ci.com/2016-11-21-travis-ci-now-supports-yarn   - [x] yarn
+- [ ] transpile src with babel
+- [ ] transpile docs with babel
+Could this be possible in any way?
+**Note**: I realize in this case I can just swap the second `reverse` and the `toArray` to get the desired ordering, but I still think this is a bug Well, it's not immediately apparent (to me at least) that this is due to laziness; though I guess that depends on your definition of "intermediate representation". To me I thought the chained calls were doing something like the following:
+A is the root of the tree, it splits off into two branches. Let's assume I change E to H. As such, that entire spine must become new as such:
+I must be doing something seriously wrong, or have missed something fundamental:
+If the current behavior is what is intended, then I must say it is very surprising.
+I assume people are already familiar with these constructs, from other languages like Haskell, Scala or Elm.
+I fixed it changing the test for plains objects. Now it tests if the prototype of the object it's the same of `Object.prototype` (if the object has a different prototype it means that it is a class instance). Also, I added some tests cases for the solved problem.
+https://github.com/facebook/immutable-js/blob/29a5c55727c523b0d83c53c7ccd1032aaa579f49/type-definitions/Immutable.d.ts#L2155-L2158 Sorry, I has been a misunderstanding :bow:  I just noticed that the variance for collection types like List seem to be invariant in the flow declaration file:
+```javascript
+animals = dogs;
+(ps: I don't know why there is so much change in `immutable.js.flow`) • Why protect against misuse on `set` and `merge` but not on `constructor` and `remove` ?
+foo !== bar
+I have tried adding `Object` to the sandbox, but it didn't change the outcome. Even this doesn't work:
+Object
+Object
+return `undefined` (like, `get`, `find`, etc). Hooray!!! Thanks!  ### What happened
+```javascript
+```javascript
+```javascript
+```ini
+[libs]
+[options]
+so, I'm hard to understand why and when to pass a Number/String ?
+## Inconsistent Map / OrderedMap constructor behavior
+```javascript
+```javascript
+```javascript
+```javascript
+```javascript
+```javascript
+## Map / OrderedMap flatMap weirdness
+```javascript
+Not really sure what's going on there, but I can probably look into.
+```javascript
+```javascript
+```javascript
+I wrote a super simple higher order function for `List.reduce` in order for reduce to be composable in a Ramda context:
+Turns out, that `null` (or `undefined` for what it's worth) is still passed as `initialReduction` which leads to unwanted behavior or even to errors.
+const listOfStrings = Immutable.List.of('Hunter', 'S.', 'Thompson');
+// Expected 'HunterS.Thompon'
+// 'nullHunterS.Thompon'
+// Expected 'HunterS.Thompon'
+and OrderedMap flow annotations. For example,
+was not valid, because `of` was incorrectly assumed to return a
+0: undefined,
+2: undefined,
+3: undefined,
+// to muck with simple checks like a[a.length - 1] != undefined. Muhaha.
+```javascript
+I just wished Immutable.setIn(...) was intelligent enough to keep track of cases where multiple parents reference the same object reference within the map tree, and update it along multiple paths up multiple parent chains. Unfortunately, this isn't the case.
+http://jsfiddle.net/xryk992o/1/ This won't be expected behaviour as it goes against how persistent data structures work.
+using higher contrast we can increase usability and accessibility.
+More ideas:
+Undefined this
+That is unexpected.
+flow error:
+^^^^^^^^^^^^ Map. This type is incompatible with
+interface IImmutable1 {
+Is this the case?
+You can see this reproduced [here](https://jsbin.com/zarolikuqu/3/edit?html,js,console)
+Is this the expected behaviour? Do I am missing something important here?
+var keys = ["foo", "bar", "baz"]
+`mori#zipmap`, on the other hand, provides an object/map:
+var keys = ["foo", "bar", "baz"]
+https://jsfiddle.net/NeverwinterMoon/hbnzb2qq/
+Error
+This creates mysterious bug and hard to debug.
+anonymous {
+_root: undefined,
+_tail: undefined,
+__altered: false }
+@lacker It is not pure to speak but then again neither is the default of using `.equals()` if it exists on the item. Which is the whole reason this needs to exist because sometimes you are using items that you don't control the `.equals()` function for. You can't override it because X library expects a certain behaviour from it.
+^^^^^^^^^^^^^^^ Map. This type is incompatible with
+Is it because of mixins?
+@lacker @wokalski Hey guys, sorry for being quiet, I stopped visiting this PR after some time and missed the activity here as my gh became too noisy these days.
+AFAIU this PR is currently blocked by https://github.com/facebook/immutable-js/pull/878, let me know if I misread something and let me know what & when needs to be done here to get this merged. Thanks! @lacker Ok! I'll look into this on weekend 👍  @lacker @wokalski All done.
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+I also think it is a little inconsistent that error is thrown ~~only on `merge`~~ on `merge` and `set` but not during initialization .
+To overcome this issue, I'm doing this hack:
+@jcarbo  [Your example](https://github.com/facebook/immutable-js/issues/985#issuecomment-254020305) doesn't make sense to me. If the API starts returning more data, and you want to start using that data, why can't you update the `Record`? When would you be in control of the code that uses the `Record`, but not the `Record` definition?
+That's kind of a tough one. On one hand, I agree with you that that should just work, but on the other hand, if fields quietly go missing, we would want to know about that, no?
+@jcarbo: Did you end up finding a good solution to this? Thanks @briantobo - I wound up replacing `mergeDeep` with my own recursive `mergeWith`.
+return a.withMutations(
+projects:{
+@iansinnott I'm not sure how well it would work in Flow, but the typical solution to this kind of problem in Java is to use a recursive generic. For example, `Enum` is defined as:
+// other stuff
+@wokalski thanks! I'll check em out
+city: string
+zip: string
+name: string
+I'd love to see the definition for Record's constructor (and the class it returns) improved in flow. Thanks for responding and tagging this issue @kozlitinaelja!
+It would probably help the community a lot if we could get the flow definitions that are shipped with this package moved out into `flow-typed` so we have a path to keep them updated together (or even to allow us to change by hand in our `flow-typed` directory). @kozlitinaelja this PR is based off of https://github.com/facebook/immutable-js/pull/961 which simply defines types for the module default exports. So in fact, its only a 2 line change adding type definitions to `Record` for `update` and `withMutations`.
+@wokalski unfortunately, mystifying Flow errors occasionally occur when I use my `RecordAPI` type...I'm not sure if Flow object intersections still have bugs, but it sure seems like it.
+[libs]
+Are you doing `import Immutable from 'Immutable'`? In case anyone else lands here.  Doing...
+Things to take into consideration:
+console.log(map.toJSON().x); //2, this is rather unexpected
+Or even just a lodash memoized function:
+The difference is that `delete map._root` (or equivalent) is pretty clearly "evil": you're digging into a library's internals and mucking around with undocumented properties.  It's expected that that can cause unexpected things to happen.
+// bar
+// undefined
+// undefined
+JS Fiddle:
+https://jsfiddle.net/anjdreas/gp6sz7yc/7/
+@leebyron this is a really awesome library, thank you for making it. I'd like to know if you have any resources for learning about datastructures/immutable datastructures as I really want to learn more about them. Resources like articles, videos, books (hopefully not too expensive 😅), tutorials, courses, etc. If you can I would really appreciate it.
+After that, reloading yields the following warnings/errors:
+What's even more bizarre, I think, is that the error happens even if I try the following:
+I wish I could be of more help here, but I'm absolutely stumped at why this is happening or how to reproduce it in isolation.
+I had the component structured like this (pseudocode):
+<CustomListItem item={item} modalOpener={this.handleClick}  />
+^^(which is a pattern i got from an `eslint plugin` doc. Note that to avoid creating an instance of the click handler and dialog for each item generated by `.map()`, I've created an intermediate component.
+<CustomListItem
+```ts
+this is possible only if `isList` function defined as `isList(arg: any): arg is List<any>`. Return type `arg is List<any>` actually boolean, with extra semantic - it says that "if it is true, then arg has a type List<any>"   What's happening with this? Does FB accept PRs from outsiders?
+I don't know if the philosophy around immutablejs can accept that, because it makes the transformation not pure, but I'd like to discuss about that.
+Willing to change what I did if needed!
+Francisco
+Gramar mistake
+```ts
+It's really strange thing. And I'm not sure where and how to fix that.
+I've figured out that this code
+And I can reproduce it only in Safari.
+Safari version: http://take.ms/tXQHy
+Plunkr: https://plnkr.co/edit/5d3tclj8KFe5KnyB3aqe?p=preview
+reproduced! really weird behavior
+[4, undefined, 3, 5, 6, undefined, 1, 2]
+[1, 2, 3, 4, 5, 6, undefined, undefined]
+```ts
+interface State {
+Also this is a really funky looking syntax, having expression on the right side of the fat arrow, an object, hence the curly braces, but to not to treat it as a function scope, it is surrounded with normal parenthesis...
+I'm not sure if it's a bug, but it's really strange
+What work is involved to get this done? Is it simply a case of updating the type definitions? This might get tricky because `arrayOfNumbers[index]` has type `number` even if `arrayOfNumbers` is `number[]` (!), and this is intentional (https://github.com/Microsoft/TypeScript/issues/9235) although it's at least quite controversial if you ask me.
+// **EDIT**: this is not actually accurate for JavaScript:
+I don't know...
+// undefined
+// undefined
+// undefined
+I don't see a particularly good way to make it both null-safe and not annoying to use in real life.  Any ideas? Another issue: Immutable.js is using .d.ts file to build documentation by using custom TypeScript syntax processor which is based on TypeScript version 1.3 embedded into the source tree (https://github.com/facebook/immutable-js/blob/master/pages/third_party/typescript/package.json). Obviously it breaks down when I add `| undefined` types because TS 1.3 doesn't even support union types yet! Just plugging in modern TS 2.1 won't simply work because doc generator is based on TypeScript.SyntaxWalker which apparently has been removed from TS (https://github.com/Microsoft/TypeScript/issues/1728).
+I'm confused as to how someone would use `updateIn` on a List.
+> SO to the rescue!
+const ab2 = ab.setA(5).setB(6);
+The situation is more complicated when calling `withMutations`:
+const ab3 = ab.withMutations(
+The above example fails to compile because `mutable` is typed to `Map<string, any>`, which does not have the properties `a` and `b`, so we have to either access them with `get`, or cast mutable to `ABClass`, as well as having to cast the return type that will be assigned to `ab3`.
+Updated state is the new state @AugustinLF , you can´t set it directly
+case POPULATE:
+data: someval,
+Lodash
+"lodash": "^4.2.1",
+"lodash-es": "^4.2.1",
+var foo = { a: { name: 'Mehdi' } },
+var foo = { a: { name: 'Mehdi' } },
+In the second example, two instances of `Immutable` are created, which are separate objects, and thus aren't equal, as far as Javascript is concerned.
+> In the second example, two instances of Immutable are created, which are separate objects, and thus aren't equal, as far as Javascript is concerned.
+var foo = { a: { name: 'Mehdi' } },
+#### Questions
+```javascript
+```javascript
+This is due to my use of `withMutations`, avoiding it alleviates the issue above. I am pretty sure #228 speaks on this more.
+Safari 9.1.1
+on El Capitan 10.11.5
+@lacker I tested this ontop of the CSS changes in #873 and it appears to work fine. If you see any weirdness let me know, tested it on macOS Sierra and Windows 10 too.  I'm thinking about writing an app that would use Immutable.js and `Worker`s heavily.  Immutables would be the ideal data structures for safe and efficient communication of large amounts of data between threads, since no copying would be necessary.
+case DATABASES_REFRESHED:
+@johanneslumpe  This repo is not actively maintained as far as I can see. I created a [PR](https://github.com/flowtype/flow-typed/pull/401) in flow-typed to add flow definitions for immutable there.
+This is actually problematic and prevents us from soundly defining methods on `Iterable` which change either `K` or `V`, like `map` and `flatMap`.
+This might be a flaw of Flow so feel free to point it here.
+2. `$Iterable` is private
+pinging @marudor as a major contributor to this
+ping @marudor
+@tallixun would love another review
+> Note: There have been [previous efforts](http://www.brics.dk/RS/96/37/BRICS-RS-96-37.pdf) to create purely functional heap/priority queue implementations. However, they do not address efficient lookups of existing elements in the heap for updating purposes. Likewise, other more advanced heaps like the [Fibonacci heap](https://en.wikipedia.org/wiki/Fibonacci_heap) are not applicable because they require a pointer back to the parent, violating the acyclic requirement of a Directed Acyclic Graph (DAG) which underlies all of Immutable-js. Nevertheless, I have used ideas from theses sources, such as structural bootstrapping and tree decomposition, to inform/inspire my prototype.
+```javascript
+4. Will always be a HashBucketNode:
+I find it odd that the iterator of the `map` function of the `Stack` is reversed. For example, I would expect the result of the following instructions to be equivalent:
+// Returns: ['a', 'ba', 'cb']
+// Returns: ['ab', 'bc', 'c']
+I came across the warning when checking react-native
+That said, the example from the React-Native code looks wrong to me. Perhaps that's a place for a PR!
+I understand that since Immutable is transpiled, much of this is a fiction. I'm only looking for "correctness" because flow isn't as forgiving.
+Right now there are multiple inconsistencies:
+Interesting... I didn't realize theres an ambiguity around `import { X } from './x'` working for both `export X` and `export default { X }`.
+2) Ctrl+F for 'mape'
+Imagine:
+const arr = [1, 'foo', 2, 'bar', 3, 'batz'];
+I would rather degrade I think.
+Samedi issue here..
+wrapper@[native code]
+keypadIsHide@[native code]
+apply@[native code]
+Perhaps inherited methods can still be shown, but in a different color or tagged?  I miss being able to see them.
+name: 'Pliskin',
+color: 'black'
+console.log(cat.get('name')); // 'Pliskin'
+name: 'Pliskin',
+color: 'black'
+color: 'black'
+For immutable objects, one might think that the 'state' of an object is frozen. Normally, when people think of this, they think that the properties of the immutable object are frozen. However, I tend to think a little bit beyond that fact and I also like to think that the point in time that the object was created at is also captured in an immutable object as well. That is, I view two immutable objects with identical properties as being frozen that are created at two different times to be different. Of course, this is a different definition of immutable objects as given here.
+It's not so much bloat as you introduce something that is incongruous as far as the library and its intended semantics are concerned.
+//change
+this.state = TabStore.getStore();
+// map changed
+The result of `groupBy` is strange and I think wrong when your `groupBy` key is an array or an object.
+The wrong results are l.11 and l.16.
+The `size` result is wrong.
++          "__altered": false
++          "__hash": [undefined]
++          "__ownerID": [undefined]
++                "Trainspotting"
++                "Shawshank"
+"Brak"
+"Forest Gump"
+The library is innovative on its own, the docs don't need to be, IMO.
+I feel the original concern raised by @ffxsam  wasn't addressed completely, it was focused on that confusing syntax and what it means.  Honestly, I think the docs would greatly benefit from adding examples, but also from removing this kind of stuff:
+They made my life much better. Also there are a _lot_ of comments in the Immutable one:
+With Map:
+let shortMap = new ShortMap({1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e', 6: 'f'});
+Here `LimitedMap` example
+if (values instanceof LimitedMapType) {
+return new LimitedMapType(values);
+// @pragma Access
+// @pragma Modification
+wasAltered() {
+But it was a previous story.
+* **Strict** ordering.
+* Custom Class Builder (like `Record` constructor) to allow:
+^^^^^^^^^ undefined
+@Chrisui Does this work?
+So many nifty little tricks hidden away with flow! (okay they may not be "hidden", that "nifty" or "tricks" but to me they are! :))
+return class ApiRecord extends NewRecord {
+Current errors:
+// I think all of these should be errors:
+I've also tried the syntax outlined in https://github.com/facebook/immutable-js/issues/203#issuecomment-187175318, but it doesn't seem to fair any better in catching these issues.
+Is Record support just not there yet?
+Hello, I am a little lost in all the comments and versions.
+@runn1ng wrote:
+Btw, @marudor, I love the changes that you made to the type definitions! I'm going to have to remember that trick with type parameters on `_Iterable` the next time I come across a similar problem of circular references.
+I forgot all about this! Yeah I can give it a whirl later this evening. @lacker conflicts resolved! Oh, I never provided a fix, just a failing test. I brought the initial bug up in #803, and it was requested that I provide a failing test to illustrate the behavior (I think @leebyron asked me via Twitter). I'd be happy to provide a fix if I can find the time to dig in. I'm not currently depending on immutablejs at the moment, so it's a bit low priority, so if nobody else can get to it it's not a huge deal.  I'm curious if this project is referencing any standards outside the JS standards for things like Maps and Lists. I want to improve Ramda.js to work well with Immutable, but I want to make sure I'm doing things right -- is there some central agreed-upon spec for things like List.slice or Map.get?
+b: 'foo'
+"meta": {
+"$loki": 1,
+"meta": {
+"$loki": 5,
+Or the Iterable section, which is the obvious place to describe specialized APIs like `.get()` ...
++1 this is a step backwards for docs
+It seems that causing Immutable to hash `Infinity` triggers an infinite loop (makes sense I suppose :smirk:).
+``` ruby
+Fixes #558 and #536
+https://en.wikipedia.org/wiki/Multimap
+If i want to do something wacky when i merge a map, I use `mergeDeepWith`. But when I encounter a List within those Maps, I want to do something else that requires both of those Lists (eg prepend the second to the first). Only thing that comes to mind is running a forEach & basically writing my own merger. Is there a cleaner way?
+Something like: https://github.com/mikolalysenko/functional-red-black-tree
+Using Jest CLI v0.8.2, jasmine1
+● Runtime Error
+It looks like Jest is transforming the objects it's trying to assert in an unexpected way, since the pretty-printed objects in don't match up to what's actually being tested.
+@jcalfee , `Immutable.List` does not convert nested objects into `Iterable`s, and `Immutable.List#flatten` would not flatten the nested arrays in this case because they are not `Iterable`
+var f1 =Immutable.fromJS([[[2,[3,{a:[45]}]]]]);
+// Unexpected results
+getAB() {
+getAB() {
+var myRecord = new ABRecord(b:3);
+> omap1
+const CustomType = new Record({});
+I think evenSquares here is incorrect should be OddSquares. Also, can someone explain how the seq's values are never iterated, yet filter is called 3 times, and may called twice?
+its confusing
+@ericlau-solid it should be oddSquares indeed.
+undefined
+evenSquares was referenced in an example but should be oddSquares.
+let newObj = Object.assign({}, oldObj, { a: foo, b: bar })
+This definitely seems hacky and weird. Would be nice, I think, to have a hook into `mergeDeep`, similar to `mergeDeepWith`, except for when the optional `merger` will be called for every node, giving original/target rather than just on the conflicts.
+Edit: Updated the code to use `withMutations`, making it a bit faster, but for some weird reasons, my hacky/crappy code is faster than plain `mergeDeep`, according to jsPerf: http://jsperf.com/withmutations-test
+categories: ['tech', 'phone', 'mobile']
+categories: ['food', 'fruit']
+Would you be willing to support both ways?
+The dot notation is pretty common in many libraries including lodash [_.get method](https://github.com/lodash/lodash/blob/252ea445cab947c6e762b1d99a29ad08806e3b7d/doc/README.md#_getobject-path-defaultvalue), which makes it intuitive to use. How common is it that someone uses non-strings as keys? In my opinion the API could bend a little in this case instead of strictly being consistent with marginal use cases(I'm roughly assuming that it is marginal to have non-string keys, don't have any backing data).
+[tfalgout@beyondinto-lm foo]$ cat repl
+[tfalgout@beyondinto-lm foo]$ ./repl
+[tfalgout@beyondinto-lm foo]$ node
+> undefined
+> [tfalgout@beyondinto-lm foo]$ node -v
+> [tfalgout@beyondinto-lm foo]$ npm list
+> /private/tmp/foo
+[tfalgout@beyondinto-lm necs]$ cat bin/repl2
+[tfalgout@beyondinto-lm necs]$ bin/repl2
+undefined
+[tfalgout@beyondinto-lm necs]$ node
+undefined
+undefined
+'shoeSize',
+'trade',
+'isbm',
+var fromJS = new Immutable.fromJS({ foo: { bar: 'baz' } })
+JSON.stringify(fromJS.toJS()) // {"foo":{"bar":"baz"}}
+var map = new Immutable.Map({ foo: { bar: 'baz' } })
+JSON.stringify(map.toJS()) // {"foo":{"bar":"baz"}}
+var orderedMap = new Immutable.OrderedMap({ foo: { bar: 'baz' } })
+JSON.stringify(orderedMap.toJS()) // {"foo":{"bar":"baz"}}
+In my opinion, this problem is serious enough to make use of `Map` and `OrderedMap` very questionable.
+And instead requires users to use a more verbose approach like so:
+Immutable.fromJS(
+myArray
+var data = { foo: { bar: 'baz' } }
+JSON.stringify(data) // "{"foo":{"bar":"baz"}}"
+Shallow meaning..
+bar: 'baz'
+The typescript part of this is a bit suspect, but it compiles!
+@vinnymac you tagged me, but I'm not sure why - was it intentional? :
+Here's a [fiddle](https://jsfiddle.net/adamboduch/ctxjn315/) demonstrating the issue.
+[Fiddle with 3.7.6](https://jsfiddle.net/marcacyr/yecxnsud/)
+Similarly, `.delete` behaves in unexpected ways. It should throw if the method being called on the mutating state object is not supported:
+```  Is this considered a problem for Immutable's `is` algrorithm?
+The docs seem waay off to me. Lots of stuff missing.
+The thing is streams are quite a different beast from keyed associative arrays ie Objects
+// vs
+As an alternative:
+but I should cast `obj` to Object, as you see.
+Also polymorphic this, which helps a ton for things like concat.
+Could this be achieved in a performant way by doing a concat and a sort?
+Also I guess somewhere along the line an old version of `Immutable.d.ts` got checked in, so that's what all the noise is in the change diffs.
+Ping @leebyron - very small change with very big performance implications
+FWIW, lodash has [this same method](https://lodash.com/docs#without).
+@arjunblj did you ever?
+This might be a silly question.
+Ah, but I get a compile error when using TypeScript:
+Is this possible? Sorry if my terminology is not entirely clear!
+@OliverJAsh if records work for you setting `undefined` defaults should be effectively the same as not setting them at all. Am I wrong?
+Name: "Simy the bothless",
+but no one seems to know, odd :/
+Source@ https://github.com/born2net/ng2Boilerplate looking fwd to it...
+interface ITimelineState {
+function findLead (savedLeads, lead) {
+first_name: "jane",
+company_name: "ShitCorp",
+first_name: "Misa",
+last_name: "Crane"
+company_name: "ShitCorp",
+first_name: "Misa",
+last_name: "Crane"
+``` diff
+This mocha test describes my issue:
+Where the immutable's power from？
+} else if (type === ITERATE_KEYS) {
+@ayrton Have your resolved the issue?
+I was not, I was fortunate enough not having to use `.slice()` in that particular case anymore, but this still feels like a weird edge case we should try and solve.
+As a temporary solution I've downgraded Immutable to 2.6.2, but it's not a great long term solution. It would be great if you can fix it.
+@matthewwithanm - what does the resulting documentation look like (not sure how to regenerate)?
+# Nav
+foo: undefined,
+bar: undefined
+foo: 'poo',
+foo: 'FOO'
+setters:[
+// Shorthand for:
+Additionally (perhaps this deserves its own issue) this seems inconsistent:
+This is irritating since `contains` is referenced as alias to `includes` in the documentation.
+That is really strange.  Here's the code for it: https://github.com/facebook/immutable-js/blob/9a5897ec0bd623b9e41e0015c75e5f7a46a3494e/src/IterableImpl.js#L459
+I guess you could 'spy' on .has using a jasmine spy and check that .contains calls it. Something like:
+Would such a thing be feasible?
+`map1` and `map2` are created in different ways in the two examples.
+I think you are right about it being a little confusing.
+Recover my Gmail account reginaladnier50@gmail.com
+I think the problem is more like this, in code:
+@jurassix that sort of defeats the point of using cursors in the first place - i.e. getting away from the callback spaghetti :)
+It seems like the behavior is sort of unexpected because you're using the `includes` function in your implementation, which will use the values of `mapTwo` to perform the "difference."
+Am I missing some sort of API that lets me make a complex object deeply mutable?
+// Create mask
+For arbitrarily deep masks btw.
+http://jsbin.com/nirahamohu/edit?js,console
+Or could this be a wrong design altogether?
+## Code
+Also the way you create redux store seems strange. Looking at docs,  shouldn't you call a createStore function  and pass it an object ?
+I am sorry I can not be more helpful, maybe someone more familiar with redux can help you here, but you will have more luck on stackowerflow.
+```javascript
+// Make 'superset' objects:
+// Intersection of keys:
+I think the expected behavior of deep intersection needs some consideration:
+In addition, it's unclear to me whether something like `getMany` would be a method on its own (with logic, etc.) or really just sugar around multiple gets for the same Iterable.
+Wanted to add my two cents, as it has crossed my mind when destructuring native structures and then having to resort to either multiple gets or weird `withMutations` code for Immutable Iterables.
+The following expression diverges when evaluated:
+is this a bug?
+I find it a little inconsistent from what i was expecting to happen.
+Maybe @ddaza is confused about merging [1,2,3,4,5] and [5,6,7] results in [5,6,7,4,5] and not [1,2,3,4,5,6,7]?
+I disagree that this is expected behavior.
+So what are the alternatives?
+If the behavior is not intended to change, perhaps a more helpful error message could be added? Something of the form
+This results in the following error:
+Module parse failed: /Users/alex/myproject/node_modules/immutable-js/dist/immutable.js Line 190: Unexpected token =>
+Module build failed: SyntaxError: /Users/alex/djcode/patient-health-questionnaire/node_modules/immutable-js/dist/immutable.js: Line 350: Derived constructor must call super()
+351 |           throw TypeError('Abstract');
+alias: {
+...Well if that's not embarrassing I don't know what is! Thanks for the gentle correction @madebyherzblut
+var test = Immutable.fromJS([1, { 'a':  [1,2,3] }]);
+The last statement should return `"hello"` but it returns `undefined`.
+var test = Immutable.fromJS([1, { 'a':  [1,2,3] }]);
+The last statement should return `"hello"` but it return `undefined`.
+Is there any special behaviour for that or it is just regular bug?
+Then last case with `set` is broken or it should works like that?
+Thanks for explanation. But it is pretty confusing, damn you javascript!
+> undefined
+> undefined
+@rattrayalex really good idea +1
+> Is it blasphemous to say that looking at runtime complexity is gradually becoming more of a premature optimization (thanks to better hardware)? You can argue all day long that your js object has constant insertion time, but the underlying implementation makes it an order of magnitude slower than array for a limited number of fields. And if you accidentally trigger the hidden class deopt that turns it into a hash map that's another order of magnitude slower. No amount of ordinary complexity analysis will help you here. Vice-versa, when Babel gradually starts supporting constant lifting for collections (somehow), you can look at a piece of code in your editor, reason that a comparison is linear, but then have the transpiler lift it out (`const liftedA = []; function foo() {return liftedA;}` instead of `function foo() {return [];}`) and not realizing yourself that the comparison is actually constant time (reference comparison). And then, if you write some overly clever optimization for that piece of code yourself, you might ironically get worse perf because the transpiler can't lift the collection anymore.
+Is it possible this is a quirk of an optimization? Or maybe Symbols working _at all_ is the optimization quirk? (Or maybe i'm just doing something batty?)
+Bump. This behaviour was really unexpected when I encountered it today. Here is a quick patch that solves this (in pseudocode - I haven't looked at this project's sources):
+There is currently babel plugin for that:
+@madebyherzblut thank you! I must have missed those methods in the docs.
+// TSC errors with:
+I am not sure what you mean when you say that `rest()` does not return a list as the return type of it certainly behaves like a list by having the `pop` method and satisfying `List.isList` (as one would expect).
+In console you can see "Maximum call stack size exceeded" which is rather weird. Does that mean that it's impossible to use ES6 inheritance with ImmutableJS?
+Is `Immutable.Record` an exception here? This code seems to work:
+Yeah, I believe this is exception. Looking at the [source code](https://github.com/facebook/immutable-js/blob/master/src/Record.js#L42-L45) it just returns standard constructor function.
+Is it documentation incorrectness, wrong behavior or my misunderstanding?
+@tphyahoo Behaviour is clear. I'm just saying that these operations don't look equivalent as documentation states.
+In contrast to
+// manipulation.
+@asan: I think the name is modeled after take from haskell, and that's why it should give an erorr. (Copies the behavior from haskell.)
+{name: 'mary', phones: [
+{mobile: 'a333'}
+A 2nd thought, am I using immutablejs wrong and it's not suitable for this kind of use case?
+Ended up I wrote this [tiny util](https://jsfiddle.net/coodoo/5w20s7th/2/) to help finding keyPath.
+Basically the way `lodash` does it?! That would be pretty sweet :)
+// now we have a mix of mutable and immutable things
+http://jsbin.com/wiyeju/7/edit?html,js,console
+@AsaAyers I'll be happy to explicitly convert strict collections to non strict or mutable collections when I need to. For me strong immutable guarantees are more important than speed. Anyway, it would be great to have this choice.
+Bad:
+> phantomjs test.js
+// Internal node case
+[[7,8],[9,10],[11,12]],
+[[13,14],[15,16],[17,18]]
+@leebyron I've made a quick POC of the same principles but using ImmutableJs internals (I mean the "Gn" object and _root/_tail properties)
+gn: React.PropTypes.object.isRequired,
+// TODO should check for Gn instead, because list items can be objects too...
+Seems like you should investigate cursors: https://github.com/facebook/immutable-js/tree/master/contrib/cursor
+**Edit** Oups Om have observable cursors as well (https://github.com/omcljs/om/wiki/Advanced-Tutorial#reference-cursors)
+@Dashed while interesting I think this discussion is out of the scope of this issue.
+Sorry @Dashed please provide code example of what you are talking about because I can't understand. I don't know what you mean by "splice steps" nor why would you need an API to be able to know which "parts" of the immutable list has changed nor why you would need to wrap ImmutableJs.
+@leebyron did you have time to take a look at my jsfiddle?
+I've discovered surprising facts while hacking on the answer.
+@polgfred it was really an experiment I did not dig much in ImmutableJS internals yet :) I don't use this trick in production as I don't render such huge lists. But happy to see it used by other people :)
+Anyway @polgfred maybe you can build a separate NPM project to do that. And for example you say in that project that it should be used with the exact same immutablejs version or something, to avoid incompatibilities
+undefined
+@acdlite Any Immutable collection that is iterable should work (this includes Map).
+@acdlite What are the advantages in using transducer.js over using immutable.Seq?
+Is there a reason to this behavior? What are the disadvantages of throwing an exception right away?
+Throwing an error as default behavior could be _very_ risky as default behavior - take the case where data is pulled from an API and sent into a record. Adding a new property to an API response would become a breaking change to a production site, when normally, the extra property would just be ignored.
+Hmm, this is actually two issues:
+The first simply seems as not the case.
+// this could throw an exception
+**EDIT:** There's shorter notation than ternary ```profile.get('bio') || ''``` which I can use in most cases, but again it is a bit tiresome to write it all the time.  I've expected map behaviour like for other Iterable object instead it returns undefined.
+Instead of
+coll.update('maxCost', undefined, Math.max, itemCost)
+Instead of
+See jsfiddle here:
+https://jsfiddle.net/coodoo/ghkgq2oL/1/
+I've used cursors a little bit more extensively ever since I've suggested https://github.com/facebook/immutable-js/issues/249.
+I'm merely respecting the author's intent of `Cursors` as he has stated here: https://github.com/facebook/immutable-js/issues/242#issuecomment-67198651
+http://jsfiddle.net/jL596cny/1/
+"requireSemicolons": true,
+I hope this is a bug?
+I came across some weird behaviour with ES6 Javascript Getters.
+'myBet': new GameBet()
+But what is odd is that other properties no longer turn up:
+> undefined
+There's a tiny type in @leebyron's example, `Property.prototype` should be `Product.prototype` :)
+http://jsfiddle.net/yk2y2hhu/3/
+As I said, I tried to use @Robert-W 's old solution (before he changed his lists into orderedMaps) http://jsfiddle.net/yk2y2hhu/1/ . It works but it always creates a new copy of the whole data structure even if nothing changed!!
+[Link to sample on Bin](http://jsbin.com/hipazukede/2/edit?js,output)
+false,
+// broken for key bar
+// broken for key undefined
+// broken for key {}
+For future reference, I was obviously using `flatten` completely wrong, since what I wanted was Haskell's `concat`, so the fast way to do this is:
+undefined
+@lebyron thanks... I was mainly just playing with what I saw for the first time, and thought the behavior was a bit odd.
+This behavior looks strange to me. I'm expecting list to be immutable actually..
+undefined
+undefined
+Strangely enough, it doesn't seem to happen without filtering beforehand.
+What is the right way to achive this?
+Does it not makes sense to use `withMutations` for these types of changes?
+if value is null or undefined
+else
+tmp2.first().name = 'bar'
+tmp.first().name // "bar"
+Alternatively
+// cast all of the maps to NameRecord
+tmp = new CustomList()
+throw new Error('The store must contain only immutable objects.'
+I am not an expert on how Immutable is written so I am not sure what overhead comes with a list. Unfortunately I am a bit pressed for time (and rusty on my c#) so I can dissect that article too much :( I will read it more closely tonight.
+This is an alternative way of implementing a queue based on two lists: https://github.com/sunesimonsen/changeless/blob/master/src/main/java/com/jayway/changeless/queues/FirstInFirstOutQueue.java
+%% Queue representation
+Maybe there is something wrong with "Fira Mono" and "Fira Sans" font families in some linux distros (Arch Linux for sure), because I have the same problem with http://blog.keithcirkel.co.uk/, which also uses those.
+The sibebar in documentation cannot be scrolled on Laptop. This causes a terrible experience.
+**Hypothetical Scenario**
+[Lodash's set](https://lodash.com/docs#set) does this. You can do:
+``` scala
+scala> a zip b
+Great work @mduvall! Thanks for taking this on. Scala and [Python](https://docs.python.org/2/library/itertools.html#itertools.izip_longest) both provide the option to fill with a default value. I know doing it that way would involve diving into the iterator so I'm not sure if it's worth it. Ruby and others don't allow specified defaults and just fill with nil/null/etc. I can see how allowing a specified default would be useful though. What do you all think?
+Arrays exhibits the same behavior, and is quite unexpected to me (or simply that I do not understand Immutable data properly :smile:):
+Immutable.fromJS(a);
+https://monosnap.com/image/3fIhtzRKIFP3um0vCF0eSmrzqBPc05
+It draws additional "span" elements , but (according to log) itemView method is called only for my "li" items  in OrderedMap - therefore I can't to filter those unexpected elements.
+This is what I receive - extra "span" items, but there should be only "li" items...
+<ul id="se-pl-projects">
+'bc72a': { id: 'bc72a', text: 'rule the world' },
+if(k === 'todos'){
+I haven't been using Immutable for all this time, but still feel guilty because of not finishing this. @leebyron feel free to close this to have less noise in PR list.
+} else if (type === ITERATE_KEYS) {
+In the following TodoMVC the creator uses the toJS() method, which feels kind of unnatural : https://github.com/hoppula/react-immutable-todomvc
+From the discussion, it's not clean cut about what's the best way either, but it using Immutable objects all the way down has advantages.
+undefined
+undefined
+@leebyron oh ok, so for now some operations can produce false positive or false negative (like `===` or `.set`) when mutable object is involved?
+> Very cool. I'll probably hold off on adding something like this into the library itself until the support is broader, as people are concerned about library byte weight, but this monkey patch is a pretty great way to start experimenting with this.
+Records already do have getters so I'm not sure proxies are necessary there. This hack also makes keyed access on maps work as well (only for string keys though):
+Browser support for `Proxy` is now pretty good, only Safari is missing (But the Technical Preview already has it): http://caniuse.com/#search=proxy
+@ahmedghoneim92 seems that Proxy can't be polyfilled. The one and only way to do that is to transpile all or your property access calls into function calls (see https://www.npmjs.com/package/babel-plugin-proxy)
+@igorsantos07 In the `get` function, you should use `Reflect.get(obj, key)` instead of `obj[key]`.  `Reflect` will not call the `get` recursively.
+In the spirit of shaving a few bytes [lodash](https://lodash.com/) has per-method exports, i.e. one can:
+Isn't the second one a violation of the types?
+var t = new Tuple2('foo', 42);
+Sure, the functional variant is a kind of "final encoding," where if you know how you will use the tuple, you can structure your code a bit differently. Say I know I am going to use the second half of a tuple and ignore the first, I can pass `(a, b) => b` as my "tuple."
+i'm also abusing `List`s for this functionality
+It was probably just a typo.
+I end up with managing both Immutable and mutable data structures but this feels very wrong.
+Thats odd, that test passes for me.
+I am using Immutable.js and also found lack of this feature. @leebyron points are fair enough but there are a lot of projects which don't have `.` in key names and also use numbers only as array indexes. So, that corner case is not an issue for them and they deserve to have prettier API.
+This does something weird:
+// multiple mutations
+I am a total noob here, so bare with me.
+// Use withMutations to avoid the many intermediate maps that this process may create
+// depending on how you want this to function, you could throw an exception here
+at invariant (/home/arian/www/test/node_modules/immutable/dist/immutable.js:932:27)
+at Record.Object.defineProperty.set (/home/arian/www/test/node_modules/immutable/dist/immutable.js:3892:9)
+at Object.<anonymous> (/home/arian/www/test/test.js:10:12)
+Still an issue:
+Still trouble with `size`
+Probably not the best way to do it, but I didn't investigate much. I'll keep an eye on this thread and will add a Chai matcher to my plugin when a better answer comes in.
+Albeeert
+// undefined
+This is strange `npm update` did not resolved it although just deleting `node_moudles` and then `npm install` worked. Although I do see one test failing:
+- Expected function to throw Expected Array or iterable object of [k, v] entries, or keyed object: abc , but it threw Expected [K, V] tuple: a
+To put it from a different perspective I want to get following:
+Or something slower when executed from a polymorphic function:
+@Gozala check out #368 for a proposed approach of subclassing Immutable types across the board - I've been using it quite a bit it's been working great so far.
+Immutable.fromJS(
+).concatDeep(
+Immutable.fromJS(
+//           "fruits": [
+//                      "banana",
+"fruits": ["banana"],
+//     "fruits": [
+//       "banana",
+I also definitely would love to see something to perform a deep concat!
+password: Immutable.List(["must contain a special character"])
+``` diff
+// than this...
+> [ undefined, "i", undefined, "j" ]
+Call me crazy, but:
+I agree with @joewalnes. I think an Error would be helpful.
+Hi, I really like Immutable.js.
+- The biggest offender is TypeScript, so the first question is: Do the tests really need to use typescript?
+But toJS fails in this case. Is there some other way to go about it? Or or do I have to rely on Immutable only informing me if the object did mutate but I have to do the references book keeping myself.
+extrenalLib(props);
+Very bizarre, this code crashes in latest Chrome and Firefox for me:
+JSBin: http://jsbin.com/qoyimuneqo/2/edit?html,js,output (might crash tab, firefox handles it better for me)
+country: 'xx',
+var correct = obj.setIn(['5', 'baz'], 'qux');
+var incorrect = obj.setIn([5, 'baz'], 'qux');
+// { '5': { baz: 'qux' } }
+This way, it's obvious when numeric keys are being mixed with string
+For reference - [here](https://github.com/facebook/immutable-js/issues/57#issuecomment-77529149) is the reviver I use with fromJS. It also took some elaborating to make it work as dealing with seq coming from reviver was kind of magic - some api seq calls end up with undefined errors, but getting value via `getIn` worked eventually. I think it has something to do with seq lazy behavior..
+@jardakotesovec have you had any luck with this?
+That's nonsense! It seems, nesting Records should be easy enough.
+Another experiment
+``` es6
+else
+foo: 'baz'
+Yet another alternative,
+.subModels
+var Complex = Immutable.Record({real:0, image:0, magnitude:function() { return Math.sqrt(this.real*this.real+this.image*this.image);}});
+var num = new Complex({real:1, image:2})
+function Complex(p)
+Complex.prototype.equals = function(other)
+Complex.prototype.hashCode = function()
+Complex.prototype.magnitude = function()
+Looks strange though.
+undefined
+Darío
+> structure. What you're describing sounds more like Zippers which we do not
+Maybe it is an edge case not to be overly worried about until the next major release? I've spent a bit of time messing around with Records with weird size keys and not found any other problems.
+So, why this change is a "breaking" one then?
+@Gozala am I understanding correctly that your onClick() handler changes the cursor directly? That breaks top-down flow.
+> @Gozala am I understanding correctly that your onClick() handler changes the cursor directly? That breaks top-down flow.
+@Gozala The way it works for me is because the list itself is also rendered with a cursor, and that will point to a different object even though the `item`s themselves do not change.
+Here's my flow (I use Fluxy):
+> @Gozala The way it works for me is because the list itself is also rendered with a cursor, and that will point to a different object even though the items themselves do not change.
+> Here's my flow (I use Fluxy):
+Are you doing `cursor.update()` in `onClick` or call method on the store ? If later that would absolutely explain why you don't have this issue, because your store will update to track a new cursor so it's method will end up operating on up to date cursor regardless if render was called or not. If you do `cursor.update()` from a `onClick` handler & indeed don't trigger render on each item after reorder then I'm really curios to see the actual code as I don't see how that could be a case. If that a case maybe you could modify this example to illustrate your approach http://jsbin.com/yunomateha/1/edit?js,output otherwise it's hard to follow what's going on. (P.S. that example uses cursors wrapper from omniscient library as I wrote it for https://github.com/omniscientjs/omniscient/issues/89 but same happens on plain Immutable.js Cursors and plain react).
+> not, the issue is that two absolutely different cursors with different
+> structure (in totally different places) are considered equal & there for
+> though they belong to different structure and in a different path. Do you
+> Here's my flow (I use Fluxy):
+> http://jsbin.com/yunomateha/1/edit?js,output otherwise it's hard to
+> I'm sorry at this point it's really hard for me to understand how things
+> cursors with different roots (that may not even have much in common)
+On Wed, Mar 18, 2015 at 6:28 PM Irakli Gozalishvili <
+In the end I'm planning on moving from cursors to an approach inspired by http://elm-lang.org and illustrated in this example http://jsbin.com/hogulenuhu/5/edit?js,console,output
+As fun as it's been to use in my own projects, I'm a bit wary this will open pandora's box a bit, people might start trying to do things with this that they really shouldn't be doing in general.
+Where `Cargo` extends Immutable Record.
+I've tried a few variations I keep getting:
+if (a.size === undefined) {
+if (b.size === undefined) {
+@kuraga `immstruct` is your way to go as an initial implementation to observing by paths/cursor has been implemented: https://github.com/omniscientjs/immstruct/pull/30
+@kuraga Maybe you are looking for this: https://github.com/steida/este-todomvc/blob/23601e1f9460327bd05b0b90643029900e8fdcf3/src/lib/state.js
+Henrik
+Articles on Technology http://jonathanscorner.com/technology/ • Book: _Django
+http://jonathanscorner.com/ • _Professional Site http://jsh.name/_
+**Bug:**
+Just started to play with Immutable, and I'm wondering why this line is returning me `undefined`:
+And not `'doge'` instead?
+Is it possible to do something like that with Immutable? Record looks suitable, but I have feeling something wrong here: is it right to have functions in it as methods?
+getAB() { return this.a + this.b; }
+and even weirder, nor does this:
+I have no experience with Clojure, and perhaps this stuff would be obvious to me if I did, but as a JavaScripter I think it would be great for the documentation to explicitly mention that this is what happens, and to provide an explanation of the rationale for this behaviour.
+Please note that #314 also needs to be solved before transpiling with babel is going to work again.
+Esperanto will build a module exporting the Immutable namespace on `exports.default` and each class on `exports.Map` etc. I see how this might be a problem with interoperability.
+From babel/babel@3a11c7d46b5788175c9c1141ff50ed59ce26c40c forward it will be necessary to use `new` until the classes are replaced with regular factory functions.
+@leebyron wouldn't it be better if `Seq`s didn't have `size` property? It can lead to bugs and adds no substantial benefit.
+It completely slipped my mind that `filter` was applicable. Thanks!
+[ '7ahFz', '69REj', 'ZURMt', '3AZDL', 'EAzmg' ]
+Map { "7ahFz": "JPQ66", "69REj": "dUnQb", "ZURMt": "z4OSR", "3AZDL": "EYxkS", "EAzmg": "kEHL5" }
+Map { "7ahFz": "JPQ66", "3AZDL": "EYxkS", "69REj": "dUnQb", "EAzmg": "kEHL5", "ZURMt": "z4OSR" }
+A bit hacky, but seems to work!
+// type error
+// type error
+@aindlq - That's fantastic! By renaming the "Class" interface to avoid naming conflicts with the existing immutable.d.ts, I was able to include your sample in an "immutable-overrides.d.ts" file without having to modify the provided immutable.d.ts and then maintain my customizations.
+export interface Todo {
+// some additional methods
+// type alias isn't required for Todo
+b: string
+@OliverJAsh - we use code generation of classes that are backed by ImmutableJS data structures to achieve what I believe you're referring to. i.e. we first define the structure we want (what you're referring to as an interface), then we code generate the actual implementation.
+@OliverJAsh yes, thats exactly what I'm looking for as well. @myitcv can you explain what you mean? I can't imagine how you generate classes with ImmutableJS as the base.
+@SH4DY I'm assuming @myitcv uses something like [s-panferov/tsimmutable](https://github.com/s-panferov/tsimmutable)
+Fundamentally however it doesn't matter what your starting point is, just so long as you can describe the structure of your types.
+private lastName: string;
+LastName(): string {
+b?: string
+Name: "Simy the bothless",
+@aalpgiray looks like a syntax error in `somenestedImmutable.(t => ...` ?
+interface ITimelineState {
+https://gist.github.com/Tvaroh/52efbe8f4541ca537908
+Transit looks like the right case for webworkers, though the format is not the raw JSON I need to write out. I actually want to keep the `toJS()` structure and write to disk with json.
+fs.writeFile('plots.ipynb', JSON.stringify(notebook.toJS()), 'utf8', errCallback);
+username: "foo"
+const AcademicanRecord = new Immutable.Record({name: null, age: null, title: null});
+@justinko very late question but im using your suggestion and it works very well except i CANNOT test a method in that thing to save my life? have you found a way around it by chance? what i've got atm https://gist.github.com/th3fallen/92491b889485961cc97938c306f0836c#file-model-spec-js-L28
+It would be useful for the same reasons it's useful for `Map`: You can defined your own keys using `mapEntries()`. But, I suppose it comes back to the concrete datatype thing again. `mapEntries()` really should produce a `Map` or an `Iterable.Keyed`, but that wouldn't match the rest of the Api.
+other...
+> Thanks. I must have has a dyslexic moment.
+Articles on Technology http://jonathanscorner.com/technology/ • Book: _Django
+http://jonathanscorner.com/ • _Professional Site http://jsh.name/_
+var immutableStuff = CustomList([1,2,3]);
+var moreStuff = CustomMap({
+this is admittedly sort of wonky, maybe could join
+var CustomRecord = Immutable.Record.ofType({
+other: String
+other: ""
+var evenMoreStuff = CustomRecord({thing: 6})
+This gets to be really powerful when you add the idea of union types
+and fromJS-ing-with-type (also wonky)
+// This doesn't give the expected result!
+This results in a strange object containing only a single key.  Note that changing the `Thing1` and `Thing2` values in `x` to their string equivalents gives the expected result.
+I'm experimenting a bit with immutables and I'm not sure what I'm doing is actually correct or if there is a better way to do it.
+customers: Map({
+Just fyi: works well on ubuntu (14.04)
+Wouldn't this break `immutable.fromJS`?
+- transient changes
+- combination
+- creating subsets
+undefined
+undefined
+undefined
+undefined
+Changing
+What do you think about the higher-level issue, anyway?
+Is this expected behavior?
+Though I see there's some special case for `emptyMap()`
+Given this, the following is a bit unfortunate:
+By that logic, your code is already broken if it distinguishes between value equality and identity in immutable structures and the toJS behaviour is just a symptom of that.
+Sorry, wrong Fiddle, one sec
+// This fails because the child is actually a Map
+Any thoughts on this? I've not noticed any problems with child maps being out of order in my work so far, but not sure if I have just got lucky so far, or if I can depend on this order
+As a side note, I find it interesting to see how a custom `map` function looks
+Further, as the constructor doesn't really act like a normal constructor there end up being a lot of additional checks necessary to ensure that another Map passed into the custom type is [coerced correctly](https://github.com/tgriesser/immutable-js/blob/10deaf40f829bd81dc7a58afe861bbe9d518cb18/src/Map.js#L34).
+> This is a bit counter to the purpose of Cursors, which seek to be invisible and act as the types they wrap.
+@leebyron when you do `Immutable.is(cursor, nextCursor)` and the cursors are pointing to undefined parts of a tree, Immutable.is will throw because it runs `valueOf()` and then typeof valueA.equals.
+Is this a separate issue?
+at Record.has (/home/pauan/Programming/JavaScript/immutable/node_modules/immutable/dist/immutable.js:3760:34)
+at Record.get (/home/pauan/Programming/JavaScript/immutable/node_modules/immutable/dist/immutable.js:3764:17)
+Other times I don't. It seems to be random whether the error triggers or not.
+Hm? Custom formatters have been around for months - I've been using a Chrome extension (https://chrome.google.com/webstore/detail/immutablejs-object-format/hgldghadipiblonfkkicmgcbbijnpeog) since earlier this year and it's been working well. What has changed in Chrome 52?
+@Pauan The copy function in that benchmark is pretty bad, using [for-in](https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#5-for-in) instead of a function specific to the structure of the Record. Optimally, a Record with three properties `x`, `y`, `z` would create a function like:
+It seems to be caused by the following function:
+score[name] = delta;
+I might be missing something but I find it odd having to `.toString()` every time I `.get` a value.
+It's insidious that the method of population (perhaps unknown to you) leads to you not knowing what key to use to retrieve data.
+This leads me to a situation where it seems best to never use numeric keys and to cast them to strings upon receipt from the server. Is that something you've run into?
+Thanks, I've built a good number of "enterprise" apps and hadn't run into any problems using the Rails default auto-incrementing numeric ids on the client. I never assumed they were sequential or anything, it just happens to be what the framework vends by default when you convert an ActiveRecord model to json.
+that is not so straight explanation
+anyway Thanks @pluma
+(Another limitation is that some object property names are "special" and may have unintended side-effects, so it's a bad idea to use objects as maps when dealing with potentially malicious or uncontrolled values for keys.)  I'm logging the execution time of a function that receives a _Cursor_ and apply modifications to it via `withMutations`.
+function bar (deep) {
+The problematic line is the following: `mutableData.setIn(["a", "b", "c"], bar(data.getIn(["a", "b", "c"])));`.
+This makes no sense.
+> it's also unclear if the correct behavior is to throw or return the unchanged list.
+Both of these behaviours are useful in different situations.
+In addition, I wonder how to take advantage of functional programming aspect, such as map, filter, merge, time-line sequences, that is, Event sequences.
+I know RxJS and bacon.js but never liked it.
+http://danieltao.com/lazy.js/
+implemented and try to integrate the pradigm.
+http://falsandtru.github.io/lazychain/
+Here's the idea (Google Translate to Jp to En)
+https://github.com/kenokabe/spacetimeline
+Now, I consider what is the best way to integrate lazy and FRP not re-inventing wheel.
+@pluma same as count. Also might not exist until you do `count()` for lazy seqs.
+I found this surprising:
+@pluma
+Ah, ok then. But don't you think it should be readable for the masses? I think it's too futuristic.
+I share @pluma's point of view regarding the targeted audience.
+YARGH! implicit return!
+> they can be "transpiled" into ES3
+Shouldnt the hashcode be different?
+Just spent the better part of an hour scratching my head with a Heisenbug caused by this... or rather, by my assumption that it worked the same as in Clojure. :)
+For instance, when we have a code like below:
+However, got an error:
+ReferenceError: iterable is not defined
+pluma commented 6 hours ago
+var __narural10 = __natural.take(10);
+console.log(__narural10.toArray());//calculate and output
+mixins: [A, B],
+if (value.constructor === Lazy)
+can't know that some internal value is an atom or lazy, whereas with the
+> other words: { value: "foobar" }.
+I was expecting `undefined` as return value.
+I think `undefined` should be considered an illegal input since it's neither an `Array` nor an `Iterable`.
+It seems that `hasIn` is still affected.
+But updating both objects leaves us an inconsistent state:
+is the code?? I need to verify from now.
+var __narural10 = __natural.take(10);
+console.log(__narural10.toArray());
+//[ undefined ]
+var __narural10 = __natural.take(10);
+console.log(__narural10.toArray());
+A possibly suggestion
+Test: http://jsbin.com/kiqibumavi/1/
+Immutable.Range(1, Infinity).map(function(n){-n}).take(10);
+Is this a bug?
+Lorenzo
+This may be a dumb question, but afaik, I don't think there's an API for this. It'd be great if there is `Iterable.hasIn()` can take in an array to check if a key path exists.
+// notSetValue is anything but void 0
+Hmm. It probably is a confusion of the API on my part; treating `update`/`updateIn` as `set`/`setIn` on certain edge cases.
+It still feels weird though. Since to me, intuitively it's "If a value was not set here, set it to this". I think that any user should be responsible for what the `updater` returns; and any value returned is an intention to set that value at the key path (whether it exists or not).
+What's more, I think it's surprising that nothing gets set when a path doesn't exist.
+var
+var
+var
+var
+var
+I think that this is very important to provide access to the keyPath, it enables a variety of great uses.
+// subcursors, etc.
+So two use cases while traversing a tree:
+- You may want to render a part of the tree differently depending on the path taken
+var cursor = Cursor.from(data, '/a/b', newData => {
+Weird that it fails considering all collections are actually iterables... Any idea?
+``` scala
+Sorry for the noise!
+It does not behave as expected:
+Thanks for keeping this alive. I have to admit that I'm much more familiar with ImmutableJS and the whole [tl;dr](https://en.wikipedia.org/wiki/Immutable_object) behind persistent data structures in general than I was like 7 months ago (me coming from ActionScript  à la 98 and all :dancers:). It just took me some time to digest the approach and apply it on a safe, small scale daily basis.
+The documentation link on http://facebook.github.io/immutable-js/ could instead point to something like http://brentburg.github.io/immutable-docs/api/index.html to be more accessible.
+Okay I realize this question may be semi-flawed CS-ically because we probably want to go with a whitelist approach of building a new list using .filter() or something rather than chaining removals, as positions change after every single remove mutation.
+function (value) { return value.set('name', 'foobar'); });
+// => Record { newRecord: null, records: Map { foo: Record { name: "foobar" } } }
+Which is misleading for the same reason as `updateIn` was:
+@pluma, that's a good point, although I would prefer to avoid it for `size`/`length`.
+For value equality, right now I am using an awkward:
+In that case I agree a custom matcher makes sense.
+> Otherwise, I fear that Immutable.js Lists would suffer from incompatibility with code that expects a non-zero length to imply that bracket access will work, which I think will be surprising in the worst way
+am i misunderstanding something here..
+undefined
+undefined
+undefined
+undefined
+Accidentally stumbled upon this, though I understand that `filter` probably doesn't make sense for `Record` at all.
+Obviously this code is contrived, and there is always a way to avoid mutating the input to the updater function, but it would be nice if updateIn didn't have this pitfall.
+I I think it's better to shift accents a bit in documentation or add some comments to make it obvious even for fast-readers.
+// elsewhere
+// elsewhere
+@leebyron Curious, I can only assume you knew about flow before us haha, why did you go with TS anyways? Flow just wasn't/isn't as mature?
+I find I use a very small subset of the functionality in this library, so it's not too onerous to maintain my own declaration library, all gratuitously copied from @lambdahands.
+[libs]
+lib/
+and run Flow – it should yell at you :)
+@cpojer very nice, I'll try it out when I get the time :)
+WOOOOOO @cpojer Thanks for sharing!!
+/cc @bouk
+Your value isn't a number. That should be an error, so if flow is yelling at you that seems right.
+[libs]
+@bouk Thanks, I experienced the same problem and your version seems to work at least initially. I do not know enough about Flow yet to understand what the significance between `class` and `interface` is right now.
+fail with 'string This type is incompatible with number'
+Maybe someone more familiar with flow (@int3, @mroch) could help us out with understanding why this happens? Flow seems to be picking the empty constructor signature unless I explicitely reorder them, you can see the change here: https://gist.github.com/bouk/d29a6cafab0b9b3b1ec6/revisions
+@bouk Much appreciated but even with the revised Immutable Type File I receive the same behaviour as before. What version of Flow / Immutable are you seeing your successful results on?
+@bouk Flow represents the overloaded constructor signature as an intersection type, where each branch of the intersection is a function type. When checking for errors, Flow will try each branch of the intersection type in turn, until either a suitable type is found or, if no suitable type is found, will add an error.
+@samwgoldman @bouk Clear yes, but the answer is quite disconcerting if it means that a constructor type that specifies no arguments effectively allows `any` number arguments of `any` type... Am I misunderstanding something? And if not, is this rationalized as an intended design or a feature gap in Flowtype?
+–– Edit: Sorry this conversation is basically off-topic now.
+Regarding repro: This should not type check but it does (for me, that's the issue):
+[libs]
+[options]
+The way that Immutable Maps work is with Array types, are there any plans to change it or is that the way it is designed internally?
+@bouk Thanks for providing the flow definitions for immutable !
+For the following code
+[libs]
+lib/
+> For the following code
+> lib/
+@mhagmajer Thanks !
+As an example, I have this state (very primitive)
+but that doesn't describe it correctly at all. Is there any way I can combine Immutable app state, which is a Map, but very complex, with Flow?
+@bouk @runn1ng: IndexedCollection is an interface -- which is not a value (it's a type). You can't extend interfaces, they can only be 'implement'ed
+@bouk when using your / @cpojer  type defs I get an error on this code when I later try and call the Map  `remove` method on the return value:
+### dynamic behavior
+subject:       ?string,
+@bouk: One important change that I made from your declaration file is to use classes for everything instead of interfaces. My examination of Immutable's implementation indicates that everything is a class under the hood. But in the actual type hierarchy, some relations are subclasses and some are mixins. For example, `IndexedCollection` is properly a subclass of `Collection` and `Iterable` - but it is not a subclass of `IndexedIterable`. Instead, it appears that the `IndexedIterable` methods are copied onto the `IndexedCollection` prototype.
+@bouk, @samwgoldman: I also ran into issues with Flow choosing the wrong signature in an overloaded function. After some experimentation, I saw nice results with null-terminated argument lists. Here is a compose function that has been working well for me:
+// flow error:
+@hallettj hey, this looks awesome. I will definitely start experimenting with immutable + your lenses + flow. Will tell you if there are some bugs!
+Although the errors it generates when something is wrong are not ideal.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Map. This type is incompatible with
+^^^^^^^^^^^^^^^^^^ Map. This type is incompatible with
+@leebyron, I wish that Immutable.js ships with official flowtype definitions one day given how popular the library is... :)
+[libs]
+[options]
+``` ini
+````javascript
+````javascript
+I have to do the dance with `new` because of this - https://github.com/facebook/flow/issues/2930
+var QuestionStore = Reflux.createStore({
+**React element**
+{questions}
+undefined
+What about `setIn` and the like?
+=> undefined
+Immutable.OrderedMap({ a: 'aardvark', z: 'zebra' }).remove('a').get('z');
+https://github.com/vibornoff/asmcrypto.js/blob/master/Gruntfile.js
+Finally, somewhat offtopic, but why did you choose `obj.set('field', value)` over `obj.set({field: value})`?
+Slightly related, you can get TypeScript safety for updating record fields with a syntax like `record.set(obj => obj.field = 6)`.
+@abergs You can subscribe to GitHub issues by clicking the subscribe button on the right. No need to comment.
+I'm very new to the world of immutability so what I say might just be crazy talk. Would appreciate any feedback regardless :)
+Seems like this is completely wrong?
+Oops looks like I was actually loading an old version of immutable. Sorry about that so it does actually work as the docs say. Just the use of the word "vector" is out of date then.
+I would expect that nulling a property would work in deep trees also, even if the value is currently a List?
+getAB() {
+var myRecord = new ABRecord(b:3);
+myRecord.getAB();// 4
+getAB() {
+var myRecord = new ABRecord(b:3);
+myRecord.getAB();// 4
+getAB() {
+@zhenwenc Such a class would be immutable, but would not have the `set` functionality, nor default values support. That said, I'm personally inclined towards custom native-TS classes, considering how much hassle it is trying to use `Immutable.Record`—especially if a solution is liable to break with future versions of TS.
+getAB?: () => number;
+public getAB = () => this.a + this.b;
+@leonuh @abergs  I've created this library that has an interface called TypedRecord that extends from Immutable.Map and changes all return types to the generic provided type.
+Name: "Simy the bothless",
+interface ITimelineState {
+@torgeir Seq is a lazy type that cursor uses to wrap the actual values. If you want the actual value from a cursor, use `deref()`.
+Some example code:
+This is a bit wierd...
+// Somewhere
+I only get the problem in special cases and I haven't managed to create a small repro sample... not sure what is going on...
+console.log(oddSquares.last()); // 49
+console.log(oddSquares.last()); // 49
+Is there something wrong?
+Here's an example of something that I expected to work, but behaves oddly:
+http://jsbin.com/boropodo/4/edit?js,output
+:octopus:
+Open http://jsbin.com/jiyenuyemo/2/edit when you update one counter another branch becomes stale and refer to the old root data, when you update another counter it forgets the previous update to the first counter.
+This was more of a traceur bug. Funny thing: `_empty` was leaking onto `Immutable.Record` after the first `clear` on an instance.
+undefined
+undefined
+undefined
+undefined
+Why is the original object changed here? Is this normal behavior?
+// Somewhere else:
+// Immutable mixin for React components to optimise rendering. Adapted from [mattsenior's `react-bacon-mori`][1]
+// [1]: https://github.com/mattsenior/react-bacon-mori/
+I'm trying to be defensive and only let Immutable handle the equality check when both the new and old  vaue are Sequences, yet the code above triggers the following error in some cases:
+FWIW, this is how it works in mori:
+I've enjoyed this behavior as it's consistent and removes any checks for both `null` and `undefined`, but I could understand wanting to preserve JavaScripty semantics in this library - just figured I'd mention it as related prior art.
+>>> [undefined × 1]
+I was also confused by this, as the `push`seems to "go missing" if I `splice` what already is a Vector (as I end up with a Seq)
+The Immutable version throws an error though:
+I think it is best to try to stick as closely as possible to the JS array API, as that is what people will be used to. The reason I never liked Mori was that the API feels so foreign in JS.
+This is inconsistent from doing:
+'foo': {
+with, having never used grunt before. I was also ensure as to whether or
+Who doesn't love the vagaries of JavaScript? Looks like some reasonable choices of behavior.  :) I'll have to pick another issue to work on, now.
+Here's an example of confusing behavior:
+Creating a map has an unexpected result when called with an array.
+Contrast this to other values:
+var vec = Vector();
+Using RRB trees would be great. I look forward to it!
+I'd like to point out that this is a horrible behavior! (imo) Coming from CoffeeScript the fact that its ranges go both ways and so does iteration always caused me pain (and I don't think I have used it as a feature once). Having has(-1) return true is extremely counter intuitive. I guess this boils down to the fact that having an index and wanting to know whether it is valid happens more frequently than the situation where I want to know whether index is valid or it is a negative index which is valid... Adding another method which is strict will pollute the API and keeping it this way will lead to hard to debug/surprising errors down the line. Just my 2 cents.
+books: { name: 'Somename', price: 15},
+magazines: { name: 'Anothername', price: 8},
+//  books: { name: 'Somename', price: 15.95},
+console.log("Mori res: ", mr);
+Immutable reduce:  NaN
+Mori res:  10
+Immutable reduce:  NaN
+Mori res:  1
+at Q (/Users/mjaquish/test/node_modules/immutable/dist/Immutable.js:11:1716)
+**Contrived Example that causes the same error as my code:**
+**Working contrived example:**
+I am getting this weird behavior when either `get` or `deref` method is available while the other isn't.
+@leebyron the main thing behind `flatMap` is Monad. `flatMap` or `bind` is common operation in functional languages (like Haskell, Scala). Immutable API should have it IMO.
+@Tvaroh why do you think it is needed since JavaScript doesn't really support monads and
+Here is a quick monkey-patched implementation, although it isn't lazy:
+``` coffeescript
+Which is very important difference.
+undefined
+Try Weinre?
+Yes we encountered this as well, the MDN recommended Math.imul polyfill uses `N >>> 0` - this normally works fine but if the Math.imul polyfill code goes through Google Closure Advanced compilation ClojureScript hashing will break under the versions of Safari documented here. We worked around this by simply preambling the polyfill for Closure advanced builds.
++1 indeed :shipit:
+Leveraging that RB Tree implementation again should make this a less daunting task.
+// -> undefined
+Getting strange results when calling splice on a Vector with no arguments, thought you might be interested.
+// => NaN
+Also:
+arr
+arr
+Duplicates #23?
+Great work on adding Cursors support!  I've been using them in OM and am very happy to see them as part of this library.
+'(hwq$Mt5',
+'EBY)qRh',
+'(yyNB',
+'Y8]KiF',
+'q@oAb!q>K',
+',kle4j',
+'foo'
+var key = random_keys[i];
+// actual bug is here:
+This maybe related to hash algorithm, because if I use `testKey2 = 'z_G_rZ\\#'` (changed the `{` character to `_`) then this works.
+I thought that it might be related to unusual ASCII characters in keys, but then I generated only alpha-numeric keys, and this one is also failing:
+random_keys = [
+"Hg1xEasWr",
+"eQIR78dx",
+"YOmT",
+"uXsb2ansMz",
+"ba",
+"LATfR7ad",
+"JIWCgW",
+"DRNu1"
+console.log(map.get('DRNu1')); // undefined (!)
+a = a.updateIn([], function (root) { return root.set("bar", "baz"); })
+I also added a comma after "a series of mutations" on line 334.
+Example of unexpected results:
+// [undefined x 3]
+awesometown
+The problem appears to be related to the use of upper and lowercase 'i' for immutable. If I put a symlink called 'Immutable' inside my node_modules directory and pointing to 'immutable', then my code starts up fine.
+https://github.com/tgriesser/mori-cursors
+@jurassix Thanks, but I managed to get it working. I was totally on the wrong track before. You can ignore my previous comment.
+Fiddle for reference: http://jsfiddle.net/459wLw5c/1/
+// alternatively:
+It works fine when the state is set as:  `this.setState({data: getStateFromStore()})` which is kindof clunky and hackish.
+Looks like this alternate method of setting state from @leebyron himself would help you out: https://github.com/facebook/react/pull/2991
+// Vector [ 2, 3, 4 ]
+// Vector [ 2, 3, 4 ]
+v2 === v3
+Using `UnorderedMap` for longer time can consume lots of memory.
+And yes, I found this king of leak only in OrderedMap.
+Curious – why'd you switch away from jstransform?
+Leads to strange fact that `a._tail.array.length == 3` but both `b` and `c` tails are same and their length is `2`. This happens only for lengths of tail == 2, it seems weird. Should it behave like this?
+"id": "67azea",
+@granmoe FWIW, I'm using https://github.com/intelie/immutable-js-diff and it works really nicely.
+did you got my question leebyron ?
+Edit: I'm kind of erroneously assuming polyfilling missing things like in React is fine, but may not be fine with people
+Edit3: maybe this is an Uglify bug, but I feel like something like this should've already been tested for in some way...
+Assume iam having the follwing Map :
+2. map = map.updateIn(['b','d'], value => 1000) // giving unexpected token >
+thank you spicyj
+Hey, thanks for listening to my suggestion and adding cursors! This is awesome.
+// => [undefined x 5]
+@pluma I don't exactly understand your resistance. The api is arguably simpler as a flat list of functions achieving composability through clear `compose`, `pipe`, `partial`, `curry`, etc. functions.
+Well this is an interesting option...
+https://github.com/paldepind/functionize
+@hypirion (author of the thesis above): didn't you say you found RRB-trees slower in practice (like, by a constant factor) than the Clojure-style vector for some operations?
+@Pauan in the case of Mori you're not measuring what you think you're measuring, there's a pending update to Mori which will permit performance comparisons of the actual data structures from plain JavaScript. Also your AVL tree implementation seems to come in consistently behind for random access/update in these benchmarks which is one of the value propositions for Bitmapped Array Tries. Also you're not benchmarking against transients in the Immutable.js case nor the Mori case.
+In the past I have benchmarked transients (in both Immutable-js and Mori), and I found that in some cases they were slower, for bulk inserts they were generally faster, but in general they don't make a huge difference. It wasn't worth the extra time it took to benchmark them, so I took them out. But I can add them back in if you would like to see the results.
+P.S. O(1) concat and slice in Mori is insane. I'm curious how that's implemented, and whether it involves some other tradeoffs or not.
+@Pauan: Slice in Mori is O(1) time because it creates a view over the original vector. In essence, it's like
+if (isAlreadyASlice(vec)) {
+Totally made-up pseudocode, but conceptually, that's what is going on. So, as long as the slice lives, nothing in the original vector can be garbage collected.
+@swannodette: Correct me if I'm remembering wrong or the above behavior has since changed.
+@graue I see, I was afraid it might be something like that. Thanks for the explanation.
+@Pauan `concat` in Mori just produces a lazy sequence so the cost is amortized.
+Mori 0.3.2 is significantly faster than 0.2.9. Most of the speed gain comes from using fixed-arity functions in the benchmark code.
+@Pauan the speedups do not come primarily from fixed arity invokes. Two things changed in ClojureScript, we no longer leak `arguments` and the standard library is compiled itself with static invokes enabled thus removing any internal overheads. Even without JS static invokes you will see Mori win out in many cases.
+The results I posted were with the `fN` functions.
+@Pauan btw all your Mori `slice` benches are wrong. `subvec` is the same as Immutable.js `slice`. You should correct this.
+@Pauab `subvec` is not lazy. Immutable.js uses our same windowing approach. Not sure where you're getting your information from. Your benchmark is wrong.
+If you prefer, I can simply remove the `subvec` benchmark for Mori.
+@Pauan my point is that your benchmarking approach doesn't make the least bit of sense. You won't allow lazy views based on principles and then turn around and benchmark a non-equivalent O(n) operation. This is kind of thing that @leebyron was suggesting against :)
+Okay guys, I finally agreed. Will give transit-js a try.
+Test Plan: jest
+undefined
+@spicyj my bad, probably the fix just hasn't made it up to npm yet. closing as dup, will reopen if necessary.
+// having a set of ids
+// and group them by 'foo'
+// 3 times undefined??? WAT
+Scala-like `sort`, `sortBy` (sort by nested value), `sortWith` (sort with custom comparator) methods would be very helpful for appropriate collections.
+// desired mutation:
+// with immutable objects it doesn't seem to be possible:
+This is not terrible, but I'm using JavaScript... so it's really,
+That could then be handled that the "verbose" way via `updateIn`.
+Gorgeous, Lee! :clap:
+var numOds = coll.count(function (i) { return i % 2 === 1; });
+BTW, for those interested I put Immutable builds [here](https://github.com/Tvaroh/moreartyjs/tree/master/dist) for now.
+Forgive me if this is too crazy. :D
+Looks like some muddied logic around treating `seq.length` as booleany in slice or concat.
+I'm not sure if I'm overlooking something or if this is a stupid question, but... Why not use JavaScript getters?
+@Tvaroh At least with latest Chrome, the method-based getters are actually about 50% slower: http://jsperf.com/getter-setter/8
+Regarding non-string keys:
+o.[another key]; // SyntaxError
+@idolize
+Immutable looks pretty cool!
+Or is the obj meant to be in thousands?
+@fkling  but `.toJSON` expects you to return a JSON string, that's what `Date` does in the spec.. this is also what a lot of libraries do with it. Returning an object just happens to work since it'll recursively run the serialization function again.
+Never mind, I'm an idiot.
+Either I am nit-picking or misunderstand the readme, but these two methods are listed as examples that would normally mutate a collection under "JavaScript-first API".
+No, I mean .push and .slice are different in that .push modifies the original array:
+funny, just realized .push() returns the length of the new array, but I never needed that :)
+class Bar {
+export = Bar;
+// undefined
+and in reverse

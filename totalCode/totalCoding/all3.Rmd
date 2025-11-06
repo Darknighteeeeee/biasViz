@@ -1,0 +1,448 @@
+
+---
+title: "综合语言分析仪表盘"
+runtime: shiny
+output:
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    theme: cosmo
+---
+```
+
+```{r setup, include=FALSE}
+# 全局依赖
+library(flexdashboard)
+library(shiny)
+library(plotly)
+library(DT)
+library(dplyr)
+library(tidyr)
+library(readr)
+library(jsonlite)
+library(gt)
+library(RColorBrewer)
+library(htmltools)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+<!-- ====================== 全局数据加载函数 ====================== -->
+
+```{r global-data}
+# ---------- 工具：安全读取 project CSV 并构建矩阵 ----------
+load_project_data <- function(project_num) {
+  # 文件名约定：project{num}.csv ，列包含 Word1, Word2, Cosine Similarity, Euclidean Distance
+  file_path <- paste0("project", project_num, ".csv")
+  
+  if (!file.exists(file_path)) {
+    # 如果文件不存在，返回示例数据（不会抛错）
+    message("Warning: ", file_path, " not found — returning example data.")
+    words <- paste0("Word", 1:30)
+    # 构建对称的余弦相似度示例矩阵（-1..1）
+    sim <- matrix(runif(30*30, -1, 1), nrow = 30)
+    sim <- (sim + t(sim)) / 2
+    diag(sim) <- 1
+    rownames(sim) <- colnames(sim) <- words
+    # 欧氏距离示例
+    distm <- matrix(runif(30*30, 0, 2), nrow = 30)
+    distm <- (distm + t(distm)) / 2
+    diag(distm) <- 0
+    rownames(distm) <- colnames(distm) <- words
+    raw_data <- data.frame(
+      Word1 = rep(words, each = length(words)),
+      Word2 = rep(words, times = length(words)),
+      `Cosine Similarity` = as.numeric(t(sim)),
+      `Euclidean Distance` = as.numeric(t(distm)),
+      stringsAsFactors = FALSE
+    )
+    return(list(raw_data = raw_data,
+                cosine_matrix = sim,
+                euclidean_matrix = distm,
+                project_name = paste("项目", project_num),
+                file_missing = TRUE))
+  }
+  
+  # 读取真实数据
+  df <- tryCatch({
+    read_csv(file_path, show_col_types = FALSE)
+  }, error = function(e) {
+    stop("读取文件失败：", file_path, " — ", e$message)
+  })
+  
+  # 验证必须列
+  req_cols <- c("Word1", "Word2", "Cosine Similarity", "Euclidean Distance")
+  if (!all(req_cols %in% colnames(df))) {
+    stop("文件 ", file_path, " 缺少必要列（需要 Word1, Word2, Cosine Similarity, Euclidean Distance）")
+  }
+  
+  # 宽表化
+  heatmap_data <- df %>%
+    select(Word1, Word2, `Cosine Similarity`, `Euclidean Distance`) %>%
+    mutate(Word1 = as.character(Word1), Word2 = as.character(Word2))
+  
+  # 余弦矩阵
+  cosine_wide <- heatmap_data %>%
+    select(Word1, Word2, `Cosine Similarity`) %>%
+    pivot_wider(names_from = Word2, values_from = `Cosine Similarity`, values_fill = NA)
+  rownames_cos <- cosine_wide$Word1
+  cosine_mat <- cosine_wide %>% select(-Word1) %>% as.data.frame()
+  # 强制 numeric（避免字符引发问题）
+  cosine_mat <- as.matrix(sapply(cosine_mat, function(x) as.numeric(as.character(x))))
+  rownames(cosine_mat) <- rownames_cos
+  colnames(cosine_mat) <- colnames(cosine_wide)[-1]
+  
+  # 欧氏矩阵
+  euclid_wide <- heatmap_data %>%
+    select(Word1, Word2, `Euclidean Distance`) %>%
+    pivot_wider(names_from = Word2, values_from = `Euclidean Distance`, values_fill = NA)
+  rownames_euc <- euclid_wide$Word1
+  euclid_mat <- euclid_wide %>% select(-Word1) %>% as.data.frame()
+  euclid_mat <- as.matrix(sapply(euclid_mat, function(x) as.numeric(as.character(x))))
+  rownames(euclid_mat) <- rownames_euc
+  colnames(euclid_mat) <- colnames(euclid_wide)[-1]
+  
+  return(list(raw_data = df,
+              cosine_matrix = cosine_mat,
+              euclidean_matrix = euclid_mat,
+              project_name = paste("项目", project_num),
+              file_missing = FALSE))
+}
+```
+
+---
+
+## Column {.sidebar}
+
+### 全局控制（热图）
+
+```{r}
+selectInput("hm_project", "选择项目:",
+            choices = paste("项目", 1:20), selected = "项目 1")
+radioButtons("hm_metric", "选择指标:",
+             choices = c("余弦相似度" = "cosine",
+                         "欧氏距离" = "euclidean"),
+             selected = "cosine")
+selectInput("hm_limit", "显示前 N 个词（按矩阵行）:",
+            choices = c(10, 20, 30, 50, 100), selected = 20)
+checkboxInput("hm_cluster_rows", "对行做层次聚类并重排", value = FALSE)
+checkboxInput("hm_cluster_cols", "对列做层次聚类并重排", value = FALSE)
+checkboxInput("hm_show_values", "在格子内显示数值（仅当格子数较少时启用）", value = FALSE)
+sliderInput("hm_font_size", "坐标轴字体大小:", min = 8, max = 20, value = 11)
+```
+
+## Column {data-width=700}
+
+### 相似度热图（Chart A）
+
+```{r}
+# 选择并加载数据（reactive）
+selected_data <- reactive({
+  req(input$hm_project)
+  project_num <- as.numeric(gsub("项目\\s*", "", input$hm_project))
+  load_project_data(project_num)
+})
+
+renderPlotly({
+  sd <- selected_data()
+  validate(need(!is.null(sd), "未能加载数据。"))
+  
+  # 选择矩阵
+  if (input$hm_metric == "cosine") {
+    mat <- sd$cosine_matrix
+    zlim <- c(-1, 1)
+    colors <- colorRampPalette(c("#0571b0","white","#ca0020"))(100) # RdBu 风格
+    colorbar_title <- "Cosine"
+  } else {
+    mat <- sd$euclidean_matrix
+    # 防止 NA/Inf
+    mat_vals <- as.numeric(mat)
+    maxv <- suppressWarnings(max(mat_vals, na.rm = TRUE))
+    if (!is.finite(maxv)) maxv <- 1
+    zlim <- c(0, maxv)
+    colors <- colorRampPalette(c("white","#f46d43","#67001f"))(100)
+    colorbar_title <- "Euclid"
+  }
+  
+  validate(need(is.matrix(mat) && nrow(mat) > 0 && ncol(mat) > 0, "矩阵为空或格式不支持。"))
+  
+  # 截取前 N 行列（按行）
+  N <- as.numeric(input$hm_limit)
+  Nrow <- min(N, nrow(mat))
+  Ncol <- min(N, ncol(mat))
+  mat <- mat[1:Nrow, 1:Ncol, drop = FALSE]
+  
+  # 聚类重排（可选）
+  row_names <- rownames(mat)
+  col_names <- colnames(mat)
+  if (isTRUE(input$hm_cluster_rows) && nrow(mat) > 2) {
+    # 对行进行聚类（基于行之间的距离）
+    try({
+      drow <- dist(mat)
+      crow <- hclust(drow)
+      row_idx <- crow$order
+      mat <- mat[row_idx, , drop = FALSE]
+      row_names <- rownames(mat)
+    }, silent = TRUE)
+  }
+  if (isTRUE(input$hm_cluster_cols) && ncol(mat) > 2) {
+    try({
+      dcol <- dist(t(mat))
+      ccol <- hclust(dcol)
+      col_idx <- ccol$order
+      mat <- mat[, col_idx, drop = FALSE]
+      col_names <- colnames(mat)
+    }, silent = TRUE)
+  }
+  
+  # hover 文本矩阵（字符型）
+  hover_text <- matrix("", nrow = nrow(mat), ncol = ncol(mat),
+                       dimnames = list(rownames(mat), colnames(mat)))
+  for (i in seq_len(nrow(mat))) {
+    for (j in seq_len(ncol(mat))) {
+      val <- mat[i, j]
+      if (is.na(val)) {
+        hover_text[i, j] <- paste0("row: ", rownames(mat)[i], "<br>col: ", colnames(mat)[j], "<br>value: NA")
+      } else {
+        hover_text[i, j] <- paste0("row: ", rownames(mat)[i], "<br>col: ", colnames(mat)[j], "<br>value: ", formatC(val, digits = 3, format = "f"))
+      }
+    }
+  }
+  
+  # plotly heatmap
+  p <- plot_ly(
+    x = colnames(mat),
+    y = rownames(mat),
+    z = mat,
+    type = "heatmap",
+    colors = colors,
+    zmin = zlim[1],
+    zmax = zlim[2],
+    text = hover_text,
+    hoverinfo = "text"
+  )
+  
+  # 在格子内显示数值（仅当 cell 数量较少时）
+  cell_count <- nrow(mat) * ncol(mat)
+  if (isTRUE(input$hm_show_values) && cell_count <= 400) { # 400 作为安全阈值
+    # 逐格注释（annotations）
+    ann <- list()
+    fontsize_ann <- max(8, round(input$hm_font_size * 0.8))
+    for (i in seq_len(nrow(mat))) {
+      for (j in seq_len(ncol(mat))) {
+        txt <- if (is.na(mat[i, j])) "" else sprintf("%.2f", mat[i, j])
+        ann[[length(ann) + 1]] <- list(
+          x = colnames(mat)[j], y = rownames(mat)[i],
+          text = as.character(txt),
+          xref = "x", yref = "y",
+          showarrow = FALSE,
+          font = list(size = fontsize_ann),
+          xanchor = "center", yanchor = "middle"
+        )
+      }
+    }
+    p <- p %>% layout(annotations = ann)
+  }
+  
+  # 最终布局设置
+  p <- p %>% layout(
+    title = sd$project_name %>% paste0(" — ", ifelse(input$hm_metric == "cosine", "余弦相似度", "欧氏距离")),
+    xaxis = list(title = "列 (Word2/Feature)", tickangle = -45, tickfont = list(size = input$hm_font_size), automargin = TRUE),
+    yaxis = list(title = "行 (Word1)", tickfont = list(size = input$hm_font_size), automargin = TRUE),
+    margin = list(l = 120, b = 160, t = 60, r = 40)
+  )
+  
+  # 如果文件缺失，提醒用户（界面上）
+  if (isTRUE(sd$file_missing)) {
+    p <- htmltools::tagList(
+      htmltools::div(style = "padding:6px; color:#8a6d3b; background:#fcf8e3; border:1px solid #faebcc; border-radius:4px; margin-bottom:6px;",
+                     sprintf("注意：未找到对应的 CSV 文件（project%s.csv）。当前显示示例数据。", gsub("项目\\s*", "", input$hm_project))),
+      p
+    )
+  }
+  
+  p
+})
+```
+
+## Column {data-width=350}
+
+### 原始数据（Chart B）
+
+```{r}
+renderDataTable({
+  sd <- selected_data()
+  # 显示原始 raw_data（如果过大，仅展示前几行）
+  df <- sd$raw_data
+  if (nrow(df) > 500) df <- head(df, 500)
+  datatable(df, options = list(pageLength = 8, scrollX = TRUE), rownames = FALSE)
+})
+```
+
+---
+
+### English Variation Across Projects（单独页面）
+
+```{r}
+# 读取 sentence_statistics.json（若无则使用示例）
+ev_has_file <- file.exists("sentence_statistics.json")
+ev_df <- NULL
+if (ev_has_file) {
+  try({
+    ev_raw <- fromJSON("sentence_statistics.json")
+    ev_df <- tibble::enframe(ev_raw, name = "project", value = "stats") %>%
+      unnest_wider(stats) %>%
+      pivot_longer(cols = c("african_english", "standard_english"), names_to = "type", values_to = "count") %>%
+      group_by(project) %>%
+      mutate(total = sum(count, na.rm = TRUE)) %>%
+      ungroup() %>%
+      mutate(percentage = ifelse(total>0, count/total*100, 0))
+  }, silent = TRUE)
+}
+# 如果没有文件或解析失败，生成示例
+if (is.null(ev_df)) {
+  ev_df <- data.frame(project = paste0("proj", 1:6),
+                      type = rep(c("african_english", "standard_english"), each = 6),
+                      count = sample(50:500, 12)) %>%
+    group_by(project) %>% mutate(total = sum(count)) %>% ungroup() %>% mutate(percentage = count/total*100)
+  ev_has_file <- FALSE
+}
+```
+
+## Column {data-width=600}
+
+### Stacked Percentage Bar Chart
+
+```{r}
+renderPlotly({
+  p <- plot_ly(ev_df, x = ~project, y = ~percentage, color = ~type,
+               type = "bar", colors = c("#1f77b4","#ff7f0e"),
+               text = ~paste0("Project: ", project, "<br>Type: ", type, "<br>Count: ", count, "<br>Pct: ", round(percentage, 1), "%"),
+               hoverinfo = "text") %>%
+    layout(title = "Percentage of African English vs. Standard English by Project",
+           xaxis = list(title = "Project"), yaxis = list(title = "Percentage (%)", ticksuffix = "%"),
+           barmode = "stack", margin = list(b = 120))
+  p
+})
+```
+
+## Column {data-width=400}
+
+### Data Summary（gt）
+
+```{r}
+render_gt({
+  summary_df <- ev_df %>% select(project, type, count, percentage) %>%
+    pivot_wider(names_from = type, values_from = c(count, percentage)) %>%
+    arrange(project)
+  # 如果文件不存在，增加提示
+  tbl <- summary_df %>%
+    gt() %>%
+    tab_header(title = md("**English Variation by Project**"),
+               subtitle = ifelse(ev_has_file, "Data source: sentence_statistics.json", "示例数据（未找到 sentence_statistics.json）")) %>%
+    fmt_number(columns = starts_with("percentage"), decimals = 1) %>%
+    fmt_integer(columns = starts_with("count")) %>%
+    opt_row_striping()
+  tbl
+})
+```
+
+---
+
+### 词性特征分析仪表盘（JSON 批量读取）
+
+```{r}
+# 读取目录下所有 JSON（但排除 sentence_statistics.json）
+json_files <- setdiff(list.files(pattern = "\\.[jJ][sS][oO][nN]$"), "sentence_statistics.json")
+pos_data <- NULL
+if (length(json_files) > 0) {
+  all_list <- lapply(json_files, function(f) {
+    tryCatch({
+      j <- fromJSON(f)
+      # 保证 numeric
+      vals <- as.numeric(unlist(j))
+      data.frame(feature = names(j), value = vals, project = tools::file_path_sans_ext(f), stringsAsFactors = FALSE)
+    }, error = function(e) {
+      NULL
+    })
+  })
+  all_list <- Filter(Negate(is.null), all_list)
+  if (length(all_list) > 0) {
+    pos_data <- bind_rows(all_list)
+  }
+}
+# 若没有 JSON 文件，生成示例
+if (is.null(pos_data) || nrow(pos_data) == 0) {
+  feature_labels_demo <- c("adverb","conj","clout","auxverb","analytic_thinking","article","ipron","negate","authentic","tone","prep","ppron","lsm")
+  pos_data <- expand.grid(project = paste0("proj",1:4), feature = feature_labels_demo, stringsAsFactors = FALSE) %>%
+    mutate(value = runif(n(), 0, 1))
+}
+# 特征标签（可扩展）
+feature_labels_map <- c(
+  "adverb" = "副词", "conj" = "连词", "clout" = "影响力",
+  "auxverb" = "助动词", "analytic_thinking" = "分析思维",
+  "article" = "冠词", "ipron" = "冲动词", "negate" = "否定词",
+  "authentic" = "真实性", "tone" = "语气",
+  "prep" = "介词", "ppron" = "人称代词", "lsm" = "语言风格匹配"
+)
+pos_data <- pos_data %>% mutate(feature_label = dplyr::recode(feature, !!!feature_labels_map, .default = feature))
+```
+
+## Column {.sidebar}
+
+### POS 控件
+
+```{r}
+selectInput("pos_project", "选择项目:", choices = unique(pos_data$project), selected = unique(pos_data$project)[1])
+```
+
+## Column {data-width=700}
+
+### 词性雷达图
+
+```{r}
+renderPlotly({
+  proj <- req(input$pos_project)
+  df <- pos_data %>% filter(project == proj)
+  # 确保特征顺序稳定
+  feats <- unique(pos_data$feature)
+  df <- df %>% mutate(feature = factor(feature, levels = feats)) %>% arrange(feature)
+  # 如有缺失，用 0 填充
+  vals <- ifelse(is.na(df$value), 0, df$value)
+  theta <- ifelse(df$feature %in% names(feature_labels_map), feature_labels_map[df$feature], as.character(df$feature))
+  # 闭合路径
+  r_vals <- c(vals, vals[1])
+  theta_vals <- c(theta, theta[1])
+  plot_ly(type = 'scatterpolar', mode = 'lines') %>%
+    add_trace(r = r_vals, theta = theta_vals, fill = 'toself', name = proj) %>%
+    layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 1))),
+           title = paste(proj, "词性特征雷达图"))
+})
+```
+
+## Column {data-width=400}
+
+### 词性特征条形图
+
+```{r}
+renderPlotly({
+  proj <- req(input$pos_project)
+  df <- pos_data %>% filter(project == proj)
+  df <- df %>% arrange(desc(value))
+  plot_ly(df, x = ~feature_label, y = ~value, type = 'bar', text = ~round(value,3), hoverinfo = 'text',
+          textposition = 'auto') %>%
+    layout(title = paste(proj, "各词性特征值"), xaxis = list(tickangle = -45))
+})
+```
+
+### 项目特征数据表
+
+```{r}
+renderDataTable({
+  wide_data <- pos_data %>% select(project, feature_label, value) %>% pivot_wider(names_from = feature_label, values_from = value)
+  datatable(wide_data, options = list(pageLength = 8, scrollX = TRUE), filter = "top")
+})
+```
+
+```
+
+

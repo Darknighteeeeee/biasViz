@@ -1,0 +1,1134 @@
+```marko
+```marko
+That is a separate issue though...
+```marko
+Marko does not currently correctly handle multiple dynamic top-level HTML elements correctly in all cases. We are working on a fix for that. @austinkelleher @mlrawlings, can either of you look into improving the error message if the ID for the top-level HTML is dynamic? Thanks. I'm keeping this issue open because we are not providing a good error message to the user. @patrick-steele-idem I'll get to working on this either later tonight or tomorrow.  We'll investigate. Thanks for reporting the problem. I'm not able to reproduce the issue using the [marko-webpack](https://github.com/marko-js-samples/marko-webpack) sample app. I tried using both `webpack@1` and `webpack@2` and I also used `npm@5`. Could you provide a sample app to reproduce the problem or more details on your setup?  I was not able to reproduce the issue using the [marko-webpack](https://github.com/marko-js-samples/marko-webpack) sample app. I tried using both `webpack@1` and `webpack@2` and I also used `npm@5`. Could you provide a sample app to reproduce the problem or more details on your setup? Thanks for providing the project, @arthurchenn!
+```marko
+```marko
+```marko
+var marko_attrs0 = {
+```marko
+while(targetEl) {
+var id = targetEl.id;`
+```marko
+Hello ${THIS IS NOT VALID}!
+### Context
+```marko
+When you are in "JavaScript land" (e.g. inside a JavaScript function), Marko does not have much control because we don't want Marko to get in the business of rewriting JavaScript code.
+apiKey: true,
+```marko
+But because webpack uses exclamation points in require statements as a loader syntax (`require('css!less!./path/to/style.less')`), the `!important` is throwing things off.
+I'm doing something [weird](https://github.com/marko-js/marko-loader/blob/master/src/code-loader.js#L3-L6) to handle newlines, but we should probably replace that with a call to `escape` [here](https://github.com/marko-js/marko-loader/blob/master/src/index.js#L30) and `unescape` [here](https://github.com/marko-js/marko-loader/blob/master/src/code-loader.js#L5).
+Red
+<fancy-button disabled-class=style('disabled-button') enabled-class=style('enabled-button')>
+</fancy-button>
+div.colors_abc123 {
+ul.colors_abc123 {
+.colorLI_abc123 {
+.disabled-button_abc123 {
+.enabled-button_abc123 {
+var style = marko_style('_abc123');
+// style('colorLI') --> 'colorLI_abc123'
+## Mixed syntax can be messy
+```marko
+// A mix of scoped and global styles
+.more-non-scoped {
+.even-more-non-scoped {
+## Scoped Attribute
+```marko
+// Global styles can be included in the component too
+```marko
+```marko
+```marko
+In addition, since we would use a special prefix, Marko would not need to deeply parse the CSS to find all of the scoped CSS class names to be added to the output HTML.
+```marko
+<fancy-button disabled-class=style('disabled-button') enabled-class=style('enabled-button')>
+</fancy-button>
+```marko
+<fancy-button disabled-class='disabled-button' enabled-class='enabled-button'>
+</fancy-button>
+```marko
+- It works with multi-file and single-file approaches
+```marko
+``` @gilbert It's subjective but I am not sure double dot looks better than `.__my-class` or `.MyClass` and I suspect that the double dot will impact tooling and syntax highlighting for the render-to-CSS languages such as Less or Sass, but I have not verified (`..my-class` is not valid CSS but both `.__my-class` and `.MyClass` are valid CSS and should not cause any linting and syntax highlighting issues).  What is the recommended way to share common methods across widgets? Normally, I would extend a base class, but it seems this isn't possible since constructors are never called.
+cd marko
+cd markojs-website
+npm link makro
+```marko
+```marko
+_list.marko_
+```marko
+_page.marko_
+```marko
+### Open Questions
+```marko
+```marko
+```marko
+Also, test cases :)
+# Caveats
+```marko
+```marko
+```marko
+```marko
+```marko
+var mixins = {
+If you still want to make use of `state.percent` (and thus marko's vdom), then this structure might work better for you:
+```marko
+```marko
+``` @Hesulan you may be right. I'll throw out some other ideas:
+Eldar @Eldar-X Mar 24 10:47
+### Context
+</carousel>
+```jsx
+- [BEM](http://getbem.com/introduction/)
+const marko = require('marko/express')
+require('marko/express/response').patch(express);
+_index.marko_
+```jsx
+var marko_component = {
+```jsx
+👍  or 👎  ?
+```jsx
+```marko
+Throws:
+This would be the last nail in the "uncanny JavaScript-like tags" coffin.  @tinovyatkin Can you provide more details?  When running the tests the file/line shows up correctly.
+WARNING!!
+```jsx
+That is another reason we want to get away from `ref`.
+@mindeavor
+```jsx
+```jsx
+_src/marko.json:_
+I'm not sure this is a good idea, but we could have a global "off" switch for this behavior if there are users that are heavily using Custom Elements and don't wish to list them all.  If there was info about how to do that in the docs linked in the error I think that would eliminate any potential confusion. I think @jsumners has a point. It might only make sense to throw an error on a would-be concise tag.
+@Hesulan If we're doing this it needs to be the default as one of the big reasons for these kind of helpful error messages is to help beginners who likely won't realize there's some way to opt-in to warnings.
+@mindeavor
+Root level text would also be an issue if there was some global way to turn concise on or off because what would be parsed as text in HTML mode would be parsed as concise tags in concise mode. I'm not convinced this is the right idea, but we could also only have the warning for tags names without dashes in their name.  Custom Elements [require hyphens in their names](https://www.w3.org/TR/custom-elements/#valid-custom-element-name) so we wouldn't catch those tags with this rule. When building a complex project you will often need to rename a UI component. It would be _really_ nice if you could recompile all of your templates to figure out exactly which UI components broke as a result of the name change. I'm strongly in favor of throwing an error when the Marko detects an unrecognized tag as long as we get the error message **perfect** (the developer should know exactly what to do to register the tag and it should be super simple). > I don't like the idea that concise users would have to put boilerplate in every file
+``` @Hesulan As clarification, the idea for this originally stemmed from the discussion we (@mindeavor, @ramses0 and I) had on how to reduce any confusion around syntax, specifically concise syntax at the root, but I think it has enough merit to stand on its own.
+"ignore-unrecognized-tags": ["paper-*", "iron-*", "google-*"]
+```jsx
+```jsx
+Widget A's `marko-tag.json`:
+```jsx
+```jsx
+.foo {
+.foo {
+```jsx
+```jsx
+```jsx
+_index.marko_
+.foo {
+<script marko>
+.foo {
+For someone who is new to Marko, I really find it difficult to believe that someone would look at the following and not understand what is happening.  And I don't see how wrapping this in a `<script>` tag would make it any less intimidating.
+`class` is not really a class, but a special tag that looks like JavaScript. The current answers are in the same vein: a special `import` tag, a special `function` tag, and a special `static` tag. Put this together with `var`, `for`, and probably others, and you've reached an uncanny valley of javascript-but-not-really-javascript syntax.
+The reason I was ok with `component class {}` was that the word `component` immediately tells you something special is going on, to up your guard and not think you can write just any JavaScript code in this file.
+```jsx
+@mindeavor I understand that concern and I could probably be convinced to dial back some of the JS tags introduced in v4, specifically `class` (for non-component classes) and `function` and probably `invoke`, maybe even `assign` and `var` &mdash; we could require them to be within a JS block where any JS is valid.
+Defining the component's class is somewhat special, and I don't think we should start modifying what you're expecting to be pure JS.  Just by seeing `class`, it lets you know exactly what syntax is allowed inside the `{ ... }` because it's a 1:1 match with JS.  (This would be my argument against something like `component {}`).
+### `var`
+```jsx
+``` @mlrawlings I think dialing back the JS tags is a great solution. Having a minimal number of them makes me a lot more comfortable explaining and promoting the idea to others.
+```jsx
+// this has a space, so it's different than ${}
+>> This is a nested block quote 😢
+If anyone has any last minute objections please let us know!
+> <https://github.com/notifications/unsubscribe-auth/AB3jnOk12Z1yIi79QgScEITg3Wpipjyfks5rXPkVgaJpZM4LtAQG>
+- Multiline `/^\s[$]{2}\{/` @mikewoo200
+And there is an issue with `$${ ... }` that could potentially end up with a confusing situation like this:
+```jsx
+<!-- Not quite JS -->
+However, I would like to have some discussion around the Marko magic approach and if we should make all of it mainstream.
+fs-extra
+### Context
+### Open Questions
+- Is this too "magical" for marko's taste?
+// Add support for a settting a property chain while maintaining
+// Or, the long way
+Hope that clarifies. While we want to avoid changes at this point, nothing is set in stone so if you have any thoughts or concerns then please share. I'm closing the issue but please feel free to add more comments here.  We've already deviated from JavaScript (in ways that I make more sense) and we would not want to introduce any breaking changes at this point. FYI, You can do the following if you want both the key/index and value when looping over the elements/properties of an `Array`/`Object`:
+### Context
+One option is to just not generate any code for the `<!doctype>` node when compiled for the browser. Another option is to show a friendly compiler error. Thoughts? Concerns? Alternative ideas?  Fixed! New version published: `marko@4.0.0-beta.8`    Hey @albertogasparin, it was necessary to deprecate a single hyphen in v3 because we have to remove support for single hyphens in v4 to support the improvement of allowing spaces in attribute values when the attribute value is a complex expression. If you are not able to get rid of the deprecation warning then that is a bug. I am investigating now and will publish a new version of `htmljs-parser` if necessary. I will update soon. Thanks for reporting the problem! Sorry for the bad deprecation warning when using a double hyphen. The problem has been fixed with `htmljs-parser@2.2.2`. I know the deprecation warnings can be a lot of noise, but we didn't see a good way to avoid this change as part of Marko v4. I hope it is not too much of a pain to update your code now, but we do plan on providing a migration tool a little later that would automatically fix the issue, but it is not ready yet.  Introduces colon alias destructuring support for `import`:
+```javascript
+```javascript
+_src/components/static-text/marko-tag.json:_
+```jsx
+```javascript
+```javascript
+```  @SebastiaandenBoer I think your issue is separate. I think you are forgetting to set the `Content-Type` header to ensure that the browser knows how to interpret the response from the server. You should be doing something similar to the following in your page controller:
+```javascript
+.foo {
+`page.marko`:
+`page.marko`:
+```javascript
+Or, possibly a little more conservative:
+```javascript
+**Differences:**
+**Differences:**
+**Differences:**
+**Differences:**
+### Widgets
+@Hesulan How does the Promise implementation look?
+"transformer":"./foo.transformer.js"
+Marko has some logic to handle old-style `Promise` objects, but for the most part we are assuming that a `ES6`-style `Promise` is being provided: file:///Users/psteeleidem/Library/Application%20Support/Dash/DocSets/JavaScript/JavaScript.docset/Contents/Resources/Documents/developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Promise.html
+I'm not seeing a need to change anything related to the comments above. We still need to decide if we want to wrap the `render(data)` call with a `try...catch` to reject the promise. Currently, we don't have a single `try...catch` block in `marko` for performance reasons (functions with `try...catch` are not optimized by V8) @Hesulan these are great points, but I think we should focus on the `Promise` specification as defined as part of EcmaScript and implemented by Node.js and browsers (and polyfills). I would welcome as many tests as possible to make sure the Marko implementation holds up to all edge cases for the native `Promise` implementation, a popular `Promise` polyfill and maybe `q` and `bluebird`. For example, we need to make sure we have a test case for a synchronous error when rendering a template and using `.then()`/`.catch()`. Does that seem reasonable?  @cheft, Marko v4 will be IE9+, so I would plan for that, but I believe we're currently IE8+ on v3.
+`page.marko`:
+`page.marko`:
+### `@` tags
+`page.marko`:
+Hello ${foo}!
+@Hesulan My thinking on the `<@tags>` is that they would need to be the immediate children of the target parent, so there wouldn't be any ambiguity.
+```javascript
+```javascript
+```javascript
+@jsumners Just published `marko@3.12.1`
+I'm not sure what's up with Coveralls. It's running twice.
+There is one exception and that is ES6-style imports:
+Also, just wanted to point out that `let` is beneficial in the following contrived situation:
+@Hesulan I think that makes sense.  `marko-layout` and `marko-async` started out as separate packages that eventually were merged into core.  The same could happen here.  I'm going to go ahead and close this issue, but do publish that package so we can play with it.  And maybe we can reopen this in the future.
+Added warnings to discourage the usage of "w-id" and "w-for".
+WARNING!!
+NEW: - ${foo}
+```  This change allows whitespace in complex expressions such as the following:
+@Hesulan It's certainly safer to make this apply to only `var`/`assign` because there is no possibility that an operator in a variable name is valid.  However, I'm concerned that there may be confusion if I can do `<var sum = 1 + 2 />` but not `<counter start = x + 1 />`.
+<custom-tag count = 1 + 2 + 3 class = foo style = styles.foo />
+<custom-tag count=1+2+3 class=foo style=styles.foo />
+<custom-tag count = 1 + 2 + 3, class = foo, style = styles.foo />
+<custom-tag count = 1 + 2 + 3, class = foo, style = styles.foo />
+<custom-tag count = 1 + 2 + 3, class = foo style = styles.foo />
+var baz=456;
+<custom-tag count = 1 + 2 + 3 />
+var foo,
+<custom-tag count = (1 + 2 + 3) />
+tag baz = 3 - Hello, World;
+### Multi-line values
+<script marko-init>
+``` @Hesulan The `<import>` tag does hoist outside the `render` function, see the [import-tag test](https://github.com/marko-js/marko/tree/master/test/autotests/compiler/import-tag) and its [expected output](https://github.com/marko-js/marko/blob/master/test/autotests/compiler/import-tag/expected.js).
+As for the `<init>` name, would `<load>` make more sense?  If you're not using the require hook, you would call `marko.load('./template.marko')` and that's the point at which this init/load code is run.
+if(attr instanceof RegExp) {
+Hey @basickarl, at first glance your setup looks correct. Are you seeing any errors? Do you see the `<init-widgets>` tag in the final HTML output (you shouldn't, but that might be a clue)?
+@sriver111 would it be possible to share a minimal project to reproduce the problem? I'm not able to reproduce, but it is possible that a Windows-specific issue has creeped in.
+- A asset management transform that allows relative paths to be specified for resources (ex. `<img src="./foo.png"/>`) and includes the resolved file in the build.
+bench('marko', (next) => {
+If you add `setImmediate` for `marko` then make sure you also add it for `handlebars` so that the results are not skewed.
+### Context
+<gh-footer/>
+<gh-body-js/>
+### Conciderations
+- https://github.com/jshttp/etag
+@PierBover Anything is possible because Marko allows for custom compile-time transforms and custom code generators for custom tags and this allows for custom JavaScript to be inserted into the compiled template to attach event listeners or whatever else is needed.
+- write out the generated file on error @Hesulan Regarding source maps, our parser already has line/column start/end positions for every tag/attribute/etc. so that's definitely a good starting point and I'm thinking with the changes made to the way we generate code in v4, it might not be _too_ difficult to get the code writer to map changes back to the positions of the nodes its writing.  Then we would need some kind of way to track where newly generated nodes came from.  This would probably require the core transforms and user-generated transforms to give the compiler hints about what it's doing.  This would be especially true when custom parsing tag/attribute argument expressions.
+MARKO_WRITE_TO_DISK=true npm start
+That's an interesting thought @mindeavor. It's a little more verbose, but a tag such as one of the following would be easier to implement::
+<marko-debug/>
+@fundon yes. as long as you are not modifying and redistributing marko then it doesn't matter what the license is for your project.
+⤷ template.marko
+⤷ fonts/
+⤷ sanfrancisco.woff2
+⤷ images/
+⤷ layout.marko
+⤷ images/
+⤷ home.marko
+_template.marko_
+<include('./item.marko') name=item.name />
+_item.marko_
+@basickarl You can pass the data as the second argument for the `<include(path[, data])>` tag:
+<include('./item.marko', item) />
+@Anant-Raj
+index.marko
+index.marko
+<script marko-init>
+</marko-parser>
+@bkuri, the implementation of `builder.text` looks like this:
+@bkuri Thanks! Since you've already got a branch for this, would you mind running the tests (`npm test`) and fixing the one that fails?  It's actually asserting that `literalUndefined === null`! 😆
+@bkuri This one also fails due to the test being incorrect... oops!
+This branch is a starting point for encouraging contributions to Marko with the following:
+@aniruddh-a and I were discussing how custom tags are discovered, and he wondered why it couldn't just be done automatically.  This might be a good idea to explore.
+@yomed This would allow a structure like:
+⤷ template.marko
+⤷ layout.marko
+⤷ template.marko
+Not ideal, but you can using a space character: `<img alt=" ">`
+| `undefined` / `null` / `false` | `<img>` | `<img>` (no change) |
+I was just testing and I think we've got some weird behavior...
+This is weird, but also means that we could probably leave `alt=""` untouched if it's a string literal and keep the current behavior if it's a variable that contains an empty string as its value (if we want to).  Or maybe we should make it consistent...
+@yomed Out of curiosity, is there any reason why you couldn't forgo the `alt` attribute and use `role="presentation"` or `aria-hidden`?  And does `alt` behave differently than `alt=""`?
+@yomed If you ask me, even `alt=""` is kinda a hack used to stop the screen reader from reading out the url to the image.  But `role="presentation"` or `aria-hidden` explicitly tell the screen reader to ignore it because it's for presentational purposes only.
+http://wave.webaim.org/report#/http://output.jsbin.com/majejevelu
+Thank you for the detailed write up, @nicolashery! This seems completely doable with some tweaks to the compiler and runtime. For example, we would need to modify the `FunctionDeclaration` AST node to support extra type information for params.
+Personally, I am not yet using TypeScript. I'm not opposed to TypeScript, but I also haven't had a strong desire to start using it. Because of that, I may not be the best person to work on this. I would rather someone who is actively using TypeScript to do the coding, but I can definitely help point you in the right direction. As long as the code changes are clean and well-tested then I have no objections to this proposal.
+<script>var x = $!{JSON.stringify(data).replace(/<\//g, '<\\u002F')}</script>
+@Hurtak also, if you have any thoughts or suggestions on how we might be able to avoid the security problems associated with `<script>` tags please share. If we can provide a helper of some sort then that might not be a bad idea.
+var foo = {"name":"Evil \u003C/script>"};
+New version published: `marko@3.7.1`
+@yomed
+- Deprecated:
+@scttdavs The rules around content outside `@` tags is a little weird...  Anything outside an `@` tag will come through as `input.renderBody`, except if there are dynamic `@` tags in which case `renderBody` is run and the `@` tags register themselves on the parent and in that case, no content output is allowed in the `renderBody`.
+</async-fragment>
+await({
+and while this actually works, I'm not thrilled about `await` being used as a variable/function name.
+(of course, in JavaScript the variable is on the left hand side...)
+I'm kinda leaning towards `from`, but it may be just 'cause it's what I've had in my head while thinking about this... what does @tindli, @philidem, and the rest of the community think?
+@mlrawlings
+Thanks for the improvement, @oxala! New version published: `marko@3.5.0`
+// Note that the backslash character needs to be escaped.
+I definitely understand where you are coming from. To keep things simple we want to only support one way of parsing things and found that JavaScript expressions were a much better fit for attribute values. The only thing that you need to remember is that the right-hand side of an attribute value is always a JavaScript expression (at least it is consistent).
+My biggest concern is that someone new to marko may not realize wha the issue is with the error presented.  Given that it's a pretty standard js error maybe this isn't really a concern.  It might be worth it if we could point out this difference in parsing when it comes up though.
+``` coffeescript
+Are there other attributes other than `pattern` that might parse unexpectedly?
+Still need to back port to Marko v2
+Adds coverage reporting through istanbul and coveralls.  We'll need to set up marko on [coveralls](https://coveralls.io/), but it's a pretty painless process.
+New version published with improvement: `marko@3.4.2`
+@sidsakhadeo is this still an issue for you?
+@GenaANTGOfficial when a marko template is compiled it will produce a `*.js` file next to the original file and the generation that new file is triggering a restart. The reason you are seeing the infinite restart after upgrading to Marko v3 is that Marko v3 will always recompile the template in development to avoid caching problems. You should update your `nodemon` config to ignore changes to `*.marko.js` files: https://github.com/marko-js/marko#nodemon
+Which version of `marko` are you using?
+Related issues:
+As much as I dislike Yeoman, it might be worth providing Yeoman generators and piggy backing off [atom-yeoman](https://atom.io/packages/atom-yeoman).
+There was some learning along the way, but it was a much more difficult task than expected (lots of edge cases), but I am very happy with the end result. You owe me a beer :)
+Related issues:
+helpers.marko
+I want to use it in `application.marko`. How can I do this? I tried the include but it didn't work for me
+index.marko
+layout.marko
+Hey @hung-phan, sorry I wasn't able to respond earlier.
+- Custom tags are almost always a better option than includes since they are the most flexible and offer better encapsulation of rendering logic.
+`src/pages/home/template.marko`:
+<title>Estimake.co</title>
+<include template="./partials/includes.marko" />
+(with JavaScript, you need to escape the `\` if you want it to show up in the output)
+@lohfu I was not able to reproduce the problem using a fresh `npm install`. I tried to recreate your setup and the template is compiling as expected:
+Hey @lohfu, just wanted to check in and see if you were able to reproduce. Thanks.
+Hey @lohfu, I realized later that I was trying to reproduce the problem using the `<include>` tag. Once I saw that you were using a custom tag mapped to a template it was easy to reproduce and easy to fix. Technically, everything was working as expected, but it would cause problems if a transform was looking at the file extension for the `require`/`require.resolve` path and not the fully resolved path.
+https://github.com/patrick-steele-idem/marko-issue-259
+<!-- marko-concise attribute: -->
+<ul marko-concise>
+<marko-concise>
+var template = require("template.marko");
+New version published: `marko@3.0.3`
+_In JavaScript_
+DEBUG=marko node server.js
+Comments might provide more info if say, `bar` includes `baz`:
+<!-- Begin: /my-project/components/baz/index.marko -->
+<h2>Baz</h2>
+<!-- End: /my-project/components/baz/index.marko -->
+I'm wondering if we should add one more convention that will check for `*.marko` file that has a filename (ignoring the extension) that matches the component directory?
+You can create a `marko-tag.json` file with the following:
+With that said, there are benefits to have more consistency within the community. For example, we would like to introduce more developer tools to scaffold out new UI components and we would only want to support one convention. How attached are you to repeating the directory name in each of the nested files? Like @philidem, I also started out with the repeated directory name in nested files, but I switched and I would never go back.
+// Should not be allowed:
+@yomed @tindli @philidem Thoughts?
+<!-- Custom tags with wrapped attributes -->
+<!-- Macros -->
+ul
+- Custom tags
+- Async rendering
+The input template is relatively small (but important) piece of Marko. I believe that if we can offer a Jade-like dialect for Marko then we will be able to attract additional developers to the project.
+- Fragmentation within the Marko community
+- Development cost of supporting a two dialects (hopefully a minimal, one time cost)
+We are leaning towards using an alternate `.jarko` file extension for Marko with the Jade-like syntax. All of the Marko documentation would use the non-concise syntax and there would be one page of documentation that would explain the rules for the concise syntax for those who want to use it.
+I was on the fence about this at first but there a lot of people that are passionate about Jade so there must be some merit for its success. One of the subtle but elegant things about the _jarko_ dialect that has been proposed is that you could drop in normal HTML or Marko and it would just work because the parser would know to switch to HTML/Marko mode when it sees an opening tag.
+If Jarko was available, I would definitely give a try to see if it would grow on me. I might enjoy not having to type all of those `<` and `>` characters.
+I'm very curious to se what the community thinks as well. I'm willing to put this out there as an experiment to see what others gravitate to.
+I am aware of the rename to "pug" but a lot of people are still going to remember it as Jade. The name "mug" was also proposed (which kind of fits in nicely with the coffee/java/javascript theme).
+What are your thoughts on "mug" as the dialect name?
+1. Only allow concise syntax for a separate file extension (e.g. `.jarko`)
+> I was under the impression that Marko was designed to adhere to the Rule of Least Power. By promoting Jade, it's no longer adhering to that rule.
+> Wouldn't Jade developers just end up demanding those more powerful features?
+Thanks @scttdavs! Good to hear from the Jade camp :) I've always had an easier time reading HTML with all of the extra braces but I am sure that is more due to what I am use to. I think I have always rationalized typing a few extra characters for the sake of readability. It might be time to retrain my brain so that I can get faster readability and less typing.
+I have heard a lot of similar comments from people who like Jade. From what I have gathered, those who have used Jade or HAML (and stuck with it) would have a really hard time going back to HTML.
+<div class="something-else">
+more periods.
+<!-- You can also use the concise, indentation-based dialect in the same document!: -->
+more periods.
+#another-div
+<div class="something-else">
+more periods.
+<div class="something-else">
+more periods.
+Two ideas have been proposed to support this:
+behavior can be different due to the additional constraints. I don't think
+> do that kind of break change to Marko?
+Yes, that is a good suggestion @AminaG :
+@AminaG this definitely can't be a breaking change. The "sandbox" functionality should be an opt-in only and that option should only be recognized on the server.
+@AminaG There are timeouts, but they are only for async timeouts (not CPU bound loops).
+> IMPORTANT: Timeout is not effective for NodeVM so it is not immune to while (true) {} or similar evil.
+Only problem (for me at least) is that vm2 is written using CoffeeScript...
+@AminaG
+@adammcarth I don't think putting compiled templates directly under the `node_modules` is the best choice since it I think it is an abuse of that folder and would not be expected by end users. I think putting compiled templates under a `.marko-compiled` directory at the root directory of the package associated with the template is the right thing to do. Yes, you would have to make sure that directory is included in `.gitignore` but I think that is okay.
+As far as directory naming, I think a sensible directory would be `.cache/marko` since Lasso and other modules already use `.cache/` to store cached files so this way we're not cluttering the top level directory.
+New version published: marko@2.8.0
+MARKO_CLEAN=true node index.js
+New version of marko published: `marko@2.7.31`
+Thank you for sharing your detailed thoughts, @adammcarth and @philidem!
+Hey @adammcarth, thanks for the question. That is something we have thought about, but we decided _not_ to build an Express view engine for various reasons:
+Hey @adammcarth, glad you found that article helpful. Pretty much every product team at eBay building webapps on the Node.js stack have adopted the modular directory structure and the feedback has been very positive. I also see a similar trend with other frameworks and libraries.
+What I found works well is to also require non-JavaScript module dependencies in your component's `index.js` file as shown in the following code:
+Hey @leonli, I'm just going through issues to do some housecleaning. I'm going to go ahead and close this issue, but if this is still an issue/question please feel free to add more comments. Thanks.
+NOTE: `and` is a special operator that gets converted to `&&`. See: http://markojs.com/docs/marko/language-guide/#expressions
+Thanks, @designeng! I appreciate the feedback.
+Hi @baburammy, I am having a hard time understanding the issue and how it relates to Marko Widgets based on the details provided. It looks to me that the issue is completely unrelated to Marko and Marko Widgets, but I could be missing something.
+Hey @baburammy, I'm just going through issues to do some housecleaning. I'm going to go ahead and close this issue, but if this is still an issue/question please feel free to add more comments. Thanks.
+@viviangledhill automatic conversion to webp is a good suggestion. Assuming the webp image is cached I don't see it being too expensive. The tricky part is that we would have to have a good mechanism for making Lasso.js aware of the target browser's user agent so that it can optimize accordingly. Maybe open a separate Github issue for that feature request to Lasso.js?
+I disagree with their decision to deprecate the feature, but I do think there are better ways to extend the module loading system to add support for new compile-to-JavaScript languages such as JSX and marko. Worst comes to worst, we provide a script to precompile all templates to JS and use `require('template.marko.js')` instead, but that would impact developer usability since it would introduce an unnecessary build step that we don't have now.
+var req = res.req; // Works for Express, not sure if it works for Koa
+NOTE: For Koa you can render directly to the HTTP response stream by doing the following:
+Hi @taecilla, sometimes it is just easier to explain in code, so I created a sample app to hopefully make things clearer about what I am proposing. Please check out the following app:
+https://github.com/marko-js-samples/marko-koa-i18n
+Hi @taecilla, I only passed in `i18n` using `$global` because you were _not_ rendering directly to the HTTP response stream. If you were to do the following:
+var koaContext = response.ctx;
+var i18n = koaContext.i18n;
+Patrick
+Hey @taecilla, I'm just going through issues to do some housecleaning. I'm going to go ahead and close this issue, but if this is still an issue/question please feel free to add more comments. Thanks.
+I see the following jshint error that looks like a problem:
+Patrick
+The stylistic changes that I was referring to was the Markdown syntax for declaring headings and bold. I reverted those changes and updates the docs for Conditionals:
+Glad you are enjoying marko!
+That wouldn't be hard to implement but I always find `unless` confusing when reading CoffeeScript code. I'm sure I could get use to it though.
+I investigated integrating Babel a while ago and found that it was very
+Babel.
+> I would not recommend trying to make marko (or any other module written in
+> With that said, if someone in the community wants to build a custom Marko
+Glad to hear @wheresrhys, thanks for sharing! I know you are using webpack, but I recommend checking out Lasso.js... I think it is pretty awesome and it offers a lot of features that webpack doesn't offer :)
+Did you forget the `w-bind`?
+What makes you think that?
+MARKO_CLEAN=true node your-app.js
+Do you think you would be able to provide a fork of marko with a failing test case?
+let koa    = require('koa')
+let app    = koa()
+I don't use Koa, but I suspect that when you assign the stream to `this.body` that it commits the response body. If that is the case, then the `Content-Type` header may not be sent correctly.
+> Where is marko's tutos can i find?
+Hi @dtrikannad,
+Hi @dtrikannad, glad that solved your problem. Do you have a stack trace with your 500 error? Marko doesn't have any `try...catch` blocks so any exception is just going to bubble up. If you are not seeing a proper stack trace in your logs then I think there are issues with how your server is configured and that is going to cause more problems for you in the future. Did you you add your own uncaught exception handler (e.g. `process.on('uncaughtException', function(err) { ... })`);? Are you using promises (promises catch exceptions and will silently eat them in some circumstances)?
+If you are desperate you can do the following:
+if (flashMessages) {
+'atom-text-editor[data-grammar~="marko"]:not([mini])':
+"marko": {
+And ES6-style imports:
+Thank you again, @merwan7, for the contribution!
+Hi @sandro-pasquali, the Marko compiler processes `${expression}` found in JavaScript strings to produce compiled JavaScript code that uses concatenation to achieve the expected result. Essentially, you get the benefits of ES6 template strings inside Marko templates and there is no conflict with ES6 since the code is transpiled to ES5 compatible code at compile time.
+Hi @ahmadnassri, the Marko compiler puts the compiled templates next to the original template because the Node.js module loader is context aware and we want the stack traces to match up with location that the Node.js module loader associates with the loaded compiled template. That is, the location of the JS module on disk matters since it impacts how `require`'d modules are resolved. Currently, we calculate all of the relative paths based on the original template location on disk and we therefore put the compiled template module next to the original template file. While we could place the compiled template at a different location on disk, we would need to change how the relative `require` paths are generated. Also, at a minimum, each module in the application would need to have its own parallel directory tree for compiled templates so that the required Node.js modules would be resolved relative to the module that contains the template. Something like the following:
+.marko-compiled/
+foo/
+template.marko.js
+bar/
+template.marko.js
+foo/
+template.marko
+bar/
+template.marko
+.marko-compiled/
+foo/
+template.marko.js
+bar/
+template.marko.js
+foo/
+template.marko
+bar/
+template.marko
+Hey @ahmadnassri, we added an option to disable writing compiled templates to disk:
+MARKO_CLEAN=true node .
+else
+<include template="../../path/to/header.marko" ... />
+Just make header a custom tag:
+There are two issues with that PR:
+<include name="xyz.marko" template-data="${data}"/>
+https://github.com/raptorjs/marko#includes
+New version published: `marko@2.7.4`
+require('../foo'),
+require('../bar'),
+require('../baz')
+You mentioned two separate issues:
+The benefit of a custom compile-time transform is that it could add extra validations to handle the case where an element may be missing an `id` or some other attribute.
+<my-component complex-expression=1+2/>
+<my-component complex-expression-with-spaces=(a + b)/>
+Now that we are using a custom parser, we can also improve the syntax for conditionals and looping as @onemrkarthik suggested:
+Hey @SunnyGurnani, as for JavaScript arrays and objects, we should make sure the following works as well:
+`foo ${name}`
+I think the end result would be the same. I agree with your sentiment that the right-hand should just be JavaScript...this makes Marko more intuitive and more powerful.
+As another example, if a custom "foo" attribute is declared as an "expression" type then the following conversion would happen:
+Also, @SunnyGurnani, the parenthesis are only needed in situations where a "complex" expression has spaces that would have otherwise ended the attribute value.
+We could absolutely interpolate `${...}` in normal quoted JavaScript strings, but then we are slightly changing the rules of JavaScript which may be surprising to some users if we say "the right-hand side of an attribute is just JavaScript".
+If anyone has some additional thoughts about the Marko syntax and improvements that could be made, then please let me know! Thoughts and feedback on the parser are also welcome.
+Also, we currently support simple conditionals in Marko:
+@yomed one variable per line is a coding style. Doesn't really matter to the compiler and it could go either way.
+Thanks for the feedback @yomed. I'm leaning towards standard JS as well.
+Hi @aaronshaf, can you please be more specific on which aspects of the Angular 2 syntax interest you? Some of the syntax is related to event binding, one-way versus two-way data-binding, etc.
+Hi @kobenauf, I am not able to reproduce the issue so there must be something else that is coming into play. What version of `marko` are you using?
+https://github.com/patrick-steele-idem/marko-issue-82
+Hi @yazla, it's almost always a bad idea to compile a template in the browser with any template engine (compilation is relatively slow and sending the compiler to the browser introduces a lot of extra overhead). The Marko compiler is designed to run on the server in a Node.js environment where it can access the file system and have access to other taglibs installed via npm. Sorry Marko didn't work out for you, but I think you should reconsider compiling templates in the browser.
+@yazla, I see where you are coming from, but I still don't see why it is any different to bundle up the compiled templates versus the uncompiled templates. The compiled template is just a standard CommonJS module that exports a function that can be used to load a `Template` instance. For example:
+markoc .
+Hi @tonii75, the compiler does work in the browser but it does require that you use the Lasso.js module runtime in the browser since the Browserify module runtime doesn't support dynamic requires. For the "Try Marko Online" feature we are using the compiler in the browser. Here's the relevant code:
+@viviangledhill Did you try deleting your `node_modules` directory?
+Patrick
+Cons:
+- Colon character is harder to type (requires the `SHIFT` key)
+Cons
+`app-tabs/marko-taglib.json`:
+1. Symbols have meaning (slightly higher learning curve)
+- Better support for tags with a parent/child relationship
+- Shorthand syntax for defining tags and attributes
+Something even crazier to avoid some of the JSON clunkiness:
+Welcome to Marko and Node, @patbegg! There are two ways to pass along data:
+... // All other non-global data
+@pdajlido I like the logo with the pink lettering because it is simpler. I like the visual elements added around the lettering, but what is the meaning of the lattice decoration?
+@seangates Even "dumb" ideas can inspire something better! What is "Mark" though? Just kidding :)
+Or maybe ".marko" (lower case)
+Also, for Marko Widgets you could modify the dude to be a mad scientist.
+Thanks for the contributions, @pdajlido!
+Here are some alternatives:
+Is that what you are thinking as well, @fierysunset ? Thoughts @philidem ?
+New version published: `marko@2.3.0`
+Published marko@2.1.4
+`marko@1.6.7`
+`marko@2.1.0`
+markoc .
+- `import-var`
+"*.marko"
+var marko = require('marko');
+https://github.com/raptorjs/atom-language-marko/blob/master/grammars/marko.cson
+That's awesome, @merwan7... thank you for the contribution! Do you mind submitting a PR to marko to add `sublime-marko` to the [Tools](https://github.com/marko-js/marko#tools) section in the marko `README.md` file?
+New version published: `marko@1.4.0`
+Patrick
+I wonder if there is some hackery that we could do to fake module loading of in-memory code and making it think it is at a specific path.
+require('marko/hot-reload').enable();
+if (/\.marko$/.test(filename)) {
+<div>foo</div>
+$global: {  // $global is special
+someData: 'foo'
+Coverage remained the same at 89.518% when pulling **fe094a4cc22123f010b1dde482209784b663a6c1 on newyork-anthonyng:feature/an/fix-marko-vs-react-docs** into **37e3dcc4f5a9a3b1628e6dfe5ca3875c57ee75f4 on marko-js:master**.
+### Context
+### Open Questions
+Coverage remained the same at 89.524% when pulling **1b67ac33214058bb524ac4bcd8348c48a62b589b on newyork-anthonyng:feature/an/fix-webpack-readme** into **9e334a8986c9f3752bf5ec37e23e163887adf851 on marko-js:master**.
+Coverage remained the same at 89.524% when pulling **1b67ac33214058bb524ac4bcd8348c48a62b589b on newyork-anthonyng:feature/an/fix-webpack-readme** into **9e334a8986c9f3752bf5ec37e23e163887adf851 on marko-js:master**.
+Coverage remained the same at 89.524% when pulling **1b67ac33214058bb524ac4bcd8348c48a62b589b on newyork-anthonyng:feature/an/fix-webpack-readme** into **9e334a8986c9f3752bf5ec37e23e163887adf851 on marko-js:master**.
+Coverage remained the same at 89.524% when pulling **1b67ac33214058bb524ac4bcd8348c48a62b589b on newyork-anthonyng:feature/an/fix-webpack-readme** into **9e334a8986c9f3752bf5ec37e23e163887adf851 on marko-js:master**.
+Coverage remained the same at 89.524% when pulling **71416584f1a494f039ef07b076d8e7b20cbbf01f on newyork-anthonyng:feature/an/fix-webpack-readme** into **9e334a8986c9f3752bf5ec37e23e163887adf851 on marko-js:master**.
+### Context
+### Context
+state is undefined
+```marko
+//state is undefined
+Downgrading to marko 4.3.1 could fix the problem.
+```javascript
+It seems that the onMount of child components is not being executed at all, nor are events being assigned.
+```javascript
+```javascript
+Server-side integration example using Huncwot is simpler and requires less code for the same result as in Koa or Express.
+Pretty sure they were not suppose to be there 😜.
+Squashed @austinkelleher
+Marko: beta
+uid: NaN
+### Context
+``` Oh, I wasn't aware that HTML-style comments were being removed. Looking back at my project I see that certain tags I commented out that way have actually been removed. That's cool.
+### Context
+**In a single file marko component**
+Phase 1 -- marko transform
+- Look for a common denotation in each of the files like `@scoped` or something similar but unique.
+.foo { color: red; }
+### Context
+``` marko
+Marko is awesome
+``` marko
+Marko is awesome
+Marko: 4.1.1
+```marko
+```marko
+### Context
+* Marko v4.2.6
+### Context
+* Version used: marko@4.2.7
++ clarify on-* wildcard usage
++ events comparison with dom, jquery, marko
+### Context
+### Context
+**custom-input.marko**
+### Context
+Marko template:
+`self.$__renderer` is undefined.
+index.marko.
+`template.marko`
+<!--custom scripts-->
+`page.marko`
+@lasso
+Sample code (using intentionally bad practices):
+title: 'Foo'
+markoComponents.init();
+```marko
+```marko
+```marko
+```marko
+```javascript
+```javascript
+markoComponents.init({
+```javascript
+```javascript
+markoComponents.init();
+```javascript
+markoComponents.init();
+marko <3 mauricionr,
+@sebastianmacias @selforganized
+checkout of my [demo repo](https://github.com/mauricionr/marko-pwa) and [live demo](https://lit-headland-75537.herokuapp.com/)
+Intuitively I thought the correct way to go about this in Marko would be to do something like this:
+### Context
+I'm totally new here.
+1. load markojs.com
+Uncaught Error: Not allowed
+### Code
+class MixedComponent {}
+return MixedComponent
+Mixins,
+HistoryMixin
+var MixedBaseClass = Mixins(HistoryMixin)
+class Bar extends MixedBaseClass {}
+___foo-mixin.js___
+console.log('function called in foo mixin')
+___bar-mixin.js___
+console.log('function called in bar mixin')
+___mixins.js___
+Mixins,
+FooMixin,
+BarMixin
+`macro` needs to be rewritten!!
+```marko
+.. else ...
+```javascript
+``` @mindeavor Yeah, that's what I'm doing
+```marko
+... else ...
+NOTE: I'm not sure if it is a BUG, but the vue's behavior is we wanted.
+### Code
+___/routes/index/index.marko___
+@mindeavor Correct, create special DOM structure for handling.
+@mindeavor I have another question:
+what's the difference between "input" and "state"? like "props" and "state" in react? @mindeavor Thanks  ### Open Questions
+marko version is  4.2.0
+### Context
+### Context
+Is this something marko js aim to solve?
+### Context
+### Open Questions
+### Context
+npm install --save-dev marko
+yarn add --dev marko
+### Context
+```javascript
+// featuredFish reference:
+const marko = require('marko/express')
+app.use(marko)
+at Error (native)
+~/src/component/app-sections/marko-tag.json
+"@requiredField": "boolean",
+### Context
+* marko 4.0.0
+* lasso-marko 2.3.0
+### Context
+The root .marko file looks like this:
+index.marko-current
+index.marko-proposed
+index.marko-current
+Thanks and i'm in love with marko :rocket:  ```HTML
+https://github.com/mauricionr/marko-demo
+```javascript
+```javascript
+<title>Marko Demo</title>
+<h1>Marko Demo</h1>
+An error occurred!
+I'm using marko and is awesome
+This is ${x}, ${y} undefined.
+var foo;
+### Context
+.n(marko_node28)
+.n(marko_node29)
+WARNING!!
+$ cat ex0007.marko
+$ markoc *.marko
+<var
+I've written and seen enough bad PHP, and bad JS, written by good people (but not good programmers) that I would view use of markojs as highly suspicious.
+@ramses0 I believe the main reason for deprecating `<var>`, `<assign>`, `<invoke>`, etc. is because the number of tags that attempt to simulate real javascript was becoming unmanageable, but you make a good point.
+@mlrawlings Perhaps it would be a good idea to hold off on removing the `<var>` tag? I feel like it's enough of a special case to warrant keeping it around, especially since it fits each syntax so nicely. @mindeavor Internally, a `<var>` tag with body text compiles to an IIFE, which enforces scope:
+### Context
+### Open Questions
+var KEY = Symbol();
+I'm sure it's just me fumbling my way through this without docs :(   I think it's not readable and clear like old syntax. Example if you are newbie in marko world and you see
+Another thing why i like html syntax is if i have already written code in html it's really easy to integrate with my project without any other efforts but otherwise result can be unexpected.
+@mindeavor @patrick-steele-idem
+I much prefer using a separate tag rather than hijacking `<script>`. Even with the `template-helpers` or `marko-init` attribute, the first time I saw that it took a while to click. Someone new to Marko might not realize that it transforms top-level `<script>` and `<style>` tags, but when I see something like `<static>` or `static { /* ... */ }` I immediately recognize that it's special.
+@patrick-steele-idem
+// What?
+} qui officia deserunt mollit anim id est laborum.
+``` @mlrawlings I like that, though I'm not sure what you mean by "special case `$` to *disallow* `$ { ... }`".
+<marko-script>
+</marko-script>
+### Context
+<script marko-init>
+* Marko 3.14.0
+const template = require('template.marko');
+// In marko v3 output was
+// foo.marko
+<include('./layout.marko')>
+<title>Foo!</title>
+Foo!
+<include('./layout.marko')>
+Foo!
+### Context
+### Context
+### Context
+default.marko
+### Context
+### Context
+``` marko
+- var a = 'marko';
+``` marko
+-- var a = 'marko';
+``` marko
+var a = 'marko';
+``` marko
+var a = 'marko';
+### Context
+### Context
+this is where it errors due to doc being undefined
+### Context
+</marko-parser>
+<div marko-preserve-whitespace>
+### Context
+### Open Questions
+### Context
+"marko": "^3.10.0"
+### Context
+My marko looks like (adding parenthesis here doesn't help):
+```javascript
+However, destructing imports, like
+```javascript
+### What does Git have to say about all of this?
+### Workarounds
+Ah, makes sense. I would suggest either "include(s)" or "import(s)", the word "extends" doesn't sound quite right for what this would be doing.  While digging around in the compiler just now I noticed that some of the code is *not* Promises/A+ compliant, specifically the `<await>` tag. These are mostly edge-cases, and will *probably* never break anything, but here's what I found:
+Quick update: Since #251 only applies when the user explicitly calls the `.then` method, it's considered a special case. The `<await>` tag, however, needs to be usable in pre-ES5 environments, which leaves either a built-in polyfill or just more compliant handling code as the only options.
+The ".then" only being accessed once is a subtle requirement, I wouldn't have even known about it if not for the 'promises-aplus-tests' package. To be honest, it probably won't ever affect anything.
+In other words, are there any situations where "@error" could mean either "await:error" or "something-else:error"? I can't think of any, but it's worth asking.
+Hmm, that's a good question... what about a slightly different syntax for one of the two conditions? Nested tags that can be defined multiple times could use `<@tabs>`, while single-instance tags could use something like `<:tab>`, or vice-versa.
+Coverage increased (+0.6%) to 87.596% when pulling **63862a8b9204cfd8e146691920593ef6c85331d9 on charlieduong94:420-deprecate-w-on-attr** into **3eb3c286e8147448e58e623e2d294a09a75bbac4 on marko-js:master**.
+### Context
+Those are just the ideas I could think of, this is intended to start an open-ended discussion. Suggestions and constructive criticism are welcome! @patrick-steele-idem I was thinking more about long-term compatibility. I feel like `import`/`export` is just the tip of the iceburg. Aside from big things like that and `async`/`await`, the little things also start to look really tempting, like rest/spread operators, destructuring, argument defaults...
+So I've been mulling this over, and here are the solutions I can think of:
+@patrick-steele-idem It seems that this currently coerces non-string values, such as `undefined`, `null`, and `{}`, into `<undefined></undefined>`, `<null></null>`, and `<[object Object]></[object Object]>`. Should it throw an error instead?  I'm more than a little hesitant about this... I do see how it could be useful, but considering what little would be gained (expression whitespace already works inside parenthesis, and is arguably easier to read most of the time) versus the potential costs (reserved operator names, inconsistent behavior, potential ambiguity, etc.), I feel this needs more discussion, especially since it would likely affect any future enhancements which deal with or depend on whitespace behavior.
+ul
+Anyway, documenting `marko-body` would've at least made it easier to correct the problem when we figured out what it was.
+Coverage remained the same at 71.14% when pulling **6ef6bb65fe6eaff0bf3ca82c7b79b49eb26a25cb on abiyasa:bug-on-nested-widget-id** into **21a43c010a75ca06857598f49ea3368b3e33c3c2 on marko-js:master**.
+Coverage remained the same at 71.14% when pulling **6ef6bb65fe6eaff0bf3ca82c7b79b49eb26a25cb on abiyasa:bug-on-nested-widget-id** into **21a43c010a75ca06857598f49ea3368b3e33c3c2 on marko-js:master**.
+### Context
+Given following code example
+Throws Error
+- Version used: `"marko": "^4.0.0-beta.1"`
+ERR! [10:40:05] [Marko]
+ERR! [10:40:05] [Marko]   errors:
+ERR! [10:40:05] [Marko]        code: 'INVALID_STRING',
+(I'm using lasso-babel/lasso-sass)
+<!-- marko widgets -->
+<!-- /marko widgets -->
+Chrome
+Hello, marko neighbors! I use Express with Marko. Example:
+### Context
+bench('marko', (next) => {
+During the marko test, an error is thrown that aborts the suite
+at /home/ubuntu/workspace/benchmarks/matcha-tests.js:35:20
+**One question, exist any tuto to use with Express?**
+### Context
+1. Install Marko within an Express project.
+2. Require `marko/express`
+When searching for "marko" in atom the packages appear in this order:
+- language-marko (5th in list)
+- autocomplete-marko (17th)
+- hyperclick-marko (23rd)
+This makes it difficult to find all available marko packages in a single search.
+My 2c. :)
+## Custom root path for views
+* Install marko
+const marko = require('trek-view-marko')
+marko.install()
+### Context
+So, a possible solution to this is to alter the semantics of install.
+extension: '.marko.xml'
+I want a package, just dependent on marko and not modify it.
+Safari is waiting the completion of the first await tag
+**In Safari with client-reorder**
+1. Safari is waiting until first await tag done
+Hi @patrick-steele-idem my safari version is 9.1.2 (11601.7.7) on OSX El Capitan and same issue on https://github.com/llambda/koa-boiler.
+<include('./item.marko') name=item.name />
+var koa = require('koa');
+var app = koa();
+<script marko-init>
+Seems to only affect marko even on version 3.8.1
+└─┬ marko@3.8.1
+├── raptor-args@1.0.3
+├── raptor-async@1.1.3
+├── raptor-json@1.1.0
+├─┬ raptor-logging@1.1.2
+│ └── raptor-stacktraces@1.0.1
+├── raptor-promises@1.0.3
+├── raptor-regexp@1.0.1
+├── raptor-strings@1.0.2
+├── raptor-util@1.0.10
+└─┬ marko@3.6.1
+└── lru-cache@2.7.3
+### Context
+👍  I always thought this API difference between marko and marko-widgets was a bit strange.
+### Context
+- Versions used:
+- Marko 3.8.1
+- Lasso 2.5.5
+- Lasso-Marko 2.0.7
+const marko = require('marko')
+// or with streams
+`marko.json`:
+"@bare": "boolean"
+"@compress": "boolean",
+⤷ template.marko
+But it's an officially sanctioned hack! 😆
+export interface Cat {
+export interface Dog {
+woof: string;
+// Error: Property 'woof' does not exist on type 'Cat'.
+<!-- templates/animals.marko -->
+<!-- templates/animals.marko -->
+<script marko-import>
+// templates/animals.marko.ts
+import marko from "marko";
+// Error: Property 'woof' does not exist on type 'Cat'.
+escapeXml(data.cat.woof) +
+escapeXml(data.dog.meow) +
+let template: MarkoTemplate;
+//  Types of property 'cat' are incompatible.
+//      Property 'meow' is missing in type 'Dog'.
+I've quickly put this together: https://github.com/nicolashery/explore-marko-typescript
+marko template
+Some provide escapejs filter - https://docs.djangoproject.com/en/1.9/ref/templates/builtins/#escapejs
+-move "Try Marko Online" to first paragraph
+Mobile (iPhone 6 size):
+For what it's worth, I'm using Brunch in combination with https://github.com/thomastorfs/static-marko-brunch
+Alternatively, most streams can simply be converted to Promises with something like
+...as an alternate syntax to allow binding to events other than just 'data'? On second thought, something like this might be better instead:
+('from' and 'of' are just what came off the top of my head, it may need re-wording) (Just noticed the original post had an example of using a generic EventEmitter which accomplishes basically the same thing as my previous post, not sure how I missed that a few days ago.)
+Then add convenience syntaxes for the most common uses:
+Also, a few more ideas:
+I'm rookie in open-source contribution and my english is not a native language. So any blame is accepted. :-)
+Marko will fail with an error:
+This is due to arrow syntax at async-fragment-tag-transformer, which PhantomJS cannot run due to lack of ES6 support.
+Unexpected token ): (+)
+@mlrawlings Wonderful! Thanks!
+process.env.MARKO_CLEAN = true;
+const Hapi = require('hapi');
+const server = new Hapi.Server();
+// Error
+[nodemon] child pid: 20375
+[nodemon] child pid: 20383
+[nodemon] child pid: 20391
+[nodemon] child pid: 20399
+"name": "<br>Markojs"
+Hello &lt;br>Markojs! <span>Other text</span>
+"name": "<br>Markojs"
+<br>Markojs! <span>Other text</span>
+> Markojs! Other text
+at Error (native)
+@mlrawlings oh no what did I `commit` to ;)
+<title>Estimake.co</title>
+<include template="./partials/includes.marko" />
+Any idea why I have the 'strangeness' with the DOCTYPE?
+request for markoify.
+<customTag></customTag>
+<customTag2></customTag2>
+`I'm custom tag 2`
+<customTag2></customTag2>
+Am I doing something wrong? Or is including one custom tag in another's template not supported? Do I have to do the Parent/Child thing? I'd rather not since the child tag is intended to be used in many places.
+- customTag1
+- template.marko
+- customTag2
+- template.marko
+- mainTemplate.marko
+- marko.json
+It is strange because as I said, if I include both custom tags in the root template, they both render, it's only if one is nested inside the other that the inner template does not render.
+root
+marko.json
+template.marko
+page.marko
+`marko.json` has:
+"tags-dir": [
+To:  marko-js/marko marko@noreply.github.com
+var template = require("template.marko");
+If you're using promises already it makes using marko a bit easier.
+You can use temporarily **bluebird** module.
+let Promise = require('bluebird');
+## Install hapi and marko
+[sudo] npm install hapi --save
+├── hapi-marko/
+│   │   │   ├── partials/
+const Hapi = require('hapi');
+const server = new Hapi.Server();
+**_index.marko_**
+**_master.marko_**
+<include template="../partials/aside.marko"/>
+<include template="../partials/footer.marko"/>
+**_header.marko_**
+**_aside.marko_**
+**_footer.marko_**
+[example-hapi-marko](https://github.com/davidenq/example-hapi-marko)
+If you want to adjust the response type:
+Both `.render` and `.stream` are very useful, However they are deprecated. Is it OK to still use them with hapi? Is there a better option?
+Cool concept @patrick-steele-idem
+Can we ever resolve the tags later to be fully dynamic?
+And for es2015 style inputs (#172):
+http://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
+require('./test.marko').stream().pipe(process.stdout);
+_marko-tabglib.json_
+return el
+# Test 1, unexpected
+_test.marko_
+CALLED TRANSFORM
+CALLED TRANSFORM
+_test.marko_
+CALLED TRANSFORM
+import Marko from 'marko';
+Offending code snippet:
+"bunyan": "^1.5.1",
+"bunyan-request-logger": "^1.0.2",
+"markoify": "^1.1.2",
+Is there clamoring for jade-like syntax? I guess the current HTML-like syntax makes marko somewhat opinionated, but I didn't think that was problematic.
+I agree with your main points - I think as long as the new parser is generic enough to easily support multiple syntaxes, neither fragmentation nor maintenance costs should really be an issue. `jarko` sounds funny too, so that's a plus.
+.pugo
+Just kidding. Mug is better.
+3. Easy to get started for people who worked already with Jade... similar to point 1.
+Cons:
+> why not consider Jade-like as the only template syntax?
+(3) Ultimately there's probably going to have to be two seperate docs - one for traditional Marko, the other for compact.
+I think you can get around both of those issues with really well defined documentation, and pushing out the message early on that there's two syntax options with Marko. But for that to happen, we all need to be up for that challenge. Personally I hate Jade syntax with a passion, but damn, it's 2016. I'll willing to give new things a try.
+Having Jade-like (jarko/mug) as the default would mean to prepend every plain text with a specific well-defined symbol (e.g. a dot)... otherwise plain text would be mis-interpreted as a tag (original Jade uses pipes for plain text)
+Jade is a rabbit hole. Could be a third-party option, but as a core feature? I dunno. One of the selling points of Jade, according to [its own website](http://jade-lang.com) is...
+> Jade is a terse and simple templating language with a strong focus on performance and **powerful features**.
+I was under the impression that Marko was designed to adhere to the _Rule of Least Power_. By promoting Jade, it's no longer adhering to that rule.
+> Hey Patrick, if would be great if the Jarko syntax could do XYZ just like in Jade.
+For what it's worth, some opinionated Angular devs seemed to be largely against the idea of using Jade in Angular. For starters, they say mixing the two syntaxes in Angular documentation, examples, and in templates is _way_ more confusing than the simplicity that the syntax is supposed to provide in the first place.
+I think this is probably the key point here, if anything. Anything distasteful will grow on you, eventually. Jade is being added to make Marko more accessible _to the Jade crowd_.
+But, by making it a core feature, the risk is perhaps making Marko initially disliked by the majority of non-Jade users, which would be counterproductive. I suppose Jade could be generally avoided in the documentation, but then what's the point of having it be a core feature in the first place?
+If the Jade-like syntax were the _de facto_ syntax, then that would imply that the documentation, tutorials and shared examples would all be in the Jade-like syntax or some confusing mixture of the two. But, of course, doing so would turn off all the people who dislike Jade at first glance (yourself included). Is it worth it to make it a core feature then? I dunno. Seems like a third-party plugin to me, just like [Less or Sass is for Lasso](https://github.com/lasso-js/lasso#available-plugins).
+The tendency to mix Marko syntax within a large company, like eBay, could add significant risk.
+Since Jade is an _individual_ preference, this can cause issues to develop over time within a large team or organization using Marko. For instance, someone in one area of a large team or company (say eBay) prefers Jade and then they leave the company or go on vacation. A non-Jade employee—perhaps even days, months or even years later—might have to jump into those Jade files at any given time and be able to quickly troubleshoot them. A critical fix that should've taken minutes to troubleshoot ends up dragging out into far longer (perhaps hours) because the next employee to open up the files isn't familiar with the Jade syntax and can't get the complex files to build properly. In that case, the benefit of saving a few keystrokes became a liability for that company. It's a barrier to code completion, for a templating language that was intended to tear down barriers.
+Actually, the same is true even within a small team, but if it's risky to mix a template syntaxes within a large company then one solution is to force all eBay developers to learn and use Jade in all of the codebase and documentation. But then the idea of it being optional would be an illusion.
+> The tendency to mix Marko syntax within a large company, like eBay, could add significant risk.
+> Jade is being added to make Marko more accessible to the Jade crowd.
+<div class="something-else">
+.    <div class="something-else">
+.      periods everywhere?
+.    <div class="something-else">
+.      periods everywhere?
+The reason I ask is because just like a mixed HTML/Markdown example, someone may want to come along and insert HTML inside someone's `#another-div` Jade tag. And I don't understand how they could allow Jade to wrap their chunk of nested HTML without using periods. Thanks so much.
+The real beauty of your example is that it actually allows people to slowly dip their toe into the concise syntax—it's the best of both worlds. I can start with a single line and wrap all my HTML with it. And then I can use that single line to tip-toe into another line, and another if I please.. and so on. It’s really hard to dive into the whole Jade syntax at once. But you’ve managed to make it seemingly painless.
+> If we get this right then I see no reason why anyone would want to use Jade.
+SyntaxError: Unexpected token <
+I prefer sandbox via vm or vm2 (https://github.com/patriksimek/vm2).
+require('marko').load(src,{secure:true})
+require('marko').load(src,{secure:/* true/false  */, timeout: /*in ms*/ }
+Do you want to elaborate more on why you would want to keep the Marko Taglib seperate @patrick-steele-idem?
+name: "Adam",
+app.set("view engine", "marko");
+name: "Adam",
+- template.marko
+- template.marko
+thanks @patrick-steele-idem that's what I did (lodash).
+//two ways at once
+//2th way:
+var das=template.stream({name:"bobika"});
+and here my hallo-world.marko in the morning:
+out.w(escapeXml(data.bazar) +
+'<b>simka: </b>' +
+str(data.simka));
+http:/localhost:8080/email/compose/AQABAAAC0CtGM/B68cFDXP472Z5EMUy3itN2JRaj564KXegqAHIAcDOylgBccNyhrWzcCHXX8kyHd81d6zeVrAZ5NEj0cUgs9X3aPVuBb0a7nf45lhmYUUZQTFGsjCbg408mqCvMT4NheESGWhArH+yzWgabsk4+fav0SAH3OpnVL5D2FBxkkBKbKx/7aa/AmDwMgronfRfDBJQued354L337awe7pBXlXHA6BO7ThumDHPch6n6qwytqQ4oEnaKoCcCgYO/d+/5TjiCWbo3FhQNzjicgj1z6Zm7OX4RkbfY5nJpdixp3JJzaKLtmyxp24cLy1SY+8ckVqdOvEPfPJyspLxkixDHQXqRyEi7/vJ7dAhbPACJ8Msr6bfMxg+geA15ei7D0n+JY5sMnqm/IM7A7oH5hvmhs0p3DHRzLcNPNOB9ieI1Em0KpQaTzyLdP+7XKK9ExgVSkK+IRBrey6NXwf4gFo3KJsDkzKYUJ/qMZjZdsAwpxXmRTLbJzMx8CqxEVz54R/H6OQTOHHksx1Jnyq9UzuNw/1UVFa3NkdDvVnN/mHtBeMWrJmWBqpMhzAoXsgi5btfDRIj6TLSKDQP4/7h5diDcRtdIt3ZRsOl6KvabSx8X0HnAljzE0M7AzO2BK50+76RtzAor2mc4wqv/TYYfk5EOfoXTIP5Xu2i+oRDP8EnaYR2pM5jaJn8m4V8Iz3XHt1Cr7qEuCep4q0gKUtxIRrXSxoqYKzJtbjryfnEkNTDXVX2YirAyeOtITN1QJHtv/GPaE09NGCcxvuJz51fPkBpVWa9WS5YaYXo5px6svVnCXWt8ip+yhhDjA28Hgepjy9oqoMaexfKBtnecoOJp0+8/xJPWUT6RlZDnMMraDgCfqBfHtuVnl5kMbZbAmuWVKI2n+ddhg/GaT23NQ6IATuv3XoZ1KCJu9JKgIbo9ULEgb1fnQVnYmDWPuVXAA5qIDg==
+name: 'gh-notification',
+The problem with that is that koa-locale receives the app instance as an argument and I don't see a way to do that inside a .marko file.
+@patrick-steele-idem thanks for the transformer example!
+Here must be some middleware for koa. Some thing like this:
+@patrick-steele-idem I like your proposal of `i18n-var` so I tried to move it into my `tags-dir` without success:
+marko-tag.json
+Whenever I use expected and actual, I always end up in this strange situation:
+Unexpected output for "/Users/kristianmandrup/repos/markoa/marko/test/fixtures/templates/unless-else/template.marko":
+Really, hmm... that was not my intention. Guess I made a Markdown error of some sort.
+Marko + koa currently misbehaves due to errors thrown during template stream rendering are uncaught, leading to hard crashes of node.
+// Simplified koa usage
+Thanks for an awesome piece of work. Marko+koa is my bread and butter...
+The more idiomatic use of `render()` works well with Koa too, as in
+I'm still rather dependent on streams in some peculiar situations, so I will try to make a better PR respecting performance and also covering asynchronous situations.
+Would help clean up conditionals a lot :)
+``` jade
+``` jade
+``` jade
+label: 'kmandrup',
+body: 'I DREAM in CODE' },
+label: 'isaura',
+I've been mulling over which cool new thing to ditch from my project: jspm or marko.
+<dynamic-tag tag-name='h${data.lv}' class='ui header' tag-body='data.label'/>
+<ui-accordion>
+</ui-accordion>
+/// accordion start tag
+/// accordion end tag
+oh, I thought w-bind was only required for widgets? This is just a custom tag
+So this only works for widgets then?
+why not enable `w-body` for tags? why have two different ways of achieving the same?
+Trying to patch this fix in marko
+`accordion-tag.marko`
+Yeah, I know, but still... I'm just trying to understand some of the marko internals.
+Very strange!?
+// TAGLIB DIR
+// ITERATE
+apps
+/ui-list (tag)
+template.marko
+index.marko (references `ui-list` tag)
+tryDir /Users/kristianmandrup/marko-taglib.json
+tryDir /Users/marko-taglib.json
+tryDir /marko-taglib.json
+tryDir /Users/kristianmandrup/marko-taglib.json
+tryDir /Users/marko-taglib.json
+tryDir /marko-taglib.json
+var chai = require('chai');
+chai.Assertion.includeStack = true;
+require('chai').should();
+var expect = require('chai').expect;
+A page `index.marko` referencing a tag `icon-list`
+// do your magic
+ie. inside `list` folder. I wonder if somehow list is a reserved name or sth very strange?!
+{label: 'extra', icon: 'feed'},
+`index.marko`
+`icon-list.marko`
+Not clear from the docs IMO.
+Now we get an error about some strange error, 'unexpected token {'  Damn!
+Confusing error message:
+at scanTagsDir (/home/isaura/tecla5/repo-manager-v2/node_modules/marko/compiler/taglibs/taglib-loader/scanTagsDir.js:66:27)
+let koa    = require('koa')
+let app    = koa()
+views/index.marko is just
+Your marko is "simple" enough, but how do I build a binary tree with marko? In ejs template I can just like so using pure javascript write helper functions for a tree hierarchy inner <% functinon buildTree(root){ var html="blablabla"; return html;}%> <%- buildTree(someRoot)%>. But with marko I don't understand how to do it like this. Where is marko's tutos can i find?
+is it `${flash}`? or something else within a `.marko` file?
+Deep
+Deep
+I tried to add:
+"marko": {
+I'm planning to leverage Jade to make it easier/faster to write the marko templates...
+So far I've uncovered the following special marko and lasso tags:
+<var
+Various "clever" ways for using taglibs:
+// what are the conventions in this case!?
+else
+/other-comp
+and run `marko`
+.marko-compiled-location-a/
+foo/
+template.marko.js
+bar/
+template.marko.js
+foo/
+template.marko
+bar/
+template.marko
+.marko-compiled/
+foo/
+template.marko.js
+bar/
+template.marko.js
+.marko-dependants/
+foo/
+template.marko.js
+bar/
+template.marko.js
+foo/
+template.marko
+bar/
+template.marko
+foo/
+template.marko
+bar/
+template.marko
+var marko = require('marko')
+marko.compiler({
+@ahmadnassri If you're using Express JS, there could be a cleaner way to define configuration with an API similar to what I've proposed in #165. If there was a Marko Express plugin, when initializing the engine you could pass configuration options to Marko similar to how defined them above...
+app.engine("marko", Marko({ writeToDisk: false }));
+app.set("view engine", "marko");
+I am creating `grunt marko plugin'
+https://github.com/thomasJang/grunt-ax-marko
+ax_marko: {
+else
+and i'm sorry i can't speak english
+thank you very much ~ marko perfect : )
+: require koa-server.js
+- partials
+- _header.marko
+- _footer,marko
+index.je
+- index.marko
+- live.marko
+- live-layout.marko
+- partials
+- _header.marko
+- _footer,marko
+- live.marko
+- live-layout.marko
+Awesome! Thanks a lot Patrick! Will start switching to Custom Tags for more awesome power and flexibility.
+`<include name="xyz.marko" data="${data}"/>`
+`<include name="xyz.marko" page="${data.page}" providers="${data.providers}"/>`
+views/partials/header/header.marko:
+<include template="../relative/path/to/template.marko" />
+And then in template.marko (which doesn't work):
+@SunnyGurnani I assume that should also work as Patrick mentioned support for the ${...} syntax.
+greets Achim
+As i think more about it, i think what @SunnyGurnani proposed makes more sense and less confusing.
+This would avoid confusion and make Marko much easier to learn for people new to language.
+Coming from JSX-land, I suggest:
+@patrick-steele-idem
+`<include template="./header.marko"/>`
+`<include template="./footer.marko"/>`
+Is this possible do you know?
+(using Express + Marko)
+Any idea what's wrong here?
+Sara
+Sara
+Reply-To: raptorjs/marko <reply@reply.github.com<mailto:reply@reply.github.com>>
+Subject: Re: [marko] Custom tag self reference does not work (#69)
+Patrick
+### Alternative definition of the problem
+Second possible way is to use some special `param` tag, like in [Google Closure Templates](https://developers.google.com/closure/templates/docs/commands#param):
+https://github.com/schetnikovich/marko-substitution-poltergeist
+I have three points regarding progressive rendering of marko templates.
+3. When running the examples on https://marko-progressive-rendering.herokuapp.com/?renderMode=progressive-in-order&jsLocation=middle everything is fine until you reload the iframe (hitting the inner refresh button on the page) in the chrome browser. Strangely, progressive rendering of async-elements only works when you move the mouse after refresh - Safari and Firefox render every chunk as soon as it arrives. Reloading the entire page in chrome shows the same effect while running the example in a separate window works fine (most of the time). I tested the behaviour with a bigger first chunk (additional textual data) but the data refuses to render until you move the mouse. It seems, that the browser ignores chunked responses and renders the content like a single chunk. I see the same behaviour on Mac and Linux. Does somebody know the reason and if this is a known/intended behaviour or a bug on the marko/chrome part?
+Pat (new to Marko and Node)
+:D these are the '< >'  it all can be customised I have .ai files saved
+![marko2](https://cloud.githubusercontent.com/assets/8730277/6876374/2dc9b080-d4c7-11e4-8832-5a4347acf696.png)
+Since Marko is a dudes name I gave him some personality
+![marko4](https://cloud.githubusercontent.com/assets/8730277/6876740/de88c28c-d4ca-11e4-990f-ca09efb4e3d9.png)
+Some Urban Style.
+Alright time to leave Illustrator. Good night Gentleman!, I will be bugging you tomorrow since I haven't implementetd optimizer yet ;)
+Maybe you could play around with the color...
+Some thoughts (additional love to detail required):
+- the font should appear dynamic, "agile", quick and nice
+Lol how about some fancy..
+${marko}
+http://www.nac.net/
+haha had a funny idea.... marko and an abstract grining face
+![marko_face](https://cloud.githubusercontent.com/assets/6454552/9115315/b139b948-3c5e-11e5-9edd-0ec5a9e25110.png)
+> Published marko@2.1.4
+Usecase:
+It's a bit of a hack, but if a module uses `process` and it's bundled by webpack then webpack (and browserify) sets `process.browser: true`. So if the try/catches in raptor and marko's src are only there for the benefit of browserify then replacing them with `if(!process.browser)` would mean the code compiles properly in webpack too @patrick-steele-idem
+Any idea what might be happening?
+Awesome @patrick-steele-idem !
+"mytag": {
+else
+This is not supported
+Custom Tag only accepts `$DATA`
+<ebayui-refit-itemgrid-pattern viewModel = $grid options = $options />
+The below code will through an error in marko
+<ebayui-refit-itemgrid-pattern viewModel = "grid" options = "options" />
+console.log("asdasd", a);
+https://github.com/merwan7/sublime-marko
+https://github.com/pcanella/vscode-marko
+The new line between these two custom tags should be preserved.
+var marko = require('marko');
+Indeed you can clear node's require cache, I thought about that too. A bit hacky for my taste, but that's just me.
+var marko = require("marko")
+require('marko/hot-reload').enable()
+require('fs').watch('web/marko', function (event, filename) {
+if (/\.marko$/.test(filename)) {
+$color
