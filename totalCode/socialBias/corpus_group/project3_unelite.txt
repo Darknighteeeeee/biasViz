@@ -1,0 +1,1444 @@
+  This file lets you specify which version of sbt to use. sbt will read it, and if necessary, self-bootstrap the correct version of itself before proceeding to build.
+
+Yes, the correct version of sbt (0.12.1) is already specified in the "sbt" build script, but if users choose not to use this script, and rather use sbt directly (for example - the sbt script doesn't work on Windows), they can get the wrong version of sbt.
+
+See https://groups.google.com/forum/#!topic/finaglers/TVOmozhPgWk
+
+> Kirill
+> 21. nov.
+> 
+> Thank you all! The issue occured because I used the latest version of SBT. When I downgraded to sbt 0.12 then it looks it works.
+   http://netty.io/news/2013/11/08/3-8-0-Final.html
+ We are already testing the Netty 3.8 internally, it will be available here soon.
+ Thanks.
+
+I intend to do the update and send pull request, but since you are already doing that, it's better you finish it.
+ Yes. I'm developing Xitrum (https://github.com/ngocdaothanh/xitrum), which is based on Netty too. I'm seeing warnings like below when updating Xitrum:
+
+```
+[warn] /Users/ngoc/src/xitrum/src/main/scala/xitrum/I18n.scala:18: method getHeader in trait HttpMessage is deprecated: see corresponding Javadoc for more information.
+[warn]     val header = request.getHeader(Names.ACCEPT_LANGUAGE)
+[warn]                          ^
+[warn] /Users/ngoc/src/xitrum/src/main/scala/xitrum/action/Net.scala:54: method getHeader in trait HttpMessage is deprecated: see corresponding Javadoc for more information.
+[warn]       val xForwardedFor = request.getHeader("X-Forwarded-For")
+[warn]                                   ^
+[warn] /Users/ngoc/src/xitrum/src/main/scala/xitrum/action/Net.scala:89: method getHeader in trait HttpMessage is deprecated: see corresponding Javadoc for more information.
+[warn]         val xForwardedProto = request.getHeader("X-Forwarded-Proto")
+```
+
+http://netty.io/3.8/api/org/jboss/netty/handler/codec/http/HttpMessage.html#getHeader(java.lang.String)
+ Please see this pull request (there's also commit about README):
+https://github.com/twitter/finagle/pull/214
+ Does Twitter plan to update Netty from 3.x to 4.x soon? About when?
+ I thought it's just matter of replacing most header access calls with headers().*(). Let me know if you need any help on this.
+
+Sent from a mobile device.
+https://twitter.com/trustin
+https://twitter.com/trustin_ko
+https://twitter.com/netty_project
+
+-----Original Message-----
+From: Brian Degenhardt notifications@github.com
+To: twitter/finagle finagle@noreply.github.com
+Sent: 토, 09 11월 2013 7:40 오전
+Subject: Re: [finagle] Update Netty from 3.7.0 to 3.8.0 (#217)
+
+There's some trickiness with the backport of http headers from netty 4 that collides with our headers map in finagle.  If you want to take a look at it, we'd appreciate it.
+
+---
+
+Reply to this email directly or view it on GitHub:
+https://github.com/twitter/finagle/issues/217#issuecomment-28104054
+ Actually someone is already working on that right now, it should be available very soon.
+  Per discussion on the finaglers mailing list: https://groups.google.com/d/msg/finaglers/HqfNWJF3qZk/mWD-By0MtOgJ
+
+DnsCluster continuously resolves a host name into a set of SocketAddress instances, loosely based on ZK cluster implementation . 
+
+LingeringCluster is a generic Cluster filter that propagates Rem events after a predefined delay, this helps dealing with  firewall that does its own DNS resolution. 
+ I like the idea here, but Clusters are deprecated.  It doesn't make sense to add a new one right now.  Can you get these to work with the Name api?
+ I've looked at ZkResolver to see how to implement a similar DnsResolver, but it uses a Group internally and there's a comment about taking that out as well (I understand Groups are deprecated too). I wonder if my best strategy is to wait until the dust settles and then take another look? Or am I barking up the wrong tree?
+ The deprecation storm has settled and the Name/Var[Addr] API is the outcome. I think it's safe to assume that it's stable enough to build upon. ZkResolver is still written in terms of Group because no one's had time to migrate StabilizingGroup to the Var[Addr] world.
+
+A DnsResolver would provide a function `def bind(arg: String): Var[Addr]`. See [twitter-server's FlagResolver](https://github.com/twitter/twitter-server/blob/master/src/main/scala/com/twitter/server/resolver/FlagResolver.scala#L16) class for a simple example.
+ Thanks for your response, but I am still a bit confused where my DNS stuff would fit in this brave new world... On one hand, it could be used as a poor man's ZK, with multiple machines resolving the same hostname, so that's why I looked at the ZkResolver, but then we can also have a Name implementation, something like this: https://gist.github.com/agleyzer/7363353. What would you guys prefer? 
+  Will the dependency on libthrift ever be upgraded from 0.5.\* to 0.9.*, the latest version?
+ It's on our list of things to do, but we haven't committed it to the schedule.
+  Maybe something playful about "smuggling" packets?
+ What about making the twitter bird a cog, surrounded by three gears that mesh with it?
+Take the twitter logo imposed on a radial plane.  Then re-project it to a flat projection, find the inverse, map back to radial and you get a gear that fits the bird.
+ Combining ideas a bit: A bird whose nest is a coffee filter, maybe with some plumbing visible in/around the nest.
+ bmdhacks +1
+I like the idea about a mechanized bird.
+http://www.thisiscolossal.com/wp-content/uploads/2013/06/swallows-2.jpg
+ What about a 2-second Finagle jingle (audio clip) that plays every time you start a Finagle service? (+ of course every time you read the online documentation)
+^^
+ How about a bird that wears steampunk goggles? https://www.google.no/search?q=steampunk+goggles&tbm=isch
+ http://99designs.com/logo-design/contests/logo-finagle-254061/entries/64 is easier to read. The "F" in the other one is not obvious, in my mind.
+  Yes retries are active using the default of 3.
+ We always use the ClientBuilder.
+ This one is not using TLS.
+ Actually yes, we are getting a handful of these (about 0.005% of requests produce this), and this would be one thing our mock server doesn't emulate.  So that would make sense.
+ Regarding moving up to 6.5.2, we would love to, but we're using Cassie which depends on 6.3.  Do you know if the versions are binary compatible?
+ Ok I will do a little testing tomorrow and see if I can just drop in 6.5.2.
+ I haven't tested with 6.5.2 yet, but I updated our mock to emulate the exception that bubbles up to the root monitor.  I was able to send 400k messages without error (other than the exception which occurs 0.1% of the time) using the same configuration that's in production.  I was hoping I could simply handle this edge case as a triage measure, but I'm not convinced it's the root cause.  I am uneasy about upgrading Finagle without extensive testing, because all of our services use Finagle for inter-process communication.
+ I noticed this morning that Cassie's newest release uses 6.5.0.  Is it reasonable to assume that the fix in question would be in that version?  I switched our client back to the Apache client as an immediate triage (which seems to be working fine), because I really want to be able to replicate the issue before trying another production fix.  If you have any other theories I can check out, I'm happy to do so; I'd much prefer to use Finagle across the board.
+ So what I hear you saying is that an upgrade to 6.5.0 will theoretically fix the issue, but there's no way to know for sure without deploying to production?  If the unhandled exception puts the client in this state in our production system, why would it not do the same in our test system?  
+ It's on our short-term backlog.  We had to prioritize getting a major release out the door first, but this is a high priority item for us.  I'll let you know when we have testing results.
+  Haven't been able to test this directly, but I've been running around in circles dealing with an exception message my client was printing with no context or message. As the server has 0 logging, I couldn't access the stack trace. Can something like this be added so any request the generates an unhandled exception gets optionally logged?
+ I can probably guess what a logging filter is, but I don't think I should have to be aware that I have to install one, in order to prevent exceptions from being silently swallowed, even if I have a high logging level turned on?
+ Are there any examples on how to use LoggingFilter? I see it's abstract, not sure how to plug it in. Got this far:
+
+Service filteredService = new LoggingFilter().andThen(myService); but that errors because it's abstract.
+ P.s. I can't mix it in because I'm using a scrooge generated service plus it's java.
+ So you disagree that I handled exceptions should always be logged at a high
+enough level regardless of attached filters? It kind of violates the
+principle of least surprise...
+
+On 27/06/2013, at 5:10 PM, Moses Nakamura notifications@github.com wrote:
+
+Take a look at Http
+LoggingFilterhttps://github.com/twitter/finagle/blob/master/finagle-http/src/main/scala/com/twitter/finagle/http/filter/LoggingFilter.scala,
+confusingly also named LoggingFilter (for historical reasons) :)
+
+Filters are designed to be composed in the way that you're describing,
+filter andThen service. Here are
+somehttps://github.com/twitter/finagle#Building%20a%20Robust%20Server
+docs http://twitter.github.io/finagle/guide/ServicesAndFilters.html that
+might be useful.
+
+—
+Reply to this email directly or view it on
+GitHubhttps://github.com/twitter/finagle/pull/182#issuecomment-20155161
+.
+ That's some crazy work just to log unhandled exceptions.
+
+On 27/06/2013, at 5:10 PM, Moses Nakamura notifications@github.com wrote:
+
+Take a look at Http
+LoggingFilterhttps://github.com/twitter/finagle/blob/master/finagle-http/src/main/scala/com/twitter/finagle/http/filter/LoggingFilter.scala,
+confusingly also named LoggingFilter (for historical reasons) :)
+
+Filters are designed to be composed in the way that you're describing,
+filter andThen service. Here are
+somehttps://github.com/twitter/finagle#Building%20a%20Robust%20Server
+docs http://twitter.github.io/finagle/guide/ServicesAndFilters.html that
+might be useful.
+
+—
+Reply to this email directly or view it on
+GitHubhttps://github.com/twitter/finagle/pull/182#issuecomment-20155161
+.
+ Plus, you can't really use trait's from Java:
+http://stackoverflow.com/questions/7637752/using-scala-traits-with-implemented-methods-in-java
+ I'll look at making our own logging filter that uses slf4j that doesn't extend logging filter. If i were to push it up, where would be appropriate? finagle-contributions module perhaps? separate repo?
+ Something like:
+
+```
+@Slf4j
+public class Slf4jLoggingFilter extends SimpleFilter<byte[], byte[]> {
+
+    @Override
+    public Future<byte[]> apply(byte[] request, Service<byte[], byte[]> service) {
+        Future<byte[]> future = service.apply(request);
+        future.handle(new Function<Throwable, byte[]>() {
+            @Override
+            public byte[] apply(Throwable throwable) {
+                if (throwable != null) {
+                    log.error(throwable.getMessage(), throwable);
+                }
+                return null; // no result
+            }
+        });
+        return future;
+
+    }
+}
+```
+  Are all session variables set via a "SET key=value" query? If so, I think it would be better to take a map containing session vars rather than a function.
+ Okay, that makes sense. I am currently working on moving the mysql client to use the finagle 6 api and I suspect that it will change the implementation of this. I'll get back to you on this soon.
+ What are our next steps with this PR?  Does it need to be restarted from scratch to work with the new api?
+ @roanta has a local branch where he improved the client.
+We'll continue to work on it internally and this PR will become obsolete when we'll sync the github repo.
+ sounds good!
+  I agree, we will do the change.
+ Should be available in the public repo soon. Thanks!
+  I've pulled this in along with https://github.com/twitter/finagle/pull/154. Should sync into the public repo shortly. Thanks!
+  I pulled this internally, it'll show up on Github soon.
+Thank you for doing that and sorry for the delay, the next time I'll be faster.
+ This is in our internal repo, it should show up here soon.
+  Sorry for the delay again.
+
+We would be happy to see your pull request on this.
+No need to bump the minor, if you leave the old LogFormatter in com.twitter.finagle.http.filter, there shouldn't be any API breakage.
+
+I agree with the rest of your proposition, maybe should you use `logException` instead of `logError` (I'm fine with both).
+ Closing, the fix is in our internal repo, it should show up here soon.
+  Hey Moses,
+Sorry for the delay, I retrieve this internally.
+
+Thanks.
+  Thanks; pulled internally.
+  Hey @mosesn, I just pulled this internally, the change should appear here soon. Thanks!
+  Fixes two issues
+# tomcat-native-1.22 is now on archive.apache.org
+# git apply doesn't like applying patches to a working tree that aren't for that working tree, so use patch instead of git apply to fix up tomcat-native
+  Let's see if Finagle can pass green outside of Twitter?
+
+![challenge](https://f.cloud.github.com/assets/1872593/22893/a6ba5f3a-4a18-11e2-94a5-1587fc8eede6.jpg)
+ Funny, I've actually been working on this today too...
+
+https://travis-ci.org/caniszczyk/finagle/builds/3746169
+ I believe there's an issue of Travis not supporting 64bit VMs so we're dead in the water ATM
+ Speaking of the devil! :+1: 
+
+Strange... what happens if you make Travis build it with maven instead of sbt? If that's relevant?
+ @mariusaeriksen, is there a reason we should even bundle SBT?
+
+I think it's reasonable to expect people to have it installed locally.
+ https://travis-ci.org/eirslett/finagle/builds/3761932
+
+[info] Loading project definition from /home/travis/builds/eirslett/finagle/project
+
+19[info] Updating {file:/home/travis/builds/eirslett/finagle/project/}default-d291f6...
+
+20[info] Resolving com.twitter#sbt-package-dist;1.0.5 ...
+
+21[warn]    module not found: com.twitter#sbt-package-dist;1.0.5
+  How does this compare and contrast with Akka?
+  We need the possibility to change the delimiter used when creating names for Ostrich stats
+  Hey Moses, I'll take a look at this today.
+ We pulled this internally, should appear here soon. Thanks!
+  implement BITCOUNT, BITOP, PSETEX
+implement all string commands to StringCommands
+ I have pulled this internally, should appear here soon
+  I added a ConsoleStatsReceiver to make logging to the console easier for testing.
+ A StatsReceiver is not really a logger, there is the logger() method (See [Client/Server]Builder) if you want to use a logger.
+If you want to have something more meaningful, you should pass a StatsReceiver and have a "ConsolePoller" or something which poll the StatsReceiver and log stats in the console, but there is the Ostrich integration which provide more than that and exposed stats in a Http server.
+
+So I don't things this class should be part of finagle.
+ That's fine.  I did this as a result of a suggestion made on the Google group for Zipkin.  I personally find it useful for debugging, and in fact it revealed a conflicting version issue with SLF4J that would obviously have remained hidden using a logger.  It's also helpful if you want to eliminate the Ostrich dependency and just see the raw output.
+ Sure, you can use this for debugging your application, but I don't think it make sense to put this in finagle.
+We try to reduce complexity in finagle as fas as we can, and we avoid adding new feature unless it make sense for a significant part of the users.
+
+Anyway, thank you for contributing.
+   As there's no open source contributor, I think you should send this review to the internal repo.
+  Hi, when I try to compile the whole project or just finagle-benchmark on it's own, I get the following errors in TaskTrackingtimer.scala because neither of com.twitter.finagle.util.{CountingTimer, TaskTrackingTimer} can be found.
+
+> [error] /Users/matt.brown/oss_projects/finagle/finagle-benchmark/src/main/scala/com/twitter/finagle/benchmark/TaskTrackingTimer.scala:5: CountingTimer is not a member of com.twitter.finagle.util
+> [error] import com.twitter.finagle.util.{CountingTimer, TaskTrackingTimer}
+> [error]        ^
+> [error] /Users/matt.brown/oss_projects/finagle/finagle-benchmark/src/main/scala/com/twitter/finagle/benchmark/TaskTrackingTimer.scala:26: not found: type TaskTrackingTimer
+> [error]     val timer = new TaskTrackingTimer(new FakeTimer)
+> [error]                     ^
+> [error] /Users/matt.brown/oss_projects/finagle/finagle-benchmark/src/main/scala/com/twitter/finagle/benchmark/TaskTrackingTimer.scala:47: not found: type CountingTimer
+> [error]     val timer = new CountingTimer(new FakeTimer)
+> [error]                     ^
+> [error] three errors found
+> [error] {file:/Users/matt.brown/oss_projects/finagle/}finagle-benchmark/compile:compile: Compilation failed
+> [error] Total time: 6 s, completed Aug 9, 2012 3:54:47 PM
+ Those classes were removed and that file was deleted but maybe not
+propagated yet. Feel free to ignore it.
+Sorry!
+
+On Thu, Aug 9, 2012 at 12:56 PM, Matt Brown notifications@github.comwrote:
+
+> Hi, when I try to compile the whole project or just finagle-benchmark on
+> it's own, I get the following errors in TaskTrackingtimer.scala because
+> neither of com.twitter.finagle.util.{CountingTimer, TaskTrackingTimer} can
+> be found.
+> 
+> [error]
+> /Users/matt.brown/oss_projects/finagle/finagle-benchmark/src/main/scala/com/twitter/finagle/benchmark/TaskTrackingTimer.scala:5:
+> CountingTimer is not a member of com.twitter.finagle.util
+> [error] import com.twitter.finagle.util.{CountingTimer, TaskTrackingTimer}
+> [error] ^
+> [error]
+> /Users/matt.brown/oss_projects/finagle/finagle-benchmark/src/main/scala/com/twitter/finagle/benchmark/TaskTrackingTimer.scala:26:
+> not found: type TaskTrackingTimer
+> [error] val timer = new TaskTrackingTimer(new FakeTimer)
+> [error] ^
+> [error]
+> /Users/matt.brown/oss_projects/finagle/finagle-benchmark/src/main/scala/com/twitter/finagle/benchmark/TaskTrackingTimer.scala:47:
+> not found: type CountingTimer
+> [error] val timer = new CountingTimer(new FakeTimer)
+> [error] ^
+> [error] three errors found
+> [error]
+> {file:/Users/matt.brown/oss_projects/finagle/}finagle-benchmark/compile:compile:
+> Compilation failed
+> [error] Total time: 6 s, completed Aug 9, 2012 3:54:47 PM
+> 
+>  —
+> Reply to this email directly or view it on GitHubhttps://github.com/twitter/finagle/issues/101.
+ thanks for the fast turnaround! errors all gone now.
+    I would like to see benchmarks against the normal MySQL driver as part of this effort. For performance, memory usage and CPU usage.
+  val sever = ServerBuilder().codec(MessageCodec).bindTo(new InetSocketAddress(port)).name("Server").build(service)
+
+If Server MessageCodec throw exception , how can i return  the exception to the client?
+  I saw Redis was removed on June 7th. I'm not sure why as the commit message wasn't forthcoming. This adds it back and tidies up some loose whitespace in Build.scala.
+  We made a couple of improvements based on our experience using the protobuf based RPC in production.
+ Hey Marius,
+
+I noticed one of your comments in the finagle-protobuf module
+"finagle-protobuf:
+kill POM; seems
+defunct.https://github.com/twitter/finagle/commit/a3dd155c53507c5c5fc6651d2a75243994d738bb".
+We have been using this protocol in production for months, and it has been
+working great for us and we did not need to make any updates.
+
+The one thing I will need to add is a better wiki page.
+
+George
+
+On Fri, Jul 6, 2012 at 1:47 AM, marius a. eriksen <
+reply@reply.github.com
+
+> wrote:
+> 
+> hey George—I'm currently on vacation and will have a look when I get back
+> (in ~1 week)
+> 
+> ---
+> 
+> Reply to this email directly or view it on GitHub:
+> https://github.com/twitter/finagle/pull/91#issuecomment-6799208
+ Hi Marius,
+
+What's the status of your efforts around generalizing finagle-thrift ( i.e. finagle-rpc )?
+
+Thanks,
+Mark
+ This is done: [finagle-mux](https://github.com/twitter/finagle/blob/master/finagle-mux/src/main/scala/com/twitter/finagle/mux/package.scala). As an example of adapting Mux to Thrift, see [finagle-thriftmux](https://github.com/twitter/finagle/tree/master/finagle-thriftmux/src/main/scala/com/twitter/finagle)
+ @mariusaeriksen we definitely want to keep in step with the framework, let me see how I can slip this into our backlog. Thanks for the heads up.
+  Check to see what version of OpenSSL the 'openssl version' subcommand
+returns, then trim the output if necessary.
+
+I had MacPorts' OpenSSL in the path (which is version 1.0.1c), and the output from its md5 is different than the one in `/usr/bin/openssl`:
+
+```
+$ /usr/bin/openssl md5 < sbt-launch.jar 
+2886cc391e38fa233b3e6c0ec9adfa1e
+
+$ /opt/local/bin/openssl md5 < sbt-launch.jar 
+(stdin)= 2886cc391e38fa233b3e6c0ec9adfa1e
+```
+
+This patch just checks the output of the version subcommand and adjusts as appropriate.
+ ah, good point, lemme just adjust that there
+ awesome! :)
+
+On Thu, Jun 14, 2012 at 4:47 PM, marius a. eriksen
+reply@reply.github.com
+wrote:
+
+> I've pulled this internally, should make it out here within the day.
+> 
+> ---
+> 
+> Reply to this email directly or view it on GitHub:
+> https://github.com/twitter/finagle/pull/88#issuecomment-6340034
+  Redis supports 64 bit signed integers (as stated in the docs, e.g. for the [INCRBY command](http://redis.io/commands/incrby)), and so Redis integers should be represented by `Long` rather than `Int`.
+
+Here is an example of a Redis exchange that is currently not possible using the finagle-redis client:
+
+```
+redis 127.0.0.1:6379> SET foo 1
+OK
+redis 127.0.0.1:6379> INCRBY foo 1000000000000000000
+(integer) 1000000000000000001
+```
+
+In order to support this I've switched from `Int` to `Long` in the following places: 
+- INCRBY, DECRBY command arguments
+- Integer replies
+
+Unfortunately this switch from `Int` to `Long` means a breaking change in the API, but it should be very easy for users to fix their client code. 
+ Thanks!
+ I just noticed that this was not actually merged in. 
+
+Was this a deliberate decision (should I fix something?), or did it just slip through the cracks?
+ OK, thanks for the update.
+
+Don't worry, no rush :)
+  libraryDependencies += "com.twitter" % "finagle" % "3.0.0"
+
+when execute build 
+val client = ClientBuilder().codec(Http.get).hosts(address).hostConnectionLimit(1).build();
+
+Exception in thread "main" java.lang.NoSuchMethodError: scala.collection.mutable.Queue$.apply(Lscala/collection/Seq;)Lscala/collection/mutable/Queue;
+    at com.twitter.finagle.builder.Cluster$$anon$1$$anonfun$1$$anonfun$2.apply(Cluster.scala:32)
+    at com.twitter.finagle.builder.Cluster$$anon$1$$anonfun$1$$anonfun$2.apply(Cluster.scala:32)
+    at scala.collection.mutable.MapLike$class.getOrElseUpdate(MapLike.scala:176)
+    at scala.collection.mutable.HashMap.getOrElseUpdate(HashMap.scala:45)
+    at com.twitter.finagle.builder.Cluster$$anon$1$$anonfun$1.apply(Cluster.scala:32)
+    at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:233)
+    at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:233)
+    at scala.collection.LinearSeqOptimized$class.foreach(LinearSeqOptimized.scala:59)
+    at scala.collection.immutable.List.foreach(List.scala:76)
+    at scala.collection.TraversableLike$class.map(TraversableLike.scala:233)
+    at scala.collection.immutable.List.map(List.scala:76)
+    at com.twitter.finagle.builder.Cluster$$anon$1.snap(Cluster.scala:31)
+    at com.twitter.finagle.loadbalancer.HeapBalancer.<init>(HeapBalancer.scala:50)
+    at com.twitter.finagle.builder.ClientBuilder$$anon$1.<init>(ClientBuilder.scala:749)
+    at com.twitter.finagle.builder.ClientBuilder.internalBuildFactory(ClientBuilder.scala:749)
+    at com.twitter.finagle.builder.ClientBuilder.build(ClientBuilder.scala:785)
+    at com.qileke.finagle.basic.SimpleHttpClient$.main(SimpleHttpClient.scala:25)
+    at com.qileke.finagle.basic.SimpleHttpClient.main(SimpleHttpClient.scala)
+ Which version of scala is you project using?
+ 2.9.1
+ test environments ： windows 7 (64),java version "1.7.0_03" (64) , scala version 2.9.[1|2]
+ Ubuntu 11.10  (64),java version "1.7.0_03" (64) , scala version 2.9.[1|2]
+ thank you
+  Fix for issue #84
+ That is a much simpler solution to the main problem. I've updated the pull request to use it.
+ See above commit for deterministic test. Is this a reasonable approach?
+ I don't know what you mean by JUnit style unittests. Can you point me to an example in Finagle I should emulate? Should I just switch superclass to `org.specs.SpecificationWithJUnit`?
+
+Also, should I remove the additional case in EndToEndSpec?
+ I've made those changes, and merged in master. I'm assuming it's ready for merge?
+
+I've also rebased these changes to https://github.com/stephenjudkins/finagle/commit/d62455e6f84d40ccd6e0dac3b21c2876b802997e. Pick your poison on which one you'd like.
+ Yes, it looks like I forgot to add it. Sorry about that one. I was switching between SBT 0.7 and 0.11 branches so it got lost in the confusion.
+  In some cases, `HttpDechunker` sends an EOF before it has finished writing the all chunks to `StreamResponse#messages`. This is because in HttpDechunker.scala#L39, when `chunk.readable` is false, the `sendOf` offer is set to Offer.const(()). In L43, this offer is synchronized on in order to send EOF message only after it's finished. However, when `chunk.readable` is false, an EOF is sent immediately irrespective of any other chunks that haven't been read.
+  I did as the following commands, but got the compile errors.
+==>git clone https://github.com/twitter/finagle.git
+==>cd finagle &&  ./sbt update compile
+
+[error] /Users/zhang/Projects/scala/finagle/finagle-core/src/main/scala/com/twitter/finagle/dispatch/ClientDispatcher.scala:3: AsyncQueue is not a member of com.twitter.concurrent
+[error] import com.twitter.concurrent.AsyncQueue
+[error]        ^
+[error] /Users/zhang/Projects/scala/finagle/finagle-core/src/main/scala/com/twitter/finagle/dispatch/ClientDispatcher.scala:16: not found: type AsyncQueue
+[error]   private[this] val dispatchq = new AsyncQueue[(Req, Promise[Rep])]
+[error]                                     ^
+[error] /Users/zhang/Projects/scala/finagle/finagle-core/src/main/scala/com/twitter/finagle/transport/ChannelTransport.scala:3: AsyncQueue is not a member of com.twitter.concurrent
+[error] import com.twitter.concurrent.AsyncQueue
+[error]        ^
+[error] /Users/zhang/Projects/scala/finagle/finagle-core/src/main/scala/com/twitter/finagle/transport/ChannelTransport.scala:21: not found: type AsyncQueue
+[error]   private[this] val readq = new AsyncQueue[Out]
+[error]                                 ^
+
+I find the AsyncQueue class at
+https://github.com/twitter/util/blob/master/util-core/src/main/scala/com/twitter/concurrent/AsyncQueue.scala
+
+What should I do to solve the problem or I downed the wrong branch?
+ I am also running into this compile error. Is there a specific tag or branch to checkout to build a working release?
+ I am also facing the same issue. Any idea when this will be fixed. Thanks for looking into this.
+    Thus, if you simply proxy StreamResponses from a server to a service the client pool will become exhausted. This is different from the semantics of every other type of Request/Response pair.
+
+Here's an example:
+
+```
+import com.twitter.finagle.stream.{Stream, StreamResponse}
+import java.net.{URL, InetSocketAddress}
+import com.twitter.util.Future
+import com.twitter.conversions.time._
+import com.twitter.finagle.{Service, ServiceFactory}
+import com.twitter.finagle.builder.{ServerBuilder, Server, ClientBuilder}
+import org.jboss.netty.handler.codec.http._
+
+object Proxy {
+
+  def main(args: Array[String]) {
+    class Respond extends Service[HttpRequest, StreamResponse] {
+      def apply(request: HttpRequest) = download(request.getUri)
+    }
+
+    val service = new Respond
+
+    ServerBuilder()
+      .codec(Stream().server)
+      .bindTo(new InetSocketAddress(8080))
+      .name("httpserver")
+      .build(service)
+  }
+
+  val host = "www.fbi.gov"
+  val port = 80
+
+  val clientFactory: ServiceFactory[HttpRequest, StreamResponse] = ClientBuilder()
+    .codec(Stream().client)
+    .hosts(new InetSocketAddress(host, port))
+    .hostConnectionLimit(1)
+    .tcpConnectTimeout(5.seconds)
+    .buildFactory()
+
+  def client = clientFactory()
+
+  def download(path: String):Future[StreamResponse] =  {
+    println(path)
+    val request = new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, path)
+    request.setHeader("Host", host)
+    clientFactory() flatMap { _(request) }
+  }
+}
+```
+
+Run `ab -n 10 -c 1 http://localhost:8080/spinner.gif` to see it break.
+ (Please let me know if there is a better venue to discuss this)
+If that's the case, perhaps you can offer a suggestion on how to better solve our problem:
+
+We're using Finagle as a proxy server between slow clients and a relatively fast S3 backend. Using the non-streaming HTTP client can use an unreasonable amount of memory waiting for clients. As far as I can tell from examples, most other codecs simply let you compose a `Server` and a `Service` in order to have a transparent proxy. A `Service` closes the socket immediately after the response is formed, thus stopping the delivery of any further chunks. Thus, we use `ServiceFactory` since we need to keep the stream open until `release` is called. However, the factory runs out of slots since when the Server calls `release` on the StreamResponse, the client doesn't get released. Here's our stopgap solution:
+
+```
+
+object StreamClosingFilter extends Filter[HttpRequest, StreamResponse, HttpRequest, StreamResponse] {
+  def apply(request: HttpRequest, service: Service[HttpRequest, StreamResponse]) = {
+    service(request) map { response =>
+      new StreamResponse {
+        def httpResponse = response.httpResponse
+
+        def messages = response.messages
+
+        def error = response.error
+
+        def release() {
+          service.release()
+          response.release()
+        }
+      }
+    }
+  }
+}
+```
+
+This fixes our issue, but seems kludgy and is tied to the `StreamResponse` interface. What other solutions would you propose?
+ Thanks for the explanation, and for pushing the fix.
+  ...with synchronized #toList.
+
+Relevant tests pass. Unsure of performance implications, but do we care how fast this will be? Also I have no idea how to test this.
+  Added auth method to finagle redis library.
+Authentication is required to use Redis to Go on heroku.
+  This error occurred in Finagle 3.0.0 in Scala 2.9.1.
+
+There appears to be a race condition. I've only seen it once, but here's the relevant portion of the stack trace:
+
+```
+NullPointerException: null (ServerBuilder.scala:664)
+com.twitter.finagle.builder.MkServer$$anon$5$$anonfun$close$1.apply(ServerBuilder.scala:665)
+com.twitter.finagle.builder.MkServer$$anon$5$$anonfun$close$1.apply(ServerBuilder.scala:664)
+scala.collection.IndexedSeqOptimized$class.foreach(IndexedSeqOptimized.scala:34)
+scala.collection.mutable.ArrayOps.foreach(ArrayOps.scala:38)
+com.twitter.finagle.builder.MkServer$$anon$5.close(ServerBuilder.scala:664)
+```
+ It appears that `activeHandlers.toArray` returns an Array that contains a "null". I assume there is a race between `activeHandlers -= channelHandler` in L629 and `toArray`.
+
+It appears that neither `toArray` nor `copyToArray` are synchronized in SynchronizedSet. Replacing this with either `toList` (which is synchronized) or manually synchronizing on `activeHandlers` should address this issue.
+ I have a fix above. Feel totally free to use it or throw it out if it's not appropriate.
+
+I'm curious how one would go about testing this.
+  Several examples use e.g. `responseFuture.within(1.second)`. This method doesn't exist in later versions of Finagle (> 2.0.1) as far as I can tell. The only thing analogous I can find it `Future.within(Duration, Timer)`.
+  This code no longer completes: https://gist.github.com/1827065
+
+It's like the Future never fires. I have it set up in a test project where I can switch between 2.0.1 and 3.0.0 and it fails.
+ Thanks for looking into it. Like I said, I can reproduce it in my project as soon as I switch my dependencies in build.sbt from 2.0.1 to 3.0.0 and see it work when I move back to 2.0.1. Same code, and in my case it hangs forever. ;_;
+ What confuses me about it being intermittent is that the manual HTTP request works every time.
+  Expose max initial line length and header size so they are configurable.
+  Currently when tls(hostname) is called the SSLContext for the default jsse 
+truststore (cacerts) is created on a per request basis.  This seems like overhead,
+as a new SSLContext means that cacerts is reread; and a SecureRandom created
+for each ssl (https) call.
+
+Therefore, I've made a change; so that only the first call to JSSE.client()
+creates the SSLContext, all subsequent calls just create the SSLEngine from
+that precreated default SSLContext.
+ Hi there,
+
+Sorry about the formatting, does 2d51c0bc look any better?
+
+Cheers
+/dom
+  A coworker pointed out that I had misread the sorted sets spec, and implemented them using float's instead of double's. This commit refactors the sorted set commands to use a double instead of a float.
+
+Additionally there was a warning about a case class constructor without a parameter list (FlushDB) which was fixed.
+  I've created an empty SBT project that lists finagle as a library dependency, pulling from maven.twttr.com; `sbt compile` fails with the following abbreviated output:
+
+```
+[info] Loading project definition from /Users/ben/scala/test/project
+[warn]  ::::::::::::::::::::::::::::::::::::::::::::::
+[warn]  ::          UNRESOLVED DEPENDENCIES         ::
+[warn]  ::::::::::::::::::::::::::::::::::::::::::::::
+[warn]  :: com.codahale#jerkson_2.8.1;0.1.4: not found
+[warn]  ::::::::::::::::::::::::::::::::::::::::::::::
+[error] {file:/Users/ben/scala/test/}default-c49c40/*:update: sbt.ResolveException: unresolved dependency: com.codahale#jerkson_2.8.1;0.1.4: not found
+[error] Total time: 4 s, completed Mar 6, 2012 12:26:08 AM
+```
+
+It seems that finagle-exception hardcodes a dependency on jerkson_2.8.1 in the 2.9.1 repo, which cannot be resolved.
+
+Though it doesn't appear in the above output, this also applies to thrift 0.5.0; I've worked around that with some hackery in libraryDependencies.
+ Dear Benjamin,
+
+could you share your hackery? ;) I'd really need it. Thanks!
+ If you'd like to to get a Scala 2.9.1, SBT 0.11.2, Thrift 0.8.0, Finagle 3.0.0 stack, a working example is in the README here:
+
+https://github.com/twitter/sbt-scrooge/tree/sbt11
+  ```
+[info] Resolving thrift#libthrift;0.5.0 ...
+[warn]  module not found: thrift#libthrift;0.5.0
+[warn] ==== local: tried
+[warn]   /Users/devin/.ivy2/local/thrift/libthrift/0.5.0/ivys/ivy.xml
+[warn] ==== twitter-repo: tried
+[warn]   http://maven.twttr.com/thrift/libthrift/0.5.0/libthrift-0.5.0.pom
+[warn] ==== public: tried
+[warn]   http://repo1.maven.org/maven2/thrift/libthrift/0.5.0/libthrift-0.5.0.pom
+[warn] ==== Scala-Tools Maven2 Repository: tried
+[warn]   http://scala-tools.org/repo-releases/thrift/libthrift/0.5.0/libthrift-0.5.0.pom
+[warn]  ::::::::::::::::::::::::::::::::::::::::::::::
+[warn]  ::          UNRESOLVED DEPENDENCIES         ::
+[warn]  ::::::::::::::::::::::::::::::::::::::::::::::
+[warn]  :: thrift#libthrift;0.5.0: not found
+[warn]  ::::::::::::::::::::::::::::::::::::::::::::::
+```
+  Added to the ClientBuilder the ability to specify the Engine to use,
+so a client can create an SSLContext with client certs if they wish:
+i.e.
+
+<code>
+val ctx = SSLContext.getInstance("TLS")
+...
+ctx.init(keyManagerFactory.getKeyManagers(), trustManagers, sr)
+...
+...
+cb.tls(new Engine(ctx.createSSLEngine()))
+//
+// or
+//
+cb.tls(new Engine(ctx.createSSLEngine()), Option("www.xxx.com"))
+</code>
+ > > SSL contexts shouldn't be reused across connections, see ed7efcd.
+> > So it's probably more appropriate to pass in factories directly.
+
+Ah yes.  Isn't it the SSLEngine that can't be reused, rather than the SSLContext itself though?  
+
+I've updated the request with a04aecb ; so that the SSLEngine is created each time; from the SSLContext passed to the ClientBuilder.
+  We wrote a Protobuf Codec what allows Finagle to be used for developing Protobuf based RPC services.
+ These are good thoughts, thank you. We will continue to contribute our
+improvements and welcome suggestions.
+
+On Wed, Feb 29, 2012 at 10:53 AM, marius a. eriksen
+reply@reply.github.com
+wrote:
+
+> Is this particular protocol `(code32, length32, message)` used by somebody else, or is it your own? If not, it  would be nice to build more room for extensibility (eg. to ship trace ids) from the start. In thrift we do an upgrade dance, but that's only to maintain backwards compatibility.
+> 
+> Also, it would be nice to build a protobuf compiler plugin to generate `Future`-full bindings as well.
+> 
+> ---
+> 
+> Reply to this email directly or view it on GitHub:
+> https://github.com/twitter/finagle/pull/68#issuecomment-4242911
+ Marius,
+
+When Google open sourced Protobuf they did not also open source the
+RPC protocol they use internally, they apparently considered it to be
+a competitive advantage. There are quite a few attempts to do RPC with
+protobuf (http://code.google.com/p/protobuf/wiki/ThirdPartyAddOns)
+but none of them has the elegance of the Finagle framework, so we
+started creating a protocol for it.
+
+I am definitely open to suggestions others learned from Thrift that we
+can apply to create a reasonably good Protobuf based protocol.
+
+Of course I would like to move relatively fast to add the minimum to
+make it extensible so that others can start using it and contribute.
+
+Please let me know what you think the next steps should be.
+
+Thanks,
+George
+
+On Fri, Mar 2, 2012 at 2:11 PM, marius a. eriksen
+reply@reply.github.com
+wrote:
+
+> I want to merge this, but we need to put some more work in. My biggest concern so far is the actual protocol: does it comply to some other widely-used one, or is it a custom one of yours? If it's a custom one, I think we should figure out a way to make it more extensible for features like tracing.
+> 
+> I'm willing to merge this in so that we can work on it, but without publishing it yet. How does that sound?
+> 
+> ---
+> 
+> Reply to this email directly or view it on GitHub:
+> https://github.com/twitter/finagle/pull/68#issuecomment-4294163
+ That's great Markus, I just joined the finaglers google group. I look
+forward to your suggestions. Have a good weekend.
+
+George
+
+On Fri, Mar 2, 2012 at 3:06 PM, marius a. eriksen
+reply@reply.github.com
+wrote:
+
+> It's merged! I'll write my thoughts about a protocol in an email. Are you subscribed to the finaglers group?
+> 
+> ---
+> 
+> Reply to this email directly or view it on GitHub:
+> https://github.com/twitter/finagle/pull/68#issuecomment-4294975
+ Hi Marius,
+
+I sent a pull request for updates on finagle-protobuf. Also I moved the
+repo to the Tendril's company account.
+
+We're pretty happy with Finagle thus far, and we'll add support for tracing
+rather soon. We also have a implementation for Serversets based on Netflix
+x-discovery and ZooKeeper that has no dependencies on Thrift but I'm not
+sure if that fits inside Finagle.
+
+Thanks,
+George
+
+On Fri, Mar 2, 2012 at 3:06 PM, marius a. eriksen <
+reply@reply.github.com
+
+> wrote:
+> 
+> It's merged! I'll write my thoughts about a protocol in an email. Are you
+> subscribed to the finaglers group?
+> 
+> ---
+> 
+> Reply to this email directly or view it on GitHub:
+> https://github.com/twitter/finagle/pull/68#issuecomment-4294975
+  Connection to http://artifactory.local.twitter.com refused: Connection timed out ...
+will publish to http://maven.twttr.com/?
+I can see Finagle-XXX.pom point http://artifactory.local.twitter.com
+but,jars file in http://maven.twttr.com/
+please update
+  sbt update
+sbt compile
+all can pass.
+but sbt test have this error
+[error] Error running com.twitter.finagle.http.filter.LoggingFilterSpec: Test FAILED
+ why don't fiex this issues?
+only one test error,can't package finagle-http
+  First,I install sbt from brew.
+build fail。。。
+like this friend issues #61
+
+I install sbt 0.7.5 and 0.7.7...
+build fail。。。
+
+  1 #Project properties
+  2 #Mon Feb 13 16:19:06 PST 2012
+  3 project.organization=com.twitter
+  4 project.name=finagle
+  5 sbt.version=0.7.7
+  6 project.version=1.11.1-SNAPSHOT
+  7 build.scala.versions=2.9.1
+  8 project.initialize=false
+
+message：
+org.scala-tools.testing#specs_2.9.1;1.6.8: not found
+
+i must install scale later 2.9.1?
+ For the code you have above, you must change your Scala version to 2.7.
+
+If you'd like to to get a Scala 2.9.1, SBT 0.11.2, Thrift 0.8.0, Finagle 3.0.0 stack, a working example is in the README here:
+
+https://github.com/twitter/sbt-scrooge/tree/sbt11
+  Fixed a typo in the "Codec Objects" section: HTTP chunked streaming (ala Twitter Streaming) <strong>prptocols</strong>
+  There are my test codes.  A simple proxy example: 
+
+EchoServer: 
+
+object EchoServer {
+
+  def main(args: Array[String]) {
+
+```
+val service = new Service[String, String] {
+  def apply(request: String) = {
+    println("I'm server,I received request message:" + request)
+    Future.value("I'm server. Where are you from?")
+  }
+}
+
+val server: Server = ServerBuilder()
+  .codec(StringCodec)
+  .bindTo(new InetSocketAddress(8082))
+  .name("Server")
+  .build(service)
+```
+
+  }
+}
+
+EchoRouter: 
+
+object EchoRouter {
+
+  def main(args: Array[String]) {
+
+```
+val client: Service[String, String] = ClientBuilder()
+  .codec(StringCodec)
+  .hosts(new InetSocketAddress(8082))
+  .hostConnectionLimit(1)
+  .requestTimeout(Duration(1, TimeUnit.SECONDS))
+  .retries(10)
+  .build()
+
+val proxyService = new Service[String, String] {
+  def apply(request: String) = {
+    println("I'm router, I received request message:" + request)
+    client(request).onSuccess {
+      result => println("Router received result asynchronously: " + result)
+    } onFailure {
+      error => error.printStackTrace()
+    }
+  }
+}
+
+val server: Server = ServerBuilder()
+  .codec(StringCodec)
+  .bindTo(new InetSocketAddress(8081))
+  .name("Router")
+  .build(proxyService)
+```
+
+  }
+
+}
+
+EchoClient: 
+
+object EchoClient {
+
+  def main(args: Array[String]) {
+
+```
+val client: Service[String, String] = ClientBuilder()
+  .codec(StringCodec)
+  .hosts(new InetSocketAddress(8081))
+  .hostConnectionLimit(1)
+  .requestTimeout(Duration(1, TimeUnit.SECONDS))
+  .retries(10)
+  .build()
+
+client("Hi,I'm client.\n").onSuccess {
+  result => println("Client received result asynchronously: " + result)
+} onFailure {
+  error => error.printStackTrace()
+} ensure {
+  client.release()
+}
+```
+
+  }
+}
+
+The problem is the  EchoRouter can receive the message, But the EchoServer can't receive the message . 
+
+Is there any mistake i made? Can someone help me? 
+
+Here are version information. 
+scala version : 2.9.1 
+finagle-core_2.9.1 version:1.11.1 
+ Thank you, marlus. 
+  i create a project following the link: http://www.fisharefriends.us/blog/2011-09-21-scala-plus-sbt-plus-finagle-plus-scalatest-plus-spring/, but i modify the version of sbt and scala, the version of sbt is 0.11.2 and the version of scala is 2.9.1.
+
+I run the compile command in sbt, it works fine, and i run the 'run' EchoServer command in the sbt, it works fine too.
+
+but i run the EchoClient, it throws an exception: java.lang.NoSuchMethodError: scala.runtime.RichLong.compare(J)I
+
+java.lang.NoSuchMethodError: scala.runtime.RichLong.compare(J)I
+        at com.twitter.util.Duration.compare(Time.scala:350)
+        at com.twitter.util.Duration.compare(Time.scala:317)
+        at scala.math.Ordered$class.$greater(Ordered.scala:46)
+        at com.twitter.util.Duration.$greater(Time.scala:317)
+        at com.twitter.finagle.builder.ClientBuilder.com$twitter$finagle$builder$ClientBuilder$$buildPool(ClientBuilder
+scala:619)
+        at com.twitter.finagle.builder.ClientBuilder$$anonfun$12.apply(ClientBuilder.scala:703)
+        at com.twitter.finagle.builder.ClientBuilder$$anonfun$12.apply(ClientBuilder.scala:681)
+        at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:194)
+        at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:194)
+        at scala.collection.LinearSeqOptimized$class.foreach(LinearSeqOptimized.scala:59)
+        at scala.collection.immutable.List.foreach(List.scala:45)
+        at scala.collection.TraversableLike$class.map(TraversableLike.scala:194)
+        at scala.collection.immutable.List.map(List.scala:45)
+        at com.twitter.finagle.builder.SocketAddressCluster.mkFactories(Cluster.scala:49)
+        at com.twitter.finagle.builder.ClientBuilder.internalBuildFactory(ClientBuilder.scala:681)
+        at com.twitter.finagle.builder.ClientBuilder.build(ClientBuilder.scala:789)
+        at EchoClient$.main(EchoExample.scala:25)
+        at EchoClient.main(EchoExample.scala)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+        at java.lang.reflect.Method.invoke(Unknown Source)
+ @mariusaeriksen - left you an email at your @monkey.org email... could you please reply to me there?
+  The latest checkout of Finagle that I have (3892b939aed3fa44de446700ef2c17be0f467656) does not build on MacOS X + Homebrew installed SBT. I could reproduce this on 2 different machines.
+
+A dependency cannot be found, here is the full output:
+
+```
+$ sbt update test
+Getting net.java.dev.jna jna 3.2.3 ...
+:: retrieving :: org.scala-tools.sbt#boot-app
+    confs: [default]
+    1 artifacts copied, 0 already retrieved (838kB/14ms)
+Getting Scala 2.9.1 (for sbt)...
+downloading http://repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.9.1/scala-compiler-2.9.1.jar ...
+    [SUCCESSFUL ] org.scala-lang#scala-compiler;2.9.1!scala-compiler.jar (41421ms)
+downloading http://repo1.maven.org/maven2/org/scala-lang/scala-library/2.9.1/scala-library-2.9.1.jar ...
+    [SUCCESSFUL ] org.scala-lang#scala-library;2.9.1!scala-library.jar (32902ms)
+downloading http://repo1.maven.org/maven2/org/scala-lang/jline/2.9.1/jline-2.9.1.jar ...
+    [SUCCESSFUL ] org.scala-lang#jline;2.9.1!jline.jar (1559ms)
+downloading http://repo1.maven.org/maven2/org/fusesource/jansi/jansi/1.4/jansi-1.4.jar ...
+    [SUCCESSFUL ] org.fusesource.jansi#jansi;1.4!jansi.jar (1663ms)
+:: retrieving :: org.scala-tools.sbt#boot-scala
+    confs: [default]
+    4 artifacts copied, 0 already retrieved (19939kB/54ms)
+Getting org.scala-tools.sbt sbt_2.9.1 0.7.5 ...
+
+:: problems summary ::
+:::: WARNINGS
+        module not found: org.scala-tools.sbt#sbt_2.9.1;0.7.5
+
+    ==== local: tried
+
+      /Users/jponge/.ivy2/local/org.scala-tools.sbt/sbt_2.9.1/0.7.5/ivys/ivy.xml
+
+    ==== typesafe-ivy-releases: tried
+
+      http://repo.typesafe.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt_2.9.1/0.7.5/ivys/ivy.xml
+
+    ==== Maven Central: tried
+
+      http://repo1.maven.org/maven2/org/scala-tools/sbt/sbt_2.9.1/0.7.5/sbt_2.9.1-0.7.5.pom
+
+    ==== Scala-Tools Maven2 Repository: tried
+
+      http://scala-tools.org/repo-releases/org/scala-tools/sbt/sbt_2.9.1/0.7.5/sbt_2.9.1-0.7.5.pom
+
+    ==== Scala-Tools Maven2 Snapshots Repository: tried
+
+      http://scala-tools.org/repo-snapshots/org/scala-tools/sbt/sbt_2.9.1/0.7.5/sbt_2.9.1-0.7.5.pom
+
+        ::::::::::::::::::::::::::::::::::::::::::::::
+
+        ::          UNRESOLVED DEPENDENCIES         ::
+
+        ::::::::::::::::::::::::::::::::::::::::::::::
+
+        :: org.scala-tools.sbt#sbt_2.9.1;0.7.5: not found
+
+        ::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+:: USE VERBOSE OR DEBUG MESSAGE LEVEL FOR MORE DETAILS
+unresolved dependency: org.scala-tools.sbt#sbt_2.9.1;0.7.5: not found
+Error during sbt execution: Error retrieving required libraries
+  (see /Users/jponge/.sbt/boot/update.log for complete log)
+Error: Could not retrieve sbt 0.7.5
+```
+ if you are using SBT 0.11.0 go to project/build.properties and change sbt.version=0.11.0
+ It doesn't work with either 0.11.0 or 0.11.2 (the version that I have through Homebrew).
+
+It looks like the project definition cannot be compiled, both update / reload fail:
+
+```
+[info] Compiling 1 Scala source to /Users/jponge/Code/finagle/project/plugins/target/scala-2.9.1/sbt-0.11.0/classes...
+[error] /Users/jponge/Code/finagle/project/plugins/Plugins.scala:3: not found: type PluginDefinition
+[error] class Plugins(info: ProjectInfo) extends PluginDefinition(info) {
+[error]                                          ^
+[error] /Users/jponge/Code/finagle/project/plugins/Plugins.scala:3: not found: type ProjectInfo
+[error] class Plugins(info: ProjectInfo) extends PluginDefinition(info) {
+[error]                     ^
+[error] /Users/jponge/Code/finagle/project/plugins/Plugins.scala:3: too many arguments for constructor Object: ()java.lang.Object
+[error] class Plugins(info: ProjectInfo) extends PluginDefinition(info) {
+[error]              ^
+[error] /Users/jponge/Code/finagle/project/plugins/Plugins.scala:4: jcl is not a member of scala.collection
+[error]   import scala.collection.jcl
+[error]          ^
+[error] /Users/jponge/Code/finagle/project/plugins/Plugins.scala:5: not found: value jcl
+[error]   val environment = jcl.Map(System.getenv())
+[error]                     ^
+[error] /Users/jponge/Code/finagle/project/plugins/Plugins.scala:15: value repositories is not a member of AnyRef with ScalaObject
+[error]     super.repositories ++ Seq("twitter.com" at "http://maven.twttr.com/")
+[error]           ^
+[error] /Users/jponge/Code/finagle/project/plugins/Plugins.scala:19: sbt.FileRepository does not take parameters
+[error]       Seq(Resolver.defaultLocal(None)) ++ repositories
+[error]                                ^
+[error] /Users/jponge/Code/finagle/project/plugins/Plugins.scala:21: value ivyRepositories is not a member of AnyRef with ScalaObject
+[error]       super.ivyRepositories
+[error]             ^
+[error] 8 errors found
+[error] {file:/Users/jponge/Code/finagle/project/plugins/}default-0bfec2/compile:compile: Compilation failed
+```
+ Once you do that, the projects/plugings/Plugins.scala file becomes obsolete as the new SBT doesn't use these classes anymore.
+
+From there on... even afer ones adds the correct resolvers and dependencies in the build.sbt file - I am lost as to how to get it to compile against SBT 0.11.0 and Scala 2.8.1
+
+First compilation error (I am now referring to searchbird, but finagle-example exhibits similar problems):
+
+Client.scala:4: value thrift is not a member of package com.twitter.finagle
+[error] import com.twitter.finagle.thrift.ThriftClientFramedCodec
+
+And so on....
+ I would just love to play with Finagle, not fight with SBT, the so-called "Simple" Build Tool :-)
+
+Isn't there a way out bar downgrading SBT?
+ I'm very new to scala myself and it's been hell with SBT and with Twitter showing a very promising framework but it not compiling with the latest and greatest in the scala world.  I wish one of them authors would chime in here...
+
+There is a way to downgrade and compile perfectly.  Just download sbt 0.7.4:
+http://code.google.com/p/simple-build-tool/downloads/detail?name=sbt-launch-0.7.4.jar&can=2&q=
+
+reset any changes you've made to this finagle cloning of yours and make a quick script to launch sbt
+
+#!/bin/bash
+
+java -Xmx512M -jar `dirname $0`/sbt-launch-0.7.4.jar "$@"
+ Is there any chance those scripts could be integrated into scala-bootstrapper gem?  
+
+It would be nice to have the ability to use that boilerplate Service/Client structure and be able to compile our code on SBT 0.11.0 and Scala 2.8.1...
+
+Thanks so much!
+ It works with sbt-0.7.4 downloaded and launched locally.
+
+@mariusaeriksen => you mentioned that you publish binaries, but I couldn't find any mention of those... or are they available on Maven Central?
+ @mariusaeriksen you say will publish binary artifacts .where are this?
+I want use finagle to my project.i have same program,and build one day don't success...:(
+thank you very much.
+ @SamPeng87 @mariusaeriksen said that they push to http://maven.twttr.com/ and I see that the GItHub page has been updated to reflect this.
+ @jponge thanks your help...but,have one question..I don't know use maven..:(
+ For anyone else also looking for the binaries, they are in com/twitter, not com.twitter:
+
+http://maven.twttr.com/com/twitter/
+
+As a side note, I don't see any reference on the GitHub homepage to binaries, binary, library or maven.twttr.com.
+ If you'd like to to get a Scala 2.9.1, SBT 0.11.2, Thrift 0.8.0, Finagle 3.0.0 stack, a working example is in the README here:
+
+https://github.com/twitter/sbt-scrooge/tree/sbt11
+ There is a difference in using sbt and ./sbt 
+Go back to school,Vadi!
+  Just annoying when generating the documentation.
+  finagle-thrift has dependends on:
+"thrift"    % "libthrift" % "0.5.0"
+but sbt 11.0.2 not resolve it, becouse where is no pom.xml file in 
+http://maven.twttr.com/thrift/libthrift/0.5.0/ directory
+ quick workaround when you are using Twitter's finagle-thrift_2.9.1: put this into your build.sbt:
+
+```
+"thrift" % "libthrift" % "0.5.0" from "http://maven.twttr.com/org/apache/thrift/libthrift/0.5.0/libthrift-0.5.0.jar",
+```
+  When using the following ClientBuilder:
+
+```
+    val clientBuilder = ClientBuilder()
+      .codec(Http())
+      .cluster(new AWSElbCluster(config.url))
+      .connectionTimeout(20.seconds)
+      .hostConnectionLimit(config.maxConnections)
+      .hostConnectionMaxIdleTime(30.seconds)
+      .hostConnectionMaxLifeTime(2.minute)
+      .retries(1)
+      .reportTo(new OstrichStatsReceiver)
+      .name(config.url.toString)
+```
+
+we get benign FATAL errors in the logs (see https://gist.github.com/1557984). I found that this was the result of an interaction between the ExpiringService wrapper and the WatermarkPool. The time-based timeout in ExpiringService would cause 'release' to be called on the underlying service, then later on the WatermarkPool would attempt to use the connection, find out that it is unusable, and then also attempt to call 'release' on it.
+
+This commit fixes this problem in ExpiringService by ensuring "release" is only called once on the underlying service.
+ Is this fix already in the last release?
+  avoids the use of Promise and uses `getContentAsync` method to obtain the content from an asynchronous request, `transformedBy` method and a `FutureTransformer` object. 
+ I can't seem to find getContentAsync method in Java.
+  Added Bootstrap folder to Finagle's gh-pages; required for index.html
+  Kestrel depends on the memcache decoder, which I broke. Responding with 'Error' seems appropriate since this feature isn't (afaik) supported by Kestrel.
+ Hah, you were too fast Marius. Closing.
+  This commit adds support for response encoding of errors along with appropriate unit tests.
+  Previously, an instance of SSLEngine was created in the ClientBuilder and then used for all subsequent service calls. According to the documentation for SSLEngine (see http://docs.oracle.com/javase/6/docs/api/javax/net/ssl/SSLEngine.html; "Once an engine is closed, it is not reusable: a new SSLEngine must be created") it may not be reused.
+
+See here for a test case (we should come up with a test case that doesn't involve the Internet):
+https://gist.github.com/1410735
+  This implements the zero-arg and n-arg versions of the memcache stats command. It also fixes a bug in the `integration.ClientSpec` test that must have broken with memcached 1.4.8 (comment inline).
+
+There are at least two potential issues with the implementation. First, the response decoding wasn't suitable for decoding stat responses so a new state (along with decoding and response case classes) was introduced to manage this response type. Second, the client implemented stats command throws a `UnsupportedOperationException` for the `PartitionedClient`, since this operation doesn't make sense in that context.
+
+Feedback welcome.
+  When including the finagle dependency we need to exclude several jars otherwise we get:
+
+Error transferring file: artifactory.local.twitter.com: Unknown host artifactory.local.twitter.com
+
+Also other people have this problem:
+
+https://github.com/jghoman/finagle-java-example
+ ok, the dependencies finagle-core and finagle-http works:
+
+```
+    <dependency>
+        <groupId>com.twitter</groupId>
+        <artifactId>finagle-core</artifactId>
+        <version>1.9.6</version>                       
+    </dependency>
+  <dependency>
+        <groupId>com.twitter</groupId>
+        <artifactId>finagle-http</artifactId>
+        <version>1.9.6</version>                       
+    </dependency>
+```
+
+I would still recommend to document that :)
+  Currently the value for memcache flags are discarded when handling response encoding. This commit fixes that and includes a unit test for verifying that the behavior is correct. This change did require a couple of changes to the interpreter specs but not to the actual interpreter. We're running this patch in production.
+  i saw 
+val service = ClientBuilder()          .hosts(Seq(thriftServerAddr))          .codec(codec)          .hostConnectionLimit(1)          .build()        val client = new B.ServiceToClient(service, new TBinaryProtocol.Factory())  
+in finagle-thrift/src/test/scala/com/twitter/finagle/thrift/FinagleClientThriftServerSpec.scala
+
+but i cant find ServiceToClient in my thrftsub,how to gen ServiceToClient 
+
+thanks
+  Is there any way to build thrift files with twitter/sbt-thrift using console/maven? (not using special sbt project/plugin spec.)
+(they also should be compatible to finagle)
+  If a client sends no command (just an empty newline), the server decoder throws a `NoSuchElementException`. This is caused by accessing `head` on an empty sequence.
+  I get the following stack trace with scala 2.9.x
+
+java.lang.NoSuchMethodError: scala.collection.Seq$.unapplySeq(Lscala/collection/Seq;)Lscala/Some;
+    at com.twitter.finagle.stats.RollupStatsReceiver.com$twitter$finagle$stats$RollupStatsReceiver$$tails(StatsReceiver.scala:107)
+    at com.twitter.finagle.stats.RollupStatsReceiver$$anon$5.<init>(StatsReceiver.scala:123)
+    at com.twitter.finagle.stats.RollupStatsReceiver.stat(StatsReceiver.scala:122)
+    at com.twitter.finagle.stats.NameTranslatingStatsReceiver.stat(StatsReceiver.scala:139)
+    at com.twitter.finagle.channel.ChannelServiceFactory.<init>(ChannelService.scala:148)
+    at com.twitter.finagle.builder.ClientBuilder$$anonfun$10.apply(ClientBuilder.scala:659)
+    at com.twitter.finagle.builder.ClientBuilder$$anonfun$10.apply(ClientBuilder.scala:638)
+    at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:194)
+    at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:194)
+    at scala.collection.LinearSeqOptimized$class.foreach(LinearSeqOptimized.scala:59)
+    at scala.collection.immutable.List.foreach(List.scala:45)
+    at scala.collection.TraversableLike$class.map(TraversableLike.scala:194)
+    at scala.collection.immutable.List.map(List.scala:45)
+    at com.twitter.finagle.builder.SocketAddressCluster.mkFactories(Cluster.scala:49)
+    at com.twitter.finagle.builder.ClientBuilder.buildFactory(ClientBuilder.scala:638)
+    at com.twitter.finagle.builder.ClientBuilder.build(ClientBuilder.scala:717)
+        ....
+
+This is the code to build the client:
+
+```
+  val client = ClientBuilder()
+  .codec(Http())
+  .hosts("localhost:8080")
+  .hostConnectionLimit(1)
+  .build()
+```
+
+It works fine on 2.8.1. 
+ Scala 2.9.x is not binary compatible with Scala 2.8.x so errors like this are bound to happen unless you recompile with Scala 2.9.x. Did you recompile with Scala 2.9.x?
+ Thanks for the quick reply, i used the libraries from maven.twttr.com which are 2.8.x
+
+I tried rebuilding for 2.9.1 from HEAD. But the tests for twitter.util.logging/core does not succeed with specs-1.6.9-SNAPSHOT (I updated Project.scala for both finagle and util since required for 2.9.1). One error when running the tests for util-core is
+
+[error] Could not create an instance of com.twitter.util.FutureSpec
+[error] 
+[error]   0
+[error] 
+[error]   org.specs.util.Classes$class.createInstanceFor(Classes.scala:85)
+[error]   org.specs.util.Classes$.createInstanceFor(Classes.scala:29)
+[error]   org.specs.util.Classes$class.create(Classes.scala:40)
+[error]   org.specs.util.Classes$.create(Classes.scala:29)
+[error]   org.specs.runner.TestInterfaceRunner.run(TestInterfaceRunner.scala:55)
+[error]   sbt.TestRunner.run(TestFramework.scala:53)
+[error]   sbt.TestRunner.runTest$1(TestFramework.scala:67)
+[error]   sbt.TestRunner.run(TestFramework.scala:76)
+[error]   sbt.TestFramework$$anonfun$10$$anonfun$apply$11.runTest$2(TestFramework.scala:194)
+[error]   sbt.TestFramework$$anonfun$10$$anonfun$apply$11$$anonfun$apply$12.apply(TestFramework.scala:205)
+[error]   sbt.TestFramework$$anonfun$10$$anonfun$apply$11$$anonfun$apply$12.apply(TestFramework.scala:205)
+[error]   sbt.NamedTestTask.run(TestFramework.scala:92)
+[error]   sbt.ScalaProject$$anonfun$sbt$ScalaProject$$toTask$1.apply(ScalaProject.scala:193)
+[error]   sbt.ScalaProject$$anonfun$sbt$ScalaProject$$toTask$1.apply(ScalaProject.scala:193)
+[error]   sbt.TaskManager$Task.invoke(TaskManager.scala:62)
+[error]   sbt.impl.RunTask.doRun$1(RunTask.scala:77)
+[error]   sbt.impl.RunTask.runTask(RunTask.scala:85)
+[error]   sbt.impl.RunTask.sbt$impl$RunTask$$runIfNotRoot(RunTask.scala:60)
+[error]   sbt.impl.RunTask$$anonfun$runTasksExceptRoot$2.apply(RunTask.scala:48)
+[error]   sbt.impl.RunTask$$anonfun$runTasksExceptRoot$2.apply(RunTask.scala:48)
+[error]   sbt.Distributor$Run$Worker$$anonfun$2.apply(ParallelRunner.scala:131)
+[error]   sbt.Distributor$Run$Worker$$anonfun$2.apply(ParallelRunner.scala:131)
+[error]   sbt.Control$.trapUnit(Control.scala:19)
+[error]   sbt.Distributor$Run$Worker.run(ParallelRunner.scala:131)
+
+I'm leaving this for now and stay with 2.8.x. Did you have any luck building with 2.9.x? 
+ There is a pull request currently open on twitter/util (https://github.com/twitter/util/pull/8) for working towards making util 2.9 compatible. IIRC, some code changes needed to be made to FutureSpec (and others) for util to work with 2.9. There is also an Ostrich 2.9 pull request, if you're wanting to include Ostrich.
+ Any chance of getting those branches (util and finagle I think are the needed for this) pushed to github even if it can't be merged into master for a while ?  2.9.1's been pretty stable for us.
+ Any idea as to when we might be able to play with a 2.9 version of finagle?
+ pretty please?
+ thanks!
+ +1 at having everything necessary to create packages like those published in github
+  Adds support for the quit command in the memcached protocol on the client, server, and interpreter. Some clients unfortunately issue a quit to disconnect, and without the support the server gets a flood of error messages. Changes also includes updates to tests to verify functionality. Not much was required in terms of changes besides adding Quit/NoOp to the appropriate places. Two notable exceptions:
+- `AbstractDecoder` - needs to check if token length is 0
+- `client.DecodingToResponse` - needs to check for token length of 0
+
+All tests continue to pass, no regressions. This should be a backwards compatible change.
+ Style fixes, etc taken care of.
+  The server `DecodingToCommand` implementation assumes that the specified exptime of a storage command is always a delta (e.g. number of seconds from now). This assumption doesn't work if `0` is specified (e.g. no expiration time) or a unixtime is specified. This pull request addresses both of those cases.
+
+In the case where 0 is specified, a value of 0 is maintained. In the case where a delta is specified, the behavior is the same. When the value is a unixtime (detected the same way as from `memcached.c`), the value is converted to a Time instance.
+
+Included Spec is not comprehensive of `DecodingToCommand` but is comprehensive of the changes that were introduced.
+  This patch fixes an issue with the memcached response encoding of cas values. Without this patch the output from memcached commands that include a cas value look like:
+
+```
+get foo
+VALUE foo 0 BigEndianHeapChannelBuffer(ridx=0, widx=1, cap=1) 3
+bar
+END
+```
+
+This patch moves the cas unique value to the end of the value line and stops calling `toString` on the ChannelBuffer.
+ No worries, thanks for being so responsive.
+  This patch fixes an issue with the memcached response encoding of cas values. Without this patch the output from memcached commands that include a cas value look like:
+
+```
+get foo
+VALUE foo 0 BigEndianHeapChannelBuffer(ridx=0, widx=1, cap=1) 3
+bar
+END
+```
+
+This patch moves the cas unique value to the end of the value line and stops calling `toString` on the ChannelBuffer.
+ Since I wasn't bright and didn't create a branch, I'm closing this and will submit new pull request from a branch (with the nit fixes).
+ Updated in #33
+    Following Jorge's suggestion in issue #16 I removed the hard coded spec version.
+While I was at it I noticed some test syntax issues I also cleaned up.
+  The previous version was superfluous.
+  The README (and possibly other docs?) list...
+
+val server: Server[HttpRequest, HttpResponse] = ServerBuilder()                            // 4
+      .codec(Http)
+      .bindTo(address)
+      .build(service)
+      .name("HttpServer"));
+
+The build needs to be the last step or the compiler vomits out an unhelpful...
+
+Cannot prove that com.twitter.finagle.builder.ServerConfig[org.jboss.netty.handler.codec.http.HttpRequest,org.jboss.netty.handler.codec.http.HttpResponse,com.twitter.finagle.builder.ServerConfig.Yes,com.twitter.finagle.builder.ServerConfig.Yes,Nothing] =:= com.twitter.finagle.builder.ServerConfig[org.jboss.netty.handler.codec.http.HttpRequest,org.jboss.netty.handler.codec.http.HttpResponse,com.twitter.finagle.builder.ServerConfig.Yes,com.twitter.finagle.builder.ServerConfig.Yes,com.twitter.finagle.builder.ServerConfig.Yes]
+  I've run into an issue with TLS enabled clients. I'm building a service that will hit a remote host with a POST request and I want to make sure the remote host is on TLS and has a valid certificate. I'm using the following code to send my request:
+
+``` scala
+val uri = "https://www.ribe.me/submit.php"
+val address = new URI(uri)
+
+val client = ClientBuilder()
+  .codec(Http())
+  .tls()
+  .hosts(new InetSocketAddress(address.getHost, 443))
+  // ... set some other variables about timeouts
+  .build()
+
+val request = new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.POST, uri) // And set the content and headers
+
+HttpHeaders.setHost(request, address.getHost)
+
+client(request)
+```
+
+The uri here is a test script running on an Apache server and is signed (as you can see if you visit it in Chrome) with a MediaTemple SSL certificate whose domain doesn't match the URI domain. This, I believe, should cause a SSLException to be thrown since the certificate should fail verification, but instead my program is happily sending the requests off without issue and returning 200 - OK every time.
+
+Either there is a bad behavior here on Finagle's part or I've messed up something non-obvious in the code...
+  Not sure if this is finagle, netty or user error.
+
+On and off I have seen my processes get into a state where they start logging this message every second, which happens to be the tcpConnectTimeout of the clients used. I have 4 copies of the process up and only one gets into this state. If I restart the proc, I dont see the logging any more. Is this some kind of known issue?
+
+```
+            WAR [20110727-18:20:22.235] channel: java.net.ConnectException: connection timed out
+    WAR [20110727-18:20:22.235] channel:     at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.processConnectTimeout(NioClientSocketPipelineSink.java:371)
+    WAR [20110727-18:20:22.235] channel:     at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.run(NioClientSocketPipelineSink.java:283)
+    WAR [20110727-18:20:22.235] channel:     at org.jboss.netty.util.internal.IoWorkerRunnable.run(IoWorkerRunnable.java:46)
+    WAR [20110727-18:20:22.235] channel:     at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+    WAR [20110727-18:20:22.235] channel:     at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+    WAR [20110727-18:20:22.235] channel:     at java.lang.Thread.run(Thread.java:636)
+    WAR [20110727-18:20:23.235] channel: EXCEPTION, please implement com.twitter.finagle.http.ClientConnectionManager.exceptionCaught() for proper handling.
+    WAR [20110727-18:20:23.235] channel: java.net.ConnectException: connection timed out
+    WAR [20110727-18:20:23.235] channel:     at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.processConnectTimeout(NioClientSocketPipelineSink.java:371)
+    WAR [20110727-18:20:23.235] channel:     at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.run(NioClientSocketPipelineSink.java:283)
+    WAR [20110727-18:20:23.235] channel:     at org.jboss.netty.util.internal.IoWorkerRunnable.run(IoWorkerRunnable.java:46)
+    WAR [20110727-18:20:23.235] channel:     at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+    WAR [20110727-18:20:23.755] channel: EXCEPTION, please implement com.twitter.finagle.http.ClientConnectionManager.exceptionCaught() for proper handling.
+```
+  Would be nice to have access so that you could for instance supress logging of WriteExteptions with expected causes like CancelledRequestexception CancelledConnectionExcetpion, etc...
+  In the readme there are 2 examples where 
+
+```
+ import com.twitter.finagle.util.Timer._
+```
+
+is used. However, that object is private[finagle], so if you actually try to use the example code, it wont build.
+
+Can it be public? Had to fall back to using a JavaTimer instead.
+  Hi-
+
+   I am using finagle to build a proxy service, using the http codec. It seems to work fine, but once under load produces these kind of stack traces.  Any tips or pointers to what could be going wrong/how to fix?
+
+All the samples seem to call Service.release() as they exit. Is there a need to call it on a request basis?
+
+2011-06-28T22:37:39+00:00 com.twitter.finagle.TooManyConcurrentRequestsException
+2011-06-28T22:37:39+00:00   at com.twitter.finagle.channel.ChannelService.apply(ChannelService.scala:92)
+2011-06-28T22:37:39+00:00   at com.twitter.finagle.service.ExpiringService.apply(ExpiringService.scala:80)
+2011-06-28T22:37:39+00:00   at com.twitter.finagle.ServiceProxy.apply(Service.scala:69)
+2011-06-28T22:37:39+00:00   at com.twitter.finagle.ServiceProxy.apply(Service.scala:69)
+2011-06-28T22:37:39+00:00   at com.twitter.finagle.service.FailureAccrualFactory$$anonfun$make$1$$anon$1.apply(FailureAccrualFactory.scala:37)
+2011-06-28T22:37:39+00:00   at com.twitter.finagle.service.RefcountedService.apply(RefcountedService.scala:13)
+2011-06-28T22:37:39+00:00   at com.twitter.finagle.service.StatsFilter.apply(StatsFilter.scala:24)
+2011-06-28T22:37:39+00:00   at com.twitter.finagle.Filter$$anon$5.apply(Service.scala:182)
+2011-06-28T22:37:39+00:00   at com.twitter.finagle.loadbalancer.LeastQueuedStrategy$$anon$1$$anonfun$make$1$$anon$2.apply(LeastQueuedStrategy.scala:55)
+2011-06-28T22:37:39+00:00   at com.twitter.finagle.FactoryToService$$anonfun$apply$2.apply(Service.scala:115)
+2011-06-28T22:37:39+00:00   at com.twitter.finagle.FactoryToService$$anonfun$apply$2.apply(Service.scala:114)
+2011-06-28T22:37:39+00:00   at com.twitter.util.Promise$$anon$2$$anonfun$8.apply(Future.scala:604)
+2011-06-28T22:37:39+00:00   at com.twitter.util.Promise$$anon$2$$anonfun$8.apply(Future.scala:601)
+2011-06-28T22:37:39+00:00   at com.twitter.util.Promise.respond(Future.scala:559)
+2011-06-28T22:37:39+00:00   at com.twitter.util.Promise$$anon$2.<init>(Future.scala:601)
+2011-06-28T22:37:39+00:00   at com.twitter.util.Promise.flatMap(Future.scala:599)
+
+Thanks!
+ Looks like using  ClientBuilder.buildFactory() and  ServiceFactory.service fix this.
+
+Should that be reflected in the samples?
+ I actually have also seen these using ServiceFactory too, so maybe its just a coding error? 
+
+I see the TooManyConcurrentRequestsException is grouped with the "API Misuse" exceptions. What would cause this to be thrown?
+
+ I changed some of my code and most of them disappeared, but they still occur very sporadically.
+
+the client builder is  
+
+```
+   var builder = ClientBuilder()
+  .codec(Http(_maxRequestSize = 100.megabytes, _maxResponseSize = 100.megabyte))
+  .sendBufferSize(1048576)
+  .recvBufferSize(1048576)
+  .hosts(new InetSocketAddress(host, port))
+  .hostConnectionLimit(Integer.MAX_VALUE)
+  .hostConnectionMaxIdleTime(5.seconds)
+  .retries(1)
+  .name(host)
+if (ssl) (builder = builder.tlsWithoutValidation())
+```
+
+The general usage pattern is 
+
+```
+val nearClient:ServiceFactory[HttpRequest, HttpResponse] = ...
+val farClient:ServiceFactory[HttpRequest, HttpResponse] = ...
+
+val req = new DefaultHttpRequest(...) 
+nearClient.service(req).flatMap {
+      nearResp =>{
+          if(nearResponse.../*accepatble*/){
+                Future.value(nearResp)
+          } else {
+               farClient.service(req).flatMap{
+                      farResp =>{
+                          if(farResp.../*acceptable*/){
+                                val put = new DefaultHttpRequest(....)
+                                put.setContent(farResp.getContent.duplicate)
+                                nearClient.service(put).onSuccess(...).onFailure(...).onCancellation(...)    
+                          }
+                          Future.value(farResp)
+                      }             
+                }
+         }
+     } 
+}
+```
+ Thanks for the usage tips, I am on 1.6.2
+
+In the course of introducing the stats reciever, or some other code change today, I seem to have made the TooManyConcurrentRequestsExceptions go away, so it seems it may have been an error on my part.
+
+The only thing I am seeing now are a few WriteExceptions now and again, followed by this log message, which actually comes from netty SimpleChannelHandler.
+
+```
+channel: EXCEPTION, please implement com.twitter.finagle.http.ClientConnectionManager.exceptionCaught() for proper handling.
+channel: java.net.ConnectException: connection timed out 
+channel:     at   org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.processConnectTimeout(NioClientSocketPipelineSink.java:371)
+```
+
+The exceptions I was and am now seeing were all coming from load generated by a test harness written using finagle, modeled after the Stress example, with concurrency of 16 and pushing 32k requests through.
+
+I will keep banging on the app and see if I can get the TooManyConcurrentRequestsExceptions...if I dont have any luck in the next day or 2, Ill close the issue
+ Actually just saw a few TooManyConcurrentRequestsExceptions.  I will get the stats together for you.
+
+I guess i should mention that on top of the general pattern I showed above, there is parallel request processing going on too, 
+
+of the form
+
+```
+  val futures: List[Future[HttpResponse]]] = clientPairs.map {
+      _ match {
+           case (nearClient, farClient) => doRequestMentionedAbove(nearClient,farClient,...)
+      }
+  }
+
+  val (first, rest) = Future.select(futures).get
+  rest.foreach(_.cancel)
+```
+
+Not sure if this gives any further hints...
+ Ok will do, thanks.
+ Bumped it to 1.7.4 since I saw that was latest...been banging on the app and so far so good.  
+
+Now only seeing the odd WriteException, and valid/expected occurrences of TimedoutRequestException and CancelledRequestException 
+
+Will close the issue tomorow if behavior stays consistent, thanks for your help!
+ Ok all good with no more TooManyConcurrentRequestsExceptions. Is there a target release number/date for the WriteException supression?
+    the link at the bottom of http://twitter.github.com/finagle/ points to the commons library, rather than finagle
+  sbt update fails due because of unresolved dependencies 
+-  com.twitter#sbt-thrift;1.2.0 
+-  com.twitter#standard-project;0.11.14-NEST 
+
+Also repositories set to local twitter ( http://artifactory.local.twitter.com/repo/ ) artifactory in Plugins.scala. 
+  This was bothering me.
+  Just curious why you are using the 2.8.0 version of specs?
+
+https://github.com/twitter/finagle/blob/master/project/build/Project.scala#L128
+
+Is that for a reason?  Maybe use the '%%' delimiter to pick up the scala version automatically? (
+ For a while, a 2.8.1 build of specs didn't exist.  We could/should fix this.  Patch welcome ;)
+ We couldn't rely on %% to give us the semantics we wanted in a multi-versioned world so we relied on hard-coding versions of Scala.
+
+We don't think there's a bad interaction between scala 2.8.1 and the version of specs we're using, this is just an accident of history.
+
+One of us will clean it up unless some nice person on the internet gives us a patch first.
+ You can get around this by creating a "specsVersion" variable and matching on the Scala version.
+
+See: https://github.com/foursquare/rogue/blob/master/project/build/RogueProject.scala#L19
+
+```
+lazy val specsVersion = buildScalaVersion match {
+  case "2.8.0" => "1.6.5"
+  case _       => "1.6.8"
+}
+
+val specs = "org.scala-tools.testing" %% "specs"          % specsVersion      % "test" withSources()
+```
+    • If TLS/SSL certificate and key files do not exist, a failure is exhibited at startup rather than when a connection is created
+• Performance improvement from recycling of SSLContext
+• X-Transport-Cipher header added to HTTP requests, annotating the cipher used (or, in the case none was employed, 'plaintext')
+  to limit total connection lifetime
+ You are right. maybeExpire() could take callback functions from the caller,
+but that seems more complicated than necessary. Or we can simply pass a flag
+"force_expire" to maybeExpire() to always set expire to true.
+
+On Mon, Mar 21, 2011 at 2:24 PM, mariusaeriksen <
+reply@reply.github.com>wrote:
+
+> there's a race between `maybeLifeTimeExpire` and the completion of the
+> underlying request: `maybeLifetimeExpire` can fire, and between
+> `maybeExpire()` and `expired = true`, the request can complete, leaving
+> `didExpire()` uncalled.
+> 
+> ## 
+> 
+> Reply to this email directly or view it on GitHub:
+> https://github.com/twitter/finagle/pull/11#issuecomment-900383
+ thanks. pushed.
+
+On Tue, Mar 22, 2011 at 5:17 PM, mariusaeriksen <
+reply@reply.github.com>wrote:
+
+> i've added you to the twitter team.  you should be able to push now
+> 
+> ## 
+> 
+> Reply to this email directly or view it on GitHub:
+> https://github.com/twitter/finagle/pull/11#issuecomment-905638
+   +1, modulo that comment
+  

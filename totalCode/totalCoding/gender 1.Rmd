@@ -1,0 +1,177 @@
+---
+title: "Untitled"
+runtime: shiny  # 添加此行
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)  # 创建仪表盘
+library(heatmaply)     # 交互式热图
+library(DT)           # 交互式数据表
+library(tidyr)        # 数据整理
+library(shiny)
+library(dplyr)        # 数据处理
+library(purrr)        # 函数式编程
+library(readr)        # 数据读取
+library(ggplot2)      # 数据可视化
+library(plotly)       # 交互式图表
+ library(heatmap3)
+# 设置全局选项（这些选项会应用于所有代码块）
+knitr::opts_chunk$set(
+  echo = FALSE,       # 不显示代码
+  warning = FALSE,    # 不显示警告
+  message = FALSE,    # 不显示消息
+  fig.width = 8,      # 默认图表宽度
+  fig.height = 6      # 默认图表高度
+)
+```
+
+```{r}
+# ====================== 数据准备 ======================
+# 注意：这部分不在setup中，但会在仪表盘初始化时运行
+
+# 定义加载单个项目数据的函数
+load_project_data <- function(project_num) {
+  # 构造文件名
+  file_path <- paste0("project", project_num, ".csv")
+  
+  # 检查文件是否存在
+  if(!file.exists(file_path)) {
+    stop(paste("错误：文件不存在 -", file_path))
+  }
+  
+  # 读取CSV文件并添加项目编号列
+  data <- read_csv(file_path) %>% 
+    mutate(Project = paste("项目", project_num))
+  
+  # 数据预处理：将数据从长格式转换为宽格式
+  heatmap_data <- data %>%
+    pivot_wider(
+      names_from = Word2, 
+      values_from = c("Cosine Similarity", "Euclidean Distance"),
+      names_sep = "_"
+    ) %>%
+    as.data.frame()
+  
+  # 提取余弦相似度矩阵
+  cosine_matrix <- heatmap_data %>%
+    select(starts_with("Cosine Similarity_")) %>%
+    as.matrix()
+  
+  # 设置矩阵的行名和列名
+  rownames(cosine_matrix) <- heatmap_data$Word1
+  colnames(cosine_matrix) <- gsub("Cosine Similarity_", "", colnames(cosine_matrix))
+  
+  # 提取欧氏距离矩阵
+  euclidean_matrix <- heatmap_data %>%
+    select(starts_with("Euclidean Distance_")) %>%
+    as.matrix()
+  
+  rownames(euclidean_matrix) <- heatmap_data$Word1
+  colnames(euclidean_matrix) <- gsub("Euclidean Distance_", "", colnames(euclidean_matrix))
+  
+  # 返回包含所有数据的列表
+  return(list(
+    raw_data = data,               # 原始数据
+    cosine_matrix = cosine_matrix, # 余弦相似度矩阵
+    euclidean_matrix = euclidean_matrix, # 欧氏距离矩阵
+    project_name = paste("项目", project_num) # 项目名称
+  ))
+}
+
+# 定义要加载的项目编号（这里示例加载3个，实际使用时改为1:20）
+project_numbers <- 1:20  # 演示用前3个项目
+
+```
+
+
+Column {.sidebar}
+-----------------------------------------------------------------------
+### 控制面板
+```{r}
+# ====================== 侧边栏控件 ======================
+# 项目选择下拉框
+selectInput("project", "选择项目:", 
+            choices = paste("项目", project_numbers),
+            selected = "项目 1")
+
+# 指标选择单选按钮
+radioButtons("metric", "选择指标:",
+             choices = c("余弦相似度" = "cosine",
+                        "欧氏距离" = "euclidean"),
+             selected = "cosine")
+
+# 显示选项复选框
+checkboxInput("show_values", "显示数值", value = TRUE)
+checkboxInput("cluster_rows", "行聚类", value = TRUE)
+checkboxInput("cluster_cols", "列聚类", value = TRUE)
+
+# 字体大小滑块
+sliderInput("font_size", "字体大小:",
+            min = 8, max = 20, value = 12, step = 1)
+
+```
+
+
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+### Chart A
+
+
+# ====================== 热图渲染 ======================
+selected_data <- reactive({
+  project_num <- as.numeric(gsub("项目 ", "", input$project))
+  load_project_data(project_num)
+})
+
+renderPlot({
+  data <- selected_data()
+  
+  if (input$metric == "cosine") {
+    mat <- data$cosine_matrix
+    title <- paste(data$project_name, "- 余弦相似度")
+  } else {
+    mat <- data$euclidean_matrix
+    title <- paste(data$project_name, "- 欧氏距离")
+  }
+  
+  # 使用 heatmap3 绘制
+  heatmap3(
+    mat,
+    Rowv = input$cluster_rows,   # 是否行聚类
+    Colv = input$cluster_cols,   # 是否列聚类
+    labRow = rownames(mat),
+    labCol = colnames(mat),
+    cexRow = input$font_size / 12,  # 调整字体大小（行标签）
+    cexCol = input$font_size / 12,  # 调整字体大小（列标签）
+    margins = c(8, 8),
+    main = title,
+    showRowDendro = input$cluster_rows,
+    showColDendro = input$cluster_cols
+  )
+})
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+renderDataTable({
+  datatable(selected_data()$raw_data, options = list(pageLength = 5))
+})
+
+```
+
+
+

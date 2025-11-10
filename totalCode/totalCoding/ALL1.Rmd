@@ -1,0 +1,169 @@
+
+---
+title: "ALL1"
+date: "2025-08-03"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r}
+library(dplyr)
+library(plotly)
+library(DT)
+
+# ===== 示例数据加载函数 =====
+load_project_data <- function(project_num) {
+  list(
+    project_name = paste0("项目", project_num),
+    cosine_matrix = matrix(runif(100, -1, 1), 10, 10,
+                           dimnames=list(letters[1:10], letters[1:10])),
+    euclidean_matrix = matrix(runif(100, 0, 2), 10, 10,
+                              dimnames=list(letters[1:10], letters[1:10])),
+    raw_data = data.frame(word=letters[1:10], value=runif(10)),
+    english_variation = data.frame(group=c("A","B","C"), value=runif(3)),
+    pos_features = data.frame(feature=c("Noun","Verb","Adj"), value=runif(3))
+  )
+}
+```
+
+
+```{r}
+
+# ===== 选择数据 =====
+selected_data <- reactive({
+  project_num <- as.numeric(gsub("项目 ", "", input$project))
+  load_project_data(project_num)
+})
+```
+
+## Row {data-height=300}
+
+### 控制面板
+
+
+
+```{r}
+selectInput("project", "选择项目", choices = paste("项目", 1:5))
+radioButtons("metric", "选择度量方式", choices = c("cosine", "euclidean"))
+sliderInput("font_size", "字体大小", min=8, max=20, value=12)
+checkboxInput("show_values", "显示数值", FALSE)
+```
+
+## Row {data-height=900}
+
+### 热图分析 {.tabset}
+
+#### 热图
+
+```{r}
+plotlyOutput("heatmap")
+```
+
+```{r}
+output$heatmap <- renderPlotly({
+  data <- selected_data()
+  
+  if (input$metric == "cosine") {
+    mat <- data$cosine_matrix
+    title <- paste(data$project_name, "- 余弦相似度")
+  } else {
+    mat <- data$euclidean_matrix
+    title <- paste(data$project_name, "- 欧氏距离")
+  }
+  
+  p <- plot_ly(
+    x = colnames(mat),
+    y = rownames(mat),
+    z = mat,
+    type = "heatmap",
+    colors = "RdBu"
+  ) %>% layout(
+    title = title,
+    xaxis = list(tickfont = list(size=input$font_size)),
+    yaxis = list(tickfont = list(size=input$font_size))
+  )
+  
+  # 可选：在格子中显示数值
+  if (input$show_values) {
+    p <- p %>% add_annotations(
+      x = rep(colnames(mat), each=nrow(mat)),
+      y = rep(rownames(mat), times=ncol(mat)),
+      text = as.vector(round(mat,2)),
+      showarrow = FALSE,
+      font = list(size=input$font_size-2, color="black")
+    )
+  }
+  p
+})
+```
+
+#### 热图数据表
+
+```{r}
+DTOutput("heatmap_table")
+```
+
+```{r}
+output$heatmap_table <- renderDT({
+  datatable(selected_data()$raw_data)
+})
+```
+
+#### English Variation & 词性特征
+
+```{r}
+fluidRow(
+  column(6, plotlyOutput("english_bar")),
+  column(6, plotlyOutput("radar"))
+)
+fluidRow(
+  column(6, plotlyOutput("bar")),
+  column(6, DTOutput("pos_table"))
+)
+```
+
+```{r}
+# English Variation 柱状图
+output$english_bar <- renderPlotly({
+  data <- selected_data()
+  plot_ly(
+    data$english_variation,
+    x = ~group, y = ~value,
+    type = "bar"
+  ) %>% layout(title = paste(data$project_name, "- English Variation"))
+})
+
+# 词性特征 雷达图
+output$radar <- renderPlotly({
+  data <- selected_data()
+  plot_ly(
+    type='scatterpolar',
+    r = data$pos_features$value,
+    theta = data$pos_features$feature,
+    fill='toself'
+  ) %>% layout(
+    polar = list(radialaxis = list(visible = TRUE)),
+    showlegend = FALSE,
+    title = paste(data$project_name, "- 词性特征雷达图")
+  )
+})
+
+# 词性特征 柱状图
+output$bar <- renderPlotly({
+  data <- selected_data()
+  plot_ly(
+    data$pos_features,
+    x = ~feature, y = ~value,
+    type = "bar"
+  ) %>% layout(title = paste(data$project_name, "- 词性特征柱状图"))
+})
+
+# 词性特征 数据表
+output$pos_table <- renderDT({
+  datatable(selected_data()$pos_features)
+})
+```
+

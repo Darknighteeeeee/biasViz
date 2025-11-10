@@ -1,0 +1,16 @@
+{
+    "analytic_thinking": 0.8585,
+    "ppron": 0.9408,
+    "article": 0.813,
+    "clout": 0.942,
+    "adverb": 0.8782,
+    "ipron": 0.8642,
+    "tone": 0.8577,
+    "prep": 0.8376,
+    "auxverb": 0.8628,
+    "conj": 0.8511,
+    "negate": 0.8145,
+    "authentic": 0.8064,
+    "affect": 0.8581,
+    "lsm": 0.8604
+}

@@ -1,0 +1,227 @@
+
+---
+title: "综合分析仪表盘"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(heatmaply)
+library(DT)
+library(tidyr)
+library(shiny)
+library(dplyr)
+library(purrr)
+library(readr)
+library(ggplot2)
+library(plotly)
+library(jsonlite)
+library(gt)
+```
+
+# 热图分析
+
+\=======================================================
+
+## 控制面板 {.sidebar}
+
+```{r}
+# 加载热图数据函数
+load_project_data <- function(project_num) {
+  file_path <- paste0("project", project_num, ".csv")
+  if(!file.exists(file_path)) stop(paste("文件不存在:", file_path))
+  
+  data <- read_csv(file_path) %>% mutate(Project = paste("项目", project_num))
+  heatmap_data <- data %>%
+    pivot_wider(names_from = Word2, values_from = c("Cosine Similarity", "Euclidean Distance"),
+                names_sep = "_") %>% as.data.frame()
+  
+  cosine_matrix <- heatmap_data %>%
+    select(starts_with("Cosine Similarity_")) %>% as.matrix()
+  rownames(cosine_matrix) <- heatmap_data$Word1
+  colnames(cosine_matrix) <- gsub("Cosine Similarity_", "", colnames(cosine_matrix))
+  
+  euclidean_matrix <- heatmap_data %>%
+    select(starts_with("Euclidean Distance_")) %>% as.matrix()
+  rownames(euclidean_matrix) <- heatmap_data$Word1
+  colnames(euclidean_matrix) <- gsub("Euclidean Distance_", "", colnames(euclidean_matrix))
+  
+  list(
+    raw_data = data,
+    cosine_matrix = cosine_matrix,
+    euclidean_matrix = euclidean_matrix,
+    project_name = paste("项目", project_num)
+  )
+}
+
+project_numbers <- 1:20
+
+selectInput("project", "选择项目:", choices = paste("项目", project_numbers), selected = "项目 1")
+radioButtons("metric", "选择指标:", choices = c("余弦相似度"="cosine", "欧氏距离"="euclidean"), selected="cosine")
+checkboxInput("show_values", "显示数值", TRUE)
+sliderInput("font_size", "字体大小:", min=8, max=20, value=12, step=1)
+```
+
+## 热图
+
+```{r}
+selected_data <- reactive({
+  project_num <- as.numeric(gsub("项目 ", "", input$project))
+  load_project_data(project_num)
+})
+
+renderPlotly({
+  data <- selected_data()
+  if (input$metric == "cosine") {
+    mat <- data$cosine_matrix
+    limits <- c(-1, 1)
+    title <- paste(data$project_name, "- 余弦相似度")
+  } else {
+    mat <- data$euclidean_matrix
+    limits <- c(0, max(mat, na.rm=TRUE))
+    title <- paste(data$project_name, "- 欧氏距离")
+  }
+  
+  p <- plot_ly(
+    z = mat, x = colnames(mat), y = rownames(mat),
+    type = "heatmap", colors = "RdBu", zmin = limits[1], zmax = limits[2]
+  ) %>% layout(title=title)
+  
+  if (input$show_values) {
+    p <- p %>% add_annotations(
+      x = rep(colnames(mat), each=nrow(mat)),
+      y = rep(rownames(mat), times=ncol(mat)),
+      text = as.vector(round(mat,2)),
+      showarrow = FALSE,
+      font = list(size=input$font_size-2, color="black")
+    )
+  }
+  p
+})
+```
+
+# English Variation
+
+\=======================================================
+
+## 百分比堆叠柱状图
+
+```{r}
+data <- fromJSON("sentence_statistics.json")
+df <- tibble::enframe(data, name="project", value="stats") %>% 
+  unnest_wider(stats) %>% 
+  pivot_longer(cols=c("african_english", "standard_english"), 
+               names_to="type", values_to="count") %>% 
+  group_by(project) %>% 
+  mutate(percentage = count / sum(count) * 100) %>% 
+  ungroup()
+
+renderPlotly({
+  plot_ly(df, x=~project, y=~percentage, color=~type, 
+          colors=c("african_english"="#1f77b4","standard_english"="#ff7f0e"),
+          type="bar", text=~paste0("项目: ", project, "<br>", "类别: ", type, "<br>", "数量: ", count, "<br>", "比例: ", round(percentage,1), "%"),
+          hoverinfo="text") %>% 
+    layout(title="African English vs Standard English", barmode="stack",
+           yaxis=list(title="百分比 (%)", ticksuffix="%"))
+})
+```
+
+## 数据汇总表
+
+```{r}
+summary_df <- df %>% 
+  select(project, type, count, percentage) %>% 
+  pivot_wider(names_from=type, values_from=c(count, percentage))
+
+render_gt <- reactive({
+  summary_df %>% gt() %>%
+    tab_header(title="English Variation by Project") %>%
+    fmt_number(columns=starts_with("percentage"), decimals=1) %>%
+    fmt_integer(columns=starts_with("count"))
+})
+render_gt()
+```
+
+# 词性特征分析
+
+\=======================================================
+
+## 控制面板 {.sidebar}
+
+```{r}
+data_files <- list.files(pattern="\\.json$", full.names=TRUE)
+all_data <- lapply(data_files, function(x) {
+  tryCatch({
+    raw_data <- fromJSON(readChar(x, file.info(x)$size))
+    data.frame(feature=names(raw_data), value=unlist(raw_data),
+               project=tools::file_path_sans_ext(basename(x)))
+  }, error=function(e) NULL)
+}) %>% bind_rows()
+
+feature_labels <- c(
+  "adverb"="副词","conj"="连词","clout"="影响力",
+  "auxverb"="助动词","analytic_thinking"="分析思维",
+  "article"="冠词","ipron"="冲动词","negate"="否定词",
+  "authentic"="真实性","tone"="语气",
+  "prep"="介词","ppron"="人称代词","lsm"="语言风格匹配"
+)
+
+long_data <- all_data %>% mutate(feature_label=recode(feature, !!!feature_labels, .default=feature))
+
+selectInput("pos_project","选择项目:", choices=unique(long_data$project))
+```
+
+## 雷达图
+
+```{r}
+renderPlotly({
+  data <- long_data %>% filter(project==input$pos_project)
+  radar_data <- data %>% arrange(factor(feature, levels=names(feature_labels))) %>%
+    bind_rows(data[1,])
+  plot_ly(type="scatterpolar", mode="lines") %>%
+    add_trace(r=radar_data$value,
+              theta=c(feature_labels[radar_data$feature[-nrow(radar_data)]], feature_labels[radar_data$feature[1]]),
+              fill="toself", name=input$pos_project) %>%
+    layout(polar=list(radialaxis=list(visible=TRUE, range=c(0,1))),
+           title=paste(input$pos_project,"词性特征雷达图"))
+})
+```
+
+## 条形图
+
+```{r}
+renderPlotly({
+  data <- long_data %>% filter(project==input$pos_project)
+  plot_ly(data, x=~feature_label, y=~value, type="bar") %>%
+    layout(title=paste(input$pos_project,"各词性特征值"),
+           xaxis=list(tickangle=45), yaxis=list(range=c(0,1)))
+})
+```
+
+# 数据表汇总
+
+\=======================================================
+
+## 热图原始数据
+
+```{r}
+renderDT({
+  datatable(selected_data()$raw_data, options=list(pageLength=5))
+})
+```
+
+## 词性特征数据
+
+```{r}
+renderDT({
+  wide_data <- long_data %>% select(project, feature_label, value) %>%
+    pivot_wider(names_from=feature_label, values_from=value)
+  datatable(wide_data, options=list(pageLength=10), filter="top")
+})
+```
+
+---

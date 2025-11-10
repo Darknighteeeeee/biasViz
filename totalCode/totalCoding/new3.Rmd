@@ -1,0 +1,258 @@
+---
+title: "new3"
+author: 'NULL'
+date: "2025-09-03"
+output: html_document
+---
+
+
+
+
+```{r}
+
+
+
+library(shiny)
+library(readr)
+library(dplyr)
+library(tidyr)
+library(plotly)
+library(DT)
+library(jsonlite)
+
+load_project_data <- function(project_num) {
+  file_path <- paste0("project", project_num, ".csv")
+  if (!file.exists(file_path)) {
+    return(list(error = TRUE, message = paste0("Cannot find: ", file_path)))
+  }
+  raw <- tryCatch(read_csv(file_path, show_col_types = FALSE), error = function(e) NULL)
+  if (is.null(raw)) return(list(error = TRUE, message = paste0("Failed to parse: ", file_path)))
+
+  names(raw) <- gsub("\\n|\\r", " ", names(raw))
+  cs_col <- grep("cosine|Cosine|cos_sim|cosine similarity", names(raw), ignore.case = TRUE, value = TRUE)[1]
+  ed_col <- grep("euclid|Euclidean|euclid distance", names(raw), ignore.case = TRUE, value = TRUE)[1]
+  w1_col <- grep("^word1$|^word_1$|^word$|^term1$", names(raw), ignore.case = TRUE, value = TRUE)[1]
+  w2_col <- grep("^word2$|^word_2$|^adj$|^term2$", names(raw), ignore.case = TRUE, value = TRUE)[1]
+
+  if (is.na(w1_col) || is.na(w2_col) || (is.na(cs_col) && is.na(ed_col))) {
+    return(list(error = TRUE, message = paste0("CSV missing expected columns in ", file_path)))
+  }
+
+  df <- raw %>% rename(Word1 = !!w1_col, Word2 = !!w2_col)
+  if (!is.na(cs_col)) df <- df %>% rename(Cosine = !!cs_col)
+  if (!is.na(ed_col)) df <- df %>% rename(Euclid = !!ed_col)
+
+  wide <- df %>%
+    pivot_wider(names_from = Word2, values_from = c(Cosine, Euclid), names_sep = "_") %>%
+    as.data.frame()
+
+  cosine_matrix <- NULL
+  euclid_matrix <- NULL
+
+  if (any(startsWith(names(wide), "Cosine_"))) {
+    cm <- wide %>% select(starts_with("Cosine_")) %>% as.matrix()
+    rownames(cm) <- wide$Word1
+    colnames(cm) <- gsub("Cosine_", "", colnames(cm))
+    cosine_matrix <- cm
+  }
+
+  if (any(startsWith(names(wide), "Euclid_"))) {
+    em <- wide %>% select(starts_with("Euclid_")) %>% as.matrix()
+    rownames(em) <- wide$Word1
+    colnames(em) <- gsub("Euclid_", "", colnames(em))
+    euclid_matrix <- em
+  }
+
+  return(list(
+    error = FALSE,
+    raw_data = df,
+    cosine_matrix = cosine_matrix,
+    euclidean_matrix = euclid_matrix,
+    project_name = paste("项目", project_num)
+  ))
+}
+
+load_sentence_stats <- function(json_path = "sentence_statistics.json") {
+  if (!file.exists(json_path)) return(NULL)
+  tryCatch({
+    data <- fromJSON(json_path)
+    df <- tibble::enframe(data, name = "project", value = "stats") %>%
+      unnest_wider(stats) %>%
+      pivot_longer(cols = c("african_english", "standard_english"), names_to = "type", values_to = "count") %>%
+      group_by(project) %>% mutate(percentage = count / sum(count) * 100) %>% ungroup()
+    df
+  }, error = function(e) NULL)
+}
+
+load_pos_all <- function() {
+  files <- list.files(pattern = "\\.json$", full.names = TRUE)
+  if (length(files) == 0) return(NULL)
+  l <- lapply(files, function(f) {
+    if (basename(f) == "sentence_statistics.json") return(NULL)
+    js <- tryCatch(fromJSON(readChar(f, file.info(f)$size)), error = function(e) NULL)
+    if (is.null(js)) return(NULL)
+    data.frame(feature = names(js), value = as.numeric(unlist(js)), project = tools::file_path_sans_ext(basename(f)), stringsAsFactors = FALSE)
+  })
+  do.call(bind_rows, l) %>% mutate(value = as.numeric(value))
+}
+
+feature_labels <- c(
+  adverb = "副词", conj = "连词", clout = "影响力",
+  auxverb = "助动词", analytic_thinking = "分析思维",
+  article = "冠词", ipron = "冲动词", negate = "否定词",
+  authentic = "真实性", tone = "语气",
+  prep = "介词", ppron = "人称代词", lsm = "语言风格匹配"
+)
+
+ui <- fluidPage(
+  titlePanel("统一 Shiny 仪表盘"),
+  sidebarLayout(
+    sidebarPanel(
+      h4("Heatmap 控件"),
+      selectInput("project_select", "选择项目 (Heatmap):", choices = paste("项目", 1:20), selected = "项目 1"),
+      radioButtons("metric", "指标:", choices = c("余弦相似度" = "cosine", "欧氏距离" = "euclidean"), selected = "cosine"),
+      checkboxInput("show_values", "显示数值", value = TRUE),
+      sliderInput("font_size", "字体大小", min = 8, max = 20, value = 12),
+      hr(),
+      h4("POS & 英语变体 控件"),
+      uiOutput("pos_project_ui"),
+      hr(),
+      actionButton("refresh_all", "刷新数据")
+    ),
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Heatmap",
+                 plotlyOutput("heatmap_plot", height = "700px"),
+                 DTOutput("heatmap_table")
+        ),
+        tabPanel("English Variation",
+                 plotlyOutput("engvar_plot", height = "500px"),
+                 DTOutput("engvar_table")
+        ),
+        tabPanel("POS Features",
+                 plotlyOutput("pos_radar", height = "450px"),
+                 plotlyOutput("pos_bar", height = "350px"),
+                 DTOutput("pos_table")
+        )
+      )
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  proj_cache <- reactiveVal(list())
+  sentence_stats <- reactiveVal(NULL)
+  pos_long <- reactiveVal(NULL)
+
+  observeEvent(input$refresh_all, {
+    proj_cache(list())
+    sentence_stats(NULL)
+    pos_long(NULL)
+  })
+
+  observe({
+    if (is.null(sentence_stats())) sentence_stats(load_sentence_stats())
+  })
+
+  observe({
+    if (is.null(pos_long())) pos_long(load_pos_all())
+  })
+
+  output$pos_project_ui <- renderUI({
+    pd <- pos_long()
+    if (is.null(pd)) return(helpText("未找到 POS JSON 文件。"))
+    selectInput("pos_project", "选择项目 (POS):", choices = unique(pd$project), selected = unique(pd$project)[1])
+  })
+
+  selected_data <- reactive({
+    pnum <- as.numeric(gsub("项目\\s*", "", input$project_select))
+    cache <- proj_cache()
+    key <- as.character(pnum)
+    if (!is.null(cache[[key]])) return(cache[[key]])
+    res <- load_project_data(pnum)
+    cache[[key]] <- res
+    proj_cache(cache)
+    res
+  })
+
+  output$heatmap_plot <- renderPlotly({
+    dat <- selected_data()
+    if (is.null(dat) || dat$error) {
+      return(plot_ly() %>% layout(title = dat$message %||% "未加载数据"))
+    }
+    if (input$metric == "cosine") {
+      mat <- dat$cosine_matrix
+      if (is.null(mat)) return(plot_ly() %>% layout(title = "此项目没有余弦相似度数据"))
+      zmin <- -1; zmax <- 1
+      title <- paste(dat$project_name, "- 余弦相似度")
+    } else {
+      mat <- dat$euclidean_matrix
+      if (is.null(mat)) return(plot_ly() %>% layout(title = "此项目没有欧氏距离数据"))
+      zmin <- min(mat, na.rm = TRUE); zmax <- max(mat, na.rm = TRUE)
+      title <- paste(dat$project_name, "- 欧氏距离")
+    }
+
+    p <- plot_ly(z = mat, x = colnames(mat), y = rownames(mat), type = "heatmap", zmin = zmin, zmax = zmax, colorscale = "Viridis") %>%
+      layout(title = title, xaxis = list(title = "形容词"), yaxis = list(title = "词语"))
+    p
+  })
+
+  output$heatmap_table <- renderDT({
+    dat <- selected_data()
+    if (is.null(dat) || dat$error) return(datatable(data.frame(Message = dat$message)))
+    datatable(dat$raw_data, options = list(pageLength = 8))
+  })
+
+  output$engvar_plot <- renderPlotly({
+    df <- sentence_stats()
+    if (is.null(df)) return(plot_ly() %>% layout(title = "未找到 sentence_statistics.json"))
+    df <- df %>% mutate(project = factor(project, levels = unique(project)))
+    plot_ly(df, x = ~project, y = ~percentage, color = ~type, type = "bar", text = ~paste0(round(percentage,1), "%"), hoverinfo = "text") %>%
+      layout(barmode = "stack", title = "English Variation", xaxis = list(title = "Project"), yaxis = list(title = "Percentage (%)"))
+  })
+
+  output$engvar_table <- renderDT({
+    df <- sentence_stats()
+    if (is.null(df)) return(datatable(data.frame(Message = "无数据")))
+    wide <- df %>% select(project, type, count, percentage) %>% pivot_wider(names_from = type, values_from = c(count, percentage))
+    datatable(wide, options = list(pageLength = 10))
+  })
+
+  output$pos_radar <- renderPlotly({
+    pd <- pos_long()
+    req(pd)
+    proj <- input$pos_project
+    req(proj)
+    data <- pd %>% filter(project == proj)
+    if (nrow(data) == 0) return(plot_ly() %>% layout(title = "无 POS 数据"))
+    order_features <- intersect(names(feature_labels), data$feature)
+    radar_df <- data %>% filter(feature %in% order_features) %>% arrange(match(feature, order_features))
+    r_vals <- c(radar_df$value, radar_df$value[1])
+    theta_vals <- c(unname(feature_labels[radar_df$feature]), unname(feature_labels[radar_df$feature[1]]))
+    plot_ly(type = 'scatterpolar', r = r_vals, theta = theta_vals, fill = 'toself', name = proj) %>%
+      layout(title = paste(proj, "词性特征雷达图"), polar = list(radialaxis = list(visible = TRUE, range = c(0, 1))))
+  })
+
+  output$pos_bar <- renderPlotly({
+    pd <- pos_long()
+    req(pd)
+    data <- pd %>% filter(project == input$pos_project)
+    req(nrow(data) > 0)
+    data <- data %>% mutate(feature_label = recode(feature, !!!feature_labels, .default = feature)) %>% arrange(match(feature_label, unname(feature_labels)))
+    plot_ly(data, x = ~feature_label, y = ~value, type = 'bar', text = ~round(value,3), hoverinfo = 'text') %>%
+      layout(title = paste(input$pos_project, "各词性特征值"), xaxis = list(tickangle = 45), yaxis = list(range = c(0,1)))
+  })
+
+  output$pos_table <- renderDT({
+    pd <- pos_long()
+    req(pd)
+    wide_data <- pd %>% mutate(feature_label = recode(feature, !!!feature_labels, .default = feature)) %>%
+      select(project, feature_label, value) %>% pivot_wider(names_from = feature_label, values_from = value) %>% arrange(project)
+    datatable(wide_data, options = list(pageLength = 10), filter = 'top')
+  })
+}
+
+shinyApp(ui, server)
+
+```
+

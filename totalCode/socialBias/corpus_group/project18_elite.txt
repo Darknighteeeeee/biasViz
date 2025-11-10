@@ -1,0 +1,3113 @@
+  @disksing PTAL @coocood PTAL LGTM  LGTM
+@yuanwhy Thanks for your PR! LGTM  Added syntax like select /*+ TIDB_SMJ(t1, t2) */ ... which indicates within this select block, t1,t2 will be joining with merge join; if needed, a sort will be appended in case of no order provided by child operators. The hint matching only matches table name and alias like in MySQL.
+
+It will try to generate different plans according to join keys. Say a = b and c = d it will try both merge on a/b (ASC or DESC), c/d (ASC or DESC) and pick a plan with lowest cost along side other operator cost evaluation.
+The merge join operator itself do a streamline iteration caching same key rows for both sides for look-back cross product. If a single key count is larger than memory size, it then will OOM. 
+
+On presence of merge hint, join reorder will be turned off. @ilovesoup 
+Your git config should set the same email as github.  LGTM @mtunique Good Job!
+@coocood @tiancaiamao PTAL LGTM  @arthuryangcs Thanks for your PR! Please address the comments and resolve the conflict. LGTM
+@arthuryangcs Please resolve the conflicts.  @silenceper Thanks for your PR!
+Could you add an unit test？ LGTM @silenceper Thanks!
+@coocood @tiancaiamao @zimulala PTAL  LGTM LGTM  @arthuryangcs 
+There is another PR implements PI already.
+Can you try to implement another one?  LGTM
+Good Job! LGTM  LGTM LGTM Please fix conflicting.  LGTM
+Thank you for your PR!  LGTM
+Thank you for your PR! Sorry for the delay, there are many PRs conflicting on typeinfer files.
+Merging each one makes other PRs conflicting, so we have to queue the PRs.
+ when this PR is ready to merge, we will notify you to resolve conflicts.  Please fix CI.  @framlog Thanks for your PR!
+Please sign the CLA. LGTM
+Good job! @framlog Feel free to send us a PR to make sqrt() better. :)  Thanks @zzl0 
+
+Now we must use `golang.org/x/net/context` uniformly, like our other projects do.
+Using standard `context` seems to be caused by auto package import here,  /cc @shenli   Good idea!  @biolee Thanks for your PR!
+Please add some unit test.  @maxwell92 please sign the CLA. LGTM Thank you @maxwell92   @zcfrank1st What is `occ`? OCC: Optimistic concurrency control. @shenli 
+
+TiDB is designed for large database (more than thousands of millions of rows) and conflict is rare.
+You may need to queue transactions if the contention is really high. @zcfrank1st   @neoguojing 
+Thank you for your report anyway!
+ @neoguojing Could you show me the result of `tidb-server -V`? @neoguojing We will fix this soon. @neoguojing Please try the latest master.  @snail2swift Thanks for your feedback!
+How many rows are there in t1?
+Is there any error when you run `Delete from t1 where date='2017-02-06`?
+DDL statement will run in sequence, so the statement may be waiting for the previous statement to finish. @snail2swift 
+You can try the branch in the [PR](https://github.com/pingcap/tidb/pull/2786) . @snail2swift 
+1. TiDB use a batch way (1024 rows per batch) to build index for existing. So 160 million rows will take some time.
+2. The PR mentioned by zimulala will fix " Information schema is changed." error.
+3. In the current implementation of TiDB, we only allow one active DDL worker in a TiDB cluster. May be we will improve this in the future. @snail2swift Please try the latest master or binary.  @xiamw2000 Could you please provide your navicat version and platform? Could you try the latest navicat?  TiDB support chinese comments, but may be it has compatibility problem with navicat.  @ziyouchutuwenwu Thanks for your feedback!
+"USING (constraint_schema, constraint_name)" is not supported now. We will work on it.  Thank you for your report!
+We will take a look at it.  @snail2swift 
+We don't support large transaction.
+You can limit the count in a delete statement or use `truncate table`.  @snail2swift  We don't support load data without `local` field. You can change the statement like this ` load data local infile '/tmp/std_pro_iver_cha_rso_event.txt' into table std_pro_iver_cha_rso_event fields TERMINATED by '|';`. @snail2swift  Could you show me the result of tidb-server -V ? @snail2swift Start some MySQL clients need to add `--local-infile=1` option.  The start MySQL client command like `mysql --local-infile=1 -u root -h 127.0.0.1 -P 4000`.  @winkmichael Thanks for your feedback!
+Could you send me the log of tidb-server? The sets statements missing a `*`, should be `/*!` instead of `/!`.  @winkmichael Could you please provide more information?
+Do you try to import a database with name 'mysql'? @winkmichael Could you please show me the error log of tidb-server.  May I get the githash of tikv/tidb/pd? It's re-produced in a local cluster of single pd/tikv/tidb node
+10.2.0.233 ~/hhkbp2/table_missing/tidb.log
+PTAL Close issue because this problem can't be re-produced.  LGTM LGTM  @hzxjtx Thanks for your feedback. 
+We have never tested tpc-h on TiDB. We will check it out.  @vadimtk Thanks for your feedback!
+TiDB support serializable isolation level. But its behavior is a little different from MySQL. TiDB does not has global lock when you update rows. We use row-level optimistic lock to resolve write conflict. When two session updating the same row, one of them will success and the other one will meet write conflict and retry the whole transaction automatically.
+
+In your case, you can use "select for ... update" to prevent write skew. There is one thing you should notice. We also use optimistic lock to detect conflict at the commit stage. Unlike update/delete/insert, SelectForUpdate statement will not be retried automatically. The client will receive an error with message "can not retry select for update statement" and it should decide retry the statement or not.
+
+ Hi @vadimtk ,
+
+Strictly speaking, the isolation level we are providing should be [Snapshot Isolation](https://en.wikipedia.org/wiki/Snapshot_isolation), you may also refer to the [FAQ](https://github.com/pingcap/docs/blob/a9cfe1342c88c6f8b1fb4939dea39fd4cba95d1e/TiDB_FAQ.md#does-tidb-have-acid-semantics). In some cases, users can use _SELECT ... FOR UPDATE_ to  explicitly specify the rows that need to be locked to avoid write skew.
+
+If we want to support Serializable Isolation, we have to introduce table lock or range lock, which will affect the system's concurrent performance.
+
+In the future, we might provide configurable different isolation levels, allowing users to balance isolation level and performance according to their own situation. Good idea. Thank you @vadimtk 
+Would you like to send a PR to return an error?  @wangpeibin713 Thanks for your report! We will fix it.  tpcc1000 test:
+
+```
+2017/02/28 10:01:13 conn.go:333: [error] lastCmd �
+EINGESEESE, runtime error: invalid memory address or nil pointer dereference, goroutine 7235352 [running]:
+github.com/pingcap/tidb/server.(*clientConn).Run.func1(0xc4cb2872c0)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/server/conn.go:332 +0xe2
+panic(0xd844a0, 0xc420010070)
+        /usr/local/go/src/runtime/panic.go:458 +0x243
+github.com/pingcap/tidb/plan.(*typeInferrer).Leave(0xc4ff86e810, 0x1463460, 0xc487eccb40, 0x1463420, 0xc4eb2f5c00, 0x1470201)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/plan/typeinferer.go:62 +0x1022
+github.com/pingcap/tidb/ast.(*ColumnNameExpr).Accept(0xc487eccb40, 0x145e060, 0xc4ff86e810, 0x1464220, 0xc4b8ab5ce0, 0xc47f07a700)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/ast/expressions.go:360 +0x11a
+github.com/pingcap/tidb/ast.(*SelectField).Accept(0xc4b8ab5ce0, 0x145e060, 0xc4ff86e810, 0x1464220, 0xc436ab4240, 0xc420912801)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/ast/dml.go:294 +0xfa
+github.com/pingcap/tidb/ast.(*FieldList).Accept(0xc500ec67b0, 0x145e060, 0xc4ff86e810, 0xc4dd9ff690, 0xc4209128f0, 0x1)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/ast/dml.go:318 +0xc6
+github.com/pingcap/tidb/ast.(*SelectStmt).Accept(0xc500806b00, 0x145e060, 0xc4ff86e810, 0x114c052598, 0x40e00f, 0x17bb420)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/ast/dml.go:491 +0x449
+github.com/pingcap/tidb/plan.InferType(0xc4d8abe540, 0x1464260, 0xc500806b00, 0xc44c0524e0, 0x1035f0c)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/plan/typeinferer.go:35 +0xac
+github.com/pingcap/tidb/plan.Optimize(0x146fb40, 0xc4de6af110, 0x1464260, 0xc500806b00, 0x7fcace585000, 0xc420422360, 0xc4ff86e76b, 0xa, 0xa, 0x0)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/plan/optimizer.go:60 +0x78
+github.com/pingcap/tidb/executor.(*ExecuteExec).Build(0xc44d474980, 0x1473140, 0xc4c5e87b80)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/executor/prepared.go:243 +0x328
+github.com/pingcap/tidb/executor.(*statement).Exec(0xc4f07d0660, 0x146fb40, 0xc4de6af110, 0x0, 0x0, 0x0, 0x0)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/executor/adapter.go:115 +0x5ff
+github.com/pingcap/tidb.runStmt(0x146fb40, 0xc4de6af110, 0x145de60, 0xc4f07d0660, 0x3, 0x3, 0x145de60, 0xc4f07d0660)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/tidb.go:176 +0x7d
+github.com/pingcap/tidb.(*session).ExecutePreparedStmt(0xc4de6af110, 0xc40000000f, 0xc4ff86e780, 0x3, 0x3, 0x0, 0x0, 0xc4ff86e76b, 0xa)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/session.go:598 +0x11e
+github.com/pingcap/tidb/server.(*TiDBStatement).Execute(0xc4c5dd1450, 0xc4ff86e780, 0x3, 0x3, 0x3, 0x3, 0xc4ff86e75a, 0x1)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/server/driver_tidb.go:63 +0x6b
+github.com/pingcap/tidb/server.(*clientConn).handleStmtExecute(0xc4cb2872c0, 0xc4ff86e751, 0x24, 0x24, 0x25, 0x0)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/server/conn_stmt.go:166 +0x4cb
+github.com/pingcap/tidb/server.(*clientConn).dispatch(0xc4cb2872c0, 0xc4ff86e751, 0x25, 0x24, 0x0, 0x0)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/server/conn.go:458 +0x801
+github.com/pingcap/tidb/server.(*clientConn).Run(0xc4cb2872c0)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/server/conn.go:349 +0x139
+github.com/pingcap/tidb/server.(*Server).onConn(0xc420906740, 0x146f420, 0xc4200295c8)
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/server/server.go:209 +0x13e
+created by github.com/pingcap/tidb/server.(*Server).Run
+        /home/jenkins/workspace/TIDB_POST_COMMIT_FLOW/go/src/github.com/pingcap/tidb/server/server.go:173 +0x96
+``` with many error messages:
+
+```
+error at thread_main
+2006, HY000, MySQL server has gone away
+```
+
+The tpc-c test finally prints the results:
+
+```
+<Raw Results>
+  [0] sc:0 lt:34  rt:35385136  fl:17701 avg_rt: 177.5 (5)
+  [1] sc:0 lt:19  rt:35411995  fl:17717 avg_rt: 135.3 (5)
+  [2] sc:0 lt:0  rt:3548224  fl:1775 avg_rt: -nan (5)
+  [3] sc:0 lt:0  rt:3546723  fl:1774 avg_rt: -nan (80)
+  [4] sc:0 lt:3  rt:3538230  fl:1770 avg_rt: 1300.4 (20)
+ in 3600 sec.
+
+<Raw Results2(sum ver.)>
+  [0] sc:0  lt:34  rt:35385605  fl:17701
+  [1] sc:0  lt:19  rt:35412471  fl:17717
+  [2] sc:0  lt:0  rt:3548225  fl:1775
+  [3] sc:0  lt:0  rt:3546731  fl:1774
+  [4] sc:0  lt:3  rt:3538230  fl:1770
+
+<Constraint Check> (all must be [OK])
+ [transaction percentage]
+        Payment: 33.93% (>=43.0%) [NG] *
+   Order-Status: 0.00% (>= 4.0%) [NG] *
+       Delivery: 0.00% (>= 4.0%) [NG] *
+    Stock-Level: 5.36% (>= 4.0%) [OK]
+ [response time (at least 90% passed)]
+      New-Order: 0.00%  [NG] *
+        Payment: 0.00%  [NG] *
+   Order-Status: -nan%  [NG] *
+       Delivery: -nan%  [NG] *
+    Stock-Level: 0.00%  [NG] *
+
+<TpmC>
+                 0.567 TpmC
+```
+
+ @andelf 
+@coocood is working on this. partially fixed. still some NG(not good) results .
+
+```
+<Raw Results>
+  [0] sc:0 lt:2468  rt:13421555  fl:6722 avg_rt: 127.6 (5)
+  [1] sc:0 lt:2737  rt:12886877  fl:6440 avg_rt: 75.8 (5)
+  [2] sc:0 lt:0  rt:1834474  fl:917 avg_rt: -nan (5)
+  [3] sc:0 lt:0  rt:1835461  fl:917 avg_rt: -nan (80)
+  [4] sc:780 lt:138  rt:0  fl:0 avg_rt: 64.4 (20)
+ in 10800 sec.
+
+<Raw Results2(sum ver.)>
+  [0] sc:0  lt:2468  rt:13421589  fl:6722
+  [1] sc:0  lt:2737  rt:12886906  fl:6440
+  [2] sc:0  lt:0  rt:1834476  fl:917
+  [3] sc:0  lt:0  rt:1835461  fl:917
+  [4] sc:780  lt:138  rt:0  fl:0
+
+<Constraint Check> (all must be [OK])
+ [transaction percentage]
+        Payment: 44.70% (>=43.0%) [OK]
+   Order-Status: 0.00% (>= 4.0%) [NG] *
+       Delivery: 0.00% (>= 4.0%) [NG] *
+    Stock-Level: 14.99% (>= 4.0%) [OK]
+ [response time (at least 90% passed)]
+      New-Order: 0.00%  [NG] *
+        Payment: 0.00%  [NG] *
+   Order-Status: -nan%  [NG] *
+       Delivery: -nan%  [NG] *
+    Stock-Level: 84.97%  [NG] *
+
+<TpmC>
+                 13.711 TpmC
+``` NG report is due to MYSQL_DATA_TRUNCATED error.
+maybe caused by different return value size. ```sql
+SELECT o_id, o_entry_d, COALESCE(o_carrier_id,0) FROM orders WHERE o_w_id = ? AND o_d_id = ? AND o_c_id = ? AND o_id = (SELECT MAX(o_id) FROM orders WHERE o_w_id = ? AND o_d_id = ? AND o_c\
+_id = ?)
+```
+
+in MySQL:  COALESCE(o_carrier_id,0) is an int(4)
+in TiDB:  COALESCE(o_carrier_id,0) seems to be a decimal.  Is StmtFetch support limited?
+ PTAL @coocood  COALESCE() fixed in #2788  Now TiDB can't run multithread TPC-C tests:
+
+
+payment 1:10
+1105, HY000, [201] can not retry select for update statement
+
+TiDB log:
+
+```
+2017/03/07 13:32:13 2pc.go:485: [info] 2PC clean up done, tid: 390296956597698580
+2017/03/07 13:32:13 simple.go:134: [info] [176] execute rollback statement
+2017/03/07 13:32:13 txn.go:169: [info] [kv] Rollback txn 390296956637020167
+2017/03/07 13:32:13 session.go:267: [warning] [170] finished txn:<nil>, [170] can not retry select for update statement
+2017/03/07 13:32:13 session.go:554: [warning] [170] session error:
+/home/ubuntu/go/src/github.com/pingcap/tidb/session.go:329: [170] can not retry select for update statement
+/home/ubuntu/go/src/github.com/pingcap/tidb/session.go:268:
+/home/ubuntu/go/src/github.com/pingcap/tidb/tidb.go:189:
+{
+  "currDBName": "tpcc100",
+  "id": 170,
+  "preparedStmtCount": 35,
+  "stauts": 0,
+  "strictMode": false,
+  "user": "root@172.233.1.113"
+}
+2017/03/07 13:32:13 conn.go:356: [warning] [170] dispatch error:
+id:170, addr:172.233.1.113:39024 status:0, collation:latin1_swedish_ci, user:root
+commit
+/home/ubuntu/go/src/github.com/pingcap/tidb/session.go:329: [170] can not retry select for update statement
+/home/ubuntu/go/src/github.com/pingcap/tidb/session.go:268:
+/home/ubuntu/go/src/github.com/pingcap/tidb/tidb.go:189:
+/home/ubuntu/go/src/github.com/pingcap/tidb/session.go:556:
+/home/ubuntu/go/src/github.com/pingcap/tidb/server/conn.go:661:
+``` @wangpeibin713 
+
+Fixed. :)
+try update tidb-server and run TPC-C test.  Hi,all, 
+      This PR is for [issues_2623](https://github.com/pingcap/tidb/issues/2623). @disksing @coocood PTAL The rest LGTM. PTAL @hhkbp2  LGTM @hhkbp2 PTAL LGTM @hhkbp2 PTAL  @ThreeBearsDan Thanks for your feedback! We will fix this.  Thanks for reporting! 
+@siddontang PTAL Hi @rystsov 
+
+Seem that the leader can't be elected for a long time., could you give me all your TiKV logs.   Hi @rystsov 
+
+I have used your case and reproduce the problem. This is caused that your test client connects the TiDB in 10.0.0.7, but this TiDB can't connect to other PDs and TiKVs in 10.0.0.5 and 10.0.0.6. After a long time retry, TiDB will return the test client a timeout error, then the test client will connect another TiDB and works. In my machine, the unavailable time is about 1m30s. 
+
+TiDB is stateless, only PD and TiKV have the leader concept because of Raft. When the partition occurs, the new leader will be elected at about 20s, which is within the expected range. So now we need to let TiDB return error immediately or not retry too many times when we know the TiDB can't provide services. /cc @coocood 
+  If we don't want the tidb-server run ddl jobs, we can use this parameter `-run-ddl false` to disable it. @GregoryIan @iamxy PTAL  @biolee Please run `make parser` first. It's because $HOME/tidb is not in $GOPATH. When you run 'make parser', the parser would be generated in current directory which in your case is $HOME/tidb, but this directory is not $GOPATH, and go compiler couldn't find this file.  @simingli Thanks for your feedback!
+It seems that tidb-server could not get data from tikv-server. Could you show us your tikv-server's log? @siddontang @BusyJay PTAL @simingli How many tikv-server instance do you deployed? It seems that there is something wrong with the instance on 10.2.1.103. Could your show me the logs of this instance? Hi @simingli 
+
+Does `2017/02/14 16:13:49.939 server.rs:179: [WARN] remove store connection for store` occur too many times?  @simingli It seems that the tikv on 10.2.1.101 could not contact with the tikv on 10.2.1.102. It may be related with firewall. Could you shutdown your firewall or check the rules? Using `telenet 10.2.1.103 20160` can work? 
+
+Do you start the TiKV on 10.2.1.103? @simingli But the firewall may prevent incoming packet on port 20160. So we suggest shutdown firewall or add rules into iptables.
+Please try @siddontang 's command. @simingli Cool! 
+You could find some useful information [here]( https://github.com/pingcap/docs/blob/master/trouble-shooting.md#tidb-cluster-troubleshooting-guide) when you meet any problem.  Old row value is required for translating to MySQL binlog. @GregoryIan @zimulala PTAL LGTM
+@zimulala   @catroot 
+Thank you for your report.
+
+Those two DDL statements can be supported soon.
+But for modifing the length of a varchar column, we can only support increasing the length. @catroot 
+Thank you for your advice.
+
+I think returning error is the right behavior for the not supported feature.
+MySQL also returns an error when there is data longer than the specified length.
+
+The error message should be more specific, we will improve that. @catroot 
+We hope we can support those DDL operations too, but if the DDL operation requires checking every row in the table, it would be difficult to implement.
+
+So my sugguestion is that during development phase, schema changes frequently, you can just use MySQL, when schema is settled down, you can switch to TiDB seamlessly. @catroot 
+
+Currently, we only support online DDL change, when you add a column or index, the table is not locked, can still be written and read.
+
+The difficulty is that when we are checking every row in the table, new rows may be inserted, which may exceed the new length.
+
+We do have the plan to support it, but not in the next few months, but when more users asking for this feature, we will put it on a higher priority. @catroot 
+When ALTER TABLE returns successfully, users will expect all rows in the table have the limited length, returning a row longer than the limit may result in more serious errors.
+
+One way to solve the problem is that we can truncate the column value when reading it.
+
+But this can be only applied when strict SQL mode is not set.
+
+In strict SQL mode, every row must be less than the new length or the DDL fails. @catroot 
+According to MySQL docuement
+```
+This conversion may result in alteration of data. For example, if you shorten a string column, values may be truncated. 
+To prevent the operation from succeeding if conversions to the new data type would result in loss of data, enable strict SQL mode before using ALTER TABLE (see Section 6.1.8, “Server SQL Modes”).
+```
+
+Strict SQL mode is used to prevent alteration of data, so checking every row is required. > Those two DDL statements can be supported soon.
+
+We support it now, you can try the latest master code. @catroot  @catroot Could you show me the result of `tidb-server -V` ? > Those two DDL statements can be supported soon.
+> But for modifying the length of a varchar column, we can only support increasing the length.
+
+Are sure your case is in line with the second point?
+ @catroot  Could you show me the statement of `Create table`? @catroot  Please make sure that the process you are using is the latest binary process. 
+BTW, the `drop default` statement should be "ALTER TABLE `payment_type` ALTER column `name` DROP DEFAULT;" Yep, we will support the field of `column` optional soon.
+This statement of `ALTER TABLE payment_type DROP COLUMN name CASCADE` is not supported yet. Yes. @catroot  We support the field of `column` optional now, you can try the latest master code. @catroot OK, no problem. Thank you for your feedback. @catroot   This fixes:
+
+```
+2017/02/06 14:17:09 main.go:182: [info] start Prometheus push client with server addr 
+172.233.1.240:9091 and interval 2000000000
+```
+
+Now:
+```
+2017/02/06 14:22:42 main.go:185: [info] start Prometheus push client with server addr 
+172.233.1.240:9091 and interval 2s
+``` LGTM  @zyguan Thanks!
+@coocood @hanfei1991 PTAL @zyguan This is already fixed. Please use the latest master.  @zyguan Good job!
+@tiancaiamao @XuHuaiyu PTAL LGTM LGTM
+@zyguan 
+Thank you!
+Please resolve conflict. Good job! @zyguan   @luckcolors Thanks! 
+The CI is failed: https://travis-ci.org/pingcap/tidb/builds/198371842 @luckcolors 
+How about defining the constant as int64 type instead? `go fmt github.com/pingcap/tidb/util/types` would fix it, or you can try `make check` twice.
+@luckcolors  @luckcolors 
+Any update? LGTM
+
+@luckcolors 
+Thank you for your contribution! LGTM  Thanks for reporting. We don't have any plan to make TiDB work on 386. Could you please send a PR to fix it? Fixed in https://github.com/pingcap/tidb/pull/2591  Hi @yuekui2 
+
+PD will balance data to other TiKV when the data size exceeds a threshold. Assume your TiKV's capacity is 500GB, and the default `min-balance-diff-ratio` is 0.01, so you should insert at lease 5GB data, then PD will begin to move the data to the empty TiKV. 
+
+If you want to test balance, you can:
+
++ Start TiKV with `--capacity` with a little value, like `1GB`. 
++ Change `min-balance-diff-ratio` in PD config file to 0.001 or more less and start PD.
++ Use `pd-ctl` to change `min-balance-diff-ratio` dynamically. 
+ We should add the details to FAQ. @shenli @siddontang  Yes, it's because of the data moving.
+ 
+The reason of "force" data moving itself is very slow is the limit of PD, which can be configured too. By default it's very slow, because we don't want to make any impact for online transactions.  We will boost the moving and rebalancing speed after RC2. Currently it depends on  https://github.com/pingcap/tikv/pull/1561 
+
+> More over, let us say capacity is 10G, ratio is 0.1, and 3 tikv instances with data of 4GB each. After adding a new tikv instance, will it evenly re-balance to ~3GB each?
+
+Yes Hi @yuekui2 
+
+You can use `store` in `pd-ctl` to see the current TiKV cluster information. It is more clear than checking the db folder directly. 
+
+For the `min-balance-diff-ratio`, assume we have two TiKV, both capacity is 1TB, one data used size is S1 and the other is S2, if `S1 / 1TB - S2 / 1TB < min-balance-diff-ratio`, PD will consider starting balance, of course, the real balance algorithm is more complex.  The default balance seems slow, and it is strange that why 1 has only 1340 now? @huachaohuang 
+
+@yuekui2  We have been improving the balance, will release a version next week. Because we balance according to storage ratio for now, we should balance the region count.
+The next version will remove some restrictions and configurations, and will be more intuitive. fixed by https://github.com/pingcap/pd/pull/506  Thank you for your report @catroot 
+Looks like we need to add an empty table_constraints. Is that right? @shenli  @catroot We will add this table into tidb's information_schema. @catroot Thanks! @catroot Please try the latest master or the latest binary.  Sorry, there is no way to do that. Interesting, PD supported a separate etcd cluster in the very earlier versions, it's too complex for users to deploy one more component, so we embedded etcd to PD.  `UnknownSystemVar` contains unused format placeholder for the variable name.
+
+```go
+UnknownSystemVar  = terror.ClassVariable.New(CodeUnknownSystemVar, "unknown system variable '%s'")
+```
+
+This fixes:
+
+```
+MySQL [test]> SELECT @@whatever_not_a_variable_in_system;
+ERROR 1193 (HY000): unknown system variable '%!s(MISSING)'
+``` LGTM @andelf please sign the CLA LGTM @andelf Please sign the CLA.  @kaiwu May I have all the argument of your mydumper command? @kaiwu When use myload to load data, please add -q 1 in command line. Or you can use the `load` tool developed by us. See https://github.com/pingcap/docs/blob/master/op-guide/migration.md#3-importing-data-to-tidb @kaiwu Do you have a table with only a few columns and with integer type? We set a limitation on the key-value entry count and size of a single transaction. For each row/index, there will be a key-value entry.
+We increase the limitation from 100k to 300k a few days ago. You can try the latest master of tidb or download the [newest binary](http://download.pingcap.org/tidb-latest-linux-amd64.tar.gz). @kaiwu This feature is not merged into rc1.1 and we will release rc2 tomorrow. You can try the latest master. The commit is https://github.com/pingcap/tidb/commit/de9b134c50381123b9fa710ab4e2c110735f73b4 @kaiwu Yes, we will release a new tag from master tomorrow. Please use master now.  @catroot Thanks for your advice! For FLUSH statement, it is OK to reply OK. But for ALTER statement, I think it is better to return error. @catroot 
+DB collations is not alterable now.
+Trigger/View/Stored Procedures is not supported now. Maybe we will support view after GA.
+  @zyguan 
+Would you please add a test case for a select statement that returns the correct type?
+
+ That's tranvisCI issue, I restarted it.  Like PD, for every transaction, we can add it the a history list. We can record the SQL query, the execution time, the detailed accessed regions or other statistics. 
+
+We can use a HTTP API to see the transaction history, or a SQL like `admin show transaction histories`.   also change the test of sqrt function. LGTM @coocood @shenli @tiancaiamao PTAL LGTM  Currently, we cached all of the region address that we ever used, i think LRU is a better idea, especially when the database is huge.  The stores' addresses are cached by storeID, which is small and not frequently update.
+And for the regions we have accessed, their metas are cached in an rbtree.  @shlomi-noach Thanks for your report! We will fix it. @shlomi-noach It will be fixed in https://github.com/pingcap/tidb/pull/2497  LGTM
+@XuHuaiyu PTAL @XuHuaiyu PTAL LGTM  Good job. PTAL @zhexuany fix CI LGTM
+@hanfei1991 @XuHuaiyu PTAL  Please take a look at the quick start docs https://github.com/pingcap/tidb/blob/master/docs/QUICKSTART.md  We support the statement of `rename table` by #2444 . We need to support the behavior in binlog.  @zyguan Factory mode is not suggested any more. It will add the cost of checking in runtime. In future, we will implement every function signature. e.g.  binary op Factory will be replaced by builtinEQ, builtinLT ...
+and builtinEQ will be replaced by EQFloat, EQInteger, EQDecimal, EQString ....  @zyguan JIT doesn't fit for OLTP. Temporily we can only do it manually.  LGTM
+PTAL @coocood  @zyguan 
+`mysql.NewDecimal` should be handled too.
+Rounding a decimal returns a decimal. LGTM
+Thank you!  We've working on privilege related issues already, and the current situation would be improved in RC2.
+Thanks for your feedback, please stay concerned. hi, @lauyoume 
+
+Grant privileges database name with prefix is supported now, you can try it like this:
+
+```
+CREATE USER 'dduser'@'%' IDENTIFIED by '123456';
+GRANT ALL PRIVILEGES ON `dddb_%`.* TO 'dduser'@'%';
+```
+
+Create user and grant privilege written into one SQL is still not supported, we're working on it.
+
+You can have a try, and  feel free to let know if you meet any problem.  LGTM Any other product use `-V`? LGTM @coocood 
+
+
+```
+$ mysql -V
+mysql  Ver 14.14 Distrib 5.5.53, for debian-linux-gnu (x86_64) using readline 6.3
+$ mysql -v
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+$ mysql --version
+mysql  Ver 14.14 Distrib 5.5.53, for debian-linux-gnu (x86_64) using readline 6.3
+```
+
+```
+# psql -V
+psql (PostgreSQL) 9.3.15
+# psql -v
+/usr/lib/postgresql/9.3/bin/psql: option requires an argument -- 'v'
+Try "psql --help" for more information.
+# psql --version
+psql (PostgreSQL) 9.3.15
+```
+ LGTM  fix #2430 
+When the offset is not null, we should remain a limit as parent of table scan.
+@shenli @coocood @zimulala PTAL LGTM LGTM  @Tratar Thanks for your PR! Please solve the conflict.
+@XuHuaiyu PTAL @tiancaiamao PTAL Hi, @Tratar 
+We have a `getDateFromDaynr ` https://github.com/pingcap/tidb/blob/master/util/types/mytime.go#L313, you can use it instead of `calcTimefromDays`. @Tratar CI failed:
+util/types/time.go:1134:1: exported function TimeFromDays should have comment or be unexported
+make: *** [check] Error 1 @XuHuaiyu @tiancaiamao PTAL CI failed. 
+You cant run `make check` twice, until golint don't report any error. @Tratar  LGTM
+PTAL @XuHuaiyu  LGTM
+Thank you for your job.  Thank you for your report ! this is a bug, i will fix it soon.  LGTM  @tiancaiamao @coocood PTAL 
+@zyguan Good Job! LGTM
+please resolve conflicts.  @tracymacding No, we do not support Stored Procedure. We do not have any plan for it.  1. What did you do?
+If possible, provide a recipe for reproducing the error.
+select round(1e3, 2);
+
+2. What did you expect to see?
++---------------+
+| round(1e3, 2) |
++---------------+
+|       1000.00 |
++---------------+
+1 row in set (0.01 sec)
+
+
+3. What did you see instead?
++---------------+
+| round(1e3, 2) |
++---------------+
+|          1000 |
++---------------+
+1 row in set (0.00 sec)
+ You are right, it because we always use `-1` as the argument. 
+It has the field of `decimal` to store precision information in `Datum`. We can use `Frac()` to get precision information.
+There is to be compatible with MySQL.
+@zyguan Could you try to fix it?  @TheNorthMemory Thanks for your feedback!
+@hanfei1991 PTAL Because you didn't create an index.
+See:
+mysql> create table tt(c int);
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> create index cc on tt(c);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> explain select * from tt where c in (1,2,3);
++-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------+
+| ID          | Json                                                                                                                                                                                                                                                                                                                                                                                      | ParentID |
++-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------+
+| IndexScan_5 | {
+    "db": "test",
+    "table": "tt",
+    "index": "cc",
+    "ranges": "[[1,1] [2,2] [3,3]]",
+    "desc": false,
+    "out of order": true,
+    "double read": false,
+    "push down info": {
+        "limit": 0,
+        "access conditions": [
+            "in(test.tt.c, 1, 2, 3)"
+        ],
+        "index filter conditions": null,
+        "table filter conditions": null
+    }
+} |          |
++-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------+
+1 row in set (0.00 sec)
+
+For `explain select * from test where a in ( select 'x' from dual)`, we will change it to semi-join and apply hash join algorithm. @TheNorthMemory Any more question ? Well, your case is pretty seldom, because (select 'x' from dual) will only return 'x'. Most times a `In` subquery should return different records. We can do constant folding for this case, but I think it is very tricky. @kaiwu  Index look up Join is very inefficient for distributed computing. So we always use hash join. If the table in `In` subquery is always small, we can do index look-up join, this is in our roadmap.   @zyguan Good Job! That's just what i meaned. @zyguan Please resolve the conflict. LGTM
+@hanfei1991 @coocood  PTAL LGTM  This PR is for issue [2283](https://github.com/pingcap/tidb/issues/2283).
+
+Used by `SortExec` in `executor/executor.go`.
+
+It is necessary when the input rows exceed the predefined memory capacity. @yanzhe-chen Please sign the CLA. @zimulala Fine, I have signed the CLA. Sometimes, we don't need to output all rows, we need to export a `Close` function which can be used to close all files before all data has been read.
+Add a `closed` field to return early if closed. LGTM
+@zimulala @hanfei1991 PTAL Rest LGTM. @yanzhe-chen Any update? Sorry for the late response. Focus on defending my MA thesis these days. I have improved the code according to the review. @XuHuaiyu @shenli @coocood @zimulala @hanfei1991 PTAL. Thanks for your careful review. @zimulala @XuHuaiyu I have refined the code and reply to some of the comments. PTAL. LGTM  @Tratar Please fix CI and sign the CLA. It seems that there is some wrong with gofmt. LGTM
+PTAL @coocood  @Tratar Please solve the conflict.  @zyguan According to MySQL [Set](http://dev.mysql.com/doc/refman/5.7/en/set.html) doc, each member could be represented by a binary value. We use integer to store set value. For example:
+SET('a','b','c','d')
+SET Member	Decimal Value	Binary Value
+'a'	1	0001
+'b'	2	0010
+'c'	4	0100
+'d'	8	1000
+If a column has value ('a,d'), we will convert it to 1001, which is 9. So You can convert the first argument to binary and use bit operation to check if it is in the second argument without converting the second argument from number to string and comparing strings. @zyguan There is no cheap way to do this. But binary_value(str) only need to be called once. You do not have to compute it for each row. @zyguan I think it is better to convert the first argument to binary value in the planning stage, not in the executing stage. @zyguan May be you can create a new issue and improve this in another PR. It may be complicated. LGTM LGTM  Cool staff. "INTERVAL" is a reserved keyword of MySQL. See http://dev.mysql.com/doc/refman/5.7/en/keywords.html
+
+Please add it to the ReservedKeyWord rule list https://github.com/pingcap/tidb/blob/master/parser/parser.y#L2069 and add a test here: https://github.com/pingcap/tidb/blob/master/parser/parser_test.go#L60
+ @zyguan Yes, you are right.
+LGTM @coocood @tiancaiamao PTAL @tiancaiamao PTAL LGTM  Thanks! @zyguan 
+@tiancaiamao @hanfei1991 PTAL
+ PTAL @hanfei1991 @zimulala  LGTM  Good job! @zyguan  @zyguan Thanks! If you need any help, please let us know. PTAL LGTM Well done! @zyguan 
+@coocood @hanfei1991 @tiancaiamao PTAL  @496080199 Thanks for your feedback!
+We will fix it soon.
+@tiancaiamao PTAL @496080199 This is fixed in #2351 . Please try the latest master. @496080199 Have you tested sysbench with the latest TiDB?  https://github.com/pingcap/tidb/issues/2294 @disksing @coocood  What problem does this PR solve? to fix [issue_2294](https://github.com/pingcap/tidb/issues/2294) @coocood  LGTM  @disksing @coocood   @zyguan Is there any error message when you run `make parser`? If there is any error message about 'shift/reduce' error. You should add precedence info on the rules. @zyguan I think you are on the right way. :)  @zyguan Thanks for your feedback!
+The error message means the number of arguments is not right. For greatest(), it need at least 2 argument. 
+"[2, -1]" means the function need at least 2 arguments and no upper limit.
+
+Maybe we should change the error message as what mysql shows. @zyguan This will be fixed in https://github.com/pingcap/tidb/pull/2335  Hi @ch-lgs 
+
+Raft must use at lease 3 replicas to guarantee data safety, 2 DC can't guarantee it. If one DC is down, the cluster can't work. 
+
+If you have 3 DCs, PD can schedule the replicas to different DC automatically, and we will support it soon, see https://github.com/pingcap/pd/issues/454. Feel free to re-open the issue if you still have any questions. @ch-lgs  The maximun transaction lock time is 120s, when transaction is larger than 400M, we returns error
+to prevent the large transaction harm the entire cluster.
+
+As test for this is too expensive, I just tested it manually. @shenli @disksing PTAL 400MiB is huge, how about 50M  ? 50MB is too small, especially when we use load data command to load data. @ngaut 
+Since old version doesn't have any limit, change it to a small value may cause old cluster stop working.
+
+At least our system can afford 400MB transaction with longer lock time.
+
+We can set it to 400MB first, change it to smaller value later if we find large transaction is problematic. @ngaut What's your opinion？ LGTM， let's make it smaller step by step. I am still worrying about if users delete millions of row, it could be trouble. @ngaut I think we should test deleting large scale data in RC2. Please add an issue for testing large delete transaction. @gejigeji 
+Delete a table without a condition is considered an expensive query.
+If you really want to delete all rows, you can use `truncate table t_table`.  LGTM  Please answer these questions before submitting your issue. Thanks!
+
+1. What did you do?
+If possible, provide a recipe for reproducing the error.
+
+```
+create table t1 (id int, dt datetime);
+insert into t1 values (1,"2001-08-14 00:00:00"),(2,"2001-08-15 00:00:00"),(3,"2001-08-16 00:00:00"),(4,"2003-09-15 01:20:30");
+create index dt on t1 (dt);
+select * from t1 ignore index (dt) where dt > 20021020;
+```
+
+2. What did you expect to see?
+
+```
++------+---------------------+
+| id   | dt                  |
++------+---------------------+
+|    4 | 2003-09-15 01:20:30 |
++------+---------------------+
+1 row in set (0.00 sec)
+```
+
+3. What did you see instead?
+
+```
++------+---------------------+
+| id   | dt                  |
++------+---------------------+
+|    1 | 2001-08-14 00:00:00 |
+|    2 | 2001-08-15 00:00:00 |
+|    3 | 2001-08-16 00:00:00 |
+|    4 | 2003-09-15 01:20:30 |
++------+---------------------+
+```
+
+  @silentred Thanks for your PR!
+@coocood @tiancaiamao PTAL @shenli Do we need to update tutorial ? since we refactored the source. @ngaut The tutorial for builtin function  is already updated. PTAL LGTM  To make sure all of those statements implement the DDLNode interface. It's quite common in Go :)  Please sign the CLA, thanks. LGTM  Good catch!
+Would you please send a PR to fix this?  Thank you for your report.
+We will fix it soon.  @BusyJay 
+Is this issue fixed by https://github.com/pingcap/tikv/pull/1423 ? Can we close this issue now?  @idlesummerbreeze 
+
+Thank you for your report and kindly try to fix this issue.
+You almost addressed the issue, good job!
+Elements in `columns` should not be nil.
+It looks like the length of `e.schema` is different than the length of `e.columns`. @idlesummerbreeze 
+
+The root cause is that the aggregation `count(*)` has been pushed down to memory table.
+So the `e.schema` is aggregation function `count(*)`, but memory table cannot handle it.
+
+When we handle normal table, we send a request to TiKV coprocessor which can handle aggregation function.
+
+`e.columns` is empty because we don't need any columns, we just need row count, so all the infoschema columns has been pruned.
+See https://github.com/pingcap/tidb/pull/2296  @zxsciro DDL on TiDB is slower than on MySQL. You can refer to the [FAQ](https://github.com/pingcap/docs/blob/master/TiDB_FAQ.md#why-is-the-ddl-statement-so-slow-when-using-tidb) doc for the reason. If you have only one tidb-server, you could set the --lease to 0. And the speed of DDL statement will be fast. @zxsciro Thanks for your report. This is a bug, and I will fix it. @zxsciro There are two things we should do.
+1. Check if the default value is valid before running the job.
+2. When meet fatal error, we should cancel the ddl job.
+
+@zimulala Will fix it. If you are interested in this, you can send us a PR. :) @zxsciro Yes, this is a bug. If it happens, the job will keep trying and affect the execution of other DDL jobs. You need to restart the TiDB to resolve it. 
+The right way to handle this is to cancel the DDL job when we meet this error. Do you want to send a PR to us? @zxsciro I'm sorry. It needs to restart TiKV too. Fixing this bug requires some background knowledge. I will fix it. @zxsciro  This bug is fixed. You can try the latest master code. @zxsciro  This bug has two things we should do.
+1. Check if the default value is valid before running the job.
+2. When meet fatal error, we should cancel the ddl job.
+
+Now we have only done the second thing. We are doing the first thing.
+ @zxsciro This bug is fixed now. You can try the latest master code. @zxsciro If you have any problems，you can open it again.  @idlesummerbreeze Try this: go test -check.f TestAggregation  @idlesummerbreeze information_schema is a virtual table which exists only in the memory of tidb-server.
+For most of sql statements, we need to refer to schema/table/index/column information when we building query plans. We keep all those info in the memory for performance consideration. So we do not need to store those data as normal tables, we could get what we need from the memory. I am writing a document and it will be release in this week. I will keep you updated.  @silentred I think it is OK to change L22 from '+=' to '='.  @silentred Thanks for your PR! Please sign the CLA. @silentred Please add typeinfer info in typeinferer.go.
+See https://github.com/ngaut/builddatabase/blob/master/tidb/builtin.md no, wait for CI pass, and we'll review it.
+it would be merged if two or more reviewer think it's ok. @silentred 
+Please add typeinfer on this function, like this PR
+https://github.com/pingcap/tidb/pull/2249 @silentred 
+Please add a test case in `typeinferer_test.go` LGTM LGTM @silentred 
+Thank you for your contribution!  @skybook888 May I known how you migrate your data from mysql to TiDB? Do you use any tool to dump and import the data? @skybook888 Could you show me the result of "show create table your_table_name;"  on MySQL and TiDB? @skybook888 
+Please provide the detailed steps to reproduce this issue.
+Thank you. @skybook888  So the bug is creating a new table and altering auto_increment to 500, but the new inserted data has id start from 1?
+@zimulala PTAL @skybook888 The statement of "alter table tableName auto_increment = num" we haven't support yet. We support create table with auto_increment. @skybook888  If you are interested, you can send us a PR.  @skybook888 PR means Pull Request :)  @hamo 
+Please add type infer at `plan/typeinferer.go` and `plan/typeiferer_test.go`. Good job!  Please also add  ln, log, log2, log10 to this table:
+https://github.com/pingcap/tidb/blob/893a1573013bc3fc9acd68a3cdd54e452c41e690/parser/parser_test.go#L79 LGTM @hamo Thank your very much!  LGTM  @bhzhu203 Please try the latest navicat.
+We are working on the compatible problems between TiDB and old version navicat.  No, this function has not been supported yet, supported functions can be found here
+https://github.com/pingcap/tidb/blob/master/evaluator/builtin.go @bhzhu203 We have supported the find_in_set function, feel free to open the issue if you have any questions.  @Z000000 Thanks for your report! I sent an email to you. @Z000000 Confirmed! We are working on this. Thanks very much!  @abdulrahmantkhalifa 
+Thank you for your willing to contribute.
+But I'm sorry, we don't have the plan to support Redis API.
+Supporting a new Database API is useful, but it is a long-term commitment, which requires a lot of work on implementation,  documentation, and testing, and most importantly, it makes our existing code much more complicated, increases maintenance cost.
+
+The most welcomed contribution is bug-fix, but that requires understanding the project.
+We will be impressed if a contributor can do it without much help.
+ @abdulrahmantkhalifa 
+Sorry, I misunderstood your issue.
+
+RedisDB is not an embeded storage engine, I'm not sure if it should be implemented as localstore.  @abdulrahmantkhalifa 
+For benchmark tests, you can edit `bench_test.go` to use the new engine, and run 
+```
+go test -run=none -bench=.
+``` 
+on project directory.
+But I guess local store on remote Redis engine will run much slower. @abdulrahmantkhalifa 
+When we run `go test` vendor is not used.
+Try this command
+```
+GOPATH=$(pwd)/_vendor:$GOPATH go test -bench=. -run=none
+``` @abdulrahmantkhalifa 
+Good job to implement the redis store!
+I'm sorry we can't accept this feature right now.
+Thank you for your understanding.  @hyj0 Thanks for your feedback! 
+The document you mentioned is out of date. I will send you an updated document for builtin function this week.  @skybook888 Thanks for your feedback! 
+We haven't implemented log/log2/log10 in TiDB. Would you please send us a PR to add those functions? TiDB supports those functions now, so I close this issue.
+If you find something wrong with those functions, feel free to reopen this issue.
+@skybook888   @idlesummerbreeze Please use `make` to build the project. Do not use `go build`. Should we add it to FAQ or put parser.go in the repo? @shenli  @idlesummerbreeze Do you put tidb dir in GOPATH?
+From your error log, it seems that there is no parser.go in parser dir. Could you should me the file list in parser package? @idlesummerbreeze Could you show me your GOPATH and the absolute path of your TiDB source code?
+Please make sure that TiDB's source code is in your GOPATH.  @a6802739 Thanks for your PR!
+You can use git squash command or We can squash your commits when merging your PR. @a6802739 You also need to add bin function syntax in parser package. I will send you a document to describe how to do this. @a6802739 
+I think we better use standard library to implement this function.
+```
+fmt.Sprintf("%b", n)
+```
+or
+```
+strconv.FormatInt(n, 2)
+``` @a6802739 
+I tried to run `select bin(-1)` on MySQL, the result is `1111111111111111111111111111111111111111111111111111111111111111`
+
+I seem like a negative integer will be converted to unsigned interger first.
+
+So the stdlib function we should use is `strconv.FormatUint`. @a6802739 
+```
+x := int64(-1)
+fmt.Printf("%b", uint64(x))
+``` @a6802739  
+You can search keyword `builtin` in PR list, find a PR that adds a new builtin function, see what is needed to add a new function. @a6802739 
+Please make sure test is passed before push a commit. PTAL @a6802739 
+Please reference this PR
+https://github.com/pingcap/tidb/pull/1332/files @a6802739 
+I'm sorry that PR is outdated, checkout this PR instead:
+https://github.com/pingcap/tidb/pull/2249 @a6802739 Any update? 
+We write an article to show how to add builtin function: https://github.com/ngaut/builddatabase/blob/master/tidb/builtin.md @a6802739 
+It has been a long time since the last update.
+Close for now, if you have any update, I'll reopen it.  @elvizlai Thanks for your report. Can you give us some cases?  @elvizlai Can you post your create table stmt and insert data stmt? @zet4 Thanks for your feedback! We will look into it. @zet4 It is a bug about limit/offset with prepare statement. I will fix it. @zet4 This will be fixed in https://github.com/pingcap/tidb/pull/2364. You can try the branch shenli/issue-2180 or use the latest master after this PR is merged.
+Thanks again for your report!  Happy New Year! @zet4 Please try the latest master. If there is also something wrong, feel free to reopen this issue.
+Thanks! @zet4 Please update your binary/source. 3f9a101ce6a31d508d184aa03f2ebb8209a9e480 is not the latest githash. @zet4 The value for limit/offset should be integer(or a string could be parsed to integer).
+May I know your command? Still the following command?
+`H:\gopath\src\github.com\micro\user-srv>user-srv.exe -- database_url="root:111111@tcp(192.168.99.100:32769)/users"`
+ @zet4 OK, I will check it out and fix it soon. Fixed by https://github.com/pingcap/tidb/pull/2648  @yemt Thanks for your feedback!
+TiDB is the SQL layer and TiKV is the storage engine layer. Their relationship is just like Google's F1 and Spanner.
+TiDB is not a proxy, it is a SQL engine.
+BTW: We encourage discuss in English in this repo. So people from all the world could take part in.  @elvizlai Thank you for reporting. We will look into it and keep you updated. @elvizlai Please try the latest master code. It is already fixed.  @hyj0 Thanks for your feedback. It will be fixed soon. @hyj0 Please try the latest master code. It is already fixed. @hyj0 We will fix it now. @hyj0 It will be fixed in this PR: https://github.com/pingcap/tidb/pull/2181 @hyj0 Please try the latest master code. @hyj0 It is related to the field type. We return the result of schema() in string but set a wrong field type.   In this [PR](https://github.com/pingcap/tidb/pull/2181), we set it to the right type. @hyj0 If everything is OK, I will close the issue.  Handle #1936.
+This is for compatibility with previous version. So it is the first step, the second is remove the assignment to the job's arguments. PTAL @GregoryIan @coocood @tiancaiamao @shenli  LGTM @GregoryIan PTAL  Looks like benchyou is a good tool for benching. See: https://github.com/XeLabs/benchyou @ch-lgs You can use sysbench to bench TiDB.  Test circle ci. LGTM  @ch-lgs Compare with proxy, TiDB has horizontal scalability, online schema changes, consistent distributed transactions. @ch-lgs I think TiDB has the following advantages against MySQL cluster: 
+
+-  You can deploy TiDB cluster across data centers. We use raft to replicate data between replica. In this scenario, even the whole data center is down, your data is also safe and your service is still on.
+
+- TiDB could handle complex query better. Our optimizer is suitable for distributed computing.
+
+- Adding or removing node into/from TiDB cluster is very easy.
+
+- TiDB supports real distributed transaction. 
+
+- TiDB is easy to deploy and maintain.  @ch-lgs We are going to release RC1 in the next week. GA will be released early in the next year (may be around Chinese New Year).  @nnordrum Thanks for your suggestion.
+I am agree with you and view is on our plan. But it will not be included in the GA version, because of time.  Thank you for your valuable advice. @sjmudd 
+I added a todo label to this issue. 
+We are adding more and more documents, they are coming soon 😄 
+We will let you know of any further related documents. @sjmudd I guess you need this doc: https://github.com/pingcap/docs/blob/master/op-guide/docker-deployment.md#multi-nodes-deployment Thanks for your report @sjmudd 
+
+The multiple docker deployment document is here https://github.com/pingcap/docs/blob/master/op-guide/docker-deployment.md, seem that we should let user find cluster deployment with binary and docker more easily in the quick start. /cc @shenli 
+
+Adding/Removing PD/TiKV/TiDB node is easy, see https://github.com/pingcap/docs/blob/master/op-guide/binary-deployment.md#addremove-node-dynamically, but now the guide has not been completed, we will improve it and add examples later.  Cool @AkihiroSuda 
+
+I think we can try it in CI and test first. @iamxy   Hi @will835559313 , thanks for your report. 
+
+I see that you deploy whole TiDB components in one machine, but it seems that your machine has a high load and the TiDB cluster can't supply normal service.
+
+The standalone deployment is only for user first try, you can do some simple operations, but if you want to do more test and benchmark, I suggest deploying TiDB cluster in multi machines :-) 
+
+ Hi @will835559313 
+
+Seem that you run PD + TiKV in one VM too, the load is still high. 
+The warning message `get timestamp too slow` is not serious, just shows that your TiDB getting TSO from PD slow (maybe network slow, or machine load high, etc..), but the cluster can still work well, you can even ignore this waring if possible. 
+
+What I care more is `InfomationSchema is out of date`, this error is much serious, which means your TiKV is very busy and can't work. Do you meet this error again? 
+
+Btw, we prefer using more powerful machines to test the cluster, see https://github.com/pingcap/docs/blob/master/op-guide/recommendation.md. 
+
+ @zimulala Please check the git version of the binary we published and verify whether it use a version with bug ? It's not friendly to user but not a bug. And It's more correct. Now this be resolved after #2094 #2110 @tiancaiamao   Add sequence in binlog.TableMutation to preserve the original mutation order. @iamxy @GregoryIan PTAL LGTM  @overvenus  Thanks for your report. @ivancxj 
+PTAL @overvenus  @huachaohuang PTAL There are some error log in pd's log. Hello @ivancxj 
+
+TiKV does not accept address with scheme, try `192.168.50.171:2379`. @huachaohuang @siddontang PTAL Hm, it seems that PD cluster works fine. 
+
+---------
+
+> 2016-11-22 17:04:01,056 tikv-server.rs:73 - INFO  - flag pd: Some("http://192.168.50.171:2379,http://192.168.50.172:2380,http://192.168.50.173:2380")
+
+It seems that what you passed to TiKV is 
+`--pd http://192.168.50.171:2379,http://192.168.50.172:2379,http://192.168.50.173:2379`
+
+Please try `--pd="192.168.50.171:2379,192.168.50.172:2379,192.168.50.173:2379"`
+
+ @ivancxj No problem! ;-) Thanks @ivancxj 
+
+/cc @overvenus we must support `--pd="http://192.168.50.171:2379,http://192.168.50.172:2379,http://192.168.50.173:2379"`. 
+
+Now we can just ignore `http://`. 
+  @shuxiang Thanks for your feedback. May I have your schema? @shuxiang Could you try "select od.* from order_unit ou join order_detail od on ou.order_detail_id = od.id where ou.id > 90000 and ou.id < 100000 order by ou.id limit 20;"  Handle #1936  PTAL @GregoryIan @coocood @tiancaiamao  PTAL @ngaut  This is for compatibility with previous version. 
+So it is the first step #2170 , the second is remove the assignment to the job's arguments.  PTAL @GregoryIan  PTAL @tiancaiamao @GregoryIan @coocood  LGTM  @shuxiang Please check the log of tidb-server. It seems that tidb-server could not access tikv-server. @shuxiang Please refer to this doc: https://github.com/pingcap/docs-cn/blob/master/trouble-shooting.md  Thanks for your report @dbaspace , I translated the title of this issue to english. 
+We will fix the issue later.  @shenli 
+  32kb is more friendly for raft and rocksdb.
+@disksing @shenli PTAL Why was that ?
+ LGTM
+ LGTM
+ @zhangjinpeng1987 Please solve the conflict.
+  From the error message, port 20160  is used by other process.
+  @lunny Please use `make`. Or you should run `make parser` before `make build`.
+  @gqf2008 Thanks for your report! We will check it out and keep you updated.
+ @gqf2008 We have already located the bug. It will be fixed soon.
+ @gqf2008 We fixed this bug. Please try the latest master.
+ hi, @gqf2008 
+The error log `ERROR : Information schema is out of date` says TiDB can't load the schema within a lease. To solve this, you can try to add a command line argument `-lease 10s` when TiDB start.
+
+By the way, this seems to be a resource consuming test, I run it under my laptop and it eat up the whole memory. So, you'd better use TiKV, deploy them separately to get the best performance. TiDB is stateless, if CPU is its bottleneck, we can deploy multiple TiDB instance in the real use cases.
+
+As for this case, high CPU occupation of TiDB just make the test slower, but the test should not fail. You can try to increase lease value first. The default lease of TiDB is 1s, which is not suit for serious use case.  @leaxoy Thanks for your suggestion. 
+We do not have plan to publish to homebrew. We encourage users deploy TiDB cluster on Linux. 
+If you are interested in this, could you help us to do this?
+  @keithyau We do not support str_to_date now.  Please refer to the [doc](https://github.com/pingcap/docs-cn/blob/master/op-guide/mysql-compatibility.md#内建函数). We will implement it soon.
+  @keithyau It depends on the schema and your hardware.
+We do not recommend use mysqldump  to import large data. Compared with MySQL, TiDB has higher latency. So use single thread to import data will be slow. 
+TiDB could reach higher throughput that MySQL. We usually use mydumper/myloader to migrate data from MySQL to TiDB. You can refer to this [docs](https://github.com/pingcap/docs-cn/blob/master/op-guide/migration.md#使用-mydumpermyloader-全量导入数据).
+  @keithyau May I have the full panic stack?
+ @keithyau Any information in dmesg? Or any log for the reason why the process is killed, such as OOM.
+ @keithyau Thanks! We will discuss this bug today and keep you updated.
+ @keithyau From your recent logs, we can tell that your TiDB cluster is too busy. May I have your hardware info and deployment info?
+You can use this [script](https://github.com/andelf/tidb-tools/tree/fadc61e193ac07eb96a181a3c9f01e61f3369068/scripts) to get hardware and OS info.
+ How many thread do you use to load data?
+ @keithyau 
+-q Number of queries per transaction, default 1000
+ref https://github.com/pingcap/tidb/issues/1576
+ @keithyau Please use 1 for parameter -q.
+ @keithyau Any updates? Feel free to reopen it if you still have any questions.  'benchdb' is used to make testing basic table performance easier.
+Also move 'benchkv' to 'cmd' folder. Some documentations need to be added.
+ @shenli @hanfei1991 PTAL
+ LGTM
+  When we do predicate pushdown, we can push down the predicate made by only one group-by item across the aggregation. Like "select s from (select sum(v2) as s, v1 from t group by v1) k where v1 > 1", it can be rewritten as "select s from (select sum(v2) as s, v1 from t where v1 > 1 group by v1) k ".
+@hanfei1991 @zimulala @coocood @XuHuaiyu PTAL @winoros Please sign the CLA.
+ Add test with multiple group-by columns.
+ @coocood @XuHuaiyu @zimulala @shenli PTAL
+ LGTM
+ Maybe a test case for the situation that can not be pushed down.
+ LGTM
+  https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_from-unixtime @coelho This is fixed. Please try the latest master.   Many of customer are using TiDB in production with our support. Please contact us if you want to use it in production now. You may also use it when we release the GA version in the next a few months.
+ We plan to release the GA version around april, please stay turned.  Provide correct startTS and commitTS, and write rollback ddl binlog if transaction rollback.
+ @iamxy @GregoryIan @shenli PTAL
+ LGTM
+  Thanks @Librazy 
+LGTM  @coocood PTAL
+ LGTM
+  @sjmudd 
+Thank you for your suggestion.
+This is a very useful feature. 
+We will let you know when starts to support this feature.
+
+But we can't use the same algorithm to calculate the checksum value because we store data in a different format than MySQL, so the checksum value for the table imported from MySQL to TiDB will be different.
+  The core problem is how to retrieve the position which is the latest written commitTS over all TiDBs. Where store this value ?
+  @Librazy Good idea! Could you send us a PR?
+  Hello,
+
+You can build TiDB using the following commands.
+
+``` sh
+sudo apt-get install make
+make
+```
+
+The output `tidb-server` can be found in the folder `bin`.
+ @sotex You can get the compiled binaries here: https://github.com/pingcap/docs-cn/blob/master/op-guide/binary-deployment.md
+  To improve readability.
+ LGTM
+  Thank you @Zhoubirdblue
+Please sign the CLA by clicking the CLA button.
+ Please add some tests.
+ The test you can use the function of `doDDLJobErr` . The detail you can refer to [TestIndexError](https://github.com/pingcap/tidb/blob/master/ddl/ddl_worker_test.go#L163)
+ Do it according to your understanding.  
+Thank you @Zhoubirdblue  :)
+ You should use go fmt to format your code in order to pass ci test @Zhoubirdblue 
+ PTAL
+ LGTM
+ PTAL @coocood 
+ LGTM
+@Zhoubirdblue 
+Thank you!
+  Fix #1842 
+ PTAL @coocood @tiancaiamao @shenli @GregoryIan 
+ LGTM
+ LGTM
+  One of my designer friend helped us polish tidb's logo.
+@qiuyesuifeng @queenypingcap @shenli 
+ LGTM
+ LGTM
+  Yes, add full TableInfo in ALTER TABLE DDL job doesn't add much cost.
+When we need it, we can use it directly. Otherwise we have to do a lot of computing to reconstruct it.
+ @zimulala PTAL
+ Good point !!
+So we can restore the schema state of any time point by the job list.
+  Thanks for your report. @jojo05 
+We will support rpi3 ARM64 nodes, and we need some help to test rpi3.
+
+The minimum setup should be at lease 3 servers since we should keep 3 replicas.
+ @jojo05 Hope this document will be helpful. https://github.com/pingcap/docs/blob/master/op-guide/overview.md
+  For https://github.com/pingcap/tikv/issues/974
+@ngaut @siddontang 
+ @disksing CI failed
+ Wait for me to find an approach to test :)
+ PTAL @ngaut @shenli 
+ PTAL @ngaut 
+ PTAL @coocood 
+ PTAL @ngaut @coocood 
+ Rest LGTM.
+ LGTM
+ LGTM
+  The time zone offset will be used by TiKV to compare timestamp type.
+ @shenli @tiancaiamao @zimulala @BusyJay PTAL
+ LGTM
+/cc @BusyJay 
+  @shenli @coocood Please take a look. Thanks
+ @queenypingcap Please sign the CLA.
+ LGTM
+ LGTM
+ LGTM
+  @JackDrogon 
+Thank you for your report, we will look into it.
+ @JackDrogon 
+How is your data inserted? can you reproduce this error?
+ The input data is written in code or parsed from some text file?
+ Maybe the data in kafka is not UTF8, can you confirm that?
+ Can you provide sample input data, so we can reproduce it.
+ Please send it to email at my profile page.
+Thank you.
+  Yes, we will. 
+  Currently deploy and rolling update the cluster is kind of pain, i guess the better way is using kubernetes to do all the staff.
+  mysql> INSERT INTO t2 SELECT \* FROM t2;
+Query OK, 57344 rows affected (0.92 sec)
+
+mysql> INSERT INTO t2 SELECT \* FROM t2;
+Query OK, 114688 rows affected (1.92 sec)
+
+mysql> INSERT INTO t2 SELECT \* FROM t2;
+Query OK, 229376 rows affected (3.87 sec)
+
+mysql> INSERT INTO t2 SELECT \* FROM t2;
+Query OK, 458752 rows affected (7.36 sec)
+
+mysql> INSERT INTO t2 SELECT \* FROM t2;
+Query OK, 917504 rows affected (14.38 sec)
+
+mysql> INSERT INTO t2 SELECT \* FROM t2;
+Query OK, 1835008 rows affected (30.47 sec)
+
+mysql> INSERT INTO t2 SELECT \* FROM t2;
+Query OK, 3670016 rows affected (55.83 sec)
+
+mysql> INSERT INTO t2 SELECT \* FROM t2;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> desc t1;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+ERROR 2003 (HY000): Can't connect to MySQL server on '127.0.0.1' (111)
+ERROR: 
+Can't connect to the server
+
+TiDB crashed here because of OOM. Here is the schema information.
+
+mysql> desc t1;
+No connection. Trying to reconnect...
+Connection id:    10001
+Current database: test
+
++-------+--------------+------+------+---------+-------+
+| Field | Type         | Null | Key  | Default | Extra |
++-------+--------------+------+------+---------+-------+
+| name  | varchar(128) | YES  |      | NULL    |       |
+| email | varchar(128) | YES  |      | NULL    |       |
++-------+--------------+------+------+---------+-------+
+2 rows in set (0.00 sec)
+
+Table t2 has the same schema of t1.
+
+After i restart tidb-server:
+mysql> select count(_) from t2;
++----------+
+| count(_) |
++----------+
+|  7340032 |
++----------+
+1 row in set (44.94 sec)
+
+The count is slow at the first time
+
+mysql> select count(_) from t2;
++----------+
+| count(_) |
++----------+
+|  7340032 |
++----------+
+1 row in set (2.87 sec)
+
+I am using the branch: origin/busyjay/add-iterate-bound
+ mysql> select count(_) from t2;
++----------+
+| count(_) |
++----------+
+| 26380032 |
++----------+
+1 row in set (9.53 sec)
+
+mysql> insert into t2 select \* from t2 limit 4000000;
+Query OK, 4000000 rows affected (1 min 18.82 sec)
+
+mysql> insert into t2 select \* from t2 limit 4000000;
+Query OK, 4000000 rows affected (1 min 21.77 sec)
+
+mysql> insert into t2 select \* from t2 limit 4000000;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+ @gejigeji Could you show me the log of tidb-server? Especially the error logs. Could you send me the whole log file? You can send compressed log file to shenli@pingcap.com. Thanks!  @ruiaylin Thanks for your feedback!
+Some clients do not set capability properly. We will fix it in this PR: https://github.com/pingcap/tidb/pull/1772
+ fixed by https://github.com/pingcap/tidb/pull/1772
+  @elvizlai Thanks for your report!
+It seems that  TiDB could not get response from TiKV. May I have your TiKV's log?
+ Hi @elvizlai 
+
+The TiKV log's time is `2016-09-27 02:27:26`, but your TiDB is `2016/09/27 01:39:41`.
+Seem that you didn't start TiKV before TiDB? 
+ Could you restart your TiDB now? Or may I have your TiKV's log around 01:39:41? 
+ @elvizlai 
+
+I use your script but with alpine docker image, and it works well. 
+
+```
+#/bin/bash
+
+# network
+net="ti_database"
+docker network rm ${net}
+docker network create --driver bridge ${net}
+
+# data storage
+docker volume create --name ti-storage
+
+# PD
+docker run --net ${net} -d --name pd1 \
+  -v /etc/localtime:/etc/localtime:ro \
+  -v ti-storage:/tidata \
+  pingcap/pd:alpine \
+  --cluster-id=1 \
+  --name="pd1" \
+  --data-dir="/tidata/pd1" \
+  --client-urls="http://0.0.0.0:2379" \
+  --advertise-client-urls="http://pd1:2379" \
+  --peer-urls="http://0.0.0.0:2380" \
+  --advertise-peer-urls="http://pd1:2380" \
+  --initial-cluster="pd1=http://pd1:2380"
+
+
+# TiKV
+docker run --net ${net} -d --name tikv1 \
+  -v /etc/localtime:/etc/localtime:ro \
+  -v ti-storage:/tidata \
+  pingcap/tikv:alpine \
+  --addr="0.0.0.0:20160" \
+  --advertise-addr="tikv1:20160" \
+  --store="/tidata/tikv1" \
+  --dsn=raftkv \
+  --pd="pd1:2379" \
+  --cluster-id=1
+
+# TiDB
+docker run --net ${net} -d --name tidb \
+  -p 4000:4000 \
+  -v /etc/localtime:/etc/localtime:ro \
+  pingcap/tidb:alpine \
+  --store=tikv \
+  --path="pd1:2379?cluster=1"
+```
+ Seem we should use alpine for the latest @iamxy now. 
+ Restarting TiDB can solve this? @elvizlai 
+ @elvizlai Please redeploy your cluster with alpine image. It seems that the latest tikv image is not work.
+For create user, try CREATE USER 'test1'@'%' identified by '123';
+ mysql -h${TIDB_HOST} -P 4000 -u ${USER_NAME} -p
+ @elvizlai I will try this.
+ @elvizlai We found the problem. It seems that some mysql clients do not consider server capability during handshake stage. We will fix this. @tiancaiamao 
+  @haterbj Thanks for your report!
+Which client do you use to connect to TiDB? May I have your connection URI or command line arguments? Is there any error log in TiDB when your connection failed?
+ @haterbj Please check your iptable status
+
+```
+service iptables status
+```
+ @haterbj 
+It has been many days since you report the issue, so I'll just close it, please reply if your issue still exists.
+  Good point, please feel free to send a PR.
+  @spacejam Thanks for your report! I wonder if all the tikv and pd instances run on the same disk?
+@siddontang Please take a look at the pd error message.
+ Hi @spacejam 
+Can you give us the more detailed PD logs? 
+
+```
+2016/08/31 21:02:33 tso.go:154: [error] we haven't synced timestamp ok, wait and retry, retry count 0
+```
+
+@huachaohuang seems that etcd doesn't start ok? 
+ ```
+2016/08/31 21:02:33 cluster.go:293: [info] cache all 8 stores cost 213.329µs
+2016/08/31 21:02:33 cluster.go:329: [info] cache all 2 regions cost 446.793µs
+```
+
+These logs shows that PD should have finished its initialization. 
+Before that, PD will response `cluster is not bootstrapped`, which is fine.
+@spacejam Can you provide the logs of PD and TiDB when TiDB hangs?
+  LGTM
+Thanks! @foobar 
+ LGTM
+  @qetee TiDB is in beta3 stage now.  We hope we could make it stable but there is no guarantee. So we do not encourage you to use TiDB in the production environment.
+There will be two or three RC versions before the GA version. It will be achieved in the next two or three months.
+  ref https://github.com/coreos/etcd/issues/6134
+ LGTM
+ LGTM
+  @huachaohuang 
+ @qiuyi21 May I have your TiDB/PD's git version?
+ @qiuyi21 May I have your completed log of TiDB?
+ It seems that you are using out of date code. Please use the latest code for TIDB/TiKV/PD
+
+➜  tidb git:(master) ✗ git log | grep -A 5 8169806756ae65d605bc65e97bdd8edec17af66c
+commit 8169806756ae65d605bc65e97bdd8edec17af66c
+Author: Shen Li shenli3514@gmail.com
+Date:   Sat Jul 30 12:08:36 2016 +0800
+
+```
+*: Use prometheus for metrics (#1525)
+```
+ @qiuyi21 Have you run TiDB cluster successfully?
+   @BusyJay @shenli @tiancaiamao PTAL
+ LGTM
+ @BusyJay PTAL
+  when the condition is a false constant, the table scan will be "dummy" and return nil, nil forever.
+@shenli @coocood @zimulala @XuHuaiyu @tiancaiamao PTAL
+ Should we consider false constant in having clause? For example: select count(c), c from t having 0;
+ LGTM
+ LGTM
+  👍, Looks good to me, @foobar could you add some unit tests to cover it? 
+ Good job. @foobar 
+ LGTM Thanks! @foobar 
+ @foobar May I have your email address?
+  @foobar Thanks for your feedback! Could you send us a PR to fix it?
+ @foobar Cool!
+  @shenli @hanfei1991 @coocood @zimulala @tiancaiamao PTAL
+ LGTM
+ I add support to DELETE in this PR, PTAL
+@coocood @shenli @zimulala @tiancaiamao @hanfei1991 
+ LGTM
+ PTAL @hanfei1991 
+ LGTM
+  ```
+2016/08/15 19:59:38 domain.go:94: [info] [ddl] loadInfoSchema 24
+2016/08/15 19:59:38 session.go:570: [info] New txn:385682604891832320 in session:3
+gc 729 @72.836s 0%: 0.010+4.5+0.31 ms clock, 0.087+4.2/8.7/18+2.5 ms cpu, 71->72->48 MB, 73 MB goal, 8 P
+gc 730 @72.921s 0%: 0.016+9.7+0.32 ms clock, 0.13+7.1/16/18+2.6 ms cpu, 95->95->69 MB, 97 MB goal, 8 P
+gc 731 @73.036s 0%: 0.012+8.5+0.30 ms clock, 0.097+14/16/32+2.4 ms cpu, 134->134->80 MB, 137 MB goal, 8 P
+gc 732 @73.123s 0%: 0.028+13+0.32 ms clock, 0.22+13/27/27+2.6 ms cpu, 156->157->91 MB, 160 MB goal, 8 P
+gc 733 @73.292s 0%: 0.010+16+0.33 ms clock, 0.083+23/30/46+2.6 ms cpu, 178->179->120 MB, 182 MB goal, 8 P
+gc 734 @73.434s 0%: 0.026+18+0.28 ms clock, 0.20+13/36/58+2.2 ms cpu, 233->234->139 MB, 239 MB goal, 8 P
+gc 735 @73.653s 0%: 0.008+27+0.31 ms clock, 0.071+31/54/62+2.5 ms cpu, 272->274->176 MB, 279 MB goal, 8 P
+gc 736 @73.947s 0%: 0.037+31+0.27 ms clock, 0.30+16/62/116+2.2 ms cpu, 340->344->217 MB, 349 MB goal, 8 P
+gc 737 @74.266s 0%: 0.010+63+0.39 ms clock, 0.082+34/126/74+3.1 ms cpu, 418->423->267 MB, 428 MB goal, 8 P
+gc 738 @74.647s 1%: 0.011+52+0.28 ms clock, 0.094+28/104/161+2.2 ms cpu, 511->520->319 MB, 524 MB goal, 8 P
+gc 739 @75.115s 1%: 0.009+63+0.31 ms clock, 0.072+32/125/240+2.5 ms cpu, 606->611->398 MB, 621 MB goal, 8 P
+gc 740 @75.693s 1%: 0.053+79+0.32 ms clock, 0.42+0.033/159/325+2.6 ms cpu, 767->775->480 MB, 786 MB goal, 8 P
+gc 741 @76.647s 1%: 0.051+93+0.31 ms clock, 0.41+27/186/365+2.5 ms cpu, 922->939->590 MB, 946 MB goal, 8 P
+gc 742 @77.558s 1%: 0.010+175+0.35 ms clock, 0.081+17/349/264+2.8 ms cpu, 1120->1135->721 MB, 1148 MB goal, 8 P
+gc 743 @78.696s 1%: 0.068+144+0.33 ms clock, 0.54+68/289/524+2.6 ms cpu, 1380->1404->876 MB, 1415 MB goal, 8 P
+2016/08/15 19:59:45 session.go:611: [info] RollbackTxn for session close.
+2016/08/15 19:59:45 server.go:197: [info] close conn: 127.0.0.1:42709, status: 2, charset: utf8, user: root, lastInsertId: 0
+gc 744 @79.934s 1%: 0.009+175+0.30 ms clock, 0.072+117/340/606+2.4 ms cpu, 1662->1689->1062 MB, 1704 MB goal, 8 P
+2016/08/15 19:59:45 session.go:611: [info] RollbackTxn for session close.
+2016/08/15 19:59:45 txn.go:131: [warning] [kv] Rollback txn 385682604891832320
+2016/08/15 19:59:45 server.go:197: [info] close conn: 127.0.0.1:42710, status: 0, charset: utf8, user: root, lastInsertId: 0
+gc 745 @83.561s 1%: 0.079+5.5+0.35 ms clock, 0.63+2.6/10/12+2.8 ms cpu, 2021->2022->36 MB, 2073 MB goal, 8 P
+gc 746 @83.813s 1%: 0.009+5.4+0.31 ms clock, 0.075+1.8/10/10+2.4 ms cpu, 70->71->36 MB, 72 MB goal, 8 P
+gc 747 @83.951s 1%: 0.005+5.8+0.25 ms clock, 0.045+4.3/8.1/10+2.0 ms cpu, 71->71->36 MB, 73 MB goal, 8 P
+gc 748 @84.088s 1%: 0.008+5.5+0.28 ms clock, 0.069+3.4/8.8/11+2.3 ms cpu, 71->71->36 MB, 72 MB goal, 8 P
+gc 749 @84.222s 1%: 0.008+5.1+0.27 ms clock, 0.066+2.8/8.0/7.1+2.2 ms cpu, 71->71->36 MB, 72 MB goal, 8 P
+```
+
+TiDB can't free objects before a session finish, thus GC can't keep pace with the speed of garbage generated, so it run out of memory...
+ There is a argument you should change. Which will decide the size of data for a transaction. @tiancaiamao 
+  LGTM
+@yangxuanjia Thanks for your PR!
+ LGTM
+  Thank you for your report, We will support "load command" later in the next two weeks.
+Currently you may use mysqldump  to dump data from MySQL, then use mysql client to import data to TiDB.
+ @foobar @terryzhao 
+
+We just supported the "Load data" command :)
+   @shenli @tiancaiamao @BusyJay PTAL
+ @shenli PTAL
+ LGTM
+ LGTM
+  You can use [this script](https://github.com/pingcap/tidb/blob/master/updatedep.sh) to update repo in the vendor. It will update Godeps.json automatically.
+ @shenli  This script  is only for kvproto package, what he want is the master pd-client commit,  it is better to update Godeps.json instead of using branch commit.
+ LGTM
+ LGTM
+  @tiancaiamao PTAL
+ Ident is important, otherwise when file edited by others, it's confused to figure out what's changed.
+rest LGTM
+ LGTM
+ LGTM
+  There is no need to keep embed driver, Since we support MySQL protocol.
+We should remove https://github.com/pingcap/tidb/blob/master/driver.go
+ Ping @coocood 
+ @Unknwon TiDB can listening on local socket, if you use TiDB as an embeddable database, TiDB doesn't need to listen on any ports.
+ @ngaut There is still a few tests depend on driver. I will update those tests. Hope it could be done in this week.
+ Hi @tboerger, you can still use TiDB as an embed database. TiDB acts as MySQL server by listening on unix socket or network socket. To making things simple and clean, users should use any of MySQL drivers.
+ Yes. @Unknwon  @mjmfighter  We do not intend to be an embedded database. So there is no solution.  @flike 
+'parser.go' is generated by 'make parser' command.
+We recently updated our parser generator to `github.com/pingcap/goyacc`.
+Have you tried run 'make' command again? It will regenerate the parser.
+   Sometimes we want to debug internal data structures,. we need a simple way to get internal information.
+ We have inspectkv tools. @zimulala 
+ Yep，but we only have some simple functions like `show DDL info` now. It's better to list the specific requirements, so that we can gradually realize it in the inspectkv tools. 
+ We don't use debugger at all, it's hard to debug a distributed system with a debugger. Log and distributed tracing tools are very helpful. You can try the IDE for golang from jetbrain. It could analyze interface and its implementations in realtime.  GDB sucks for Go, you may like this https://github.com/derekparker/delve for command line debugging, but @ngaut is right, actually.  @coocood @zimulala @BusyJay 
+ @coocood PTAL
+ PTAL @zimulala 
+ LGTM
+  This PR is mainly done by @v01dstar 
+Fix bugs founded in POC.
+"If you want to insert binary data into a string column (such as a BLOB column), you should represent certain characters by escape sequences. "
+So we need unescape string literal in parser.
+
+References: 
+http://dev.mysql.com/doc/refman/5.7/en/string-literals.html
+https://github.com/mysql/mysql-server/blob/e0e0ae2ea27c9bb76577664845507ef224d362e4/sql/sql_lex.cc#L983
+ LGTM
+ @zhangjinpeng1987 PTAL
+  @hzmangel Thanks for your PR.
+@coocood PTAL
+ LGTM
+ LGTM
+@hzmangel Thank you!
+  @geekard We have tested running zabbix on TiDB a few month before. It works. But we do not satisfied with the speed. 
+We are improving the performance of TiDB.  You can try the latest master. If you meet any problem, please raise an issue or send us a PR.
+
+BTW: We encourage describing issue in English.
+ @geekard I change the title to English. Hope you don't mind. :)
+Please let us know if you meet any problem.
+ If you use TiKV as storage engine, I recommend you deploy TiDB/TiKV on machines with SSD disk. 
+ May I have your Zabbix version? @geekard 
+ Thanks for your report. We will fix it later.
+ @geekard Sorry for the late reply. It is a bug in our parser. We miss "grant all privileges" syntax. It is fixed in this PR: https://github.com/pingcap/tidb/pull/1417
+
+BTW:  You should add quote mark for username and host. For example:
+grant all privileges on zabbix.\* to 'zabbix'@'localhost' identified by 'password';
+ @geekard There is a few query with subquery and join which may run slow in TiDB.  We are working on impoving them. 
+If there is any performance improvement. I will let you know.
+May I have your zabbix verson? I will test it on my machine.
+ @geekard Thanks!
+ @geekard  We add a new sql optimizer in TiDB. The performance benefits a lot from it. 
+The new optimizer is not finished yet, so it is not the default sql optimizer. You can enable it by passing an argument to tidb-server.
+"docker run --name tidb-server -d -p 4000:4000 pingcap/tidb:latest   --newplan=1"
+On my machine, displaying 'Status of zabbix' costs less than one second. Please try the latest master.
+ @geekard Thanks for your trying.
+TiDB does not support partition/view/procedures. 
+For a distributed database, we do not need explicit partition.
+Implement view and procedures will bring some problems. So We are not sure whether we will support them.
+
+Could you show me TiDB's error log for the following problem?
+
+> % mysqlimport --local --fields-terminated-by=, --fields-enclosed-by="'" --fields-escaped-by=/ -h 127.0.0.1 -P 4000 -u root zabbix_server valuemaps.txt
+> mysqlimport: Error: 1105 line 1 column 36 near ";"
+ @geekard Thanks!
+
+I will fix the following bug.
+
+> [warning] compiling /!40101 set @@character_set_database=binary */;, error: line 1 column 36 near ";"
+
+After reading [MySQL's document about partition](https://dev.mysql.com/doc/refman/5.7/en/partitioning-overview.html) I have an idea. Maybe we could ignore the PARTITION keyword, it will do no harm.
+TiDB will automatically partition data into many slices. I will have a try.
+ Hi @geekard:
+ We just supported the "Load data" command in the master branch.
+  @lordk911 In one word, TiDB is an OLTP database and hawq/gpdb is OLAP database. 
+To handle large dataset, TiDB supports mpp. But we will focus on OLTP now and only support simple OLAP function.
+
+PS: We encourage describing issue in English. So people from all the world could read your issue.  
+  @huangpeilong Thanks for your report!
+TiDB is a pure go project. You can use any method which is work for go to debug it.
+For example [GDB](https://golang.org/doc/gdb).
+ I'm not familiar with liteIDE, but [Delve](https://github.com/derekparker/delve) should work.
+Maybe you can try it on command line:
+
+```
+cd $GOPATH/src/github.com/pingcap/tidb
+ln -s _vendor/vendor vendor
+dlv test .
+b tidb_test.go:168
+r
+c
+```
+ We are developing TiDB on linux or mac. And we haven't test it on windows. It may works on windows, but i am not sure. And you are welcome to make TiDB work on windows. 
+ You can build the tidb-server first by "make server". It will create a binary file tidb-server in the directory tidb-server. Then you can debug it. @huangpeilong 
+ We use vendor to solve golang's dependency. When running "make server", it will add soft link for vendor directory. Seems it does not work on Windows. See: https://github.com/pingcap/tidb/blob/master/Makefile#L138 
+
+We suggest running TiDB on Linux/Mac and do not guarantee all the things work on Windows.
+Could you send us a PR to fix it?
+ PR is short for Pull Request. @huangpeilong 
+It means sending us a patch for a feature or bug.
+ @huangpeilong We updated pingcap/pd repo, but did not update pingcap/tidb repo. It seems that your tidb-server is built with pd in GOPTAH, not in vendor directory. Please try this solution:
+Rollback pingcap/pd in your GOPATH to commit version 3fe05c948c17bdd18fc2cc7acf62e699f20b0583 
+
+I will update tidb's vendor and fix this problem soon.
+  Since we've already launched the beta, there must be some guys who want to have a try, if we provide a binary distro and some handy scripts, that would be easier for others to use.
+ - [x]  Linux / OS X binary package, tar.gz
+- [ ]  Debian package .deb, support apt-get
+- [ ]  CentOS / Fedora package, .rpm
+- [ ]  Docker image
+ Should also consider rpm package for Centos and Fedora.
+ @overvenus Great to hear that! I will test it on my machine.
+  @queenypingcap
+ LGTM
+ LGTM
+  @jserv Thanks for your report!
+ I will fix it.
+ @jserv The apache-2.0 license is in the root directory.  See: https://github.com/pingcap/tidb/blob/master/LICENSE
+LICENSES is use to store the license of the projects we used in TiDB. 
+  @duzhanyuan What's the purpose of this PR?
+  @hzmangel Thanks for your PR!  Please sign the CLA.
+@iamxy PTAL
+ This is really a flaw. thanks to @hzmangel !
+LGTM
+ LGTM
+Thanks @hzmangel 
+  https://github.com/pingcap/tidb/issues/310
+ LGTM
+ @coocood PTAL
+ LGTM
+  LGTM
+Thanks! @hnakamur 
+ LGTM. Thank you very much @hnakamur 
+  LGTM
+ LGTM
+Thank you!
+  LGTM @ZombieHippie Thank you very much.
+ LGTM
+ @ZombieHippie Thanks for your contribution!
+  1. Move some functions from evaluator package to types package.
+2. Support add, div in xapi.
+
+@coocood @BusyJay 
+ LGTM
+ LGTM
+ @BusyJay PTAL
+ LGTM
+  Spark has MySQL connector, TiDB should works since TiDB compatible with MySQL.  But we need to do some tests.
+ Good idea! I will do  this.
+ @ngaut TiDB works fine with Spark through jdbc.
+I will compare the performance of TiDB and TiDB+Spark.
+ Cool
+ @kobebry80 For small or medium size data set, TiDB beats Spark. For big data set or extremely sql, Spark is better.   LGTM
+ @c4pt0r It looks like that you do not sign the CLA.
+ @ngaut @c4pt0r PTAL
+ LGTM
+ LGTM
+  @litao-buptsse You can use any java mysql client to connect to TiDB.
+ If you meet any problem, feel free to raise an issue or submit a PR.  @litao-buptsse 
+  @moguding Thanks for your report!
+Can you run "make parser" and show me the output? If it success, please try to make again.
+ @moguding Great! Please feel free to contact us when you meet any problem with TiDB/TiKV. Thanks!
+  @SuperGod Thanks for your reporting. Could you send a PR to fix this ?
+  PTAL @coocood @shenli 
+
+Fix string unquote bug:
+
+SQL like: SELECT 'test"test'; can be executed correctly.
+
+Originally, 'test"test' will be converted into "test"test" which will cause the parsing error.
+ PTAL @shenli @coocood 
+ Well done！
+LGTM
+ LGTM
+ LGTM
+  use a higher resolution image and font for logo
+ @ngaut @qiuyesuifeng @iamxy  PTAL
+ LGTM
+ LGTM
+ LGTM
+   @AkihiroSuda 
+Yes, thank you!
+  @liugangnhm Please sign the CLA.
+ LGTM
+ LGTM
+ LGTM
+  Please add test case for type inference here: https://github.com/pingcap/tidb/blob/master/optimizer/typeinferer_test.go#L35
+ @mrmiywj Thanks for your contribute!
+
+@coocood @zimulala @zxylvlp PTAL
+ @mrmiywj 
+Can you implement the simple function in stringutil directly?
+So we don't have to import the package.
+ LGTM
+ PTAL @coocood 
+ @mrmiywj 
+Still use spaces, not aligned.
+ @mrmiywj 
+`
+{reverse}   lval.item = string(l.val)
+      return reverse
+`
+in `scanner.l`
+ also missed a tab before line 2567
+ @mrmiywj 
+The alignment is ok now.
+Please resolve the conflict.
+ LGTM
+Thank you for your contribution!
+   @tiancaiamao Do you mean you want to keep your local git repository in an old version?
+Why you want to run `godep restore`?
+ @shenli PTAL
+ LGTM
+   LGTM
+
+Please sign the CLA first. 
+ sign the CLA done.
+ LGTM
+   LGTM
+ @disksing PTAL
+ LGTM
+  @tjyang Thanks for your advice! 
+We haven't considered about packaging. In most common scenario, TiDB will be deployed together with [TiKV](https://github.com/pingcap/tikv) and [PD](https://github.com/pingcap/pd). So I think it is not enough to just package TiDB. We use docker to make deploy easier.
+I am not familiar with software packaging. Will it be a good solution for this scenario?
+ > Will TiKV and PB be part of tidb main binary ? if it is not part of same binary that is ok too.
+
+TiDB is a SQL engine with pluggable storage engine. It can work with local storage engine (such as goleveldb) or distributed storage engine (such as [TiKV](https://github.com/pingcap/tikv), Hbase). TiKV is a distributed KV engine written in rust. It is the best choice for TiDB. We will use TiKV as storage engine for TiDB in production environment. TiDB and TiKV will be deployed as separated process, not in the same binary. [PD](https://github.com/pingcap/tikv) acts as the administration node for TiKV. We also have a admin tool to config and deploy TiDB/TiKV/PD.
+
+So our Ti storage solution contains three components. I think docker is a better solution. Especially TiKV depends on [RocksDB](https://github.com/facebook/rocksdb) which depends on gcc/clang with C++11 support, gflags, snappy and so on. Docker will make the deployment easier.
+ @tjyang 
+Thank you for your advice.
+Supporting multiple OS is good, but it requires more development and testing resource.
+Currently, we only support Linux, and Docker is the recommended way to deploy our system.
+We will consider native packaging solution when we need to support multiple OS.
+  pass mysqltest and remove visitor design pattern
+  @elffikk Thanks for your report!
+May I have your mysqldump version? And your dumped file.
+It seems that the log is not only part of the panic output log. Can you show me more?
+  @tjyang Thanks for your feedback!
+Vitess is a MySQL sharding solution. It runs as a MySQL proxy. So you need to put MySQL server behind vitess. It does not support distributed transactions.
+TiDB is a brand new distributed database which support mysql protocol and syntax. It is a MySQL drop-in replacement. You can enjoy horizontal scalability without losing distributed transactions.
+ @tjyang OK! Thanks for your report. Please keep eyes on TiDB.
+  LGTM.
+ LGTM
+ Thank you very much! @liubin 
+  LGTM
+ LGTM
+  @bitcubate Thanks for your report!
+"git -C checkout version" is a temporary solution to make etcd compatible with grpc. The "-C" parameter maybe not supported by old git client.
+We will remove this when etcd compatible with the latest grpc.
+  @shenli 
+ LGTM
+ LGTM
+  @zyguan Thanks for your report!
+Have test this case on MySQL in strict mode?
+ In strict mode, warning will be treated as error. 
+"1 row in set, 1 warning (0.00 sec)"
+
+http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_allow_invalid_dates
+  @zyguan Thanks for your report!
+  @insionng Thanks for your feedback.
+For performance issue, we allocate auto_increment id in a batch way(batch size is 1000).
+For example if two sessions are insert data in the same time and the global auto_increment id is 0. One session will get id range 1~1000, the other session will get id range 1001~2000. So for the second session, it will use ids from 1001.
+In brief, TiDB guarantee allocate increment ids but not continuous increment ids.
+So I guess you insert each row with a unique session?
+ May I see your schema and SQL statement?
+ For each table we have a unique auto_id counter. Its type is int64. So I guess it is OK.
+Or we can shrink the batch size. 
+ Unfortunately it is a private attribute :( https://github.com/pingcap/tidb/blob/master/meta/autoid/autoid.go#L29
+  @coocood @zimulala PTAL
+ I think you should do TypeInfer for each function.
+ @zxylvlp +1
+@zyguan Please refer: https://github.com/pingcap/tidb/blob/master/optimizer/typeinferer.go#L253
+ Well done!
+LGTM
+ LGTM
+ PTAL
+  In case when executed statements exceeds max int32, the cursor becomes a negative value.
+ @nieyy @shenli PTAL
+ LGTM
+  In bootstrap stage, ps may be not well initialized. We should make it safe.
+@nieyy 
+ LGTM
+   LGTM
+ LGTM
+  @coocood @zxylvlp PTAL
+ LGTM
+Thanks @zyguan 
+ LGTM
+  Rest LGTM
+ LGTM
+ Unit tests without Seek and UpdateRecord ?
+ LGTM
+ This branch is out-of-date, Could you rebase master ? @nieyy 
+ LGTM
+  @zyguan Thanks for your report!
+String literal will be wrapped into a ast.ValueExpr.  And you can get charset/collation info from ValueExpr.
+https://github.com/pingcap/tidb/blob/master/parser/parser.y#L2008
+ @zyguan  Yes, we have a plan to add collation info into datum.
+  @zyguan Thanks  for your PR. Please sign the CLA.
+ @zyguan I think it is a mistake. Good catch!
+ LGTM
+@coocood PTAL
+ LGTM
+Thank you!
+ @zyguan Thanks for your contribution! May I have your email address?
+ Thank you, This branch is out-of-date, Could you merge or rebase master ? @zyguan 
+ Thanks @zyguan
+  and add some test
+  @ngaut @qiuyesuifeng 
+ LGTM
+ PTAL @ngaut 
+ LGTM
+  @steffengy Thanks for reporting the issue. 
+Currently we don't have any plans to support foreign-key constraints. Since it would be very slow on big tables( thousands of billion of rows). 
+ Yes, you are right. We may let the parser to support the ON [DELETE|UPDATE] syntax later. @shenli 
+ @steffengy TiDB can work with Workbench. Have you met any problem when use some db admin tools?
+ @steffengy We will support those syntax (at lease prevent parser error).
+Thanks for your report! 
+ Syntax support is done by https://github.com/pingcap/tidb/pull/1152
+   For prepared statement, when a statement has finished execution, all expressions should reset `FlagEvaluated`.
+ Any test case to ensure this PR works?
+ @shenli  I think it just a optimization of performance, the the logical test cann't do it.
+ @coocood @shenli @zimulala PTAL
+ @coocood @shenli @zimulala PTAL
+ LGTM
+ LGTM
+   LGTM
+ LGTM
+   LGTM
+ LGTM
+  Thanks! @overvenus
+@qiuyesuifeng @coocood PTAL 
+ LGTM
+Please squash your commits to a single commit after you get two LGTM.
+ LGTM
+ Well done!  @overvenus 
+  @overvenus Thanks for your report!  We will add more builtin functions. 
+If you are interested in TiDB, would you please send us a PR? We have a tutorial about how to add a new builtin function. We will be appreciated.
+ Sorry.... It is my mistake. 
+Great! I will take a look!
+ @coocood @qiuyesuifeng PTAL
+ @overvenus Any update for this PR?
+ LGTM
+@coocood @qiuyesuifeng 
+ @overvenus  Thanks.
+LGTM
+ LGTM
+Thanks! @overvenus 
+  This memory table do not has a primary key, every time a statement executed, it adds a new record, the memory table keeps growing.
+@nieyy 
+  LGTM
+@astaxie Thanks a lot!
+ LGTM 
+   @shenli @zimulala PTAL
+ @nieyy @liugangnhm
+ @nieyy `indexRangesToPBRangesAndPoints` uses `PartialNext`to convert a range with low/high exclude information to a range with closed low and open high range.
+ LGTM
+ LGTM
+  All known features are added, can be stable for a while.
+ @nieyy PTAL
+ LGTM
+ LGTM
+  This issue doesn't have enough information to address.
+  - [ ] beego
+- [x] xorm
+- [x] gorm
+- [ ] Hibernate
+- [x] iBATIS
+- [ ] Spot
+- [ ] Propel
+- [ ] Sequelize
+- [ ] SQLAlchemy
+- [ ] peewee
+  @cppmule Thanks for your report!
+It seems that some of the create_table options are not supported by TiDB. I will fix them.
+  @cppmule Thanks for your report!
+It seems that some of the create_table options are not supported by TiDB. I will fix them.
+  @cppmule Thanks for your report.
+May I have your TiDB git commit id and your error log?
+I tested the above with the latest master but no error occurs.
+ @cppmule I found that TiDB treat "/!40101 SET character_set_client = utf8 */;" as comment but MySQL treat it as "SET character_set_client = utf8". I will fix it.
+Is there any other problem?
+ @cppmule Please checkout the latest master and check if there is any other problem.
+Thanks!
+  @belovanton Thanks for your report. Currently, TiDB doesn't support foreign key.
+   LGTM
+  Good catch, thank you!
+LGTM
+ LGTM
+  LGTM
+Thanks @c-wind 
+ LGTM
+Thank you!
+  Yes, those lines can be removed.
+Thank you for your report!
+Would you please send a PR to fix this?
+  @nieyy @coocood 
+ @nieyy PTAL
+ @nieyy We have a privilege system. So we can grant privilege for those tables. Maybe in the latter PR.
+ @nieyy @shenli 
+
+I think privilege should be added in future PR, because the purpose of this PR is refactoring, privilege feature is not implemented in the old code. 
+
+Normally refactoring should not add new features.
+ LGTM
+ @qiuyesuifeng  PTAL
+  @defia You can use go sql driver to access TiDB. 
+See: https://github.com/pingcap/tidb/blob/master/docs/USAGE.md
+ This is impossible. Why not use tidb-server? You can access it by multiple clients.
+  @xialvjun There is a few docs your can refer: https://github.com/tidb-cn/docs https://github.com/ngaut/builddatabase 
+
+Thanks for your feedback. We will improve our documents.
+  LGTM
+ LGTM @qiuyesuifeng 
+ @nieyy Thanks.
+LGTM
+  1. Add a MemoryTable in tables. It supports AddRecord, RemoveRecord, Truncate, Row, RowWithCols, Seek. Do not support UpdateRecord and Index.
+2. Use MemoryTable to implement Information_Schema. We will drop plans/info.go in the next PR.
+ PTAL @coocood @qiuyesuifeng @nieyy 
+ @nieyy 
+For infrequent updates, you can execute SQL statement.
+For frequent update, you can maintain the handles of the added records, use that to call `table.Update` method.
+ LGTM
+ @nieyy we can later implement another table implementation which optimized for instruments.
+ LGTM
+ LGTM
+  LGTM
+ @nieyy  Thanks.
+LGTM
+  @swingbach Have you run "make update"?
+  Please fix the failed test in `util/segmentmap/segmentmap_test.go`.
+ LGTM
+ LGTM
+ Thank you!
+ @steffengy  Thanks! 
+LGTM
+ @steffengy Thanks for your contribution. 
+May I have your email? We will send a thanks letter to you. And if your are in Mainland China, we will send you a T-shirt.
+Or your can contact me by shenli@pingcap.com.
+  @steffengy Thanks for your pr.
+When use [go-sql-driver](https://github.com/go-sql-driver/mysql) , we can not get column type from its api. So I think it is safer to convert time to string.
+
+@coocood  Please take a look.
+ @steffengy 
+`time.Time` type does not have all the information `mysql.Time` type has, when user `Scan` the value to `string`, `time.Time` may produce different result than `mysql.Time.String()`.
+ @steffengy 
+
+Say we have a test case, we want to make sure the result string for second is "11.1", not "11.100",  then we have to use the column precision 1 to trim the every time value.
+
+And if you want to get the column precision you have to write a SQL statement to query `information_schema`.
+
+Actually, the most flexible type is `string`, you can parse it to any type you want.
+ If you really need `time.Time` type, we can add an optional parameter in DSN, like
+`goleveldb://test/test?parseTime=true`.
+
+Can you try to implement it?
+ LGTM
+
+Great job!
+Thank you!
+ LGTM
+Thanks @steffengy 
+  PTAL @shenli @coocood @qiuyesuifeng 
+ LGTM
+ LGTM
+ Thanks @nieyy 
+  LGTM
+ LGTM
+  Thank you @nieyy 
+This is a huge PR. And it's hard to review. It should be split into 2 or 3 PRs. You may try to fix it in the following steps:
+1. Just refactor 
+2. Prepare. 
+3. Final part.
+  http://dev.mysql.com/doc/refman/5.7/en/secure-connections.html
+ @elvizlai We will consider this after GA.  LGTM
+  @losas Thanks for your PR. Please add an unit test.
+ @losas There is a test case in session_test.go. https://github.com/pingcap/tidb/blob/master/session_test.go#L746
+
+ Your can compose a similar test case. You need to do something to make getPassword() throw error. I take a look at the code and find that if you set a value to session(or ctx), ExecRestrictedSQL() will return error. getPassword() will call ExecRestrictedSQL. So I think it is what we need.
+https://github.com/pingcap/tidb/blob/master/session.go#L266
+
+Hope this helps. If your need more information, please let me know.
+ @losas Yes, this is a much smarter way than mine! Good job!
+LGTM
+@coocood @qiuyesuifeng  PTAL
+ LGTM
+Thank you!
+  Thank you for your report, I'll fix the `splitWhere` bug, and also use multiple columns in a composite index.
+ Cool, could you send a PR to fix it ? @roger-lijian 
+ After a recent refactoring, multi-column index only uses the first column.
+ @roger-lijian PTAL
+  @zxylvlp Thanks for your advice.
+We will add some docs for contributors.
+ @zxylvlp 
+You can find some docs here: https://github.com/tidb-cn/docs
+It is a starting and more docs are on the way.
+  LGTM
+ LGTM
+Thanks for your PR!
+  LGTM
+ I think we should update `CONTRIBUTING.md` link in README.
+ @astaxie  Thanks.
+LGTM
+ Hi @astaxie 
+There are links in `CONTRIBUTING.md` need to be updated too :)
+ Thanks! @astaxie 
+LGTM
+  Thanks @astaxie 
+Please take a look https://github.com/pingcap/tidb/blob/master/docs/CONTRIBUTING.md
+ SGTM.
+Thanks @astaxie 
+  Thanks for your report @roger-lijian 
+PTAL @shenli 
+ @roger-lijian Thanks for your report!
+I find the bug. MySQL return TypeVarString for TypeVarChar. The conversion  is handle in our old code. When we refactor our code, it is missed. I will add it back.
+https://github.com/pingcap/tidb/blob/master/field/result_field.go#L79
+  Well done. @AkihiroSuda 
+PTAL @shenli 
+ LGTM
+Thanks! @AkihiroSuda 
+ LGTM
+  Hi, @lovedboy.
+
+I think this change doesn't make code more clear, and this package is legacy code, we will discard it in the near future.
+
+But thank you for your effort trying to contribute.
+  LGTM
+Well done!
+ LGTM
+ Thanks @hhkbp2 
+  @joelchen Thanks for your advice!
+Concourse has many interesting features. And some of the features are already supported by TiDB such as ACID transaction, Query data from the past. 
+But currently we will focus on OLTP. Automatic Indexing and Schemaless are not on our roadmap.
+ TiDB support online schema change. DBAs can modify schema and index without downtime. I think DBA managed schema (including index) is more suitable for enterprise usage. 
+Self-tuning is an attractive feature, but it may bring more uncertainty. For example automatic indexing may cause more space usage and slow down insert/update/delete operations. And schemaless is convenient sometimes but it may also cause error-prone codes.
+
+So it is not on our plan now. But TiDB is involving rapidly. We will keep eyes on Concourse and learn from it. Maybe we will provide similar feature in the future. Thanks!
+  Thanks for your feedback! @AkihiroSuda 
+In TiDB's design, we  have a load balancer between client and tidb node. https://github.com/pingcap/tidb/blob/master/docs/architecture.png
+
+You can use a load balancer such as LVS or HAProxy to connect to TiDB cluster.
+  @nieyy Good idea. 
+Yes, we have plan to do that. But we haven't started yet.
+And we are happy to  discuss the design :)
+ @nieyy Glad to hear that. Currently we are working on optimizing query plan (condition push down, parallel executing and even more). Obviously we need more and more help to make TiDB better. And welcome to join the technical party.
+  @teodor-pripoae Thanks for your report. We will work on this.
+ Great!
+I go through TiDB source code and make sure that we return the same error code as MySQL for duplicate entry error (1062). So I suspect that gorm judge error no only by error code.
+ @teodor-pripoae We find there is a bug in gorm. It ignores error of db.Commit(). See https://github.com/jinzhu/gorm/blob/master/scope.go#L383
+In TiDB duplicate entry is checked at commit stage, so the error is logged at TiDB log but ignored by gorm.
+We are going to send a PR to gorm.
+
+Thanks!
+ @teodor-pripoae It should be fixed. Please update your gorm and check again. Thanks.
+ @teodor-pripoae That pr will not work.
+TiDB use lazy check for unique index. https://github.com/pingcap/tidb/blob/master/kv/kv.go#L21
+The job is finished at commit stage by the storage layer for performance consideration(We want to check duplication in a batch way). 
+The interface between sql layer and storage layer is not rich enough to pass information such as index name and original key data (we only got encoded key at storage layer). So we do not get enough information about which key is duplicate at the place where the error rise.
+
+We will figure out how to show rich information in the error message recently. Thanks!
+ @teodor-pripoae We find a way to solve this. See the PR above please.
+  Thanks for your report. @hhkbp2 
+It's a dependency issue. You may run "make update" to fix it. We will remove HBase dependency or using godeps to manage dependency later.
+  LGTM
+ LGTM and thanks for your contribution @c-wind !
+ LGTM
+@c-wind  Thanks very much!
+  I think it's easier to understand it by a simple example.
+Take a look at
+https://github.com/pingcap/tidb/blob/master/executor/prepared.go#L50
+
+The `paramMarkerExtractor` visitor extracts parameter markers ('?') in a query statement.
+When a node call its `Accept` method, every element will be `Enter` and `Leave` once, so the visitor can do something about it. For this example, it collect parameter marker.
+  @nieyy Thanks for your report.
+We are writing documents for Tidb. KV encoding/decoding is on the schedule. I think it won't be long.
+ Hi @nieyy ,
+You are right about the 3 CFs. They are indeed created and used by Themis. Please refer https://github.com/XiaoMi/themis and https://github.com/pingcap/go-themis for more details.
+ Hi @nieyy ,
+In brief, `util/codec` provides a series of functions that can encode values into mem-comparable `[]byte`. How structured data in RMDBS are transformed to key-value pairs are mainly in package `table/tables` and `kv`. You may trace function calls to `codec` functions to get the clue. : )
+  Currently, interfaces in kv and store package are too complicated and disordered. It is very hard to implement a new storage engine for TiDB.
+
+I plan to make it easier with following steps:
+1. Simplify local store and hbase store. Storages should implement as less interfaces as possible.
+2. Refine interfaces. Distinguish interfaces that should be completed by storages from those are already complete in kv.
+3. Write a guide document.
+  Please do "make update" to update your dependency. Then make again.
+ please `rm -rf  /tmp/tidb` then run again. 
+ I think this panic is probably due to the `"listen tcp :4001: bind: address already in use"`. In that case, server creation will fail. You need to make sure no other thread is using port `4001` because the test suite will take up this port.
+  @orangeyts TiDB depends on golang. So I think TiDB can run if you setup your golang environment properly on Windows. 
+ OK! @orangeyts 
+Please feel free to raise an issue if you encounter any problem.
+ @orangeyts `GOPATH` is your workspace path. It should be set uniformly across all go projects in your machine. Please reference [this](https://golang.org/doc/code.html) doc for more details. Once you have setup your `GOPATH`, you can put `tidb` in `$GOPATH/src/github.com/pingcap/`.
+  @sllt Thanks very much.
+LGTM
+ LGTM
+Thanks! @sllt 
+  @hhkbp2  Thanks very much.
+@coocood  @zimulala  PTAL
+ @hhkbp2 Thank you very much, please format the file you modified with 'go fmt`, otherwise, the Travis CI build would fail.
+ @hhkbp2 The existing test cases are copied from `expression/date_arith_test.go` and the function is implemented in `expression/data_arith.go`. The reason why this is not working right now is that `evaluater.go` didn't migrate the old code. 
+
+You can reference the old implement to make test cases pass with out changing it.
+
+In TiDB, we enforce strict mode, so when data is truncated, it returns error instead of warning.
+ @hhkbp2 The old `expression`, `plan/plans`, 'stmt/stmts' package has limited capability for optimization, and it can not be improved due to the design problem, but it supports all types of statements.
+The new `optimizer/plan`, `executor` package has better support for optimization, but supports limited type of statements, we are supporting more statement on new plan, but for the statements we han't supported in new plan, we need to run it in the old way.
+So there are a lot of duplicate code right now.
+When new plan supports all the statements, old 'expression`,`plan/plans`,`stmt/stmts` package can be abandoned.
+ @hhkbp2 Any updates?
+ PTAL @coocood @siddontang 
+ LGTM
+ LGTM
+Well done!
+ LGTM
+  @keithyau 
+There are a few docs in tidb/docs.
+https://github.com/pingcap/tidb/blob/master/docs/QUICKSTART.md
+https://github.com/pingcap/tidb/blob/master/docs/HBASE_QUICKSTART.md
+https://github.com/pingcap/tidb/blob/master/docs/USAGE.md
+ @keithyau May I have your golang version? You can get it by "go version".
+ We need golang version >= 1.5. Please upgrade your golang.
+“Go environment. Currently a 64-bit version of go >= 1.5 is required.”
+ @keithyau Thanks for your report.
+Yes, tidb can run well on Mac OS.
+Could u show some more details? including the lastest commit version and the whole `make` output.
+Also u can send an email to cuiqiu@pingcap.com.
+ @keithyau
+This error message shows a test case failed. In that test case we init the privilege table for test@'127.0.0.1'/'localhost'/'::1'. But it seems that when the case run on your machine, it use another ip address to connect to the server. So the auth failed.
+So it is a bug in test case. I will fix this.
+ @keithyau I just pushed a new branch shenli/fix-server-testcase to fix this. Would you please checkout this branch and check if it is ok?
+Thanks!
+  LGTM
+ LGTM
+ Thanks @roger-lijian 
+  2015/12/14 22:04:49 session.go:395: [error] Syntax error: SELECT name, type FROM mysql.proc WHERE Db='test'
+2015/12/14 22:04:49 session.go:396: [error] Error occurs at [schema:2]table mysql.proc does not exist.
+2015/12/14 22:04:49 conn.go:240: [error] dispatch error /Users/shenli/workspace/go/src/github.com/pingcap/tidb/infoschema/infoschema.go:109: [schema:2]table mysql.proc does not exist
+2015/12/14 22:04:49 conn.go:241: [error] cmd: SELECT name, type FROM mysql.proc WHERE Db='test'
+2015/12/14 22:04:49 tidb.go:136: [warning] compiling SHOW PROCEDURE STATUS WHERE Db='test', error: line 1 column 6 near "PROCEDURE"
+2015/12/14 22:04:49 session.go:395: [error] Syntax error: SHOW PROCEDURE STATUS WHERE Db='test'
+2015/12/14 22:04:49 session.go:396: [error] Error occurs at line 1 column 6 near "PROCEDURE".
+2015/12/14 22:04:49 conn.go:240: [error] dispatch error line 1 column 6 near "PROCEDURE"
+2015/12/14 22:04:49 conn.go:241: [error] cmd: SHOW PROCEDURE STATUS WHERE Db='test'
+2015/12/14 22:04:49 tidb.go:136: [warning] compiling SHOW PROCEDURE STATUS WHERE Db='test', error: line 1 column 6 near "PROCEDURE"
+2015/12/14 22:04:49 session.go:395: [error] Syntax error: SHOW PROCEDURE STATUS WHERE Db='test'
+2015/12/14 22:04:49 session.go:396: [error] Error occurs at line 1 column 6 near "PROCEDURE".
+2015/12/14 22:04:49 conn.go:240: [error] dispatch error line 1 column 6 near "PROCEDURE"
+2015/12/14 22:04:49 conn.go:241: [error] cmd: SHOW PROCEDURE STATUS WHERE Db='test'
+2015/12/14 22:05:22 tidb.go:136: [warning] compiling SHOW PROCEDURE STATUS WHERE Db='test1', error: line 1 column 6 near "PROCEDURE"
+2015/12/14 22:05:22 session.go:395: [error] Syntax error: SHOW PROCEDURE STATUS WHERE Db='test1'
+2015/12/14 22:05:22 session.go:396: [error] Error occurs at line 1 column 6 near "PROCEDURE".
+2015/12/14 22:05:22 conn.go:240: [error] dispatch error line 1 column 6 near "PROCEDURE"
+2015/12/14 22:05:22 conn.go:241: [error] cmd: SHOW PROCEDURE STATUS WHERE Db='test1'
+ 2015/12/14 22:12:36 conn.go:240: [error] dispatch error /Users/shenli/workspace/go/src/github.com/pingcap/tidb/expression/binop.go:124: eval Tables_in_test = "t1" && Table_type != "VIEW" err: eval Tables_in_test = "t1" err: unknown field tables_in_test
+2015/12/14 22:12:36 conn.go:241: [error] cmd: SHOW FULL TABLES FROM `test` WHERE `Tables_in_test` = 't1' AND Table_type != 'VIEW'
+ Can we close this issue?
+ Reopen the issue, Thanks @AkihiroSuda 
+ @AkihiroSuda Are you working on this issue ?
+ @AkihiroSuda I am agree with you. We will work on this. 
+If you can send us a PR, we will be appreciate.
+  LGTM
+ LGTM
+ Thank you for your contribution!
+ @nieyy Happy to hear that!
+ @nieyy  Cool, looking forward!
+  @keithyau Try this: 
+mysql> grant all on _._ to 'root'@'%' identified by '123';
+
+I will add "all privileges" syntax support.
+
+Thanks for your report!
+ mysql> grant all on _._ to 'root'@'%' identified by 'thomas';
+Query OK, 0 rows affected (0.00 sec)
+
+Each of your three statements has a few synatx errors.
+1. user name should be 'name'@'host' (Do not miss the quote), 
+2. and 3. target should be _._
+ Pleas replace '.' with *.* or databasename.tablename in your statement. 
+  @keithyau Thanks for your report!
+We will work on this issue.
+ @keithyau There is a system variable "max_connection".
+For now we do not have a config file. You can modify it by set system variable(set name=value). Or you can change the default value for variables in mysql.global_variables table.
+ http://stackoverflow.com/questions/1676688/php-mysql-connection-not-working-2002-no-such-file-or-directory
+
+@keithyau About your Error 2002, please take a look at the best answer.
+
+If you have solved Error 2002, could you post your php code briefly? I doubt it may be some network problem instead of configure variable.
+
+I try this code on my OSX it is ok.
+
+```
+$mysqli = new mysqli("localhost", "root", "", "test", 4000);
+```
+
+Hope your reply.
+ @keithyau 
+If you start tidb with tidb-server, you can see the logs in stdout. If you start tidb with docker, you can see the logs with docker logs.
+ @keithyau I am not sure. I am installing drupal on my machine to check it out.
+ @keithyau I get the following errors when install drupal. But I do not find error log from tidb-server output. Do you have any idea about this? I use the latest drupal 8.0.1.
+
+_drupal_error_handler_real(4096, 'Argument 1 passed to Drupal\Core\Plugin\DefaultPluginManager::doGetDefinition() must be of the type array, boolean given, called in /Library/WebServer/Documents/drupal/core/lib/Drupal/Component/Plugin/Discovery/DiscoveryCachedTrait.php on line 30 and defined', '/Library/WebServer/Documents/drupal/core/lib/Drupal/Component/Plugin/Discovery/DiscoveryTrait.php', 48, Array)
+_drupal_error_handler(4096, 'Argument 1 passed to Drupal\Core\Plugin\DefaultPluginManager::doGetDefinition() must be of the type array, boolean given, called in /Library/WebServer/Documents/drupal/core/lib/Drupal/Component/Plugin/Discovery/DiscoveryCachedTrait.php on line 30 and defined', '/Library/WebServer/Documents/drupal/core/lib/Drupal/Component/Plugin/Discovery/DiscoveryTrait.php', 48, Array)
+Drupal\Core\Plugin\DefaultPluginManager->doGetDefinition(, 'user_role', )
+ @keithyau I am working on this.
+ @keithyau filename is the pk of system table. And I see drupal insert two rows with the same filename value "modules/system/system.module". From the log I can find two insert statement both with the "modules/system/system.module" row. The first is "INSERT INTO main_system (filename, name, type, owner, status, schema_version, bootstrap) VALUES ('modules/system/system.module', 'system', 'module', '', '1', '7080', '0')". The second one is a huge sql which insert many rows: "INSERT INTO main_system (filename, name, type, owner, info) VALUES ('modules/update/tests/aaa_update_test.module', 'aaa_update_test', 'module', '',......('modules/system/system.module', 'system', 'module', '', 'a:14:{s:4:\"name\";s:6:\"System\";s:11:\"description\";s:54:\"Handles general site configuration for administrators.\";s:7:\"package\";s:4:\"Core\";s:7:\"version\";s:4:\"7.41\";s:4:\"core\";s:3:\"7.x\";s:5:\"files\";a:6:{i:0;s:19:\"system.archiver.inc\";i:1;s:15:\"system.mail.inc\";i:2;s:16:\"system.queue.inc\";i:3;s:14:\"system.tar.inc\";i:4;s:18:\"system.updater.inc\";i:5;s:11:\"system.test\";}s:8:\"required\";b:1;s:9:\"configure\";s:19:\"admin/config/system\";s:7:\"project\";s:6:\"drupal\";s:9:\"datestamp\";s:10:\"1445457729\";s:5:\"mtime\";i:1450160850;s:12:\"dependencies\";a:0:{}s:3:\"php\";s:5:\"5.2.4\";s:9:\"bootstrap\";i:0;}'),........". You can grep "modules/system/system.module" from tidb-server output.
+
+I tried with mysql and installed successfully. So I think there is some thing wrong with TiDB.
+  Thanks for your report.
+
+Please follow the quick start instructions:
+git clone https://github.com/pingcap/tidb.git $GOPATH/src/github.com/pingcap/tidb
+cd $GOPATH/src/github.com/pingcap/tidb
+make
+ @kylewolfe You are right. We can make it go getable if we add files that generated by goyacc and golex.
+But It do has some downsides if we add those generated files.
+It looks ugly  for reviewing when parser.y changed.
+
+We will make it go getable later. 
+
+For now you may still need to do:
+make update
+make
+ @kylewolfe For now you may still need to run "make update" to update related package, than 
+make 
+  Please pass go lint.
+ LGTM
+ LGTM
+ LGTM
+  Hi:
+Currently, we don't have any flag to disable pprof. Does it bother you ? Or you just want to change default port number?
+ Just set Debug flag to false. @Unknwon 
+https://github.com/pingcap/tidb/blob/master/tidb.go#L91
+ We need to figure out a better way to handle this if you don't want to patch the source.
+We need to keep pporf open for debugging....  
+ Nop, we may support it by configuration later.
+ LGTM, Could you send a PR ? Thanks.
+  LGTM
+ LGTM
+  Fixed by commit 307993205bb1356be7bcd6ecb0770632fba4b40e
+  @denisbertini Thanks for your report.
+May I have your source code? Can you connect to TiDB with MySQL command line client?
+ I write a test case with MySQL C API and get no error. Could you provide more detailed information?
+
+My source code:  https://gist.github.com/shenli/914c36f7a304db6edf20
+Result:
+➜  mysql  gcc -I/usr/local/mysql/include -L/usr/local/mysql/lib -lmysqlclient main.c
+➜  mysql  ./a.out 
+Begin
+Connect sucess
+End
+➜  mysql  mysql -uroot -h127.0.0.1 -P4000 -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10007
+Server version: 5.5.31-TiDB-1.0 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use test;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select \* from Cars;
++------+------+-------+
+| Id   | Name | Price |
++------+------+-------+
+|    1 | Audi | 52642 |
++------+------+-------+
+1 row in set (0.00 sec)
+ @denisbertini Would you take a look your `/etc/hosts` file content. You can use `localhost` if `127.0.0.1 localhost`in `/etc/hosts`
+  hi @denisbertini Thanks for your report.
+
+TiDB support some of the privilege sql statements such as CreateUser and Grant statement.
+You can try statements like "CREATE USER 'monty'@'localhost' IDENTIFIED BY 'some_pass';" and "GRANT ALL PRIVILEGES ON _._ TO 'monty'@'localhost';".
+Please refer to mysql reference manual. http://dev.mysql.com/doc/refman/5.7/en/create-user.html  http://dev.mysql.com/doc/refman/5.7/en/grant.html.
+
+Flush statement is not supported now. We will work on it.
+  TiDB doesn't support the feature currently. We may reconsider the feature later.
+ @lavvy Thanks for your feedback! We do not have plan for this feature now. We may reconsider the feature later. But it will be no early than the end of this year.
+  @luyee Thanks for your report.
+Fixed! Could you take another retry?
+ Fix in https://github.com/pingcap/tidb/pull/668
+and https://github.com/pingcap/go-themis/pull/21
+ @luyee Good to know, thanks.
+  @genedna This pr does not pass ci. You can check the detail here: https://travis-ci.org/pingcap/tidb/builds/93735000.
+ Hi @genedna 
+using `get -u` may cause make very slow. I think the best way is to using godep for these directly later. 
+ Good idea, thanks @Unknwon 
+@genedna  Could you support "make update" in makefile ?
+  go get -u github.com/pingcap/go-themis 
+@Unknwon 
+ Thanks @Unknwon 
+We will add -u to makefile later.
+ @Unknwon Thanks for report.
+But these seems only like tracing logs that are about mvcc expired keys clearing :(
+Could u redirect these to a log file to show more details?
+Also u can send it to me (cuiqiu@pingcap.com).
+ Looks like some of concurrent tests takes too long in Raspi. We may reduce  pressure of the concurrent tests.
+ Have received the email.
+In the file, i see 
+
+```
+*** Test killed with quit: ran too long (10m0s).
+FAIL    github.com/pingcap/tidb/store/localstore    600.122s
+
+Makefile:111: recipe for target 'gotest' failed
+```
+
+In our store/localstor/isolation_test.go, there are two time-consuming tests `TestInc` and `TestMultiInc`.
+Maybe we should move these tests out of tidb or reduce the pressure as @ngaut  metioned.
+Now u can simply use `make godep && make parser && make build && make check[optional]` instead of `make` to skip the `make test`.
+
+@Unknwon Thanks again.
+ @Unknwon  Does the log containing `GC stopped` before too many `GC send key to deleteWorker`, if has, the GC compactor may be blocked when Stop.
+  I think we should handle ErrKeyExists in stmts/insert.go 
+
+```
+        if len(s.OnDuplicate) == 0 || !terror.ErrorEqual(err, kv.ErrKeyExists) {
+            return nil, errors.Trace(err)
+        }
+```
+
+If ErrKeyExists and not supporting on duplicate update, we should return ErrDupEntry error directly.
+Btw, we should use terror for ErrKeyExists later. @shenli 
+ @ElvizLai This is solved in https://github.com/pingcap/tidb/pull/828
+Thanks for your PR!
+  @ElvizLai Thanks for your report. I check the behavior of MySQL. It report which entry is duplicate.
+mysql> create table t (c int PRIMARY KEY);
+Query OK, 0 rows affected (0.01 sec)
+mysql> insert into t values (1);
+Query OK, 1 row affected (0.00 sec)
+mysql> insert into t values (1);
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+
+We will add more information in error message. 
+If you are interested, you can send us a PR. we will be grateful.
+  @hhkbp2 There is an error in ci. 
+make: /home/travis/gopath/src/github.com/pingcap/tidb/Godeps/_workspace:/home/travis/gopath/bin/goyacc: Command not found
+make: **\* [parser] Error 127
+See: https://travis-ci.org/pingcap/tidb/builds/92393132
+ LGTM
+ @hhkbp2  Thanks very much.
+LGTM
+  @hhkbp2  Do you set correct GOPATH and GOROOT, and append $GOPATH/bin to $PATH?
+ @hhkbp2 Thanks for your report.
+We will add this to README.md.
+ Thanks @hhkbp2 
+Could you send us a PR to fix it?
+  Thanks for your report, @ElvizLai 
+Any more details ?
+ Have you commit your transaction ?
+ @ElvizLai I tested your code with and then check the db with interpreter tool(mv data dir to interpreter dir and  start interpreter).
+The data is ready in the db.
+tidb> select \* from a;
++----+----------+----+
+| id | name     | pv |
++----+----------+----+
+| 0  | ElvizLai | 0  |
++----+----------+----+
+1 row in set (0.00 sec)
+tidb> select \* from b;
++----+----------+----+
+| id | name     | pv |
++----+----------+----+
+| 0  | ElvizLai | 0  |
++----+----------+----+
+1 row in set (0.00 sec)
+  @ruiaylin  In the second statement, t1 is in stmt.Refs.
+Delete statement has two mode. 
+The first sql is multitable mode, TableIdents is used in this mode to record the table list. Only the row in this table list can not delete.
+https://dev.mysql.com/doc/refman/5.7/en/delete.html
+The second sql is single table mode, we do not need TableIdents to record table list.
+ I add some debug log in parser.y:
+@@ -1168,6 +1169,7 @@ DeleteFromStmt:
+        {
+                // Single Table
+                join := &ast.Join{Left: &ast.TableSource{Source: $6.(ast.ResultSetNode)}, Right: nil}
+-               fmt.Printf("Delete Stmt TableName: %v, Join.Left: %v\n", $6, join.Left)
+              x := &ast.DeleteStmt{
+                      TableRefs:      &ast.TableRefsClause{TableRefs: join},
+                      LowPriority:    $2.(bool),
+
+And test your case:
+➜  interpreter git:(shenli/delete-debug) ✗ ./interpreter 
+Welcome to the TiDB.
+Version:
+Git Commit Hash: 5491086695b6e267bc7a9dda320a5adc435e6734
+UTC Build Time:  2015-11-18 07:30:29
+tidb> DELETE FROM t1 WHERE id in ( 2,4,5);
+Delete Stmt TableName: &{{} {[]}  t1 <nil> <nil>}, Join.Left: &{{} 0xc8200f6100 }
+
+You can see t1 is in Join.Left.
+  Thanks @xiaods , how to use with this?
+ `mysql -h127.0.0.1 - P4000` can also work? 
+ Well done, thanks! LGTM
+ LGTM
+  See: https://github.com/pingcap/tidb/blob/master/parser/parser.y#L2873
+It is a TableSource and the source is a SelectStmt.
+  Thanks @xwb1989 
+Could you merge your changes to https://github.com/pingcap/tidb/pull/583
+ kv.RunInNewTxn need this too. 
+ Hi, @xwb1989  
+#583 has been merged.
+ Hi, @xwb1989 
+Could you merge your code to https://github.com/pingcap/tidb/blob/master/kv/txn.go
+ @xwb1989  I added back off use the algorithm in your pr to the latest master.
+https://github.com/pingcap/tidb/pull/658
+So I close this pr.
+Thanks for your pr.
+  LGTM
+ @coocood PTAL
+ LGTM
+  I'm not sure if it's a better way to setup Intellij IDEA project, but you can set the project folder at the GOPATH folder, then you don't need to modifiy gitignore for IDEA.
+ LGTM
+ LGTM
+  Hi @hanfei19910905  
+The string build in functions we have supported are listed here https://github.com/pingcap/tidb/issues/310
+You can send us a PR to help us to complete it. 
+Thank you :-)
+ Hi @hanfei19910905 
+
+We will add some tutorials later.
+The query explanation is primitive and simple, later we will improve it. 
+ Em, maybe later. 
+@ngaut 
+ Let's finish tutorials first.
+  Hi, @urandom 
+We might support $N placeholders later.
+ This is not MySQL syntax, it will be supported when PostgreSQL syntax is supported.
+Close this issue for now.
+  Thanks. @netroby 
+Please change "c *Col" to *Col
+ LGTM
+ LGTM
+Thanks @netroby 
+  To make "go vet" happy.
+  LGTM
+ LGTM
+  Hi @netroby , the docker environment should be the same as production environment, so we should use official golang image or popular ubuntu/debian/fedora, etc.
+We don't care image size too much. 
+ Hi, @netroby :
+ Could you use golang as default image ? 
+It would be more convenient to run it, test it or even try to patch it. Thanks
+  I'm sorry, this issue is not accepted.
+  Yes, sure. Would you like to do it?
+ Yep :)
+  @netroby Thanks for your report.
+I tried it with the lastest master but get nothing wrong.
+May I have your git log info and detailed operations?
+
+➜  tidb git:(master) ✗ git log | head -n 10
+commit 89fa72467cdfaca4c1ca1ca54c29a592b1f2afb7
+Merge: 3b0f94f 2f2e31c
+Author: Ewan Chou coocood@gmail.com
+Date:   Thu Nov 5 15:38:31 2015 +0800
+
+```
+Merge pull request #491 from pingcap/coocood/binder
+
+ast,optimizer: switch to use new parser, and convert ast.Node to old statements.
+```
+
+commit 2f2e31c8f47c4b92d7ddd546a6534b74c6118e6d
+
+➜  tidb git:(master) ✗ mysql -uroot -h127.0.0.1 -P4000
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10001
+Server version: 5.5.31-TiDB-1.0 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> select @@version_comment limit 1;
++------------------------------+
+| @@version_comment            |
++------------------------------+
+| MySQL Community Server (GPL) |
++------------------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+  Hi @netroby , We may support mysqldump later. 
+Please take a look. @shenli 
+ We need to add FILES, PARTITIONS table into INFORMATION_SCHEMA.
+And then support flush tables, flush tables with read lock, unlock tables statements.
+  I think we should check constraints before handing row data. :-)
+ Thanks @winkyao 
+Have you tried some tests like:
+1. Update the same value multiple times. 
+2. Delete and insert again.
+All of those operations inside a transaction.
+ @winkyao The newest master has already supported index Exist function, you can use it directly. 
+ Thanks, if we will fix this issue, we will tell you :-)
+ Hi @winkyao :
+We have fixed this issue in another approach. Please refer #670 for more details.
+I will close this PR. Thanks for your contribution.
+  Thanks for your report.
+If encounter any error when running stmt, we will call txn.Rollback, and it will close UnionStore.
+https://github.com/pingcap/tidb/blob/master/store/localstore/txn.go#L252
+So may be not an issue.
+ Good catch! @winkyao 
+ Do you think you can fix it ? @winkyao 
+ @winkyao @disksing 
+I think this issue is already fixed in the latest master. @disksing checks duplicate before modify unistore. So we do not need to worry about dirty data.
+
+The following is my test log:
+➜  interpreter git:(disksing/interpreter-commit-error) ✗ ./interpreter 
+Welcome to the TiDB.
+Version:
+Git Commit Hash: 88047a0efce72c9c51d553338ead0e1f40171e0b
+UTC Build Time:  2015-11-28 05:05:22
+
+tidb> USE test;
+Query OK, 0 row affected (0.00 sec)
+tidb> DROP TABLE IF EXISTS `nosharding_test`;
+Query OK, 0 row affected (0.00 sec)
+tidb> CREATE TABLE `nosharding_test` (
+   ->       `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+   ->       `test1` int(5) UNIQUE,
+   ->       PRIMARY KEY (`id`)
+   -> )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+Query OK, 0 row affected (0.01 sec)
+tidb> desc nosharding_test;
++-------+------------------+------+-----+---------+----------------+
+| Field | Type             | Null | Key | Default | Extra          |
++-------+------------------+------+-----+---------+----------------+
+| id    | int(11) UNSIGNED | NO   | PRI | NULL    | auto_increment |
+| test1 | int(5)           | YES  | UNI | NULL    |                |
++-------+------------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+tidb> insert into nosharding_test(id, test1) values(1, 1);
+Query OK, 1 row affected (0.00 sec)
+tidb> insert into nosharding_test(id, test1) values(2, 1);
+Query OK, 1 row affected (0.00 sec)
+2015/11/28 13:07:55 main.go:240: [error] /Users/shenli/workspace/go/src/github.com/pingcap/tidb/kv/iter.go:27: Error: key already exist
+/Users/shenli/workspace/go/src/github.com/pingcap/tidb/kv/union_store.go:168: 
+/Users/shenli/workspace/go/src/github.com/pingcap/tidb/store/localstore/txn.go:196: 
+/Users/shenli/workspace/go/src/github.com/pingcap/tidb/store/localstore/txn.go:247: 
+/Users/shenli/workspace/go/src/github.com/pingcap/tidb/session.go:169: 
+/Users/shenli/workspace/go/src/github.com/pingcap/tidb/tidb.go:231: 
+/Users/shenli/workspace/go/src/github.com/pingcap/tidb/session.go:393: 
+/Users/shenli/workspace/go/src/github.com/pingcap/tidb/driver.go:253:  
+tidb> insert into nosharding_test(id, test1) values(2, 2);
+Query OK, 1 row affected (0.00 sec)
+tidb> select \* from nosharding_test;
++----+-------+
+| id | test1 |
++----+-------+
+| 1  | 1     |
+| 2  | 2     |
++----+-------+
+2 rows in set (0.00 sec)
+tidb> 
+  Confirmed, thank you @winkyao 
+  @xwb1989 Thanks for your great work.
+Could you do some clean up for making commit messages pretty.
+you may use those instructions:
+git reset  xx
+git commit
+git push -f
+ LGTM
+  LGTM
+ LGTM
+Thank you very much! @xwb1989 
+  It should be worked. Have you test it?
+Please take a look at:
+https://github.com/pingcap/tidb/blob/master/stmt/stmts/create.go#L76
+ oops, create table:
+https://github.com/pingcap/tidb/blob/master/stmt/stmts/create.go#L119
+ AH, You are right.
+Could you fix this ?
+ https://github.com/pingcap/tidb/blob/master/ddl/ddl.go#L376
+@winkyao 
+ I test it using the newest master.
+tidb> use test;
+Query OK, 0 row affected (0.00 sec)
+tidb> show tables;
+Empty set (0.00 sec)
+tidb> create table t(c int);
+Query OK, 0 row affected (0.00 sec)
+tidb> create table if not exists t(c int);
+Query OK, 0 row affected (0.00 sec)
+tidb> 
+ If your statement has IfNotExists, TiDB will not return error. See:
+https://github.com/pingcap/tidb/blob/master/stmt/stmts/create.go#L120
+TiDB has the same behavior with mysql:
+Database changed
+mysql> drop table t;
+Query OK, 0 rows affected (0.01 sec)
+mysql> create table t(c int);
+Query OK, 0 rows affected (0.03 sec)
+mysql> create table t(c char);
+ERROR 1050 (42S01): Table 't' already exists
+mysql> create table if not exists t(c char);
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+mysql> 
+
+If you want to change table schema, your need to drop the table and recreate it. Or you can use alter table statement. 
+ You mean the error code is different? I tried TiDB. It is the same with mysql. So I am a few confused....
+tidb> use test;
+Query OK, 0 row affected (0.00 sec)
+tidb> drop table t;
+Query OK, 0 row affected (0.01 sec)
+tidb> create table t(c int);
+Query OK, 0 row affected (0.01 sec)
+tidb> create table t(c char);
+2015/10/23 19:19:33 main.go:231: [error] /Users/mac/workspace/go/src/github.com/pingcap/tidb/stmt/stmts/create.go:122: CREATE TABLE: table exists t
+/Users/mac/workspace/go/src/github.com/pingcap/tidb/tidb.go:182: 
+/Users/mac/workspace/go/src/github.com/pingcap/tidb/session.go:275: 
+/Users/mac/workspace/go/src/github.com/pingcap/tidb/driver.go:302: 
+/Users/mac/workspace/go/src/github.com/pingcap/tidb/interpreter/main.go:118:  
+tidb> create table if not exists t(c char);
+Query OK, 0 row affected (0.00 sec)
+tidb> 
+ Maybe you miss understand mysql's behavior.
+See: http://dev.mysql.com/doc/refman/5.7/en/create-table.html
+"Existing Table with Same Name
+The keywords IF NOT EXISTS prevent an error from occurring if the table exists. However, there is no verification that the existing table has a structure identical to that indicated by the CREATE TABLE statement."
+
+I tried it with mysql, and it did not replace the existing table.
+mysql> drop table t;
+Query OK, 0 rows affected (0.01 sec)
+mysql> create table t(c int);
+Query OK, 0 rows affected (0.03 sec)
+mysql> create table t(c char);
+ERROR 1050 (42S01): Table 't' already exists
+mysql> create table if not exists t(c char);
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+mysql>
+
+May I have your mysql server version? 
+ Thanks for your attention. Please keep eyes on TiDB.
+
+PS: I worked in Qihoo for 3 years. Nice to meet you here. :)
+  @EtienneBruines Do you set correct GOPATH and GOROOT, and append $GOPATH/bin to $PATH?
+ @EtienneBruines Thanks for your report.
+You are right, we should add more details to USAGE.md.
+   @xwb1989  maybe hard code at first. 
+You can choose the best back off implementation you think and send up a PR. :-)
+ Cool, we will wait your PR. :-)
+ Solved in https://github.com/pingcap/tidb/pull/658
+  LGTM
+ LGTM
+
+Thanks @fuxiaohei 
+  Well done. Thanks @xwb1989 
+ LGTM
+ LGTM
+  Currently, we use goleveldb's memdb as in memory store.
+We need a better implementation.
+ The problem of  memdb is performance and memory costs. You may simply  write a new implementation to replace memdb. Union store is the only place where currently use memdb. Actually snapshot use the Iterator interface, not memdb.
+ @xwb1989 If you need any help, Please let me know. Thanks for contributing.
+Looking forward your PR.
+ @xwb1989 You are right. The only consumer of UnionStore is transaction.
+  Thank you @winkyao 
+Please sign the CLA.
+
+Click the "detail" button on the right side of the line " clahub — Not all contributors have signed the Contributor License Agreement.".
+ LGTM
+ LGTM
+Thank you very much! @winkyao 
+  Thanks @Alienero, please sign the contributor license agreement first. 
+
+The manual is not correct, whether we have CLIENT_PLUGIN_AUTH or not, the data here is 0x15, not 0x00. You can see the source code https://github.com/mysql/mysql-server/blob/a2757a60a7527407d08115e44e889a25f22c96c6/sql/auth/sql_authentication.cc#L598 explicitly. 
+ @Alienero Click the "detail" button on the right side of the line " clahub — Not all contributors have signed the Contributor License Agreement.".
+ @Alienero  we may still use 0x15. Other changes are fine.
+Could you update your PR? thanks
+ @Alienero We have exprienced incorrect documentation caused compatibility issue, so when there is a conflict between documentation and the source code, we stick with source code.
+
+But the comment fix is correct, would you please change '0x00' back to '0x15',  then we can merge it. 
+ LGTM
+ LGTM
+  @fuxiaohei Please sign the Contributor License Agreement.
+ LGTM
+ LGTM
+Thanks for your work! @fuxiaohei 
+  Thanks, we don't have any i386 environment.
+Could you send us a PR to fix this?
+  @shangfy 
+Thanks for your report.
+
+u can try as follows:
+
+```
+git clone https://github.com/pingcap/tidb.git $GOPATH/src/github.com/pingcap/tidb
+cd $GOPATH/src/github.com/pingcap/tidb
+make (if u meet an error for `go get github.com/golang/lint/golint`, u can ignore it.)
+```
+  - [x] ASCII() Return numeric value of left-most character
+- [x] BIN()   Return a string containing binary representation of a number
+- [x] BIT_LENGTH()    Return length of argument in bits
+- [x] CHAR_LENGTH()   Return number of characters in argument
+- [x] CHAR()  Return the character for each integer passed
+- [x] CHARACTER_LENGTH()  Synonym for CHAR_LENGTH()
+- [x] CONCAT_WS() Return concatenate with separator
+- [x] CONCAT()    Return concatenated string
+- [x] ELT()   Return string at index number
+- [x] EXPORT_SET()    Return a string such that for every bit set in the value bits, you get an on string and for every unset bit, you get - [ ] an off string
+- [x] FIELD() Return the index (position) of the first argument in the subsequent arguments
+- [x] FIND_IN_SET()   Return the index position of the first argument within the second argument
+- [x] FORMAT()    Return a number formatted to specified number of decimal places
+- [x] HEX()   Return a hexadecimal representation of a decimal or string value
+- [x] INSERT()    Insert a substring at the specified position up to the specified number of characters
+- [x] INSTR() Return the index of the first occurrence of substring
+- [x] LCASE() Synonym for LOWER()
+- [x] LEFT()  Return the leftmost number of characters as specified
+- [x] LENGTH()    Return the length of a string in bytes
+- [x] LIKE    Simple pattern matching
+- [ ] LOAD_FILE() Load the named file https://github.com/pingcap/tidb/issues/8436
+- [x] LOCATE()    Return the position of the first occurrence of substring
+- [x] LOWER() Return the argument in lowercase
+- [x] LPAD()  Return the string argument, left-padded with the specified string
+- [x] LTRIM() Remove leading spaces
+- [x] MAKE_SET()  Return a set of comma-separated strings that have the corresponding bit in bits set
+- [x] MATCH   Perform full-text search
+- [x] MID()   Return a substring starting from the specified position
+- [x] NOT LIKE    Negation of simple pattern matching
+- [x] NOT REGEXP  Negation of REGEXP
+- [x] OCT()   Return a string containing octal representation of a number
+- [x] OCTET_LENGTH()  Synonym for LENGTH()
+- [x] ORD()   Return character code for leftmost character of the argument
+- [x] POSITION()  Synonym for LOCATE()
+- [x] QUOTE() Escape the argument for use in an SQL statement
+- [x] REGEXP  Pattern matching using regular expressions
+- [x] REPEAT()    Repeat a string the specified number of times
+- [x] REPLACE()   Replace occurrences of a specified string
+- [x] REVERSE()   Reverse the characters in a string
+- [x] RIGHT() Return the specified rightmost number of characters
+- [x] RLIKE   Synonym for REGEXP
+- [x] RPAD()  Append string the specified number of times
+- [x] RTRIM() Remove trailing spaces
+- [ ] SOUNDEX()   Return a soundex string https://github.com/pingcap/tidb/issues/3930
+- [ ] SOUNDS LIKE Compare sounds https://github.com/pingcap/tidb/issues/3930
+- [x] SPACE() Return a string of the specified number of spaces
+- [x] STRCMP()    Compare two strings
+- [x] SUBSTR()    Return the substring as specified
+- [x] SUBSTRING_INDEX()   Return a substring from a string before the specified number of occurrences of the delimiter
+- [x] SUBSTRING() Return the substring as specified
+- [x] TRIM()  Remove leading and trailing spaces
+- [x] UCASE() Synonym for UPPER()
+- [x] UNHEX() Return a string containing hex representation of a number
+- [x] UPPER() Convert to uppercase
+ Cool @mrmiywj
+Please feel free to send PR.
+ @mrmiywj builtin functions are moved here: https://github.com/pingcap/tidb/blob/master/evaluator
+ Hi @a6802739 
+
+It is very appreciated that you can help us add more functions. 
+
+If you add a function, you can first run `make test` local and then send us the PR after test passes.  @a6802739 
+Do you have the error like `package not found` when you run `make test` on your forked repo? @a6802739 
+Please describe what you have done and what error you have got, thank you. @a6802739 
+Please try `make dev` @a6802739 
+`golint` imports `golang.org/x/tools/go/gcimporter15`, `make check` use `golint`, so you need to use a proxy to get `golint`.
+But I think you can run `make test` now.
+ @a6802739 
+Feel free to ask anything, looking forward to your PR.  Store hashed password.
+ @kevincox The salt is a random data generated for each client connection.  The parameter scramble of CalcPassword function in auth.go is the salt.
+MySQL client uses server-generated salt and password to caculate a cryptographic authstring. Server use the same algorithm and compare check if the result is the same with client.
+ LGTM
+  Hi @luyee 
+
+Can you tell us what is the command you use with mysql client? Do you forget -u or -P ?
+ @luyee May I have your tidb-server git version and error log? 
+Thanks!
+ no, no, use `mysql -h 127.0.0.1 -P 4000 -u root -p` please 
+ @elvizlai Thanks for your report! I will check this.
+  @Unknwon Does CI support i386 platform?
+ We don't have any i386 platform. And we are not gonna  support i386 since we can't track the results if source changed. But PR is welcome :)
+Could you help us to  fix it ? 
+ oops, I guess we need CI for i386 platform.
+ @Unknwon 
+Can u use this branch 
+https://github.com/pingcap/tidb/tree/qiuyesuifeng/issue-279 
+to have a try?
+I guess we should use math.Abs for check when the float64 value is negative in RoundFloat function.
+
+Thanks.
+ @Unknwon 
+
+http://play.golang.org/p/FxT4zzRyQS
+
+or you can try the RoundFloat instead and check again. :-)
+ @Unknwon 
+Thanks.  How about @siddontang function implement? Seems much better:-)
+ I update branch and u can try again. Thanks:)
+ @Unknwon  Thanks.
+  @jmuyuyang Thanks for your feedback!
+Could u please provide more details?
+1. What MySQL client you are using? MySQL official client or others?
+2. What's your SQL statement?"use mysqls;"?
+3. What's the TiDB version? It is shown as `Git Commit Hash` when tidb-server start.
+ @jmuyuyang Thanks for your reply.
+We have fix this bug. You can try this branch: shenli/fix-issue-263. We will merge it to master later today.
+
+One more thing, I notice that there is an unexists database in your dsn named "mysqls". Is it a typo?
+ @jmuyuyang 
+Thanks again for your report! Please keep eyes on TiDB.
+  Obviously, this is a cool feature. But currently we are focusing on the features in [roadmap](https://github.com/pingcap/tidb/blob/master/ROADMAP.md).
+ Hi, @nkev:
+Thanks for you advice. The better choice would be RethinkDB or pipelinedb or some other streaming database if you need stream SQL. TiDB is mainly for OLTP.
+  LGTM
+ LGTM
+ LGTM  :+1: 
+Thanks @lshmouse 
+  http://dev.mysql.com/doc/refman/5.7/en/date-and-time-functions.html
+- [x] ADDDATE() Add time values (intervals) to a date value
+- [x] ADDTIME() Add time
+- [x] CONVERT_TZ()  Convert from one timezone to another
+- [x] CURDATE() Return the current date
+- [x] CURRENT_DATE(), CURRENT_DATE  Synonyms for CURDATE()
+- [x] CURRENT_TIME(), CURRENT_TIME  Synonyms for CURTIME()
+- [x] CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP    Synonyms for NOW()
+- [x] CURTIME() Return the current time
+- [x] DATE_ADD()    Add time values (intervals) to a date value
+- [x] DATE_FORMAT() Format date as specified
+- [x] DATE_SUB()    Subtract a time value (interval) from a date
+- [x] DATE()    Extract the date part of a date or datetime expression
+- [x] DATEDIFF()    Subtract two dates
+- [x] DAY() Synonym for DAYOFMONTH()
+- [x] DAYNAME() Return the name of the weekday
+- [x] DAYOFMONTH()  Return the day of the month (0-31)
+- [x] DAYOFWEEK()   Return the weekday index of the argument
+- [x] DAYOFYEAR()   Return the day of the year (1-366)
+- [x] EXTRACT() Extract part of a date
+- [x] FROM_DAYS()   Convert a day number to a date
+- [x] FROM_UNIXTIME()   Format UNIX timestamp as a date
+- [x] GET_FORMAT()  Return a date format string
+- [x] HOUR()    Extract the hour
+- [x] LAST_DAY  Return the last day of the month for the argument
+- [x] LOCALTIME(), LOCALTIME    Synonym for NOW()
+- [x] LOCALTIMESTAMP, LOCALTIMESTAMP()  Synonym for NOW()
+- [x] MAKEDATE()    Create a date from the year and day of year
+- [x] MAKETIME()    Create time from hour, minute, second
+- [x] MICROSECOND() Return the microseconds from argument
+- [x] MINUTE()  Return the minute from the argument
+- [x] MONTH()   Return the month from the date passed
+- [x] MONTHNAME()   Return the name of the month
+- [x] NOW() Return the current date and time
+- [x] PERIOD_ADD()  Add a period to a year-month
+- [x] PERIOD_DIFF() Return the number of months between periods
+- [x] QUARTER() Return the quarter from a date argument
+- [x] SEC_TO_TIME() Converts seconds to 'HH:MM:SS' format
+- [x] SECOND()  Return the second (0-59)
+- [x] STR_TO_DATE() Convert a string to a date
+- [x] SUBDATE() Synonym for DATE_SUB() when invoked with three arguments
+- [x] SUBTIME() Subtract times
+- [x] SYSDATE() Return the time at which the function executes
+- [x] TIME_FORMAT() Format as time
+- [x] TIME_TO_SEC() Return the argument converted to seconds
+- [x] TIME()    Extract the time portion of the expression passed
+- [x] TIMEDIFF()    Subtract time
+- [x] TIMESTAMP()   With a single argument, this function returns the date or datetime expression; with two arguments, the sum of the arguments
+- [x] TIMESTAMPADD()    Add an interval to a datetime expression
+- [x] TIMESTAMPDIFF()   Subtract an interval from a datetime expression
+- [x] TO_DAYS() Return the date argument converted to days
+- [x] TO_SECONDS()  Return the date or datetime argument converted to seconds since Year 0
+- [x] UNIX_TIMESTAMP()  Return a UNIX timestamp
+- [x] UTC_DATE()    Return the current UTC date
+- [x] UTC_TIME()    Return the current UTC time
+- [x] UTC_TIMESTAMP()   Return the current UTC date and time
+- [x] WEEK()    Return the week number
+- [x] WEEKDAY() Return the weekday index
+- [x] WEEKOFYEAR()  Return the calendar week of the date (1-53)
+- [x] YEAR()    Return the year
+- [x] YEARWEEK()    Return the year and week
+ @hhkbp2 Yes, there are some basic tests:
+http://dev.mysql.com/doc/refman/5.7/en/date-and-time-functions.html
+
+Some corner tests:
+https://github.com/mysql/mysql-server/blob/a2757a60a7527407d08115e44e889a25f22c96c6/mysql-test/t/func_sapdb.test
+
+Results of those above tests:
+https://github.com/mysql/mysql-server/blob/a2757a60a7527407d08115e44e889a25f22c96c6/mysql-test/r/func_sapdb.result
+ @hhkbp2 You can refer to https://github.com/pingcap/tidb/tree/master/expression/builtin/time_test.go
+For time builtin functions, the implementations are in time.go and unit tests are in time_test.go.
+ This is a good suggestion and we'll support it soon. 
+Thanks for feedback. @shlomi-noach  @shlomi-noach unix_timestamp() is already supported. Please try the latest master. @kaiwu Thanks for your feedback!
+@zyguan Would you mind add utc_timestamp() for TiDB? @zyguan Great! @kaiwu UTC_TIMESTAMP has been supported by the latest master, please try it. Thanks.  Python:
+- [ ] SQLAlchemy
+- [ ] Peewee
+- [ ] django
+- [ ] ponyorm
+
+Go:
+Orm:
+- [x] xorm: https://github.com/go-xorm/xorm
+- [x] beego: https://github.com/astaxie/beego/tree/master/orm
+- [x] go-sql-test: https://github.com/bradfitz/go-sql-test
+- [ ] upper.io: https://upper.io/db.v1/mysql
+
+Application:
+- [x] Gogs: https://github.com/gogits/gogs
+- [ ] Dalga: https://github.com/cenkalti/dalga
+
+Java：
+- [x] Mybatis
+- [ ] Jdbctemplate
+- [ ] Hibernate
+- [ ] Play
+
+PHP:
+- [ ] phabricator: http://phabricator.org/
+- [x] phpmyadmin 
+- [x] wordpress
+- [ ] yii: http://www.yiiframework.com/doc/guide/1.1/en/database.ar
+- [ ] discuz!: http://www.discuz.net/ 
+- [ ] drupal: https://www.drupal.org/
+- [ ] [Eloquent](https://laravel.com/docs/5.5/eloquent)
+
+Dotnet:
+- [ ] [Entity Framework Core](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql)
+ @shenli Any update ?
+ I will go through the list tomorrow. @ngaut 
+ sqlalchemy unit test:
+ 25 failed, 404 passed, 51 skipped in 34.78 seconds 
+I will fix the failed cases.
+  @cppmule 
+
+We have not supported `show variables where` syntax, we will support it later.
+Thank you very much. 
+ Hi @cppmule 
+
+Can you checkout branch siddontang/fix-issue-199 and help us to test it again?
+ Thanks for your report.
+Yes, we have not support sql comment like `select c /* this is a comment */ from t` now.
+We will support it later.
+btw, is it convenient for u to remove sql comment temporarily to check whether have any other problems? Thanks again.
+ The comments are generated by some java tools. And there are too many comments.
+We should strip those comments.
+
+/**/ 
+
+ -- 
+ Move comment discussion to #203  :smile: 
+  Sorry, I do not get your point. Is there any problem with this file?
+ I started to write golang three month ago. At first I have the similar feeling with you. But now I think golang is an excellent programming language. 
+We DO NOT LIE because all of us really enjoy work with golang. I suggest you to work with golang for some time and then consider this issue again.
+Thanks for your attention！
+ Thank you for watching.
+  LGTM
+ LGTM
+ LGTM
+  ```
+create table t1 (a int, b int) engine=innodb;
+insert into t1 values (1,2), (1,3), (2,3), (2,4), (2,5), (3,4), (4,5), (4,100);
+
+mysql> select a, sum(b) as b from t1 group by a having b > 4;
++------+------+
+| a    | b    |
++------+------+
+|    1 |    5 |
+|    2 |   12 |
+|    4 |  105 |
++------+------+
+```
+
+but we only get one row result. 
+ @xwb1989 Thanks for report.
+Yes, that is a problem.
+I will fix it later.
+ @xwb1989 
+Thanks for your suggestion.
+
+We used hidden fields for having fields which not in select or group by fields, and we have not distinguished aggregate and none aggregate fields, so we have the problem as @siddontang mentioned.
+
+As for `select a as b from t1 having b > 4;`, because some having conditions has some confused results, like `select a as b from t1 having b + 1` or  `select a as b from t1 having a + b` or `select a + b as b from t1 having a + b > 0` and so on, now we only process alias field as origin field first,  so `select a as b from t1 having b > 4;`  may equal to  `select a from (select a, b from t1 having b > 4) c;`.
+
+Later we will discuss and fix this problem.
+Thanks again.
+ @xwb1989 
+We have fixed this problem, u can update master branch and have a try:)
+ Cool @xwb1989 
+   LGTM
+ LGTM
+  fix #165 
+ How about now?
+
+@Unknwon 
+ @Unknwon  Do you use the latest code? I have updated it..
+ Hi @Unknwon 
+
+Try it again. 
+ Sorry :-) 
+I will try to use Go cross-build, maybe. 
+ How about the newest one?
+
+Can it work? 
+ Cool 
+ LGTM
+ LGTM
+  Hi @Unknwon 
+
+I just try to fix it in branch https://github.com/pingcap/tidb/tree/siddontang%2Ffix-issue-165
+
+Can you help us to test on ARM again? 
+ Yes, maybe the `int` in your platform is 4 bytes. 
+I will fix it.
+  Via the [MySQL Manual](https://dev.mysql.com/doc/refman/5.7/en/functions.html):
+
+- [x] Control Flow Functions (verified as done)
+- [x] String Functions https://github.com/pingcap/tidb/issues/310
+- [x] Numeric Functions (appear done, not competely verified)
+- [x] Date and Time Functions https://github.com/pingcap/tidb/issues/236
+- [x] Bit Functions (appears done)
+- [x] Cast Functions (appears done)
+- [ ] Encryption and Compression https://github.com/pingcap/tidb/issues/2632
+- [ ] Information Functions https://github.com/pingcap/tidb/issues/8438
+- [ ] JSON https://github.com/pingcap/tidb/issues/7546
+- [ ] Aggregate Functions https://github.com/pingcap/tidb/issues/7623
+- [ ] Misc Functions https://github.com/pingcap/tidb/issues/8439
+ Thank you @w5s5j 
+I think #236 is a good start :)
+Fire an issue when you are ready to hunt any of the functions in #236 
+ @Tratar 
+we have a document for contributors who wants to add built-in functions to TiDB, you can pick a built-in function in https://github.com/pingcap/tidb/issues/236, and follow the steps in https://pingcap.github.io/blog/2016/12/19/adding-built-in-function/ 
+Happy hacking :) @Tratar You can refer to https://github.com/pingcap/tidb/issues/310 and  https://github.com/pingcap/tidb/issues/236 for the unimplemented builtin functions. If you have any problem, please let us know.
+Thanks!  LGTM. Thanks 
+ LGTM
+  @qiuyesuifeng Please take a look.
+
+@insionng Thank you, Could you sign the CLA. CI failed
+ @c4pt0r 
+Please take a look.
+ @insionng Thanks for your PR.
+
+There are some additional things need to do:
+1 For making tidb, u need do things as follows:
+1.1 godep
+`godep` is to get godep tool(`https://github.com/tools/godep`) which is used for easy building without getting dependency packages.
+
+1.2 parser
+`parser` is to get goyacc and golex package, generate `parser/parser.go` and `parser/scanner.go` which are needed by tidb building.
+In your make.cmd, u have done this, but also need some work like in `tidb/Makefile` to generate `parser/scanner.go`：
+`golex -o parser/scanner.go parser/scanner.l`
+
+1.3 build
+Godep go build
+
+1.4 test
+Godep go test ./...
+
+2 For making interpreter, u need do things as follows:
+2.1 add `ldflags` go build option[nice to haves]
+LDFLAGS += -X "github.com/pingcap/tidb/util/printer.TiDBBuildTS=$(shell date -u '+%Y-%m-%d %I:%M:%S')"
+LDFLAGS += -X "github.com/pingcap/tidb/util/printer.TiDBGitHash=$(shell git rev-parse HEAD)"
+The ldflags is very useful for us to check and fix bugs.
+The correct interpreter output looks like as follows:
+
+```
+Welcome to the TiDB.
+Version:
+Git Commit Hash: bf97f61c450912a5c1f4cfba44bb11297fa7876f
+UTC Build Time:  20150913214037
+
+tidb>
+```
+
+2.2 build
+Godep go build -ldflags "-X github.com/pingcap/tidb/util/printer.TiDBBuildTS=%TiDBBuildTS% -X github.com/pingcap/tidb/util/printer.TiDBGitHash=%TiDBGitHash%"
+TiDBBuildTS and TiDBGitHash variables are set in above 2.1
+
+So u can see above, maybe some more work need to do in make.cmd.
+And also, for unix/mac users, i think it is better to install make tool.
+Thanks again, looking forward to your update :)
+ Well done. Looks like we don't need make.sh.
+Just keep make.cmd is fine. We could still use make instead of make.sh.
+Could you please remove make.sh. Then we will merge this PR.
+Thanks. @insionng 
+ LGTM
+ LGTM. Thank you @insionng 
+  Thanks @cznic 
+
+We can execute `create table if not exists t (c1 int);` in MySQL command shell, so we support CommaOpt here. 
+
+Maybe we can remove the `;` at first before parsing? @shenli  
+ Sorry for my fault. @cznic ,  I am wrong.
+ Comma is not allowed, I think too. 
+ LGTM  
+@siddontang I think the CommaOpt should not be here. The parser parse text into statement list, and ';' will be treated as separator between statements. So it is not necessary to add ';' at the end of create statement rule.
+Thanks a lot! @cznic 
+ LGTM
+
+Wow! All conflicts are resolved.
+Great job, thank you.
+ I think we should add syntax conflict detection in Makefile to prevent future bugs. I will add an issue.
+  Well done.
+LGTM
+ Cool, LGTM
+ LGTM
+Thank you!
+  @cznic I referenced TableIdentList related syntax in MySQL docs.
+You are right, `TableIdentList` should never be empty.
+  LGTM
+ LGTM
+@cznic  Thanks.
+  LGTM
+ Well done! 
+LGTM
+  LGTM
+ LGTM
+Thanks! @cznic :+1: 
+  s/golang/Go/g
+And add . in the end of the sentence
+ LGTM
+ LGTM
+  `plan.Do` method make it difficult to incrementally process table rows.
+
+When `Do` method is executing, the only way to pause it is to use another goroutine with a channel, as currently the driver does.
+
+And with Do method the only way to process data is to use an closure, but with next, we can process data without closure.
+
+The proposed next method looks like:
+
+```
+`Next(ctx context.Context) (data []interface{}, rowkeys []*RowKeyEntry, err error)`
+```
+ +1
+Use Next can remove closure which is hard to read, and at same time, we will avoid #57 finally.
+to support this, we should maintain an iterator manually in group by, order by and distinct plan. 
+maybe later we will add temporary table for these plans.
+ +1
+Please add RowKeyList to the return value
+ +1
+Do not like closure.
+ @shenli Updated
+ Hi @cznic 
+
+We know that return `(false, nil)` can terminate the Do immediately, but what we want to do is to traverse data iteratively and guarantee all queries in one transaction are handled in one goroutine.
+
+Although we use channel + goroutine to support iteration in current implementation, a risk that the session is handled in two goroutines, we meet this panic, see #57.
+
+Btw, maybe it is more convenient to write logic code with iteration (Next method, or even Previous method later) than callback with closure. :-) , e.g.
+
+```
+iter1 := NewIterator(result set1)
+iter2 := NewIterator(result set2)
+
+iter1.Next()
+iter2.Next()
+
+// get iter1 and iter2 data and do something, then iterate.  
+iter1.Next()
+iter2.Next()
+```
+ @cznic You are right.
+But if user want to scan through a very large table, fetching all rows before return to user may cause out of memory issue.
+ @cznic 
+I'm sorry for the mistaken statement I made above.
+
+We actually implemented a server layer without the channel and goroutine which will be open-sourced soon.
+
+The server layer indeed fetched all the rows before return to user by calling `Recordset.Rows` method.
+
+And we want to access the transaction instance only in one goroutine to avoid concurrency issue.
+
+And thank you for the information, it helps a lot.
+ Done.
+  LGTM
+ LGTM
+Many thanks! @cznic 
+  LGTM
+ LGTM
+thanks!
+  LGTM
+ LGTM
+ LGTM
+@cznic  Thanks.
+  LGTM
+Thanks! @cznic 
+ LGTM
+Thank you @cznic .
+  TiDB are some distance away from running phpMyAdmin. 
+
+Support "SHOW VARIABLES LIKE 'character_set_results'" fixed in https://github.com/pingcap/tidb/pull/114
+
+TODO:
+SET CHARACTER SET 'utf8mb4';
+ Done!
+  Thanks for your feedback.
+Do you have github.com/qiuyesuifeng/golex  and github.com/qiuyesuifeng/goyacc in you GOPATH?
+ @insionng 
+building tidb should use `make` to generate `parser/parser.go` and `parser/scanner.go` which is needed by `yy_parser.go`.
+
+please refer README, use `go get -d github.com/pingcap/tidb` then `make`.
+u can try again.
+ Good job, looking forward for your PR
+ Done.
+  @cznic 
+MySQL has two kinds of keywords, one is reserved keywords, the other one is unreserved keywords.
+
+Reserved keywords can not be used as identifier, but unreserved keywords can.
+
+"COLUMN" is an reserved keyword, so "ALTER TABLE t DROP COLUMN COLUMN" is not a valid statement.
+
+The full list of MySQL keywords can be found here:
+https://dev.mysql.com/doc/refman/5.0/en/keywords.html
+ @cznic @shenli 
+So we mistakenly listed "COLUMN" in unreserved keyword in parser.y.
+ I have removed "COLUMN" from UnReservedKeyword in another pr and seems this conflict is already solved. Please check the latest master. @cznic 
+Thanks!
+  Resolved all the reduce/reduce conflicts except for 1
+
+Fixes issue #73
+ @cznic
+
+The remaining conflict is in `SetStmt` 
+
+`"SET" VariableAssignmentList | "SET" "PASSWORD" ForUserOpt eq PasswordOpt`
+
+I didn't figure out a proper way to resolve it.
+
+Do you have any suggestions? 
+
+Thank you.
+ should we update the make parser adding -cr for later check?
+ @siddontang I didn't use -cr, but still can see conflict check report.
+ @cznic  
+UnReservedKeyword defines a MySQL keyword list which can be used as identifier.
+See: https://dev.mysql.com/doc/refman/5.7/en/keywords.html
+
+Identifier is defined as identifier | UnReservedKeyword in parser.y. And "SELECT commit FROM tbl;" will not encounter syntax error.
+ @cznic
+You helped us a lot again, thank you.
+
+Since the Github converted tab to space, the patch can not be applied automatically, I manually applied this patch.
+
+We do not have much experience on parser and have difficulty resolve S/R conflicts, would you like to help us addressing the issue with PR?
+ @cznic 
+Got it, thanks.
+ LGTM
+ LGTM
+ @cznic Sure.
+   LGTM
+ LGTM.
+  @shenli  PTAL. 
+Thanks for your suggestion, and thank u for your awesome job again :)
+ resolved by final PR https://github.com/pingcap/tidb/pull/122
+  Hi @mtorromeo 
+can you tell me what's your timezone? 
+ got it. 
+We will fix it ASAP. 
+ fixed.
+
+@mtorromeo  u can update tidb and try again.
+Thanks for your report.
+  "mode" can be used as an identifier.
+See: https://dev.mysql.com/doc/refman/5.7/en/keywords.html
+
+@Unknwon The following bug is caused by parser. This pr will fix it.
+SELECT id, user_id, repo_id, mode FROM access WHERE repo_id=? AND mode>=?
+, error: line 1 column 77 near "mode"
+Is > a invalid operator?
+ LGTM
+ LGTM
+  May I have your command log?
+When I run go test in go-xorm/tidb, I meet another error.
+
+Thanks for your report! I will work on this.
+ @lunny  please check the latest code and have a test.
+We fix a bug about prepared statement panic. But I do not encounter the same error as you reported.
+I meet a few other errors when run go test in go-xorm/tidb and I am working on those bugs. 
+
+Thanks!
+ @lunny I find a potential bug in go-xorm/tests
+When call testDelete multiple times, the environment is not clean. There is not drop table statement before or after the test.
+https://github.com/go-xorm/tests/blob/master/testDelete.go#L49
+
+I find an error when run test. Adding "engine.DropTables(&Deleted{})" before "engine.CreateTables(&Deleted{})" will fix it.
+
+Please take a look. Thanks!
+ Hi @lunny 
+
+We create a branch to fix the panic, could you help us to check with it? 
+
+The branch is https://github.com/pingcap/tidb/tree/siddontang/fix-driver-panic
+ @shenli is fixing it. 
+Btw, there seems no panic? 
+ TiDB support "select for  update". But there are tiny difference between TiDB and MySQL.
+Because TiDB use Optimistic concurrency control.
+
+There are some details in Wikipedia:
+Optimistic concurrency control (OCC) is a concurrency control method applied to transactional systems such as relational database management systems and software transactional memory. OCC assumes that multiple transactions can frequently complete without interfering with each other. While running, transactions use data resources without acquiring locks on those resources. Before committing, each transaction verifies that no other transaction has modified the data it has read. If the check reveals conflicting modifications, the committing transaction rolls back and can be restarted.[1] Optimistic concurrency control was first proposed by H.T. Kung.[2]
+
+OCC is generally used in environments with low data contention. When conflicts are rare, transactions can complete without the expense of managing locks and without having transactions wait for other transactions' locks to clear, leading to higher throughput than other concurrency control methods. However, if contention for data resources is frequent, the cost of repeatedly restarting transactions hurts performance significantly; it is commonly thought that other concurrency control methods have better performance under these conditions. However, locking-based ("pessimistic") methods also can deliver poor performance because locking can drastically limit effective concurrency even when deadlocks are avoided.
+
+Contents  [hide] 
+1 OCC phases
+2 Web usage
+2.1 Examples
+3 See also
+4 References
+5 External links
+OCC phases[edit]
+
+This section does not cite any references or sources. Please help improve this section by adding citations to reliable sources. Unsourced material may be challenged and removed. (August 2010)
+More specifically, OCC transactions involve these phases:
+
+Begin: Record a timestamp marking the transaction's beginning.
+Modify: Read database values, and tentatively write changes.
+Validate: Check whether other transactions have modified data that this transaction has used (read or written). This includes transactions that completed after this transaction's start time, and optionally, transactions that are still active at validation time.
+Commit/Rollback: If there is no conflict, make all changes take effect. If there is a conflict, resolve it, typically by aborting the transaction, although other resolution schemes are possible. Care must be taken to avoid a TOCTTOU bug, particularly if this phase and the previous one are not performed as a single atomic operation.
+ @lunny User may retry transaction when commit "select for update" failed.
+  Thanks for your attention. We will support MPP after we finish "Asynchronous schema changes".
+  we have already supported in-memory engine. you can use it below:
+
+```
+db, err := sql.Open("tidb", "memory://test")
+```
+ @romanoff @Unknwon @no1youknowz
+  @romanoff  Thanks for your report.
+i try it in Ubuntu 14.04.1 and go1.5 for interpreter,  it works well.
+try `Ctrl+C`? can this work?
+ @romanoff 
+We  have fixed this bug, Could you update and try again.
+  Thanks for your report!
+May I have your go version?
+ Please try this in interpreter dir:
+godep go build -ldflags "-X github.com/pingcap/pingcap/util/printer.TiDBBuildTS=2015-09-07 03:40:55" -ldflags "-X github.com/pingcap/pingcap/util/printer.TiDBGitHash=81db754a49a63551beb9cd936153eb1f6c612c67"
+If there is any error, please tell me.
+ go 1.4.2 may have some problem to make interpreter, we are trying to fix it.
+go 1.5 works well now.
+
+@lei-cao any problem can make an issue, Thanks.
+  LGTM
+ LGTM
+@gelstudios  Thanks.
+  Thanks.
+LastInsertId can't be fixed, since it's an interface of  standard library.
+And parser/scanner.go is generated by golex.
+  fixes https://github.com/pingcap/tidb/issues/45
+ @cznic
+PTAL
+ LGTM
+ LGTM
+ @cznic gotcha! We'll fix it in a new PR.
+:)
+ Could we put all LICENSE files into a separated directory and update the copyright comments to root/LICENSES/QL-LICENSE? Just for keeping root directory clean.  ;D
+@cznic 
+ OK, cool, we'll fix it right away :+1: 
+ @cznic  
+#75  PTAL.
+ yes, i made a mistake.
+#75  has been closed.
+#74 is the correct one.
+
+Thank u.
+  Thank you for your comment! TiDB is derived from the cznic/ql codebase, thank you again for the awesome job!
+
+We'll add the ql-licence declaration in the files that contains your code. Is that OK? Please let us know :)
+Just like this:
+
+// Copyright 2015 The ql Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// Copyright 2015 PingCAP, Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+.....
+@cznic 
+ Fixed.
+https://github.com/pingcap/tidb/pull/74
+  LGTM
+ LGTM
+  LGTM
+Please add godep.
+ LGTM
+ LGTM
+@Unknwon  Thanks.
+ @Unknwon  this function may be used in other places, we may move this to util as an alone package (e.g, iconv) later.  
+  Thanks for your report! We'll try to reproduce and fix it.
+ Thanks for your report @lunny @Unknwon
+I checked TiDB code and fixed a few bugs today, but still can not pass go-xorm test. 
+There are two things I want to discuss with you.
+
+The first one is a potential bug in https://github.com/go-xorm/tidb/blob/master/tidb_driver.go#L42.
+tidb_driver use params[1] as DbName, but it maybe "./tidb". I see some sql statement in the log that select column name in some table where the dbname="./tidb". For example:
+"[xorm] [debug] 2015/09/07 21:23:48.572562 [time] SELECT `TABLE_NAME` from `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_SCHEMA`=? and `TABLE_NAME`=? - args [./tidb userinfo] - query took: 367238ns".
+I modified a few code and fixed the "Duplicate column name" error.
+  40         fs := strings.Split(params[1], "/")
+  41         dbName := fs[len(fs)-1]
+  42         uri := &core.Uri{
+  43                 DbType: DBType,
+  44                 DbName: dbName,
+  45         }
+  46 
+I try to push my code to a new branch in go-xorm but get permission denied error.
+
+The second one is about auto_increment column.
+In TiDB we only guarantee that auto_increment column value is increasing. But I find a test case in https://github.com/go-xorm/tests/blob/master/base.go#L94 which assume the value of auto_increment id.
+I checked the insert statements. Those statements do not set id column explicitly. I also checked table content in TiDB, the ids are auto increment but no one in [7, 8, 9]. So the case failed.
+tidb> select \* from userinfo;
++------+-------------+------------+---------------------+-----------+--------+--------+--------+
+| id   | username    | departname | created             | detail_id | height | avatar | is_man |
++------+-------------+------------+---------------------+-----------+--------+--------+--------+
+| 1001 | xiaolunwen2 | dev        | 2015-09-07 20:51:33 | 1         | 1.78   |     | 1      |
+| 1002 | xlw         | dev        | 2015-09-07 20:51:33 | 0         | 0      |        | 0      |
+| 1003 | xlw2        | dev        | 2015-09-07 20:51:33 | 0         | 0      |        | 0      |
+| 1004 | xlw11       | dev        | 2015-09-07 20:51:33 | 0         | 0      |        | 0      |
+| 1005 | xlw22       | dev        | 2015-09-07 20:51:33 | 0         | 0      |        | 0      |
+| 1006 | 1xlw        | dev        | 2015-09-07 20:51:33 | 0         | 0      |        | 0      |
+| 1007 | 1xlw2       | dev        | 2015-09-07 20:51:33 | 0         | 0      |        | 0      |
+| 1008 | 1xlw11      | dev        | 2015-09-07 20:51:33 | 0         | 0      |        | 0      |
+| 1009 | 1xlw22      | dev        | 2015-09-07 20:51:33 | 0         | 0      |        | 0      |
+| 1010 | xlw3        | dev        | 2015-09-07 20:51:33 | 0         | 0      |        | 0      |
++------+-------------+------------+---------------------+-----------+--------+--------+--------+
+ For performance consideration, we choose an auto increment id assigning algorithm as this:
+Get the start_number from global storage. And update global stored start number to a new number which is start_number + 1000.  So we get a batch of auto ids and do not need to access global storage before run out of these ids. Then we can assign and increase global-uniq id for auto_increment column.
+
+All the auto increment id related codes for a table share the same start_number. In this case, I think 1~1000 is assigned before inserting column "id".  So column "id" inserting gets the start_number 1001.
+I will check logs and provide more information.
+ @Unknwon  May I see your code? 
+I find lunny update tidb_driver.go to solve adding an existing column problem. https://github.com/go-xorm/tidb/blob/master/tidb_driver.go
+  Make syntax log easy to read.
+
+https://github.com/pingcap/tidb/issues/25
+ LGTM
+ PTAL @qiuyesuifeng 
+ LGTM
+  pass gofmt
+ yep.
+ It's my next pr.
+ LGTM
+ @xiang90 ^_^
+ LGTM
+  Thanks @Unknwon 
+
+And @xiang90 is right, keep them into separate commits:
+1. change
+2. godep
+
+The correct step is:
+cd tidb
+godep restore
+godep save ./...
+
+Could you fix it ? @Unknwon Thanks.
+ @Unknwon this PR introduced too much dependencies, can you remove the depedency of "golang.org/x/net/html/charset", all we need is a map from charset name to encoding. 
+How about copy the code in https://github.com/golang/net/blob/master/html/charset/table.go
+  Hello Unknwon,
+    "1:9" means there is an error near line 1 and column 9. 
+     For your error log, there is a compile error in "use gogs.tidb" near the dot (the 9th character). I check parser/parser.y and find that use statement does not allow dbname with a dot. See: https://github.com/pingcap/tidb/blob/master/parser/parser.y#L3268
+
+Thanks!
+ @Unknwon  please review this https://github.com/pingcap/tidb/pull/33
+
+Current error log looks like this:
+tidb> use gogs.tidb;
+2015/09/07 12:36:20 session.go:123: [error] Syntax error: use gogs.tidb;
+2015/09/07 12:36:20 session.go:124: [error] Error occurs at line 1 column 9 near ".".
+ @Unknwon we only support letters, numbers and  '_'  in dbname and it must starts with a letter. Try gogs_tidb please.
+You got the old style error log? Have you pulled the latest code and rebuild TiDB?
+ I will improve the docs. Thanks!
+  Hi @Unknwon, what's your timezone?
+ It seems that we don't test time fully with different timezones, we will fix it ASAP.
+ Hi @Unknwon  you can check it again. Thanks.
+  We have already support version. https://github.com/pingcap/tidb/blob/master/util/printer/printer.go#L23
+ We may use it in interpreter. MySQL protocol layer. Or HBase engine.
+Put to util package, so we keep it DRY.
+ WOW, User could pass version information to those variables :)
+ It's read only after assignment.
+ any updates? @ngaut  
+ @astaxie 
+ Currently TiDB is evolving extremely fast.   The version information is generated automatically by makefile:
+
+LDFLAGS += -X "github.com/pingcap/tidb/util/printer.TiDBBuildTS=$(shell date -u '+%Y-%m-%d %I:%M:%S')"
+LDFLAGS += -X "github.com/pingcap/tidb/util/printer.TiDBGitHash=$(shell git rev-parse HEAD)"
+
+Does that sound ok?   @fuxiaohei 
+  Thank you for your contribution.
+
+Being able to change the address and having the option to turn it off is great,  but since TiDB is under heavy development, having Debug set to true by default would be more convenient.
+
+I also noticed that the PR is sent from your master branch, we recommand that when opening a PR, create a topic branch and make changes on that branch, it's easier for your forked repo to keep in sync with upstream.
+ LGTM
+ LGTM
+  @l2x Please sign the CLA.
+  LGTM
+ LGTM
+  Could you fix this issue ?
+Currently we are using Linux and Mac OS X.
+ Does TiDB works on windows now?  @fuxiaohei 
+  Good job!
+LGTM
+ LGTM
+ LGTM
+  parser.go and scanner.go are generated code.
+ @xiang90 I agree.
+ LGTM
+ LGTM

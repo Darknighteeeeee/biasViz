@@ -1,0 +1,102 @@
+{
+    "project1": {
+        "african_english": 3116,
+        "standard_english": 28681,
+        "total": 31797
+    },
+    "project2": {
+        "african_english": 5255,
+        "standard_english": 37147,
+        "total": 42402
+    },
+    "project3": {
+        "african_english": 5981,
+        "standard_english": 97274,
+        "total": 103255
+    },
+    "project4": {
+        "african_english": 152,
+        "standard_english": 1667,
+        "total": 1819
+    },
+    "project5": {
+        "african_english": 5470,
+        "standard_english": 61135,
+        "total": 66605
+    },
+    "project6": {
+        "african_english": 2886,
+        "standard_english": 37421,
+        "total": 40307
+    },
+    "project7": {
+        "african_english": 1321,
+        "standard_english": 23195,
+        "total": 24516
+    },
+    "project8": {
+        "african_english": 9663,
+        "standard_english": 93947,
+        "total": 103610
+    },
+    "project9": {
+        "african_english": 1134,
+        "standard_english": 14914,
+        "total": 16048
+    },
+    "project10": {
+        "african_english": 5654,
+        "standard_english": 32374,
+        "total": 38028
+    },
+    "project11": {
+        "african_english": 3048,
+        "standard_english": 21673,
+        "total": 24721
+    },
+    "project12": {
+        "african_english": 5499,
+        "standard_english": 67332,
+        "total": 72831
+    },
+    "project13": {
+        "african_english": 8921,
+        "standard_english": 113796,
+        "total": 122717
+    },
+    "project14": {
+        "african_english": 1052,
+        "standard_english": 12043,
+        "total": 13095
+    },
+    "project15": {
+        "african_english": 1905,
+        "standard_english": 26112,
+        "total": 28017
+    },
+    "project16": {
+        "african_english": 3710,
+        "standard_english": 43621,
+        "total": 47331
+    },
+    "project17": {
+        "african_english": 6412,
+        "standard_english": 84131,
+        "total": 90543
+    },
+    "project18": {
+        "african_english": 6341,
+        "standard_english": 41433,
+        "total": 47774
+    },
+    "project19": {
+        "african_english": 1317,
+        "standard_english": 8895,
+        "total": 10212
+    },
+    "project20": {
+        "african_english": 2279,
+        "standard_english": 23141,
+        "total": 25420
+    }
+}

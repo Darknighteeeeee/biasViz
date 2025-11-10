@@ -1,0 +1,140 @@
+---
+title: "词性特征分析仪表盘 (Shiny版)"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r global, include=FALSE}
+library(flexdashboard)
+library(jsonlite)
+library(dplyr)
+library(tidyr)
+library(shiny)
+library(plotly)
+library(DT)
+#library(heatmap3)
+# 1. 检查文件
+data_files <- list.files(pattern = "\\.[jJ][sS][oO][nN]$", full.names = TRUE)
+if (length(data_files) == 0) {
+  stop("未找到 JSON 文件！请检查路径和文件名。")
+}
+ 
+# 2. 读取并标准化数据
+all_data <- lapply(data_files, function(x) {
+  tryCatch({
+    json_content <- readChar(x, file.info(x)$size)
+    raw_data <- fromJSON(json_content)
+    # 转换为标准长格式
+    df <- data.frame(
+      feature = names(raw_data),
+      value = unlist(raw_data),
+      project = tools::file_path_sans_ext(basename(x)),
+      row.names = NULL,
+      stringsAsFactors = FALSE
+    )
+    df
+  }, error = function(e) {
+    warning("跳过文件: ", x, " (错误: ", e$message, ")")
+    NULL
+  })
+}) %>% 
+  Filter(Negate(is.null), .) %>% 
+  bind_rows()
+ 
+# 3. 检查数据
+if (nrow(all_data) == 0) {
+  stop("所有文件解析失败！请检查 JSON 格式。")
+}
+ 
+# 4. 定义特征标签
+feature_labels <- c(
+  "adverb" = "副词", "conj" = "连词", "clout" = "影响力", 
+  "auxverb" = "助动词", "analytic_thinking" = "分析思维",
+  "article" = "冠词", "ipron" = "冲动词", "negate" = "否定词",
+   "authentic" = "真实性", "tone" = "语气",
+  "prep" = "介词", "ppron" = "人称代词", "lsm" = "语言风格匹配"
+)
+ 
+# 5. 添加特征标签列
+long_data <- all_data %>% 
+  mutate(feature_label = recode(feature, !!!feature_labels, .default = feature))
+```
+
+侧边栏 {.sidebar}
+=====================================
+
+### 分析选项
+
+```{r}
+selectInput("project", "选择项目:", 
+            choices = unique(long_data$project),
+            selected = unique(long_data$project)[1])
+```
+
+主面板
+=====================================
+
+概览视图 {.tabset .tabset-fade}
+-------------------------------------
+
+### 特征值雷达图
+
+```{r}
+renderPlotly({
+  data <- long_data %>% 
+    filter(project == input$project)
+  
+  # 雷达图需要闭合路径，所以重复第一个点
+  radar_data <- data %>%
+    arrange(factor(feature, levels = names(feature_labels))) %>%
+    bind_rows(data[1, ])  # 闭合雷达图
+  
+  plot_ly(type = 'scatterpolar', mode = 'lines') %>%
+    add_trace(r = radar_data$value,
+              theta = c(feature_labels[radar_data$feature[-nrow(radar_data)]], 
+                       feature_labels[radar_data$feature[1]]),
+              fill = 'toself',
+              fillcolor = '#1f77b4',
+              line = list(color = '#1f77b4'),
+              name = input$project) %>%
+    layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 1))),
+           title = paste(input$project, "词性特征雷达图"))
+})
+```
+
+### 特征条形图
+
+```{r}
+renderPlotly({
+  data <- long_data %>% 
+    filter(project == input$project) %>%
+    mutate(feature_label = factor(feature_label, levels = feature_labels))
+  
+  plot_ly(data, x = ~feature_label, y = ~value, type = "bar") %>%
+    layout(title = paste(input$project, "各词性特征值"),
+           xaxis = list(title = "特征", tickangle = 45),
+           yaxis = list(title = "值", range = c(0, 1)))
+})
+```
+
+
+数据表
+=====================================
+
+### 项目特征数据
+
+```{r}
+renderDT({
+  wide_data <- long_data %>%
+    select(project, feature_label, value) %>%
+    pivot_wider(names_from = feature_label, values_from = value) %>%
+    arrange(project)
+  
+  datatable(wide_data, 
+            options = list(pageLength = 10),
+            filter = "top")
+})
+```
