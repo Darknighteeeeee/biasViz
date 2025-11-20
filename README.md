@@ -2,15 +2,15 @@
 
 Quantify and visualize biases in open-source software projects
 
-## 项目结构
+## Project Structure
 
-项目的核心代码位于 totalCode 目录下，主要包含以下几个功能模块：
+The source code is in the totalCode directory, consisting of the following modules:
 
-* socialBias/：社会偏见分析相关代码
-* racialBias/：种族偏见分析相关代码
-* genderBias/：性别偏见分析相关代码
-* compute\_communication/：沟通内容计算相关数据文件
-* totalCoding/：总体编码及分析结果文件
+* socialBias/：Source code for Social Status Bias
+* racialBias/：Source code for Racial Bias
+* genderBias/：Source code for Gender Bias
+* compute\_communication/：Computation of communication records
+* totalCoding/：Visualization
 
 ## 功能说明
 
